@@ -1,0 +1,9 @@
+{
+  "name": "toan-hoc-online",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cổng Học Toán Trực Tuyến Lớp 6 - Lớp 12",
+  "scripts": {
+    "start": "serve ."
+  }
+}

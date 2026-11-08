@@ -9,8 +9,121 @@ let currentGrade = 9;
 let userArenaAnswers = {};
 let lastArenaSubmission = null;
 
+// ==========================================
+// LƯU TRỮ VÀ ĐỒNG BỘ DỮ LIỆU LỚP HỌC (LOCALSTORAGE)
+// ==========================================
+const CLASSES_STORAGE_KEY = 'TOAN_MATH_CLASSES_PERSIST_V2';
+
+function loadClassesFromStorage() {
+  try {
+    const raw = localStorage.getItem(CLASSES_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        MATH_DATA.classes = parsed;
+        return;
+      }
+    }
+  } catch (err) {
+    console.warn("Could not load classes from localStorage:", err);
+  }
+  // Nếu chưa có dữ liệu lưu trữ, khởi tạo từ data.js
+  saveClassesStorage();
+}
+
+function saveClassesStorage() {
+  try {
+    if (window.MATH_DATA && Array.isArray(MATH_DATA.classes)) {
+      localStorage.setItem(CLASSES_STORAGE_KEY, JSON.stringify(MATH_DATA.classes));
+    }
+  } catch (err) {
+    console.warn("Could not save classes to localStorage:", err);
+  }
+}
+
+function resetClassesToDefault() {
+  if (!confirm("⚠️ Thầy có chắc chắn muốn khôi phục lại danh sách lớp học và học sinh mẫu ban đầu không?\n\nToàn bộ lớp học mới tạo và danh sách học sinh đăng ký thêm sẽ được đặt lại theo mẫu mặc định.")) return;
+  localStorage.removeItem(CLASSES_STORAGE_KEY);
+  location.reload();
+}
+
+function populateRegisterClassDropdown() {
+  const select = document.getElementById('reg-class');
+  if (!select) return;
+  if (!window.MATH_DATA || !Array.isArray(MATH_DATA.classes)) return;
+  
+  select.innerHTML = MATH_DATA.classes.map((c, idx) => 
+    `<option value="${c.id}" ${idx === 0 ? 'selected' : ''}>${c.name} (Khối ${c.grade} • Mã lớp: ${c.code})</option>`
+  ).join('');
+}
+
+function selectApiKey(key, desc) {
+  const input = document.getElementById('reg-api-key');
+  if (input) {
+    input.value = key;
+  }
+  const descEl = document.getElementById('selected-api-text');
+  if (descEl) {
+    descEl.innerHTML = `Đã chọn mã: <strong class="font-mono text-indigo-700 font-bold">${key}</strong> — ${desc}`;
+  }
+  document.querySelectorAll('.api-choice-pill').forEach(btn => {
+    btn.classList.remove('ring-2', 'ring-indigo-600', 'border-indigo-600', 'border-2');
+  });
+  if (window.event && window.event.currentTarget) {
+    window.event.currentTarget.classList.add('ring-2', 'ring-indigo-600', 'border-indigo-600', 'border-2');
+  }
+}
+
+function quickFillLoginKey(key) {
+  const input = document.getElementById('login-key');
+  if (input) {
+    input.value = key;
+    input.focus();
+  }
+}
+
+function openApiGuideModal() {
+  const modal = document.getElementById('modal-api-guide');
+  if (modal) {
+    modal.classList.remove('hidden');
+    refreshIconsAndMath();
+  }
+}
+
+function closeApiGuideModal() {
+  const modal = document.getElementById('modal-api-guide');
+  if (modal) modal.classList.add('hidden');
+}
+
+function selectApiKeyFromModal(key) {
+  const input = document.getElementById('reg-api-key');
+  if (input) input.value = key;
+  const descEl = document.getElementById('selected-api-text');
+  if (descEl) {
+    descEl.innerHTML = `Đã chọn mã: <strong class="font-mono text-indigo-700 font-bold">${key}</strong> — Mã kích hoạt khóa học`;
+  }
+  closeApiGuideModal();
+  const regSection = document.getElementById('dang-ky');
+  if (regSection) regSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetRegisterForm() {
+  const form = document.getElementById('student-register-form');
+  const successBox = document.getElementById('register-success-box');
+  if (form) form.classList.remove('hidden');
+  if (successBox) successBox.classList.add('hidden');
+  const regName = document.getElementById('reg-name');
+  if (regName) { regName.value = ''; regName.focus(); }
+  const regEmail = document.getElementById('reg-email');
+  if (regEmail) regEmail.value = '';
+  const regPhone = document.getElementById('reg-phone');
+  if (regPhone) regPhone.value = '';
+}
+
 // Khởi chạy khi tải trang
 document.addEventListener('DOMContentLoaded', () => {
+  loadClassesFromStorage();
+  populateRegisterClassDropdown();
   renderArenaExamSelector();
   renderArenaExam();
   renderArenaLeaderboard();
@@ -235,6 +348,10 @@ function handleStudentRegister(e) {
   const name = document.getElementById('reg-name').value.trim();
   const emailInput = document.getElementById('reg-email');
   const email = emailInput ? emailInput.value.trim() : '';
+  const phoneInput = document.getElementById('reg-phone');
+  const phone = phoneInput ? phoneInput.value.trim() : '';
+  const classSelect = document.getElementById('reg-class');
+  const classId = classSelect ? classSelect.value : (MATH_DATA.classes[0] ? MATH_DATA.classes[0].id : '');
   const apiKey = document.getElementById('reg-api-key').value.trim().toUpperCase();
 
   if (!name) {
@@ -250,28 +367,40 @@ function handleStudentRegister(e) {
   }
 
   if (!apiKey) {
-    alert("⚠️ BẮT BUỘC PHẢI CÓ MÃ API!\n\nVui lòng nhập mã API do Thầy cấp hoặc mã khóa học để hệ thống kích hoạt mức độ phù hợp cho em!");
+    alert("⚠️ BẮT BUỘC PHẢI CÓ MÃ API!\n\nVui lòng nhấp chọn 1 mã gợi ý bên dưới (ví dụ TOAN-FREE-2026 hoặc TOAN-9PLUS-2026) để hệ thống kích hoạt mức độ phù hợp cho em!");
     document.getElementById('reg-api-key').focus();
     return;
   }
 
-  let targetClass = MATH_DATA.classes[0];
+  let targetClass = MATH_DATA.classes.find(c => c.id === classId) || MATH_DATA.classes[0];
+  if (!targetClass) {
+    alert("Chưa có lớp học nào trong hệ thống! Vui lòng nhờ Thầy tạo lớp trước.");
+    return;
+  }
+
+  if (!targetClass.pendingRequests) {
+    targetClass.pendingRequests = [];
+  }
+
   const apiConfig = MATH_DATA.apiKeysConfig ? MATH_DATA.apiKeysConfig[apiKey] : null;
   const levelText = apiConfig ? apiConfig.level : `Tùy biến theo mã ${apiKey}`;
 
-  targetClass.pendingRequests.unshift({
+  const newRequest = {
     id: 'req_' + Date.now(),
     name: name,
     grade: targetClass.grade || 9,
     email: email,
-    parentName: '',
-    parentZalo: '',
-    phone: '',
+    phone: phone,
+    parentName: phone ? `Phụ huynh em ${name}` : '',
+    parentZalo: phone || '',
     apiKey: apiKey,
     apiLevel: levelText,
-    requestDate: new Date().toLocaleDateString('vi-VN'),
-    note: `Mã API: ${apiKey} • Gmail: ${email} • Chờ Thầy duyệt vào lớp để bổ sung số Zalo`
-  });
+    requestDate: new Date().toLocaleDateString('vi-VN') + ' ' + new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
+    note: `Mã API: ${apiKey} • Gmail: ${email}${phone ? ` • Zalo: ${phone}` : ''}`
+  };
+
+  targetClass.pendingRequests.unshift(newRequest);
+  saveClassesStorage();
 
   const form = document.getElementById('student-register-form');
   const successBox = document.getElementById('register-success-box');
@@ -283,7 +412,7 @@ function handleStudentRegister(e) {
   if (successBox) successBox.classList.remove('hidden');
   if (successTitle) successTitle.innerText = "Đã Gửi Đăng Ký Thành Công!";
   if (successDesc) {
-    successDesc.innerHTML = `Hồ sơ học sinh (Họ và tên: <strong>${name}</strong>, Gmail: <span class="font-bold text-indigo-700">${email}</span>, Mã API: <span class="font-mono font-bold text-indigo-700">${apiKey}</span>) đã được ghi nhận và gửi đến <strong>Bảng duyệt của Thầy</strong>.<br><br>💡 <strong>Lưu ý:</strong> Thông tin <em>Số điện thoại Zalo (nhận báo điểm tự động)</em> sẽ được Thầy bổ sung vào hồ sơ sau khi duyệt vào lớp!`;
+    successDesc.innerHTML = `Hồ sơ học sinh (Họ và tên: <strong>${name}</strong>, Lớp đăng ký: <span class="font-bold text-blue-700">${targetClass.name}</span>, Gmail: <span class="font-bold text-indigo-700">${email}</span>, SĐT/Zalo: <span class="font-bold text-emerald-700">${phone || 'Chờ Thầy bổ sung'}</span>, Mã API: <span class="font-mono font-bold text-indigo-700">${apiKey}</span>) đã được lưu vào hệ thống và chuyển đến <strong>Bảng duyệt của Thầy</strong>.<br><br>💡 Thầy chỉ cần bấm <strong>"Duyệt Vào Lớp"</strong> là em sẽ trở thành học sinh chính thức ngay lập tức!`;
   }
   if (successActions) {
     successActions.innerHTML = `
@@ -293,9 +422,13 @@ function handleStudentRegister(e) {
       <button onclick="quickLogin('student')" class="px-5 py-2.5 bg-white border border-slate-300 text-slate-800 text-xs sm:text-sm font-bold rounded-xl hover:bg-slate-50 transition flex items-center gap-2">
         Vào Phòng Học
       </button>
+      <button onclick="resetRegisterForm()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition">
+        Đăng ký học sinh khác
+      </button>
     `;
   }
   renderPendingRequests();
+  renderClasses();
   refreshIconsAndMath();
 }
 
@@ -1626,8 +1759,8 @@ function approveStudent(classId, requestId) {
     name: student.name,
     email: student.email || "",
     phone: student.phone || "",
-    parentName: student.parentName || "",
-    parentZalo: student.parentZalo || "",
+    parentName: student.parentName || (student.phone ? `Phụ huynh em ${student.name}` : ""),
+    parentZalo: student.parentZalo || student.phone || "",
     apiKey: student.apiKey || "TOAN-9PLUS-2026",
     apiLevel: student.apiLevel || "Học sinh Giỏi 9+",
     scoreAvg: 0.0,
@@ -1635,6 +1768,7 @@ function approveStudent(classId, requestId) {
   });
   targetClass.studentsCount = targetClass.students.length;
 
+  saveClassesStorage();
   renderPendingRequests();
   renderClasses();
 
@@ -1653,6 +1787,7 @@ function rejectStudent(classId, requestId) {
   if (!targetClass) return;
 
   targetClass.pendingRequests = targetClass.pendingRequests.filter(r => r.id !== requestId);
+  saveClassesStorage();
   alert("Đã từ chối yêu cầu.");
   renderPendingRequests();
 }
@@ -1662,71 +1797,91 @@ function renderClasses() {
   if (!container) return;
 
   container.innerHTML = MATH_DATA.classes.map(c => `
-    <div class="border border-slate-200 rounded-2xl p-5 bg-white space-y-4">
+    <div class="border border-slate-200 rounded-2xl p-5 bg-white space-y-4 shadow-xs">
       <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
         <div>
           <div class="flex items-center gap-2">
             <h4 class="font-bold text-slate-900 text-base sm:text-lg">${c.name}</h4>
             <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs font-bold rounded">Khối ${c.grade}</span>
           </div>
-          <p class="text-xs text-slate-500 mt-0.5">Mã mời: <strong class="font-mono text-blue-600">${c.code}</strong> • Sĩ số: <strong>${c.students.length} học sinh</strong></p>
+          <p class="text-xs text-slate-500 mt-0.5">Mã mời: <strong class="font-mono text-blue-600">${c.code}</strong> • Sĩ số: <strong>${c.students ? c.students.length : 0} học sinh</strong></p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="deleteClass('${c.id}', '${c.name.replace(/'/g, "\\'")}')" 
+            title="Xóa lớp học này"
+            class="px-2.5 py-1 text-xs text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition border border-red-200 flex items-center gap-1 font-semibold">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Xóa lớp
+          </button>
         </div>
       </div>
 
       <div>
         <h5 class="text-xs font-bold text-slate-600 uppercase mb-2">Danh sách học sinh chính thức của lớp:</h5>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-          ${c.students.map(hs => {
-            const hasContact = (hs.parentZalo && hs.email);
-            return `
-              <div class="p-3 bg-slate-50 rounded-xl border ${hasContact ? 'border-slate-200' : 'border-amber-300 bg-amber-50/50'} flex flex-col justify-between space-y-2.5">
-                <div>
-                  <div class="flex items-start justify-between gap-1">
-                    <div>
-                      <p class="font-bold text-slate-800 text-sm">${hs.name}</p>
-                      ${hs.apiKey ? `<span class="px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold">${hs.apiKey}</span>` : ''}
-                    </div>
-                    <div class="flex items-center gap-1">
-                      <button onclick="openUpdateStudentModal('${c.id}', '${hs.id}')" 
-                        title="Bổ sung / Cập nhật Gmail & Zalo"
-                        class="p-1 text-blue-600 hover:bg-blue-100 rounded-lg transition">
-                        <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
-                      </button>
-                      <button onclick="removeStudent('${c.id}', '${hs.id}', '${hs.name}')" 
-                        title="Xóa học sinh khỏi lớp"
-                        class="p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition">
-                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="mt-2 text-xs space-y-0.5">
-                    ${hasContact ? `
-                      <p class="text-blue-700 font-medium">Zalo: <span class="font-mono font-bold">${hs.parentZalo}</span></p>
-                      <p class="text-slate-500 text-[11px] font-mono">Gmail: ${hs.email}</p>
-                    ` : `
-                      <div class="text-amber-800 text-[11px] font-bold flex items-center gap-1">
-                        <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-amber-600"></i> Chưa có Gmail & Zalo
+        
+        ${c.students && c.students.length > 0 ? `
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+            ${c.students.map(hs => {
+              const hasContact = (hs.parentZalo && hs.email);
+              return `
+                <div class="p-3 bg-slate-50 rounded-xl border ${hasContact ? 'border-slate-200' : 'border-amber-300 bg-amber-50/50'} flex flex-col justify-between space-y-2.5">
+                  <div>
+                    <div class="flex items-start justify-between gap-1">
+                      <div>
+                        <p class="font-bold text-slate-800 text-sm">${hs.name}</p>
+                        ${hs.apiKey ? `<span class="px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold">${hs.apiKey}</span>` : ''}
                       </div>
-                    `}
-                  </div>
-                </div>
+                      <div class="flex items-center gap-1">
+                        <button onclick="openUpdateStudentModal('${c.id}', '${hs.id}')" 
+                          title="Bổ sung / Cập nhật Gmail & Zalo"
+                          class="p-1 text-blue-600 hover:bg-blue-100 rounded-lg transition">
+                          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                        </button>
+                        <button onclick="removeStudent('${c.id}', '${hs.id}', '${hs.name}')" 
+                          title="Xóa học sinh khỏi lớp"
+                          class="p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition">
+                          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        </button>
+                      </div>
+                    </div>
 
-                ${!hasContact ? `
-                  <button onclick="openUpdateStudentModal('${c.id}', '${hs.id}')" 
-                    class="w-full py-1.5 px-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 shadow-sm">
-                    <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> + Bổ sung Zalo & Gmail
-                  </button>
-                ` : `
-                  <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1 border-t border-slate-200">
-                    <span>ĐTB: <strong class="text-blue-600 font-bold">${hs.scoreAvg}</strong></span>
-                    <span class="text-emerald-700 font-bold flex items-center gap-0.5"><i data-lucide="check" class="w-3 h-3"></i> Đã kết nối</span>
+                    <div class="mt-2 text-xs space-y-0.5">
+                      ${hasContact ? `
+                        <p class="text-blue-700 font-medium">Zalo: <span class="font-mono font-bold">${hs.parentZalo}</span></p>
+                        <p class="text-slate-500 text-[11px] font-mono">Gmail: ${hs.email}</p>
+                      ` : `
+                        <div class="text-amber-800 text-[11px] font-bold flex items-center gap-1">
+                          <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-amber-600"></i> Chưa có Gmail & Zalo
+                        </div>
+                      `}
+                    </div>
                   </div>
-                `}
-              </div>
-            `;
-          }).join('')}
-        </div>
+
+                  ${!hasContact ? `
+                    <button onclick="openUpdateStudentModal('${c.id}', '${hs.id}')" 
+                      class="w-full py-1.5 px-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 shadow-sm">
+                      <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> + Bổ sung Zalo & Gmail
+                    </button>
+                  ` : `
+                    <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1 border-t border-slate-200">
+                      <span>ĐTB: <strong class="text-blue-600 font-bold">${hs.scoreAvg}</strong></span>
+                      <span class="text-emerald-700 font-bold flex items-center gap-0.5"><i data-lucide="check" class="w-3 h-3"></i> Đã kết nối</span>
+                    </div>
+                  `}
+                </div>
+              `;
+            }).join('')}
+          </div>
+        ` : `
+          <div class="p-6 text-center bg-slate-50 border border-dashed border-slate-300 rounded-2xl text-slate-500 text-xs space-y-2">
+            <div class="w-10 h-10 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+              <i data-lucide="users" class="w-5 h-5"></i>
+            </div>
+            <p class="font-bold text-slate-700 text-sm">Chưa có học sinh chính thức trong lớp</p>
+            <p class="text-[11px] text-slate-500 max-w-md mx-auto leading-relaxed">
+              Học sinh khi đăng ký chọn lớp <strong>"${c.name}"</strong> sẽ xuất hiện ở bảng <strong>"Yêu Cầu Tham Gia Lớp Đang Chờ Thầy Duyệt"</strong> phía trên. Thầy chỉ cần bấm <strong>"Duyệt Vào Lớp"</strong> là tên học sinh sẽ xuất hiện tại đây ngay lập tức.
+            </p>
+          </div>
+        `}
       </div>
     </div>
   `).join('');
@@ -1784,6 +1939,7 @@ function saveStudentUpdatedInfo() {
   student.parentName = parentName || "Phụ huynh em " + student.name;
   student.parentZalo = parentZalo;
 
+  saveClassesStorage();
   closeUpdateStudentModal();
   renderClasses();
   alert(`✅ ĐÃ BỔ SUNG THÔNG TIN THÀNH CÔNG CHO EM ${student.name}!\n\n- Gmail nhận bài tập vá lỗi: ${email}\n- Số Zalo nhận báo cáo: ${parentZalo}\nHệ thống đã sẵn sàng tự động gửi kết quả cho gia đình.`);
@@ -1798,6 +1954,7 @@ function removeStudent(classId, studentId, studentName) {
   targetClass.students = targetClass.students.filter(s => s.id !== studentId);
   targetClass.studentsCount = targetClass.students.length;
 
+  saveClassesStorage();
   renderClasses();
 }
 
@@ -1829,11 +1986,29 @@ function confirmCreateClass() {
     pendingRequests: []
   });
 
+  saveClassesStorage();
   closeCreateClassModal();
   document.getElementById('new-class-name').value = '';
   document.getElementById('new-class-code').value = '';
-  alert(`✅ Đã tạo thành công lớp "${name}"!`);
+  
+  populateRegisterClassDropdown();
   renderClasses();
+  alert(`✅ Đã tạo thành công lớp "${name}" (Khối ${grade})!\nLớp học đã được lưu vĩnh viễn vào hệ thống.`);
+}
+
+function deleteClass(classId, className) {
+  if (MATH_DATA.classes.length <= 1) {
+    alert("⚠️ Hệ thống cần giữ lại ít nhất 1 lớp học!");
+    return;
+  }
+  if (!confirm(`Thầy có chắc chắn muốn xóa lớp "${className}" không?\n\nToàn bộ danh sách học sinh của lớp này sẽ bị xóa khỏi hệ thống.`)) return;
+
+  MATH_DATA.classes = MATH_DATA.classes.filter(c => c.id !== classId);
+  saveClassesStorage();
+  populateRegisterClassDropdown();
+  renderClasses();
+  renderPendingRequests();
+  alert(`✅ Đã xóa lớp "${className}" thành công!`);
 }
 
 // ==========================================
