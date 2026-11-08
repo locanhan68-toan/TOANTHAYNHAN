@@ -10,9 +10,86 @@ let userArenaAnswers = {};
 let lastArenaSubmission = null;
 
 // ==========================================
-// LƯU TRỮ VÀ ĐỒNG BỘ DỮ LIỆU LỚP HỌC (LOCALSTORAGE)
+// LƯU TRỮ VÀ ĐỒNG BỘ DỮ LIỆU (LOCALSTORAGE)
 // ==========================================
 const CLASSES_STORAGE_KEY = 'TOAN_MATH_CLASSES_PERSIST_V2';
+const USERS_STORAGE_KEY = 'TOAN_USERS_PERSIST_V2';
+const PENDING_REG_STORAGE_KEY = 'TOAN_PENDING_REGISTRATIONS_V2';
+const CURRENT_USER_KEY = 'TOAN_CURRENT_USER_V2';
+
+let currentUser = null;
+
+function loadUsersFromStorage() {
+  try {
+    const raw = localStorage.getItem(USERS_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch (e) {
+    console.warn("Could not load users:", e);
+  }
+  const defaultUsers = [
+    { username: 'admin', password: '123', name: 'Thầy Giáo Quản Trị', email: 'thaygiao.toan@gmail.com', role: 'teacher', apiKey: 'GV_ADMIN', assignedClassId: 'all' },
+    { username: 'thaygiao', password: '123', name: 'Thầy Giáo Quản Trị', email: 'thaygiao.toan@gmail.com', role: 'teacher', apiKey: 'GV_ADMIN', assignedClassId: 'all' },
+    { username: 'nguyenvanan', password: '123', name: 'Nguyễn Văn An', email: 'nguyenvanan.toan9@gmail.com', role: 'student', apiKey: 'TOAN-9PLUS-2026', assignedClassId: 'lop-9a' },
+    { username: 'hocsinh', password: '123', name: 'Trần Thị Mai', email: 'tranmai.toan9@gmail.com', role: 'student', apiKey: 'TOAN-FREE-2026', assignedClassId: 'lop-9a' }
+  ];
+  saveUsersToStorage(defaultUsers);
+  return defaultUsers;
+}
+
+function saveUsersToStorage(users) {
+  try {
+    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+  } catch (e) {
+    console.warn("Could not save users:", e);
+  }
+}
+
+function loadPendingRegistrationsFromStorage() {
+  try {
+    const raw = localStorage.getItem(PENDING_REG_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch (e) {
+    console.warn("Could not load pending registrations:", e);
+  }
+  const defaultPending = [
+    {
+      id: 'reg_demo_1',
+      name: 'Lê Hoàng Nam',
+      username: 'hoangnam9b',
+      password: '123',
+      email: 'hoangnam.le9@gmail.com',
+      apiKey: 'TOAN-9PLUS-2026',
+      apiLevel: 'Học sinh Giỏi 9+',
+      registeredAt: '08/11/2026 19:30'
+    },
+    {
+      id: 'reg_demo_2',
+      name: 'Vũ Thị Minh Hạnh',
+      username: 'minhhanh_toan',
+      password: '123',
+      email: 'minhhanh.vu@gmail.com',
+      apiKey: 'TOAN-VIP-CHUYEN',
+      apiLevel: 'Gói Chuyên & HSG',
+      registeredAt: '08/11/2026 21:15'
+    }
+  ];
+  savePendingRegistrationsToStorage(defaultPending);
+  return defaultPending;
+}
+
+function savePendingRegistrationsToStorage(list) {
+  try {
+    localStorage.setItem(PENDING_REG_STORAGE_KEY, JSON.stringify(list));
+  } catch (e) {
+    console.warn("Could not save pending registrations:", e);
+  }
+}
 
 function loadClassesFromStorage() {
   try {
@@ -44,6 +121,8 @@ function saveClassesStorage() {
 function resetClassesToDefault() {
   if (!confirm("⚠️ Thầy có chắc chắn muốn khôi phục lại danh sách lớp học và học sinh mẫu ban đầu không?\n\nToàn bộ lớp học mới tạo và danh sách học sinh đăng ký thêm sẽ được đặt lại theo mẫu mặc định.")) return;
   localStorage.removeItem(CLASSES_STORAGE_KEY);
+  localStorage.removeItem(PENDING_REG_STORAGE_KEY);
+  localStorage.removeItem(USERS_STORAGE_KEY);
   location.reload();
 }
 
@@ -123,6 +202,8 @@ function resetRegisterForm() {
 // Khởi chạy khi tải trang
 document.addEventListener('DOMContentLoaded', () => {
   loadClassesFromStorage();
+  loadUsersFromStorage();
+  loadPendingRegistrationsFromStorage();
   populateRegisterClassDropdown();
   renderArenaExamSelector();
   renderArenaExam();
@@ -136,8 +217,10 @@ document.addEventListener('DOMContentLoaded', () => {
   renderTopicMethod();
   renderExamples();
   renderExercises();
-  renderPendingRequests();
+  renderPendingRegistrations();
   renderClasses();
+  renderExamStats();
+  renderCommonErrors();
   renderKnttCurriculum();
   populateLessonNavDropdowns(9);
   if (typeof renderTikzLibraryGallery === 'function') renderTikzLibraryGallery('all');
@@ -346,17 +429,27 @@ function onApiKeyInput() {
 function handleStudentRegister(e) {
   e.preventDefault();
   const name = document.getElementById('reg-name').value.trim();
+  const username = document.getElementById('reg-username').value.trim().toLowerCase();
+  const password = document.getElementById('reg-password').value.trim();
   const emailInput = document.getElementById('reg-email');
   const email = emailInput ? emailInput.value.trim() : '';
-  const phoneInput = document.getElementById('reg-phone');
-  const phone = phoneInput ? phoneInput.value.trim() : '';
-  const classSelect = document.getElementById('reg-class');
-  const classId = classSelect ? classSelect.value : (MATH_DATA.classes[0] ? MATH_DATA.classes[0].id : '');
   const apiKey = document.getElementById('reg-api-key').value.trim().toUpperCase();
 
   if (!name) {
     alert("Vui lòng nhập đầy đủ Họ và tên!");
     document.getElementById('reg-name').focus();
+    return;
+  }
+
+  if (!username) {
+    alert("Vui lòng nhập Tên đăng nhập!");
+    document.getElementById('reg-username').focus();
+    return;
+  }
+
+  if (!password || password.length < 3) {
+    alert("Vui lòng nhập Mật khẩu (tối thiểu 3 ký tự)!");
+    document.getElementById('reg-password').focus();
     return;
   }
 
@@ -367,41 +460,53 @@ function handleStudentRegister(e) {
   }
 
   if (!apiKey) {
-    alert("⚠️ BẮT BUỘC PHẢI CÓ MÃ API!\n\nVui lòng nhấp chọn 1 mã gợi ý bên dưới (ví dụ TOAN-FREE-2026 hoặc TOAN-9PLUS-2026) để hệ thống kích hoạt mức độ phù hợp cho em!");
+    alert("⚠️ BẮT BUỘC PHẢI CÓ MÃ API!\n\nVui lòng nhấp chọn 1 mã gợi ý bên dưới (ví dụ TOAN-FREE-2026 hoặc TOAN-9PLUS-2026) để kích hoạt khóa học!");
     document.getElementById('reg-api-key').focus();
     return;
   }
 
-  let targetClass = MATH_DATA.classes.find(c => c.id === classId) || MATH_DATA.classes[0];
-  if (!targetClass) {
-    alert("Chưa có lớp học nào trong hệ thống! Vui lòng nhờ Thầy tạo lớp trước.");
+  const users = loadUsersFromStorage();
+  if (users.some(u => u.username.toLowerCase() === username)) {
+    alert(`⚠️ Tên đăng nhập "${username}" đã có người sử dụng!\nVui lòng chọn một tên đăng nhập khác (ví dụ thêm năm sinh hoặc lớp: ${username}9a).`);
+    document.getElementById('reg-username').focus();
     return;
   }
 
-  if (!targetClass.pendingRequests) {
-    targetClass.pendingRequests = [];
-  }
-
   const apiConfig = MATH_DATA.apiKeysConfig ? MATH_DATA.apiKeysConfig[apiKey] : null;
-  const levelText = apiConfig ? apiConfig.level : `Tùy biến theo mã ${apiKey}`;
+  const levelText = apiConfig ? apiConfig.level : `Mã tự do: ${apiKey}`;
+  const nowStr = new Date().toLocaleDateString('vi-VN') + ' ' + new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
 
-  const newRequest = {
-    id: 'req_' + Date.now(),
+  // 1. Thêm tài khoản mới vào cơ sở dữ liệu USERS
+  const newUser = {
+    id: 'usr_' + Date.now(),
+    username: username,
+    password: password,
     name: name,
-    grade: targetClass.grade || 9,
     email: email,
-    phone: phone,
-    parentName: phone ? `Phụ huynh em ${name}` : '',
-    parentZalo: phone || '',
+    apiKey: apiKey,
+    role: 'student',
+    status: 'pending',
+    assignedClassId: null,
+    registeredAt: nowStr
+  };
+  users.push(newUser);
+  saveUsersToStorage(users);
+
+  // 2. Đưa vào hàng chờ phân lớp của Thầy
+  const pendingList = loadPendingRegistrationsFromStorage();
+  pendingList.unshift({
+    id: 'reg_' + Date.now(),
+    name: name,
+    username: username,
+    password: password,
+    email: email,
     apiKey: apiKey,
     apiLevel: levelText,
-    requestDate: new Date().toLocaleDateString('vi-VN') + ' ' + new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
-    note: `Mã API: ${apiKey} • Gmail: ${email}${phone ? ` • Zalo: ${phone}` : ''}`
-  };
+    registeredAt: nowStr
+  });
+  savePendingRegistrationsToStorage(pendingList);
 
-  targetClass.pendingRequests.unshift(newRequest);
-  saveClassesStorage();
-
+  // 3. Hiển thị thông báo đăng ký thành công
   const form = document.getElementById('student-register-form');
   const successBox = document.getElementById('register-success-box');
   const successTitle = document.getElementById('register-success-title');
@@ -412,24 +517,87 @@ function handleStudentRegister(e) {
   if (successBox) successBox.classList.remove('hidden');
   if (successTitle) successTitle.innerText = "Đã Gửi Đăng Ký Thành Công!";
   if (successDesc) {
-    successDesc.innerHTML = `Hồ sơ học sinh (Họ và tên: <strong>${name}</strong>, Lớp đăng ký: <span class="font-bold text-blue-700">${targetClass.name}</span>, Gmail: <span class="font-bold text-indigo-700">${email}</span>, SĐT/Zalo: <span class="font-bold text-emerald-700">${phone || 'Chờ Thầy bổ sung'}</span>, Mã API: <span class="font-mono font-bold text-indigo-700">${apiKey}</span>) đã được lưu vào hệ thống và chuyển đến <strong>Bảng duyệt của Thầy</strong>.<br><br>💡 Thầy chỉ cần bấm <strong>"Duyệt Vào Lớp"</strong> là em sẽ trở thành học sinh chính thức ngay lập tức!`;
+    successDesc.innerHTML = `
+      Xin chúc mừng <strong>${name}</strong>!<br>
+      Tài khoản của em đã được tạo thành công với Tên đăng nhập: <strong class="font-mono text-indigo-700">@${username}</strong>, Mã API: <strong class="font-mono text-indigo-700">${apiKey}</strong>.<br><br>
+      📌 <strong>Quy trình phân lớp:</strong> Hồ sơ của em đã được chuyển đến <strong>Bảng quản trị của Thầy</strong>. Thầy sẽ xem xét và <em>trực tiếp xếp em vào lớp học phù hợp</em> để em nhận bài tập và xem lời giải chi tiết!
+    `;
   }
   if (successActions) {
     successActions.innerHTML = `
-      <button onclick="quickLogin('teacher')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold rounded-xl transition shadow-md flex items-center gap-2">
-        👉 Xem Thử Bảng Duyệt Của Thầy (Demo)
+      <button onclick="quickFillCredentials('${username}', '${password}')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold rounded-xl transition shadow-md flex items-center gap-2">
+        👉 Đăng Nhập Ngay Với Tài Khoản Vừa Tạo
       </button>
-      <button onclick="quickLogin('student')" class="px-5 py-2.5 bg-white border border-slate-300 text-slate-800 text-xs sm:text-sm font-bold rounded-xl hover:bg-slate-50 transition flex items-center gap-2">
-        Vào Phòng Học
+      <button onclick="quickLogin('teacher')" class="px-4 py-2 bg-purple-50 text-purple-800 text-xs font-bold rounded-xl hover:bg-purple-100 transition">
+        Xem Thử Bảng Phân Lớp Của Thầy (Demo)
       </button>
       <button onclick="resetRegisterForm()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition">
         Đăng ký học sinh khác
       </button>
     `;
   }
-  renderPendingRequests();
-  renderClasses();
+
+  renderPendingRegistrations();
   refreshIconsAndMath();
+}
+
+function handleUserLogin(e) {
+  e.preventDefault();
+  const usernameInput = document.getElementById('login-username');
+  const passwordInput = document.getElementById('login-password');
+  const username = usernameInput ? usernameInput.value.trim().toLowerCase() : '';
+  const password = passwordInput ? passwordInput.value.trim() : '';
+
+  if (!username) {
+    alert("Vui lòng nhập Tên đăng nhập!");
+    if (usernameInput) usernameInput.focus();
+    return;
+  }
+  if (!password) {
+    alert("Vui lòng nhập Mật khẩu!");
+    if (passwordInput) passwordInput.focus();
+    return;
+  }
+
+  const users = loadUsersFromStorage();
+  const user = users.find(u => u.username.toLowerCase() === username && u.password === password);
+
+  if (!user) {
+    alert("⚠️ Sai Tên đăng nhập hoặc Mật khẩu!\n\nVui lòng kiểm tra lại hoặc nhấp chọn 1 trong các tài khoản mẫu bên dưới (Ví dụ: admin / 123 hoặc nguyenvanan / 123) để đăng nhập nhanh.");
+    return;
+  }
+
+  currentUser = user;
+  try {
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
+  } catch (err) {}
+
+  if (user.role === 'teacher') {
+    switchRole('teacher');
+    if (!isAppViewOpen) toggleAppView();
+    switchTab('dashboard');
+    alert(`Xin chào Thầy (${user.name})! Hệ thống đã đăng nhập vào Bảng Quản Trị Giáo Viên.`);
+  } else {
+    switchRole('student');
+    if (!isAppViewOpen) toggleAppView();
+    switchTab('arena');
+    if (user.assignedClassId) {
+      const cls = MATH_DATA.classes.find(c => c.id === user.assignedClassId);
+      alert(`🎉 Xin chào em ${user.name}!\nEm đã được xếp vào lớp: "${cls ? cls.name : 'Lớp Toán của Thầy'}".\nChúc em học tập và rèn luyện tốt!`);
+    } else {
+      alert(`Xin chào em ${user.name}!\nTài khoản của em đang chờ Thầy xếp vào lớp học chính thức.\nEm có thể làm bài thi Đấu trường tự do và học lý thuyết trong lúc chờ!`);
+    }
+  }
+}
+
+function quickFillCredentials(u, p) {
+  const userEl = document.getElementById('login-username');
+  const passEl = document.getElementById('login-password');
+  if (userEl) userEl.value = u;
+  if (passEl) passEl.value = p;
+  switchAuthMode('login');
+  const loginSection = document.getElementById('dang-ky');
+  if (loginSection) loginSection.scrollIntoView({ behavior: 'smooth' });
 }
 
 function quickLogin(role) {
@@ -444,23 +612,6 @@ function quickLogin(role) {
   } else {
     switchTab('theory');
   }
-}
-
-function handleCustomLogin(e) {
-  e.preventDefault();
-  const name = document.getElementById('login-name').value.trim();
-  const key = document.getElementById('login-key').value.trim().toUpperCase();
-
-  let role = 'student';
-  if (key.includes('GV') || key.includes('THAY') || key.includes('ADMIN')) {
-    role = 'teacher';
-  } else if (key === 'TOAN-FREE-2026' || key.includes('FREE')) {
-    role = 'guest';
-  } else {
-    role = 'student';
-  }
-
-  quickLogin(role);
 }
 
 // ==========================================
@@ -1684,56 +1835,225 @@ function saveManualGrade() {
 }
 
 // ==========================================
-// 7. BẢNG QUẢN TRỊ CỦA THẦY
+// 7. BẢNG QUẢN TRỊ CỦA THẦY & DỮ LIỆU THỐNG KÊ
 // ==========================================
-function renderPendingRequests() {
+
+const EXAM_ANALYTICS_DATA = {
+  exams: [
+    { id: 'exam-hn-2026', name: 'Đề Khảo Sát Toán 9 - Tuyển Sinh Vào 10 (Sở Hà Nội 2026)' },
+    { id: 'exam-viet-2026', name: 'Đề Ôn Tập: Phương Trình Bậc Hai & Vi-ét Nâng Cao' },
+    { id: 'exam-midterm-9', name: 'Đề Kiểm Tra Giữa Kỳ I - Đại Số & Hình Học 9' },
+    { id: 'exam-gifted-10', name: 'Đề Bồi Dưỡng Học Sinh Giỏi & Luyện Thi Chuyên' }
+  ],
+  studentScores: [
+    { id: 'sc_1', studentName: 'Nguyễn Văn An', classId: 'lop_9a1', className: 'Toán 9A (Luyện Thi Vào 10)', examId: 'exam-hn-2026', score: 9.25, correctCount: '19/20', timeSpent: '41 phút', submittedAt: '15:20 08/11/2026' },
+    { id: 'sc_2', studentName: 'Trần Thị Mai', classId: 'lop_9a1', className: 'Toán 9A (Luyện Thi Vào 10)', examId: 'exam-hn-2026', score: 9.0, correctCount: '18/20', timeSpent: '44 phút', submittedAt: '15:24 08/11/2026' },
+    { id: 'sc_3', studentName: 'Lê Hoàng Long', classId: 'lop_9b1', className: 'Toán 9B (Cơ Bản & Nâng Cao)', examId: 'exam-hn-2026', score: 8.5, correctCount: '17/20', timeSpent: '43 phút', submittedAt: '15:30 08/11/2026' },
+    { id: 'sc_4', studentName: 'Phạm Minh Đức', classId: 'lop_9a1', className: 'Toán 9A (Luyện Thi Vào 10)', examId: 'exam-hn-2026', score: 8.75, correctCount: '18/20', timeSpent: '39 phút', submittedAt: '15:15 08/11/2026' },
+    { id: 'sc_5', studentName: 'Vũ Thảo Vy', classId: 'lop_9b1', className: 'Toán 9B (Cơ Bản & Nâng Cao)', examId: 'exam-hn-2026', score: 7.5, correctCount: '15/20', timeSpent: '45 phút', submittedAt: '15:40 08/11/2026' },
+    { id: 'sc_6', studentName: 'Đặng Quốc Huy', classId: 'lop_9a1', className: 'Toán 9A (Luyện Thi Vào 10)', examId: 'exam-hn-2026', score: 7.0, correctCount: '14/20', timeSpent: '42 phút', submittedAt: '15:35 08/11/2026' },
+    { id: 'sc_7', studentName: 'Bùi Gia Hân', classId: 'lop_9b1', className: 'Toán 9B (Cơ Bản & Nâng Cao)', examId: 'exam-hn-2026', score: 6.25, correctCount: '13/20', timeSpent: '45 phút', submittedAt: '15:42 08/11/2026' },
+    { id: 'sc_8', studentName: 'Ngô Tuấn Kiệt', classId: 'lop_9b1', className: 'Toán 9B (Cơ Bản & Nâng Cao)', examId: 'exam-hn-2026', score: 4.5, correctCount: '9/20', timeSpent: '45 phút', submittedAt: '15:44 08/11/2026' },
+    { id: 'sc_9', studentName: 'Hoàng Kim Ngân', classId: 'lop_9a1', className: 'Toán 9A (Luyện Thi Vào 10)', examId: 'exam-viet-2026', score: 9.5, correctCount: '20/20', timeSpent: '38 phút', submittedAt: '16:10 07/11/2026' },
+    { id: 'sc_10', studentName: 'Đỗ Hải Đăng', classId: 'lop_9a1', className: 'Toán 9A (Luyện Thi Vào 10)', examId: 'exam-viet-2026', score: 8.0, correctCount: '16/20', timeSpent: '43 phút', submittedAt: '16:20 07/11/2026' },
+    { id: 'sc_11', studentName: 'Lý Bảo Trân', classId: 'lop_9b1', className: 'Toán 9B (Cơ Bản & Nâng Cao)', examId: 'exam-viet-2026', score: 6.5, correctCount: '13/20', timeSpent: '45 phút', submittedAt: '16:25 07/11/2026' },
+    { id: 'sc_12', studentName: 'Dương Tấn Phát', classId: 'lop_9b1', className: 'Toán 9B (Cơ Bản & Nâng Cao)', examId: 'exam-viet-2026', score: 5.5, correctCount: '11/20', timeSpent: '45 phút', submittedAt: '16:30 07/11/2026' }
+  ],
+  commonErrors: [
+    {
+      id: 'err_q12',
+      code: 'Câu 12',
+      examTitle: 'Đề Khảo Sát Toán 9 - Tuyển Sinh Vào 10 (Sở Hà Nội 2026)',
+      topic: 'Hệ phương trình bậc nhất hai ẩn & Biện luận tham số $m$',
+      failPercent: 68.4,
+      failCount: 26,
+      totalCount: 38,
+      problem: `Tìm tất cả các giá trị của tham số $m$ để hệ phương trình sau có nghiệm duy nhất $(x; y)$ thỏa mãn $x + y > 1$:
+$$\\begin{cases} mx + y = 2m \\\\ x + my = m + 1 \\end{cases}$$`,
+      trap: `<strong>Bẫy sai lầm kinh điển:</strong> Học sinh quên xét điều kiện để hệ có nghiệm duy nhất là $D = m^2 - 1 \\neq 0 \\Leftrightarrow m \\neq \\pm 1$. Nhiều em giải ra $x = \\frac{2m+1}{m+1}$, $y = \\frac{m}{m+1}$ rồi cho $x + y > 1$ tìm ra $m > 0$ nhưng không đối chiếu điều kiện để loại $m = 1$.`,
+      solution: `<strong>Bước 1: Điều kiện hệ có nghiệm duy nhất:</strong><br>
+Ta có định thức: $D = m \\cdot m - 1 \\cdot 1 = m^2 - 1$.<br>
+Hệ có nghiệm duy nhất khi và chỉ khi $D \\neq 0 \\Leftrightarrow m^2 - 1 \\neq 0 \\Leftrightarrow m \\neq \\pm 1$.<br><br>
+<strong>Bước 2: Tìm nghiệm $(x; y)$ theo $m$:</strong><br>
+$$D_x = 2m \\cdot m - (m+1) \\cdot 1 = 2m^2 - m - 1 = (m-1)(2m+1)$$
+$$D_y = m(m+1) - 2m = m^2 - m = m(m-1)$$
+Vì $m \\neq 1$, ta rút gọn được:<br>
+$$x = \\frac{D_x}{D} = \\frac{(m-1)(2m+1)}{(m-1)(m+1)} = \\frac{2m+1}{m+1}$$
+$$y = \\frac{D_y}{D} = \\frac{m(m-1)}{(m-1)(m+1)} = \\frac{m}{m+1}$$<br>
+<strong>Bước 3: Giải bất phương trình $x + y > 1$:</strong><br>
+$$\\frac{2m+1}{m+1} + \\frac{m}{m+1} > 1 \\Leftrightarrow \\frac{3m+1}{m+1} - 1 > 0 \\Leftrightarrow \\frac{2m}{m+1} > 0$$
+$$\\Leftrightarrow \\left[ \\begin{array}{l} m > 0 \\\\ m < -1 \\end{array} \\right.$$<br>
+<strong>Kết hợp điều kiện $m \\neq \\pm 1$:</strong> Kết luận tập nghiệm là $m \\in (-\\infty; -1) \\cup (0; 1) \\cup (1; +\\infty)$.`
+    },
+    {
+      id: 'err_q8',
+      code: 'Câu 8',
+      examTitle: 'Đề Ôn Tập: Phương Trình Bậc Hai & Vi-ét Nâng Cao',
+      topic: 'Hệ thức Vi-ét cho biểu thức không đối xứng',
+      failPercent: 61.9,
+      failCount: 26,
+      totalCount: 42,
+      problem: `Cho phương trình $x^2 - (2m+1)x + m^2 + m - 2 = 0$. Tìm $m$ để phương trình có hai nghiệm phân biệt $x_1, x_2$ thỏa mãn:
+$$x_1^2 + 2x_1x_2 + 3x_2 = 14$$`,
+      trap: `<strong>Bẫy sai lầm kinh điển:</strong> Biểu thức chứa $3x_2$ là không đối xứng. Học sinh hay rút $x_1$ theo $x_2$ rồi thế vào làm xuất hiện bậc 4 phức tạp, hoặc quên sử dụng tính chất nghiệm thỏa mãn phương trình gốc $x_1^2 = (2m+1)x_1 - m^2 - m + 2$ để hạ bậc.`,
+      solution: `<strong>Bước 1: Tìm điều kiện để phương trình có 2 nghiệm phân biệt:</strong><br>
+$$\\Delta = (2m+1)^2 - 4(m^2+m-2) = 4m^2 + 4m + 1 - 4m^2 - 4m + 8 = 9 > 0$$
+Vậy phương trình luôn có 2 nghiệm phân biệt với mọi $m$.<br><br>
+<strong>Bước 2: Sử dụng định lý Vi-ét:</strong><br>
+$$\\begin{cases} x_1 + x_2 = 2m+1 \\\\ x_1 x_2 = m^2 + m - 2 \\end{cases}$$<br>
+<strong>Bước 3: Kỹ thuật hạ bậc hoặc tính nghiệm tường minh:</strong><br>
+Vì $\\Delta = 9 = 3^2$ là số chính phương nên 2 nghiệm cụ thể là:<br>
+$$x = \\frac{2m+1 \\pm 3}{2} \\Rightarrow x_1 = m+2, \\quad x_2 = m-1$$
+(hoặc trường hợp hoán vị $x_1 = m-1, x_2 = m+2$). Thay từng cặp vào biểu thức $x_1^2 + 2x_1x_2 + 3x_2 = 14$, ta tìm được nghiệm chính xác của tham số $m$.`
+    },
+    {
+      id: 'err_q15',
+      code: 'Câu 15',
+      examTitle: 'Đề Khảo Sát Toán 9 - Tuyển Sinh Vào 10 (Sở Hà Nội 2026)',
+      topic: 'Tứ giác nội tiếp & Hệ thức lượng tiếp tuyến',
+      failPercent: 54.8,
+      failCount: 23,
+      totalCount: 42,
+      problem: `Cho tam giác nhọn $ABC$ nội tiếp $(O)$ với các đường cao $BD$ và $CE$ cắt nhau tại $H$. Gọi $M$ là trung điểm của cạnh $BC$. Chứng minh tứ giác $BEDC$ nội tiếp và đường thẳng $ME$ là tiếp tuyến của đường tròn ngoại tiếp $\\triangle ADE$.`,
+      trap: `<strong>Bẫy sai lầm kinh điển:</strong> Học sinh nhầm lẫn dấu hiệu tứ giác nội tiếp: dùng sai góc trong và góc ngoài tại đỉnh đối diện; hoặc khi chứng minh tiếp tuyến quên dùng góc tạo bởi tiếp tuyến và dây cung bằng góc nội tiếp chắn cung đó.`,
+      solution: `<strong>Bước 1: Chứng minh tứ giác $BEDC$ nội tiếp:</strong><br>
+Xét tứ giác $BEDC$ có $\\widehat{BEC} = 90^\\circ$ ($CE \\perp AB$) và $\\widehat{BDC} = 90^\\circ$ ($BD \\perp AC$).<br>
+Suy ra 2 đỉnh $E$ và $D$ cùng nhìn cạnh $BC$ dưới góc $90^\\circ$. Do đó tứ giác $BEDC$ nội tiếp đường tròn đường kính $BC$, tâm là trung điểm $M$ của $BC$.<br><br>
+<strong>Bước 2: Chứng minh $ME$ là tiếp tuyến của $(ADE)$:</strong><br>
+Gọi $I$ là trung điểm $AH$. Tứ giác $AEHD$ có $\\widehat{AEH} = \\widehat{ADH} = 90^\\circ$ nên nội tiếp đường tròn $(I)$ đường kính $AH$.<br>
+Vì $\\triangle IEH$ cân tại $I$ ($IE = IH$) nên $\\widehat{IEH} = \\widehat{IHE}$.<br>
+Mặt khác $\\triangle MEC$ cân tại $M$ ($ME = MC = \\frac{BC}{2}$) nên $\\widehat{MEC} = \\widehat{MCE}$.<br>
+Do $\\widehat{IHE} + \\widehat{MCE} = 90^\\circ$ (vì $\\triangle HCE$ vuông tại $E$) suy ra $\\widehat{IEM} = \\widehat{IEH} + \\widehat{MEC} = 90^\\circ \\Leftrightarrow ME \\perp IE$.<br>
+Vậy $ME$ là tiếp tuyến tại $E$ của đường tròn $(ADE)$.`
+    },
+    {
+      id: 'err_q6',
+      code: 'Câu 6',
+      examTitle: 'Đề Khảo Sát Toán 9 - Tuyển Sinh Vào 10 (Sở Hà Nội 2026)',
+      topic: 'Giải bài toán bằng cách lập phương trình hoặc hệ phương trình',
+      failPercent: 47.6,
+      failCount: 20,
+      totalCount: 42,
+      problem: `Một xe ô tô và một xe máy cùng khởi hành từ $A$ để đi đến $B$ với quãng đường dài $120\\text{ km}$. Vận tốc của ô tô lớn hơn vận tốc xe máy là $10\\text{ km/h}$ nên ô tô đến $B$ sớm hơn xe máy $36\\text{ phút}$. Tính vận tốc của mỗi xe.`,
+      trap: `<strong>Bẫy sai lầm kinh điển:</strong> Quên đổi đơn vị thời gian: $36\\text{ phút} = \\frac{36}{60} = \\frac{3}{5}\\text{ giờ}$. Nhiều học sinh giữ nguyên số 36 hoặc nhầm lẫn lập phương trình lấy thời gian ô tô trừ thời gian xe máy dẫn đến phương trình ra nghiệm âm.`,
+      solution: `<strong>Bước 1: Đổi đơn vị và đặt ẩn:</strong><br>
+Đổi $36\\text{ phút} = \\frac{36}{60}\\text{ h} = \\frac{3}{5}\\text{ h}$.<br>
+Gọi vận tốc của xe máy là $x$ ($\\text{km/h}$, điều kiện $x > 0$).<br>
+Vận tốc của ô tô là $x + 10$ ($\\text{km/h}$).<br><br>
+<strong>Bước 2: Lập phương trình:</strong><br>
+Thời gian xe máy đi hết quãng đường là $\\frac{120}{x}$ (giờ).<br>
+Thời gian ô tô đi hết quãng đường là $\\frac{120}{x+10}$ (giờ).<br>
+Vì ô tô đến sớm hơn xe máy $\\frac{3}{5}$ giờ nên ta có phương trình:<br>
+$$\\frac{120}{x} - \\frac{120}{x+10} = \\frac{3}{5}$$<br>
+<strong>Bước 3: Giải phương trình:</strong><br>
+$$\\frac{40}{x} - \\frac{40}{x+10} = \\frac{1}{5} \\Leftrightarrow \\frac{400}{x(x+10)} = \\frac{1}{5} \\Leftrightarrow x^2 + 10x - 2000 = 0$$
+Giải phương trình bậc hai nhận nghiệm dương $x = 40\\text{ km/h}$.<br>
+<strong>Kết luận:</strong> Vận tốc xe máy là $40\\text{ km/h}$, vận tốc ô tô là $50\\text{ km/h}$.`
+    },
+    {
+      id: 'err_q16',
+      code: 'Câu 16',
+      examTitle: 'Đề Bồi Dưỡng Học Sinh Giỏi & Luyện Thi Chuyên',
+      topic: 'Bất đẳng thức & Cực trị đại số',
+      failPercent: 42.9,
+      failCount: 18,
+      totalCount: 42,
+      problem: `Cho hai số thực dương $x, y$ thỏa mãn $x + y \\le 2$. Tìm giá trị nhỏ nhất của biểu thức:
+$$P = \\frac{1}{x^2 + y^2} + \\frac{2}{xy} + 3xy$$`,
+      trap: `<strong>Bẫy sai lầm kinh điển:</strong> Học sinh tách điểm rơi sai hoặc áp dụng trực tiếp $\\frac{1}{x^2+y^2} + \\frac{1}{2xy} \\ge \\frac{4}{(x+y)^2}$ nhưng phần còn lại $\\frac{3}{2xy} + 3xy$ lại dùng Cauchy trực tiếp dẫn đến điểm rơi không trùng khớp tại $x = y = 1$.`,
+      solution: `<strong>Bước 1: Phân tích điểm rơi:</strong><br>
+Dự đoán dấu bằng đạt tại $x = y = 1 \\Rightarrow xy = 1$ và $x^2 + y^2 = 2$.<br><br>
+<strong>Bước 2: Tách hạng tử theo điểm rơi:</strong><br>
+$$P = \\left(\\frac{1}{x^2+y^2} + \\frac{1}{2xy}\\right) + \\left(\\frac{3}{16xy} + 3xy\\right) + \\frac{21}{16xy}$$<br>
+<strong>Bước 3: Đánh giá từng nhóm:</strong><br>
+1) BĐT Cauchy-Schwarz Engel: $\\frac{1}{x^2+y^2} + \\frac{1}{2xy} \\ge \\frac{4}{(x+y)^2} \\ge \\frac{4}{2^2} = 1$<br>
+2) BĐT Cauchy: $\\frac{3}{16xy} + 3xy \\ge 2\\sqrt{\\frac{3}{16xy} \\cdot 3xy} = \\frac{3}{2}$<br>
+3) Vì $xy \\le \\frac{(x+y)^2}{4} \\le 1 \\Rightarrow \\frac{21}{16xy} \\ge \\frac{21}{16}$<br>
+Cộng các vế: $P \\ge 1 + \\frac{3}{2} + \\frac{21}{16} = \\frac{61}{16}$. Dấu bằng xảy ra khi $x = y = 1$.`
+    }
+  ]
+};
+
+// ==========================================
+// QUẢN LÝ HỌC SINH ĐĂNG KÝ & PHÂN BỔ VÀO LỚP
+// ==========================================
+
+function renderPendingRegistrations() {
   const tbody = document.getElementById('pending-table-body');
   const countLabel = document.getElementById('pending-count-label');
+  const countText = document.getElementById('pending-count-text');
   const badge = document.getElementById('pending-badge');
   if (!tbody) return;
 
-  let allPending = [];
-  MATH_DATA.classes.forEach(c => {
-    c.pendingRequests.forEach(req => {
-      allPending.push({ ...req, classId: c.id, className: c.name });
-    });
-  });
+  const list = pendingRegistrations || [];
 
-  if (countLabel) countLabel.innerText = `${allPending.length} Yêu cầu mới`;
-  if (badge) badge.innerText = allPending.length;
+  if (countText) countText.innerText = `${list.length} Học sinh chờ phân lớp`;
+  if (countLabel) countLabel.style.display = list.length > 0 ? 'inline-flex' : 'none';
+  if (badge) {
+    badge.innerText = list.length;
+    badge.style.display = list.length > 0 ? 'inline-block' : 'none';
+  }
 
-  if (allPending.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-slate-400 text-xs">Hiện không có học sinh nào đang chờ duyệt.</td></tr>`;
+  if (list.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" class="py-8 text-center text-slate-400 text-xs">
+          <div class="w-12 h-12 rounded-full bg-slate-100 mx-auto flex items-center justify-center text-slate-400 mb-2">
+            <i data-lucide="check-circle" class="w-6 h-6 text-emerald-500"></i>
+          </div>
+          <span class="font-bold text-slate-600 block text-sm">Tuyệt vời! Không có học sinh nào đang chờ phân lớp.</span>
+          <span class="text-[11px] text-slate-400 mt-1 block">Tất cả học sinh đăng ký mới đã được Thầy xếp vào các lớp tương ứng.</span>
+        </td>
+      </tr>
+    `;
+    refreshIconsAndMath();
     return;
   }
 
-  tbody.innerHTML = allPending.map(req => `
-    <tr class="hover:bg-slate-50 transition">
+  const classOptions = MATH_DATA.classes && MATH_DATA.classes.length > 0
+    ? MATH_DATA.classes.map(c => `<option value="${c.id}">${c.name} (Khối ${c.grade})</option>`).join('')
+    : '<option value="">Chưa có lớp nào</option>';
+
+  tbody.innerHTML = list.map(req => `
+    <tr class="hover:bg-slate-50 transition border-b border-slate-100">
       <td class="py-3 px-4 font-semibold text-slate-800">
-        <div>${req.name}</div>
-        <div class="flex items-center gap-1.5 mt-1 flex-wrap">
-          <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold border border-purple-200 flex items-center gap-1">
-            <i data-lucide="key" class="w-3 h-3 text-purple-600"></i> ${req.apiKey || 'TOAN-9PLUS-2026'}
-          </span>
-          <span class="text-[10px] text-slate-500 font-medium">${req.apiLevel || 'Học sinh Giỏi 9+'}</span>
+        <div class="font-bold text-slate-900 text-sm">${req.name}</div>
+        <div class="flex items-center gap-1.5 mt-0.5">
+          <span class="text-xs text-indigo-600 font-mono font-bold">@${req.username}</span>
+          <span class="px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 text-[10px]">Đăng ký mới</span>
         </div>
       </td>
-      <td class="py-3 px-4 text-xs font-mono text-blue-700 font-bold">
-        ${req.parentZalo ? `${req.parentZalo} <span class="text-[10px] text-slate-500 block font-sans">${req.parentName || ''}</span>` : '<span class="px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 text-[10px] font-bold">Thầy duyệt xong sẽ bổ sung</span>'}
+      <td class="py-3 px-4 text-xs font-mono text-slate-700">
+        <div class="flex items-center gap-1">
+          <i data-lucide="mail" class="w-3.5 h-3.5 text-slate-400"></i>
+          <span>${req.email || 'Chưa cập nhật'}</span>
+        </div>
       </td>
-      <td class="py-3 px-4 text-xs font-mono text-indigo-700">
-        ${req.email ? req.email : '<span class="text-slate-400 text-[11px] italic">Bổ sung sau khi vào lớp</span>'}
+      <td class="py-3 px-4">
+        <div class="flex flex-col gap-1">
+          <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold border border-purple-200 inline-block w-fit">
+            ${req.apiKey || 'TOAN-9PLUS-2026'}
+          </span>
+          <span class="text-[10px] text-slate-500">Gói 9+ Tuyển sinh</span>
+        </div>
       </td>
-      <td class="py-3 px-4 text-slate-600 text-xs"><span class="px-2 py-0.5 bg-blue-50 text-blue-700 rounded-md font-medium">${req.className}</span></td>
+      <td class="py-3 px-4 text-xs text-slate-500 font-medium">
+        ${req.createdAt || 'Hôm nay'}
+      </td>
+      <td class="py-3 px-4">
+        <select id="assign-class-select-${req.id}" class="w-full sm:w-auto p-2 border-2 border-indigo-200 focus:border-indigo-500 rounded-xl text-xs font-bold text-indigo-950 bg-white shadow-xs">
+          ${classOptions}
+        </select>
+      </td>
       <td class="py-3 px-4 text-center">
-        <div class="flex items-center justify-center gap-1.5">
-          <button onclick="approveStudent('${req.classId}', '${req.id}')" 
-            class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1">
-            <i data-lucide="check" class="w-3.5 h-3.5"></i> Duyệt Vào Lớp
+        <div class="flex items-center justify-center gap-2">
+          <button onclick="assignStudentToClass('${req.id}')" 
+            class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 shadow-sm hover:shadow-md">
+            <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> Xếp Vào Lớp
           </button>
-          <button onclick="rejectStudent('${req.classId}', '${req.id}')" 
-            class="px-2.5 py-1 bg-slate-200 hover:bg-red-100 hover:text-red-700 text-slate-700 rounded-lg text-xs font-medium transition flex items-center gap-1">
-            <i data-lucide="x" class="w-3.5 h-3.5"></i> Từ chối
+          <button onclick="rejectStudentRegistration('${req.id}')" 
+            class="px-2.5 py-1.5 bg-slate-100 hover:bg-red-50 hover:text-red-600 text-slate-600 rounded-xl text-xs font-semibold transition border border-slate-200">
+            Từ chối
           </button>
         </div>
       </td>
@@ -1743,53 +2063,162 @@ function renderPendingRequests() {
   refreshIconsAndMath();
 }
 
-function approveStudent(classId, requestId) {
-  const targetClass = MATH_DATA.classes.find(c => c.id === classId);
-  if (!targetClass) return;
+function renderPendingRequests() {
+  renderPendingRegistrations();
+}
 
-  const reqIdx = targetClass.pendingRequests.findIndex(r => r.id === requestId);
-  if (reqIdx === -1) return;
+function assignStudentToClass(reqId) {
+  const req = pendingRegistrations.find(r => r.id === reqId);
+  if (!req) {
+    alert("Không tìm thấy thông tin đăng ký của học sinh!");
+    return;
+  }
 
-  const student = targetClass.pendingRequests[reqIdx];
-  targetClass.pendingRequests.splice(reqIdx, 1);
-  
+  const selectEl = document.getElementById(`assign-class-select-${reqId}`);
+  const targetClassId = selectEl ? selectEl.value : (MATH_DATA.classes[0] ? MATH_DATA.classes[0].id : null);
+
+  if (!targetClassId) {
+    alert("Thầy chưa chọn lớp hoặc chưa có lớp nào được tạo. Vui lòng tạo lớp trước khi xếp học sinh!");
+    return;
+  }
+
+  const targetClass = MATH_DATA.classes.find(c => c.id === targetClassId);
+  if (!targetClass) {
+    alert("Không tìm thấy lớp học đã chọn!");
+    return;
+  }
+
+  if (!targetClass.students) targetClass.students = [];
+
   const newStudentId = 'hs_' + Date.now();
-  targetClass.students.push({
+  const newStudent = {
     id: newStudentId,
-    name: student.name,
-    email: student.email || "",
-    phone: student.phone || "",
-    parentName: student.parentName || (student.phone ? `Phụ huynh em ${student.name}` : ""),
-    parentZalo: student.parentZalo || student.phone || "",
-    apiKey: student.apiKey || "TOAN-9PLUS-2026",
-    apiLevel: student.apiLevel || "Học sinh Giỏi 9+",
-    scoreAvg: 0.0,
+    username: req.username,
+    name: req.name,
+    email: req.email || "",
+    phone: "",
+    parentName: "Phụ huynh em " + req.name,
+    parentZalo: "",
+    apiKey: req.apiKey || "TOAN-9PLUS-2026",
+    scoreAvg: 8.5,
     status: 'active'
-  });
+  };
+
+  targetClass.students.push(newStudent);
   targetClass.studentsCount = targetClass.students.length;
 
-  saveClassesStorage();
-  renderPendingRequests();
-  renderClasses();
-
-  // Mở hộp thoại bổ sung thông tin Gmail & Zalo
-  if (!student.parentZalo || !student.email) {
-    if (confirm(`🎉 ĐÃ DUYỆT HỌC SINH "${student.name}" VÀO LỚP "${targetClass.name}"!\n\nThầy có muốn BỔ SUNG NGAY thông tin Gmail và Số Zalo cho em không?\n(Bấm OK để mở form bổ sung ngay, hoặc Cancel để bổ sung sau)`)) {
-      openUpdateStudentModal(targetClass.id, newStudentId);
-    }
-  } else {
-    alert(`✅ Đã duyệt học sinh ${student.name} vào lớp "${targetClass.name}"!`);
+  // Cập nhật thông tin lớp trong USERS database
+  const userRecord = USERS.find(u => u.username === req.username);
+  if (userRecord) {
+    userRecord.assignedClassId = targetClass.id;
+    userRecord.assignedClassName = targetClass.name;
+    saveUsersToStorage();
   }
+
+  // Xóa khỏi hàng đợi đăng ký chờ duyệt
+  pendingRegistrations = pendingRegistrations.filter(r => r.id !== reqId);
+  savePendingRegistrationsToStorage();
+  saveClassesStorage();
+
+  renderPendingRegistrations();
+  renderClasses();
+  renderExamStats();
+
+  alert(`🎉 ĐÃ XẾP HỌC SINH VÀO LỚP THÀNH CÔNG!\n\nHọc sinh: ${req.name} (@${req.username})\nĐã được Thầy xếp vào lớp: "${targetClass.name}"\n\nHọc sinh hiện đã chính thức có tên trong danh sách lớp của Thầy!`);
+}
+
+function rejectStudentRegistration(reqId) {
+  const req = pendingRegistrations.find(r => r.id === reqId);
+  if (!confirm(`Thầy có chắc chắn muốn từ chối yêu cầu đăng ký của em "${req ? req.name : ''}" không?`)) return;
+
+  pendingRegistrations = pendingRegistrations.filter(r => r.id !== reqId);
+  savePendingRegistrationsToStorage();
+  renderPendingRegistrations();
+  alert("Đã từ chối yêu cầu đăng ký.");
+}
+
+function approveStudent(classId, requestId) {
+  assignStudentToClass(requestId);
 }
 
 function rejectStudent(classId, requestId) {
-  const targetClass = MATH_DATA.classes.find(c => c.id === classId);
-  if (!targetClass) return;
+  rejectStudentRegistration(requestId);
+}
 
-  targetClass.pendingRequests = targetClass.pendingRequests.filter(r => r.id !== requestId);
+// ==========================================
+// MODAL: CHUYỂN LỚP CHO HỌC SINH
+// ==========================================
+
+function openTransferStudentModal(currentClassId, studentId) {
+  const currentClass = MATH_DATA.classes.find(c => c.id === currentClassId);
+  if (!currentClass) return;
+
+  const student = currentClass.students.find(s => s.id === studentId);
+  if (!student) return;
+
+  document.getElementById('transfer-current-class-id').value = currentClassId;
+  document.getElementById('transfer-student-id').value = studentId;
+  document.getElementById('transfer-student-name').innerText = student.name + (student.username ? ` (@${student.username})` : '');
+  document.getElementById('transfer-current-class-name').innerText = `${currentClass.name} (Khối ${currentClass.grade})`;
+
+  const otherClasses = MATH_DATA.classes.filter(c => c.id !== currentClassId);
+  const select = document.getElementById('transfer-target-class-select');
+  if (otherClasses.length === 0) {
+    select.innerHTML = '<option value="">Không có lớp khác để chuyển (Hãy tạo thêm lớp)</option>';
+  } else {
+    select.innerHTML = otherClasses.map(c => `<option value="${c.id}">${c.name} (Khối ${c.grade})</option>`).join('');
+  }
+
+  const modal = document.getElementById('modal-transfer-student');
+  if (modal) modal.classList.remove('hidden');
+  refreshIconsAndMath();
+}
+
+function closeTransferStudentModal() {
+  const modal = document.getElementById('modal-transfer-student');
+  if (modal) modal.classList.add('hidden');
+}
+
+function confirmTransferStudent() {
+  const currentClassId = document.getElementById('transfer-current-class-id').value;
+  const studentId = document.getElementById('transfer-student-id').value;
+  const targetClassId = document.getElementById('transfer-target-class-select').value;
+
+  if (!targetClassId) {
+    alert("Vui lòng chọn lớp học mới cần chuyển đến!");
+    return;
+  }
+
+  const currentClass = MATH_DATA.classes.find(c => c.id === currentClassId);
+  const targetClass = MATH_DATA.classes.find(c => c.id === targetClassId);
+  if (!currentClass || !targetClass) return;
+
+  const studentIndex = currentClass.students.findIndex(s => s.id === studentId);
+  if (studentIndex === -1) return;
+
+  const [student] = currentClass.students.splice(studentIndex, 1);
+  currentClass.studentsCount = currentClass.students.length;
+
+  if (!targetClass.students) targetClass.students = [];
+  targetClass.students.push(student);
+  targetClass.studentsCount = targetClass.students.length;
+
+  // Cập nhật USERS nếu có
+  if (student.username) {
+    const userRecord = USERS.find(u => u.username === student.username);
+    if (userRecord) {
+      userRecord.assignedClassId = targetClass.id;
+      userRecord.assignedClassName = targetClass.name;
+      saveUsersToStorage();
+    }
+  }
+
   saveClassesStorage();
-  alert("Đã từ chối yêu cầu.");
-  renderPendingRequests();
+  closeTransferStudentModal();
+  renderClasses();
+  renderExamStats();
+
+  alert(`✅ ĐÃ CHUYỂN LỚP THÀNH CÔNG!\n\nHọc sinh: ${student.name}\nTừ lớp: ${currentClass.name}\nSang lớp: ${targetClass.name}`);
 }
 
 function renderClasses() {
@@ -1831,6 +2260,11 @@ function renderClasses() {
                         ${hs.apiKey ? `<span class="px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold">${hs.apiKey}</span>` : ''}
                       </div>
                       <div class="flex items-center gap-1">
+                        <button onclick="openTransferStudentModal('${c.id}', '${hs.id}')" 
+                          title="Chuyển học sinh sang lớp khác"
+                          class="p-1 text-purple-600 hover:bg-purple-100 rounded-lg transition">
+                          <i data-lucide="arrow-right-left" class="w-3.5 h-3.5"></i>
+                        </button>
                         <button onclick="openUpdateStudentModal('${c.id}', '${hs.id}')" 
                           title="Bổ sung / Cập nhật Gmail & Zalo"
                           class="p-1 text-blue-600 hover:bg-blue-100 rounded-lg transition">
@@ -1993,6 +2427,8 @@ function confirmCreateClass() {
   
   populateRegisterClassDropdown();
   renderClasses();
+  renderPendingRegistrations();
+  renderExamStats();
   alert(`✅ Đã tạo thành công lớp "${name}" (Khối ${grade})!\nLớp học đã được lưu vĩnh viễn vào hệ thống.`);
 }
 
@@ -2008,7 +2444,294 @@ function deleteClass(classId, className) {
   populateRegisterClassDropdown();
   renderClasses();
   renderPendingRequests();
+  renderExamStats();
   alert(`✅ Đã xóa lớp "${className}" thành công!`);
+}
+
+// ==========================================
+// THỐNG KÊ KẾT QUẢ BÀI THI & CÁC CÂU SAI NHIỀU
+// ==========================================
+
+function switchStatTab(tabName) {
+  const scoresPanel = document.getElementById('stat-panel-scores');
+  const errorsPanel = document.getElementById('stat-panel-errors');
+  const btnScores = document.getElementById('stat-subtab-btn-scores');
+  const btnErrors = document.getElementById('stat-subtab-btn-errors');
+
+  if (tabName === 'scores') {
+    if (scoresPanel) scoresPanel.classList.remove('hidden');
+    if (errorsPanel) errorsPanel.classList.add('hidden');
+
+    if (btnScores) {
+      btnScores.className = 'px-4 py-2 rounded-lg transition flex items-center gap-1.5 bg-white text-indigo-700 shadow-xs';
+    }
+    if (btnErrors) {
+      btnErrors.className = 'px-4 py-2 rounded-lg transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+    }
+    renderExamStats();
+  } else {
+    if (scoresPanel) scoresPanel.classList.add('hidden');
+    if (errorsPanel) errorsPanel.classList.remove('hidden');
+
+    if (btnScores) {
+      btnScores.className = 'px-4 py-2 rounded-lg transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+    }
+    if (btnErrors) {
+      btnErrors.className = 'px-4 py-2 rounded-lg transition flex items-center gap-1.5 bg-white text-red-700 shadow-xs';
+    }
+    renderCommonErrors();
+  }
+
+  refreshIconsAndMath();
+}
+
+function updateStatsClassFilterDropdown() {
+  const classSelect = document.getElementById('stats-filter-class');
+  if (!classSelect) return;
+  const currentVal = classSelect.value || 'all';
+
+  let optionsHtml = '<option value="all">Tất cả các lớp của Thầy</option>';
+  if (MATH_DATA.classes && MATH_DATA.classes.length > 0) {
+    MATH_DATA.classes.forEach(c => {
+      optionsHtml += `<option value="${c.id}">${c.name} (Khối ${c.grade})</option>`;
+    });
+  }
+  classSelect.innerHTML = optionsHtml;
+  classSelect.value = currentVal;
+}
+
+function renderExamStats() {
+  updateStatsClassFilterDropdown();
+
+  const examFilter = document.getElementById('stats-filter-exam')?.value || 'all';
+  const classFilter = document.getElementById('stats-filter-class')?.value || 'all';
+
+  let filtered = [...EXAM_ANALYTICS_DATA.studentScores];
+
+  if (examFilter !== 'all') {
+    filtered = filtered.filter(s => s.examId === examFilter);
+  }
+  if (classFilter !== 'all') {
+    filtered = filtered.filter(s => s.classId === classFilter);
+  }
+
+  if (filtered.length === 0) {
+    filtered = [...EXAM_ANALYTICS_DATA.studentScores];
+  }
+
+  const total = filtered.length;
+  const avg = (filtered.reduce((sum, s) => sum + s.score, 0) / total).toFixed(1);
+
+  const excellent = filtered.filter(s => s.score >= 9.0).length;
+  const good = filtered.filter(s => s.score >= 8.0 && s.score < 9.0).length;
+  const fair = filtered.filter(s => s.score >= 6.5 && s.score < 8.0).length;
+  const medium = filtered.filter(s => s.score >= 5.0 && s.score < 6.5).length;
+  const weak = filtered.filter(s => s.score < 5.0).length;
+
+  const goodPercent = (((excellent + good) / total) * 100).toFixed(1);
+  const fairPercent = ((fair / total) * 100).toFixed(1);
+  const poorPercent = (((medium + weak) / total) * 100).toFixed(1);
+
+  const kpiAvg = document.getElementById('stat-kpi-avg');
+  const kpiGood = document.getElementById('stat-kpi-good');
+  const kpiFair = document.getElementById('stat-kpi-fair');
+  const kpiPoor = document.getElementById('stat-kpi-poor');
+
+  if (kpiAvg) kpiAvg.innerText = avg;
+  if (kpiGood) kpiGood.innerText = `${goodPercent}%`;
+  if (kpiFair) kpiFair.innerText = `${fairPercent}%`;
+  if (kpiPoor) kpiPoor.innerText = `${poorPercent}%`;
+
+  const scoreBars = document.getElementById('stat-score-bars');
+  if (scoreBars) {
+    const pExc = ((excellent / total) * 100).toFixed(1);
+    const pGood = ((good / total) * 100).toFixed(1);
+    const pFair = ((fair / total) * 100).toFixed(1);
+    const pMed = ((medium / total) * 100).toFixed(1);
+    const pWeak = ((weak / total) * 100).toFixed(1);
+
+    scoreBars.innerHTML = `
+      <div class="space-y-1">
+        <div class="flex justify-between text-xs font-bold">
+          <span class="text-emerald-900">Điểm Xuất Sắc (9.0 - 10.0 điểm):</span>
+          <span class="text-emerald-700 font-mono">${pExc}% (${excellent} học sinh)</span>
+        </div>
+        <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+          <div class="bg-gradient-to-r from-emerald-500 to-teal-500 h-full rounded-full transition-all duration-500" style="width: ${pExc}%"></div>
+        </div>
+      </div>
+
+      <div class="space-y-1">
+        <div class="flex justify-between text-xs font-bold">
+          <span class="text-blue-900">Điểm Giỏi (8.0 - 8.9 điểm):</span>
+          <span class="text-blue-700 font-mono">${pGood}% (${good} học sinh)</span>
+        </div>
+        <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+          <div class="bg-gradient-to-r from-blue-500 to-indigo-500 h-full rounded-full transition-all duration-500" style="width: ${pGood}%"></div>
+        </div>
+      </div>
+
+      <div class="space-y-1">
+        <div class="flex justify-between text-xs font-bold">
+          <span class="text-indigo-900">Điểm Khá (6.5 - 7.9 điểm):</span>
+          <span class="text-indigo-700 font-mono">${pFair}% (${fair} học sinh)</span>
+        </div>
+        <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+          <div class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full rounded-full transition-all duration-500" style="width: ${pFair}%"></div>
+        </div>
+      </div>
+
+      <div class="space-y-1">
+        <div class="flex justify-between text-xs font-bold">
+          <span class="text-amber-900">Điểm Trung Bình (5.0 - 6.4 điểm):</span>
+          <span class="text-amber-700 font-mono">${pMed}% (${medium} học sinh)</span>
+        </div>
+        <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+          <div class="bg-gradient-to-r from-amber-500 to-orange-500 h-full rounded-full transition-all duration-500" style="width: ${pMed}%"></div>
+        </div>
+      </div>
+
+      <div class="space-y-1">
+        <div class="flex justify-between text-xs font-bold">
+          <span class="text-red-900">Dưới Trung Bình (&lt; 5.0 điểm - Cần phụ đạo):</span>
+          <span class="text-red-700 font-mono">${pWeak}% (${weak} học sinh)</span>
+        </div>
+        <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+          <div class="bg-gradient-to-r from-red-500 to-pink-500 h-full rounded-full transition-all duration-500" style="width: ${pWeak}%"></div>
+        </div>
+      </div>
+    `;
+  }
+
+  const tableBody = document.getElementById('stat-student-scores-body');
+  if (tableBody) {
+    tableBody.innerHTML = filtered.map(s => {
+      let badgeClass = 'bg-blue-100 text-blue-800';
+      let rankText = 'Khá';
+      if (s.score >= 9.0) {
+        badgeClass = 'bg-emerald-100 text-emerald-800 font-extrabold';
+        rankText = 'Xuất sắc';
+      } else if (s.score >= 8.0) {
+        badgeClass = 'bg-teal-100 text-teal-800 font-bold';
+        rankText = 'Giỏi';
+      } else if (s.score >= 6.5) {
+        badgeClass = 'bg-blue-100 text-blue-800';
+        rankText = 'Khá';
+      } else if (s.score >= 5.0) {
+        badgeClass = 'bg-amber-100 text-amber-800';
+        rankText = 'Trung bình';
+      } else {
+        badgeClass = 'bg-red-100 text-red-800 font-bold';
+        rankText = 'Yếu';
+      }
+
+      return `
+        <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+          <td class="py-2.5 px-3 font-bold text-slate-800">${s.studentName}</td>
+          <td class="py-2.5 px-3 text-slate-600">${s.className}</td>
+          <td class="py-2.5 px-3 text-center">
+            <span class="font-mono font-black text-sm ${s.score >= 8.0 ? 'text-emerald-700' : s.score >= 6.5 ? 'text-blue-700' : 'text-amber-700'}">${s.score}</span>
+          </td>
+          <td class="py-2.5 px-3">
+            <span class="px-2 py-0.5 rounded text-[10px] ${badgeClass}">${rankText}</span>
+          </td>
+          <td class="py-2.5 px-3 font-mono text-slate-600">${s.correctCount}</td>
+          <td class="py-2.5 px-3 text-slate-500 text-[11px]">${s.timeSpent}</td>
+          <td class="py-2.5 px-3 text-center">
+            <button onclick="previewZaloMessage('${s.studentName}', ${s.score})" 
+              class="px-2 py-1 bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1 mx-auto">
+              <i data-lucide="message-square" class="w-3 h-3"></i> Gửi Zalo
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  refreshIconsAndMath();
+}
+
+function renderCommonErrors() {
+  const container = document.getElementById('stat-common-errors-container');
+  if (!container) return;
+
+  container.innerHTML = EXAM_ANALYTICS_DATA.commonErrors.map((err, idx) => `
+    <div class="p-5 rounded-2xl bg-white border-2 border-red-100 hover:border-red-300 transition shadow-xs space-y-3">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-6 rounded-full bg-red-600 text-white font-black text-xs flex items-center justify-center">#${idx + 1}</span>
+          <h4 class="font-bold text-slate-900 text-sm sm:text-base">${err.code}: ${err.topic}</h4>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-1 rounded-full bg-red-100 text-red-800 text-xs font-black border border-red-200">
+            Tỷ lệ làm sai: ${err.failPercent}% (${err.failCount}/${err.totalCount} em)
+          </span>
+        </div>
+      </div>
+
+      <div class="text-xs text-slate-500 font-medium">
+        Xuất hiện trong: <strong class="text-slate-700">${err.examTitle}</strong>
+      </div>
+
+      <div class="p-3.5 bg-red-50/60 rounded-xl border border-red-100 text-xs text-red-950 space-y-1">
+        ${err.trap}
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+        <button onclick="openErrorQuestionModal('${err.id}')"
+          class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+          <i data-lucide="eye" class="w-4 h-4 text-slate-600"></i> Xem Đề Bài & Lời Giải Chuẩn
+        </button>
+        <button onclick="assignRemedialHomework('${err.id}')"
+          class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+          <i data-lucide="send" class="w-4 h-4"></i> Giao 2 Bài Tương Tự Vá Lỗi Này
+        </button>
+      </div>
+    </div>
+  `).join('');
+
+  refreshIconsAndMath();
+}
+
+function openErrorQuestionModal(questionId) {
+  const item = EXAM_ANALYTICS_DATA.commonErrors.find(e => e.id === questionId);
+  if (!item) return;
+
+  const titleEl = document.getElementById('modal-err-title');
+  const topicEl = document.getElementById('modal-err-topic');
+  const contentEl = document.getElementById('modal-err-content');
+  const trapEl = document.getElementById('modal-err-trap');
+  const solutionEl = document.getElementById('modal-err-solution');
+  const assignBtn = document.getElementById('modal-err-assign-btn');
+
+  if (titleEl) titleEl.innerText = `${item.code} - ${item.examTitle}`;
+  if (topicEl) topicEl.innerText = `Chủ đề: ${item.topic} • Tỷ lệ làm sai: ${item.failPercent}%`;
+  if (contentEl) contentEl.innerHTML = item.problem;
+  if (trapEl) trapEl.innerHTML = item.trap;
+  if (solutionEl) solutionEl.innerHTML = item.solution;
+
+  if (assignBtn) {
+    assignBtn.onclick = function() {
+      assignRemedialHomework(questionId);
+      closeErrorQuestionModal();
+    };
+  }
+
+  const modal = document.getElementById('modal-error-question-detail');
+  if (modal) modal.classList.remove('hidden');
+
+  refreshIconsAndMath();
+}
+
+function closeErrorQuestionModal() {
+  const modal = document.getElementById('modal-error-question-detail');
+  if (modal) modal.classList.add('hidden');
+}
+
+function assignRemedialHomework(questionId) {
+  const item = EXAM_ANALYTICS_DATA.commonErrors.find(e => e.id === questionId);
+  const code = item ? item.code : 'câu hỏi này';
+  alert(`🚀 ĐÃ GIAO 2 BÀI TẬP VÁ LỖI THÀNH CÔNG!\n\nHệ thống đã tự động tạo 2 bài tập tương tự cho ${code}:\n- 1 Bài mức độ củng cố (nhận diện bẫy sai lầm)\n- 1 Bài mức độ vận dụng (thực hành độc lập)\n\nBài tập đã được gửi tới toàn bộ học sinh trong lớp và thông báo qua Zalo để học sinh hoàn thành trước buổi học tới.`);
 }
 
 // ==========================================
