@@ -139,6 +139,11 @@
 
       <!-- Nút hành động nhanh (CTA) - Bố trí rộng rãi, dịch sang trái hợp lý, không bị che khuất -->
       <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0 ml-auto">
+        <button onclick="openApiGuideModal()" title="Hướng dẫn cách lấy mã API Google Studio miễn phí"
+          class="hidden lg:flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-2 text-xs font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-xl transition border border-purple-200 shadow-xs whitespace-nowrap shrink-0">
+          <i data-lucide="key" class="w-3.5 h-3.5 text-purple-600"></i>
+          <span>Lấy Mã Google Studio</span>
+        </button>
         <button onclick="scrollToRegister()" class="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-2 text-xs xl:text-sm font-bold text-indigo-700 bg-indigo-50/90 hover:bg-indigo-100 rounded-xl transition border border-indigo-200 shadow-xs whitespace-nowrap shrink-0 hover:shadow-sm">
           <i data-lucide="user-check" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-600"></i>
           <span>Đăng ký/Đăng nhập</span>
@@ -1048,20 +1053,20 @@
               </div>
             </div>
 
-            <!-- 5. MÃ API (TÍCH HỢP HƯỚNG DẪN VÀ 5 NÚT CHỌN 1-CHẠM) -->
+            <!-- 5. MÃ API GOOGLE STUDIO / MÃ KHÓA HỌC -->
             <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-purple-50 via-indigo-50 to-pink-50 border-2 border-indigo-200 shadow-xs space-y-3">
               <div class="flex flex-wrap items-center justify-between gap-2">
                 <label class="block text-xs font-black text-indigo-950 uppercase flex items-center gap-1.5">
-                  <i data-lucide="key" class="w-4 h-4 text-indigo-600"></i>
-                  5. Mã API Kích Hoạt Khóa Học <span class="text-red-500">*</span>
+                  <i data-lucide="sparkles" class="w-4 h-4 text-purple-600"></i>
+                  5. Mã API Google Studio / Mã Khóa Học <span class="text-red-500">*</span>
                 </label>
                 <button type="button" onclick="openApiGuideModal()" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 underline flex items-center gap-1">
-                  <i data-lucide="help-circle" class="w-3.5 h-3.5"></i> Hướng dẫn lấy mã API
+                  <i data-lucide="help-circle" class="w-3.5 h-3.5"></i> Hướng dẫn lấy mã API Google Studio
                 </button>
               </div>
               
               <div>
-                <input type="text" id="reg-api-key" required placeholder="Nhấp chọn 1 mã bên dưới hoặc tự nhập mã do Thầy cấp..."
+                <input type="text" id="reg-api-key" required placeholder="Dán mã API Google Studio (AIzaSy...) hoặc chọn mã bên dưới..."
                   value="TOAN-FREE-2026"
                   class="w-full px-4 py-3 text-sm rounded-xl border-2 border-indigo-300 focus:ring-2 focus:ring-indigo-600 font-mono font-bold text-indigo-900 bg-white placeholder:font-sans placeholder:font-normal uppercase">
               </div>
@@ -1159,23 +1164,70 @@
         </div>
 
         <!-- ============================================== -->
-        <!-- TAB 2: ĐĂNG NHẬP: TÊN ĐĂNG NHẬP & MẬT KHẨU     -->
+        <!-- TAB 2: ĐĂNG NHẬP (DÙNG MÃ API GOOGLE STUDIO)   -->
         <!-- ============================================== -->
         <div id="auth-panel-login" class="hidden space-y-6">
           <div class="text-center space-y-1">
-            <h3 class="text-xl font-black text-slate-900">Đăng Nhập Tài Khoản</h3>
-            <p class="text-xs text-slate-500">Nhập Tên đăng nhập và Mật khẩu để vào phòng học và bảng quản lý</p>
+            <h3 class="text-xl sm:text-2xl font-black text-slate-900">Đăng Nhập Hệ Thống</h3>
+            <p class="text-xs sm:text-sm text-slate-500">Đăng nhập trực tiếp bằng <strong>Mã API Google Studio</strong> hoặc dùng <strong>Tên đăng nhập & Mật khẩu</strong></p>
           </div>
 
-          <!-- FORM ĐĂNG NHẬP CHÍNH THỨC -->
-          <div class="max-w-md mx-auto p-6 rounded-3xl bg-white border-2 border-indigo-100 shadow-xl space-y-4">
-            <form id="student-login-form" onsubmit="handleUserLogin(event)" class="space-y-4">
+          <!-- KHUNG ĐĂNG NHẬP CHÍNH THỨC -->
+          <div class="max-w-lg mx-auto p-6 sm:p-7 rounded-3xl bg-white border-2 border-indigo-100 shadow-xl space-y-5">
+            
+            <!-- CÁCH 1: ĐĂNG NHẬP DÙNG MÃ API CỦA GOOGLE STUDIO (MỚI) -->
+            <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-purple-50 via-indigo-50 to-pink-50 border-2 border-purple-200 shadow-xs space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-1.5">
+                <label class="block text-xs font-black text-purple-950 uppercase flex items-center gap-1.5">
+                  <i data-lucide="sparkles" class="w-4 h-4 text-purple-600"></i>
+                  Đăng Nhập Bằng Mã API Google Studio <span class="text-red-500">*</span>
+                </label>
+                <button type="button" onclick="openApiGuideModal()" class="text-[11px] font-bold text-purple-700 hover:text-purple-900 underline flex items-center gap-1">
+                  <i data-lucide="help-circle" class="w-3.5 h-3.5"></i> Cách lấy mã miễn phí?
+                </button>
+              </div>
+
+              <div class="space-y-2.5">
+                <div class="relative">
+                  <input type="text" id="login-api-key" placeholder="Dán mã API Google Studio (AIzaSy...)"
+                    class="w-full pl-9 pr-4 py-3 text-xs sm:text-sm rounded-xl border-2 border-purple-300 focus:ring-2 focus:ring-purple-600 font-mono font-bold text-purple-950 bg-white placeholder:font-sans placeholder:font-normal placeholder:text-slate-400">
+                  <i data-lucide="key" class="w-4 h-4 text-purple-500 absolute left-3 top-3.5"></i>
+                </div>
+
+                <button type="button" onclick="handleGoogleStudioLogin()"
+                  class="w-full py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 hover:opacity-95 text-white font-black text-xs sm:text-sm shadow-md shadow-purple-200 transition transform hover:scale-[1.01] flex items-center justify-center gap-2 glow-btn">
+                  <i data-lucide="log-in" class="w-4 h-4"></i> Đăng Nhập Bằng Google Studio API
+                </button>
+              </div>
+
+              <!-- CÁC NÚT THAO TÁC NHANH CHO MÃ API GOOGLE STUDIO -->
+              <div class="pt-1 flex flex-wrap items-center justify-between gap-2 text-xs">
+                <button type="button" onclick="quickFillStudioApiKey('AIzaSyDemo-GoogleStudio-Math2026-X9')"
+                  class="text-purple-700 hover:text-purple-900 font-bold underline flex items-center gap-1">
+                  <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-500"></i> Dùng thử mã mẫu Google Studio
+                </button>
+                <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer"
+                  class="text-indigo-700 hover:text-indigo-900 font-bold flex items-center gap-1 bg-white px-2.5 py-1 rounded-lg border border-indigo-200 hover:border-indigo-400 transition shadow-2xs">
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-indigo-600"></i> Lấy mã từ Google
+                </a>
+              </div>
+            </div>
+
+            <!-- DÒNG PHÂN CÁCH HOẶC -->
+            <div class="relative flex items-center justify-center my-1">
+              <div class="border-t border-slate-200 w-full"></div>
+              <span class="bg-white px-3 text-[11px] font-bold text-slate-400 uppercase shrink-0">Hoặc đăng nhập bằng tài khoản</span>
+              <div class="border-t border-slate-200 w-full"></div>
+            </div>
+
+            <!-- CÁCH 2: FORM ĐĂNG NHẬP USERNAME / PASSWORD CŨ -->
+            <form id="student-login-form" onsubmit="handleUserLogin(event)" class="space-y-3.5">
               <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 flex items-center gap-1.5">
                   <i data-lucide="user" class="w-4 h-4 text-indigo-600"></i>
                   Tên đăng nhập <span class="text-red-500">*</span>
                 </label>
-                <input type="text" id="login-username" required placeholder="Ví dụ: admin hoặc nguyenvanan9a" autocomplete="username"
+                <input type="text" id="login-username" required placeholder="Ví dụ: admin hoặc nguyenvanan" autocomplete="username"
                   class="w-full px-4 py-3 text-sm rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 font-mono font-bold text-indigo-900 bg-slate-50/50 focus:bg-white transition">
               </div>
 
@@ -1191,8 +1243,8 @@
                   class="w-full px-4 py-3 text-sm rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 font-bold text-slate-800 bg-slate-50/50 focus:bg-white transition">
               </div>
 
-              <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 hover:opacity-95 text-white font-black text-sm shadow-md shadow-indigo-300 transition transform hover:scale-[1.01] flex items-center justify-center gap-2 glow-btn">
-                <i data-lucide="log-in" class="w-4 h-4"></i> Đăng Nhập Ngay
+              <button type="submit" class="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-black text-sm shadow-md transition flex items-center justify-center gap-2">
+                <i data-lucide="log-in" class="w-4 h-4"></i> Đăng Nhập Bằng Mật Khẩu
               </button>
             </form>
 
@@ -3258,7 +3310,7 @@
   </div>
 
   <!-- ======================================================== -->
-  <!-- MODAL: HƯỚNG DẪN LẤY MÃ API & CÁC MÃ SẴN CÓ             -->
+  <!-- MODAL: HƯỚNG DẪN CÁCH LẤY MÃ API GOOGLE STUDIO (MỚI)      -->
   <!-- ======================================================== -->
   <div id="modal-api-guide" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto border border-slate-200">
@@ -3266,12 +3318,15 @@
       <!-- Tiêu đề modal -->
       <div class="flex items-center justify-between border-b border-slate-100 pb-4">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center">
-            <i data-lucide="key" class="w-6 h-6"></i>
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-purple-200">
+            <i data-lucide="sparkles" class="w-6 h-6"></i>
           </div>
           <div>
-            <h3 class="font-black text-slate-900 text-lg sm:text-xl">Hướng Dẫn Lấy Mã API & Phân Quyền Học Tập</h3>
-            <p class="text-xs text-slate-500">Mã API giúp hệ thống tự động kích hoạt lộ trình học tập phù hợp nhất với em</p>
+            <div class="flex items-center gap-2">
+              <h3 class="font-black text-slate-900 text-lg sm:text-xl">Hướng Dẫn Lấy Mã API Google Studio</h3>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider">Miễn Phí 100%</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5">Tạo khóa API chính thức từ Google trong 1 phút để đăng nhập và kích hoạt Trợ lý AI giải toán 9+</p>
           </div>
         </div>
         <button onclick="closeApiGuideModal()" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 transition">
@@ -3279,108 +3334,173 @@
         </button>
       </div>
 
-      <!-- Khái niệm Mã API -->
-      <div class="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200 text-xs text-indigo-950 space-y-2">
-        <div class="font-bold flex items-center gap-1.5 text-indigo-900">
-          <i data-lucide="info" class="w-4 h-4 text-indigo-600"></i> Mã API là gì?
+      <!-- Khái niệm Google AI Studio -->
+      <div class="p-4 rounded-2xl bg-gradient-to-r from-purple-50 via-indigo-50 to-blue-50 border border-purple-200 text-xs text-purple-950 space-y-2">
+        <div class="font-bold flex items-center gap-1.5 text-purple-900 text-sm">
+          <i data-lucide="info" class="w-4 h-4 text-purple-600"></i> Google AI Studio là gì?
         </div>
         <p class="leading-relaxed">
-          Mã API là mã khóa học cá nhân hóa do Thầy giáo quản trị phát hành. Mã này dùng để xác thực học sinh, mở khóa lời giải chi tiết, kích hoạt hệ thống tự động gửi bài tập vá lỗi sai về <strong>Gmail học sinh</strong> và gửi báo cáo điểm số về <strong>Zalo phụ huynh</strong>.
+          <strong>Google AI Studio</strong> (tại <a href="https://aistudio.google.com/" target="_blank" class="font-mono text-indigo-700 underline font-bold">aistudio.google.com</a>) là cổng nhà phát triển chính thức của Google cung cấp mã API Gemini hoàn toàn miễn phí. Khi nhập mã này vào trang web Toán Học, em sẽ được mở khóa:
         </p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 font-semibold text-purple-900">
+          <div class="p-2 bg-white/80 rounded-xl border border-purple-100 flex items-center gap-1.5">
+            <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i> Gia sư AI giải toán 24/7
+          </div>
+          <div class="p-2 bg-white/80 rounded-xl border border-purple-100 flex items-center gap-1.5">
+            <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i> Phân tích bẫy lỗi sai
+          </div>
+          <div class="p-2 bg-white/80 rounded-xl border border-purple-100 flex items-center gap-1.5">
+            <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i> Tự sinh bài tập vá lỗi
+          </div>
+        </div>
       </div>
 
-      <!-- Danh sách các mã có thể dùng ngay -->
+      <!-- 5 BƯỚC LẤY MÃ API GOOGLE STUDIO -->
       <div class="space-y-3">
         <h4 class="font-black text-slate-800 text-xs sm:text-sm uppercase tracking-wide flex items-center gap-1.5">
-          <i data-lucide="zap" class="w-4 h-4 text-amber-500"></i> Các Mã API Dùng Thử & Đăng Ký Trực Tiếp:
+          <i data-lucide="list-ordered" class="w-4 h-4 text-indigo-600"></i> 5 Bước Lấy Mã API Google Studio Cực Kỳ Đơn Giản:
         </h4>
 
-        <div class="space-y-2.5">
-          <!-- 1. TOAN-FREE-2026 -->
-          <div class="p-4 rounded-2xl border border-emerald-200 bg-emerald-50/40 hover:bg-emerald-50/80 transition flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div class="space-y-2.5 text-xs">
+          <!-- BƯỚC 1 -->
+          <div class="p-3.5 rounded-2xl border border-slate-200 bg-slate-50 flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">1</div>
             <div class="space-y-1">
-              <div class="flex items-center gap-2">
-                <span class="font-mono font-black text-emerald-900 text-sm bg-emerald-100 px-2 py-0.5 rounded-lg border border-emerald-300">TOAN-FREE-2026</span>
-                <span class="text-[10px] bg-emerald-600 text-white font-bold px-2 py-0.5 rounded-full">Miễn Phí</span>
-              </div>
-              <p class="text-xs text-emerald-800">Học lý thuyết tóm tắt, xem 3 ví dụ mẫu, làm 10 bài tập xem đáp án số và thi Đấu trường Online.</p>
+              <div class="font-bold text-slate-900">Truy cập trang Google AI Studio:</div>
+              <p class="text-slate-600 leading-relaxed">
+                Mở trang cấp khóa chính thức của Google tại: <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="font-mono text-indigo-700 underline font-bold">https://aistudio.google.com/app/apikey</a> và đăng nhập bằng tài khoản Gmail của em.
+              </p>
             </div>
-            <button onclick="selectApiKeyFromModal('TOAN-FREE-2026')" class="shrink-0 px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition shadow-xs flex items-center gap-1">
-              Chọn mã này <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </div>
+
+          <!-- BƯỚC 2 -->
+          <div class="p-3.5 rounded-2xl border border-slate-200 bg-slate-50 flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">2</div>
+            <div class="space-y-1">
+              <div class="font-bold text-slate-900">Nhấn nút "Get API key" (hoặc "Create API key"):</div>
+              <p class="text-slate-600 leading-relaxed">
+                Ở thanh menu bên trái hoặc góc trên màn hình, nhấp vào nút màu xanh có chữ <strong>"Get API key"</strong> hoặc <strong>"Create API key"</strong>.
+              </p>
+            </div>
+          </div>
+
+          <!-- BƯỚC 3 -->
+          <div class="p-3.5 rounded-2xl border border-slate-200 bg-slate-50 flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">3</div>
+            <div class="space-y-1">
+              <div class="font-bold text-slate-900">Chọn "Create API key in new project":</div>
+              <p class="text-slate-600 leading-relaxed">
+                Trong hộp thoại xuất hiện, chọn dòng <strong>"Create API key in new project"</strong> (Tạo khóa trong dự án mới). Google sẽ tự động thiết lập dự án miễn phí chỉ trong 3 giây.
+              </p>
+            </div>
+          </div>
+
+          <!-- BƯỚC 4 -->
+          <div class="p-3.5 rounded-2xl border border-slate-200 bg-slate-50 flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">4</div>
+            <div class="space-y-1">
+              <div class="font-bold text-slate-900">Sao chép (Copy) chuỗi mã API:</div>
+              <p class="text-slate-600 leading-relaxed">
+                Nhấn biểu tượng <strong>Copy</strong> để sao chép chuỗi mã khóa vừa tạo. Mã API của Google Studio có dạng bắt đầu bằng <code class="px-1.5 py-0.5 bg-purple-100 text-purple-900 rounded font-mono font-bold">AIzaSy...</code> (khoảng 39 ký tự).
+              </p>
+            </div>
+          </div>
+
+          <!-- BƯỚC 5 -->
+          <div class="p-3.5 rounded-2xl border border-slate-200 bg-slate-50 flex items-start gap-3">
+            <div class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">5</div>
+            <div class="space-y-1">
+              <div class="font-bold text-emerald-950">Dán vào ô "Mã API Google Studio" và Đăng Nhập:</div>
+              <p class="text-slate-600 leading-relaxed">
+                Quay trở lại trang web Toán Học này, dán chuỗi mã vừa copy vào ô <strong>"Mã API Google Studio"</strong> rồi bấm <strong>"Đăng Nhập Bằng Google Studio API"</strong> là hoàn tất!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CÁC NÚT HÀNH ĐỘNG NHANH -->
+      <div class="p-4 rounded-2xl bg-slate-900 text-white space-y-3">
+        <div class="flex items-center justify-between text-xs">
+          <span class="font-bold text-slate-300 uppercase flex items-center gap-1.5">
+            <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i> Thao tác nhanh ngay bây giờ:
+          </span>
+          <span class="text-[11px] text-slate-400">Miễn phí 100%</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <button type="button" onclick="openGoogleStudioWebsite()"
+            class="w-full py-3 px-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow-sm">
+            <i data-lucide="external-link" class="w-4 h-4"></i> 1. Mở Trang Google AI Studio
+          </button>
+          
+          <button type="button" onclick="quickFillStudioApiKey('AIzaSyDemo-GoogleStudio-Math2026-X9')"
+            class="w-full py-3 px-4 bg-white/10 hover:bg-white/20 text-emerald-300 hover:text-emerald-200 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 border border-white/10">
+            <i data-lucide="sparkles" class="w-4 h-4 text-emerald-400"></i> 2. Dùng Thử Mã Mẫu Google Studio
+          </button>
+        </div>
+      </div>
+
+      <!-- DANH SÁCH MÃ GÓI HỌC CỦA THẦY -->
+      <div class="space-y-2.5 pt-1">
+        <div class="flex items-center justify-between">
+          <h4 class="font-black text-slate-800 text-xs uppercase tracking-wide flex items-center gap-1.5">
+            <i data-lucide="school" class="w-4 h-4 text-purple-600"></i> Hoặc Chọn Các Gói Mã Lớp Học Do Thầy Cấp:
+          </h4>
+          <span class="text-[11px] text-slate-400">Bấm 1 chạm để chọn</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <!-- 1. TOAN-FREE-2026 -->
+          <div class="p-3 rounded-xl border border-emerald-200 bg-emerald-50/50 flex items-center justify-between gap-2">
+            <div>
+              <span class="font-mono font-black text-emerald-900 text-xs">TOAN-FREE-2026</span>
+              <p class="text-[11px] text-emerald-800">Gói Miễn Phí (Cơ bản + Đấu trường)</p>
+            </div>
+            <button onclick="selectApiKeyFromModal('TOAN-FREE-2026')" class="px-2.5 py-1 bg-emerald-600 text-white text-[11px] font-bold rounded-lg hover:bg-emerald-700 transition">
+              Chọn
             </button>
           </div>
 
           <!-- 2. TOAN-9PLUS-2026 -->
-          <div class="p-4 rounded-2xl border border-indigo-200 bg-indigo-50/40 hover:bg-indigo-50/80 transition flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div class="space-y-1">
-              <div class="flex items-center gap-2">
-                <span class="font-mono font-black text-indigo-900 text-sm bg-indigo-100 px-2 py-0.5 rounded-lg border border-indigo-300">TOAN-9PLUS-2026</span>
-                <span class="text-[10px] bg-indigo-600 text-white font-bold px-2 py-0.5 rounded-full">Lớp Thầy (VIP)</span>
-              </div>
-              <p class="text-xs text-indigo-800">Luyện dạng Vi-ét nâng cao, giải bài toán bằng cách lập hệ phương trình, nhận bài tập vá lỗi qua Gmail.</p>
+          <div class="p-3 rounded-xl border border-indigo-200 bg-indigo-50/50 flex items-center justify-between gap-2">
+            <div>
+              <span class="font-mono font-black text-indigo-900 text-xs">TOAN-9PLUS-2026</span>
+              <p class="text-[11px] text-indigo-800">Lớp Thầy • Mục tiêu 9+ Tuyển sinh</p>
             </div>
-            <button onclick="selectApiKeyFromModal('TOAN-9PLUS-2026')" class="shrink-0 px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition shadow-xs flex items-center gap-1">
-              Chọn mã này <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            <button onclick="selectApiKeyFromModal('TOAN-9PLUS-2026')" class="px-2.5 py-1 bg-indigo-600 text-white text-[11px] font-bold rounded-lg hover:bg-indigo-700 transition">
+              Chọn
             </button>
           </div>
 
           <!-- 3. TOAN-VIP-CHUYEN -->
-          <div class="p-4 rounded-2xl border border-purple-200 bg-purple-50/40 hover:bg-purple-50/80 transition flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div class="space-y-1">
-              <div class="flex items-center gap-2">
-                <span class="font-mono font-black text-purple-900 text-sm bg-purple-100 px-2 py-0.5 rounded-lg border border-purple-300">TOAN-VIP-CHUYEN</span>
-                <span class="text-[10px] bg-purple-600 text-white font-bold px-2 py-0.5 rounded-full">Chuyên & HSG</span>
-              </div>
-              <p class="text-xs text-purple-800">Chinh phục điểm 9.5 - 10đ, bất đẳng thức, bài toán cực trị và hình học biến hình chuyên sâu.</p>
+          <div class="p-3 rounded-xl border border-purple-200 bg-purple-50/50 flex items-center justify-between gap-2">
+            <div>
+              <span class="font-mono font-black text-purple-900 text-xs">TOAN-VIP-CHUYEN</span>
+              <p class="text-[11px] text-purple-800">Luyện thi Chuyên & HSG Toán 9</p>
             </div>
-            <button onclick="selectApiKeyFromModal('TOAN-VIP-CHUYEN')" class="shrink-0 px-3.5 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-xl transition shadow-xs flex items-center gap-1">
-              Chọn mã này <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            <button onclick="selectApiKeyFromModal('TOAN-VIP-CHUYEN')" class="px-2.5 py-1 bg-purple-600 text-white text-[11px] font-bold rounded-lg hover:bg-purple-700 transition">
+              Chọn
             </button>
           </div>
 
           <!-- 4. TOAN-TARGET-8PLUS -->
-          <div class="p-4 rounded-2xl border border-blue-200 bg-blue-50/40 hover:bg-blue-50/80 transition flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div class="space-y-1">
-              <div class="flex items-center gap-2">
-                <span class="font-mono font-black text-blue-900 text-sm bg-blue-100 px-2 py-0.5 rounded-lg border border-blue-300">TOAN-TARGET-8PLUS</span>
-                <span class="text-[10px] bg-blue-600 text-white font-bold px-2 py-0.5 rounded-full">Mục Tiêu 8.0 - 8.8đ</span>
-              </div>
-              <p class="text-xs text-blue-800">Chắc chắn 100% câu nhận biết, thông hiểu và vận dụng nền tảng, khắc phục triệt để lỗi sai vặt.</p>
+          <div class="p-3 rounded-xl border border-blue-200 bg-blue-50/50 flex items-center justify-between gap-2">
+            <div>
+              <span class="font-mono font-black text-blue-900 text-xs">TOAN-TARGET-8PLUS</span>
+              <p class="text-[11px] text-blue-800">Chắc điểm 8+ (Không sai vặt)</p>
             </div>
-            <button onclick="selectApiKeyFromModal('TOAN-TARGET-8PLUS')" class="shrink-0 px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition shadow-xs flex items-center gap-1">
-              Chọn mã này <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-            </button>
-          </div>
-
-          <!-- 5. TOAN-REMEDIAL-GOC -->
-          <div class="p-4 rounded-2xl border border-amber-200 bg-amber-50/40 hover:bg-amber-50/80 transition flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div class="space-y-1">
-              <div class="flex items-center gap-2">
-                <span class="font-mono font-black text-amber-900 text-sm bg-amber-100 px-2 py-0.5 rounded-lg border border-amber-300">TOAN-REMEDIAL-GOC</span>
-                <span class="text-[10px] bg-amber-600 text-white font-bold px-2 py-0.5 rounded-full">Lấy Gốc</span>
-              </div>
-              <p class="text-xs text-amber-800">Dành cho học sinh mất gốc hình học, yếu biến đổi đại số; lộ trình từng bước bù đắp lỗ hổng.</p>
-            </div>
-            <button onclick="selectApiKeyFromModal('TOAN-REMEDIAL-GOC')" class="shrink-0 px-3.5 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl transition shadow-xs flex items-center gap-1">
-              Chọn mã này <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            <button onclick="selectApiKeyFromModal('TOAN-TARGET-8PLUS')" class="px-2.5 py-1 bg-blue-600 text-white text-[11px] font-bold rounded-lg hover:bg-blue-700 transition">
+              Chọn
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Làm sao để nhận mã riêng từ Thầy -->
-      <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-2">
-        <div class="font-bold text-slate-900 flex items-center gap-1.5">
-          <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i> Làm sao để có mã học sinh riêng do Thầy cấp?
-        </div>
-        <p class="leading-relaxed">
-          1. <strong>Cách 1:</strong> Điền form tại tab <strong>"Đăng Ký Tham Gia Lớp"</strong> (chọn lớp muốn học). Thầy sẽ duyệt hồ sơ và kích hoạt tài khoản chính thức.<br>
-          2. <strong>Cách 2:</strong> Học sinh đang học tại lớp trực tiếp của Thầy sẽ được phát phiếu mã API cá nhân có in sẵn trên tài liệu học tập.<br>
-          3. <strong>Cách 3:</strong> Phụ huynh hoặc học sinh nhắn tin trực tiếp qua <strong>Zalo Thầy</strong> để được tư vấn xếp lớp và cấp mã.
-        </p>
-      </div>
-
-      <div class="flex justify-end pt-2 border-t border-slate-100">
+      <div class="flex justify-between items-center pt-3 border-t border-slate-100">
+        <span class="text-[11px] text-slate-500 flex items-center gap-1">
+          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i> Mã API được lưu an toàn trực tiếp trên trình duyệt của bạn
+        </span>
         <button onclick="closeApiGuideModal()" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition shadow-sm">
           Đóng Hướng Dẫn
         </button>

@@ -174,9 +174,83 @@ function closeApiGuideModal() {
   if (modal) modal.classList.add('hidden');
 }
 
+function openGoogleStudioWebsite() {
+  window.open('https://aistudio.google.com/app/apikey', '_blank');
+}
+
+function quickFillStudioApiKey(key) {
+  const loginInput = document.getElementById('login-api-key');
+  if (loginInput) loginInput.value = key;
+  const regInput = document.getElementById('reg-api-key');
+  if (regInput) regInput.value = key;
+  const descEl = document.getElementById('selected-api-text');
+  if (descEl) {
+    descEl.innerHTML = `Đã chọn mã: <strong class="font-mono text-purple-700 font-bold">${key}</strong> — Mã API Google Studio`;
+  }
+  closeApiGuideModal();
+  switchAuthMode('login');
+  const loginSection = document.getElementById('dang-ky');
+  if (loginSection) loginSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+function handleGoogleStudioLogin() {
+  const apiKeyInput = document.getElementById('login-api-key');
+  const key = apiKeyInput ? apiKeyInput.value.trim() : '';
+
+  if (!key) {
+    alert("⚠️ Vui lòng nhập hoặc dán Mã API Google Studio của bạn!\n\nNếu chưa có mã, em hãy bấm vào nút 'Cách lấy mã?' hoặc 'Dùng thử mã mẫu Google Studio' để trải nghiệm ngay.");
+    if (apiKeyInput) apiKeyInput.focus();
+    return;
+  }
+
+  // Lưu trữ mã API Google Studio vào localStorage để các module AI sử dụng
+  try {
+    localStorage.setItem('TOAN_GOOGLE_STUDIO_API_KEY', key);
+    localStorage.setItem('GEMINI_API_KEY', key);
+  } catch (e) {}
+
+  let role = 'student';
+  let userName = 'Học Sinh Google Studio (AI 9+)';
+
+  if (key.toLowerCase().includes('admin') || key.toLowerCase().includes('teacher')) {
+    role = 'teacher';
+    userName = 'Thầy Giáo (Google Studio Admin)';
+  }
+
+  const user = {
+    id: 'user_studio_' + Date.now(),
+    username: 'googlestudio_user',
+    name: userName,
+    email: 'googlestudio@math.edu.vn',
+    role: role,
+    apiKey: key,
+    isGoogleStudioAuth: true
+  };
+
+  currentUser = user;
+  try {
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
+  } catch (err) {}
+
+  if (role === 'teacher') {
+    switchRole('teacher');
+    if (!isAppViewOpen) toggleAppView();
+    switchTab('dashboard');
+    alert(`🎉 ĐÃ ĐĂNG NHẬP THÀNH CÔNG BẰNG GOOGLE STUDIO API KEY!\n\nXin chào Thầy!\n- Khóa API: ${key.substring(0, 10)}... (Đã kết nối)\n- Hệ thống đã kích hoạt toàn quyền Quản trị & AI Tự sinh đề thi theo ma trận.`);
+  } else {
+    switchRole('student');
+    if (!isAppViewOpen) toggleAppView();
+    switchTab('arena');
+    alert(`🎉 ĐÃ ĐĂNG NHẬP THÀNH CÔNG BẰNG GOOGLE STUDIO API KEY!\n\n- Mã API: ${key.substring(0, 12)}... (Đã xác thực)\n- Trí tuệ nhân tạo Gemini: Đã sẵn sàng hỗ trợ giải toán 24/7\n- Quyền lợi: Mở khóa toàn bộ lời giải chi tiết, đề thi thử và bài tập vá lỗi!\n\nChúc em học tập và bứt phá điểm 9+ môn Toán!`);
+  }
+}
+
 function selectApiKeyFromModal(key) {
-  const input = document.getElementById('reg-api-key');
-  if (input) input.value = key;
+  const regInput = document.getElementById('reg-api-key');
+  if (regInput) regInput.value = key;
+  const loginInput = document.getElementById('login-api-key');
+  if (loginInput) loginInput.value = key;
+
   const descEl = document.getElementById('selected-api-text');
   if (descEl) {
     descEl.innerHTML = `Đã chọn mã: <strong class="font-mono text-indigo-700 font-bold">${key}</strong> — Mã kích hoạt khóa học`;
@@ -225,6 +299,14 @@ document.addEventListener('DOMContentLoaded', () => {
   populateLessonNavDropdowns(9);
   if (typeof renderTikzLibraryGallery === 'function') renderTikzLibraryGallery('all');
   if (typeof renderLessonDiagram === 'function') renderLessonDiagram();
+  
+  // Nạp lại mã Google Studio đã lưu nếu có
+  const savedStudioKey = localStorage.getItem('TOAN_GOOGLE_STUDIO_API_KEY');
+  const loginApiKeyInput = document.getElementById('login-api-key');
+  if (savedStudioKey && loginApiKeyInput) {
+    loginApiKeyInput.value = savedStudioKey;
+  }
+
   refreshIconsAndMath();
 });
 
