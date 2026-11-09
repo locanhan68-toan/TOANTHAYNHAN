@@ -6948,7 +6948,7 @@ window.GRADE_9_LESSONS_DB = {
           id: "g9-c8-l26-d1-ex9",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
-          question: "Cho hình nón có bán kính đáy $R$ và chiều cao $h$. Một mặt phẳng song song với đáy cắt hình nón tại độ cao bằng nửa chiều cao của hình nón ($\frac{h}{2}$ tính từ đáy). Thiết diện nhận được là hình gì và có diện tích bằng bao nhiêu phần diện tích đáy ban đầu?",
+          question: "Cho hình nón có bán kính đáy $R$ và chiều cao $h$. Một mặt phẳng song song với đáy cắt hình nón tại độ cao bằng nửa chiều cao của hình nón ($\\frac{h}{2}$ tính từ đáy). Thiết diện nhận được là hình gì và có diện tích bằng bao nhiêu phần diện tích đáy ban đầu?",
           shortAnswer: "Thiết diện là hình tròn có diện tích bằng $\\frac{1}{4}$ diện tích đáy",
           fullSolution: "1. Mặt phẳng song song với đáy cắt hình nón tạo thành thiết diện là một hình tròn tâm $O'$ song song và đồng dạng với đáy.\n2. Vì khoảng cách từ đỉnh $S$ đến mặt phẳng cắt là $h' = h - \\frac{h}{2} = \\frac{h}{2}$, theo định lí Thales trong không gian, bán kính đường tròn thiết diện là:\n$$R' = \\frac{h'}{h} R = \\frac{1}{2} R$$\n3. Tỉ số diện tích giữa thiết diện và mặt đáy:\n$$\\frac{S_{\\text{thiết diện}}}{S_{\\text{đáy}}} = \\left( \\frac{R'}{R} \\right)^2 = \\left( \\frac{1}{2} \\right)^2 = \\frac{1}{4}$$\nVậy diện tích thiết diện bằng $\\frac{1}{4}$ diện tích đáy ban đầu."
         },

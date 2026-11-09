@@ -2067,7 +2067,7 @@ window.GRADE_12_LESSONS_DB = {
             levelClass: "bg-slate-100 text-slate-700",
             question: "Cho hai vectơ $\\vec{a}, \\vec{b}$ không cùng phương. Điều kiện cần và đủ để ba vectơ $\\vec{a}, \\vec{b}, \\vec{c}$ đồng phẳng là:",
             shortAnswer: "Tồn tại cặp số $(m; n)$ duy nhất sao cho $\\vec{c} = m\\vec{a} + n\\vec{b}$",
-            fullSolution: "Định lý về sự đồng phẳng: Ba vectơ $\\vec{a}, \\vec{b}, \\vec{c}$ ($\vec{a}, \vec{b}$ không cùng phương) đồng phẳng khi và chỉ khi $\\vec{c} = m\\vec{a} + n\\vec{b}$ với $m, n \\in \\mathbb{R}$."
+            fullSolution: "Định lý về sự đồng phẳng: Ba vectơ $\\vec{a}, \\vec{b}, \\vec{c}$ ($\\vec{a}, \\vec{b}$ không cùng phương) đồng phẳng khi và chỉ khi $\\vec{c} = m\\vec{a} + n\\vec{b}$ với $m, n \\in \\mathbb{R}$."
           },
           {
             id: "g12-c2-l6-d2-ex3",
@@ -2186,7 +2186,7 @@ window.GRADE_12_LESSONS_DB = {
             id: "g12-c2-l6-d3-ex3",
             level: "Nhận biết",
             levelClass: "bg-slate-100 text-slate-700",
-            question: "Cho $|\vec{u}| = 2, |\\vec{v}| = 3$ và góc giữa $\\vec{u}$ và $\\vec{v}$ bằng $60^\\circ$. Tính tích vô hướng $\\vec{u} \\cdot \\vec{v}$.",
+            question: "Cho $|\\vec{u}| = 2, |\\vec{v}| = 3$ và góc giữa $\\vec{u}$ và $\\vec{v}$ bằng $60^\\circ$. Tính tích vô hướng $\\vec{u} \\cdot \\vec{v}$.",
             shortAnswer: "$\\vec{u} \\cdot \\vec{v} = 3$",
             fullSolution: "Áp dụng công thức: $\\vec{u} \\cdot \\vec{v} = 2 \\times 3 \\times \\cos 60^\\circ = 6 \\times \\dfrac{1}{2} = 3$."
           },
@@ -2399,7 +2399,7 @@ window.GRADE_12_LESSONS_DB = {
           },
           {
             title: "Ví dụ 3: Tâm tỉ cự cực trị độ dài",
-            question: "Cho 2 điểm $A(1; 2; -1), B(3; 0; 1)$. Tìm điểm $M$ trên mặt phẳng $(Oxy)$ sao cho $|\vec{MA} + \\vec{MB}|$ nhỏ nhất.",
+            question: "Cho 2 điểm $A(1; 2; -1), B(3; 0; 1)$. Tìm điểm $M$ trên mặt phẳng $(Oxy)$ sao cho $|\\vec{MA} + \\vec{MB}|$ nhỏ nhất.",
             solution: "Gọi $I$ là trung điểm của $AB$: $I\\left(\\dfrac{1+3}{2}; \\dfrac{2+0}{2}; \\dfrac{-1+1}{2}\\right) = I(2; 1; 0)$.\nKhi đó $\\vec{MA} + \\vec{MB} = 2\\vec{MI} \\implies |\\vec{MA} + \\vec{MB}| = 2MI$.\nBiểu thức $2MI$ nhỏ nhất khi $M$ là hình chiếu vuông góc của $I$ lên $(Oxy)$.\nVì $I(2; 1; 0)$ đã có cao độ $z = 0$, tức $I$ đã thuộc mặt phẳng $(Oxy)$.\nDo đó $M \\equiv I(2; 1; 0)$ và giá trị nhỏ nhất bằng 0."
           }
         ],
@@ -2488,31 +2488,35 @@ window.GRADE_12_LESSONS_DB = {
       },
       {
         id: "g12-c2-l7-dang3",
-        name: "Dạng 3: Phương trình mặt cầu trong không gian Oxyz",
+        name: "Dạng 3: Hình chiếu vuông góc, điểm đối xứng & Bài toán thực tế hệ tọa độ Oxyz",
         badge: "4 Biết · 3 Hiểu · 3 Vận dụng (10 bài)",
         badgeClass: "bg-emerald-100 text-emerald-800",
         method: [
-          "**1. Phương trình mặt cầu trong không gian Oxyz:**",
-          "- **Phương trình chính tắc:** Mặt cầu tâm $I(a; b; c)$ và bán kính $R > 0$ có dạng: $$(x - a)^2 + (y - b)^2 + (z - c)^2 = R^2$$",
-          "- **Phương trình tổng quát:** $$x^2 + y^2 + z^2 - 2ax - 2by - 2cz + d = 0$$",
-          "  + Điều kiện để phương trình là mặt cầu: $a^2 + b^2 + c^2 - d > 0$.",
-          "  + Khi đó tâm là $I(a; b; c)$ và bán kính $R = \\sqrt{a^2 + b^2 + c^2 - d}$."
+          "**1. Tọa độ hình chiếu vuông góc của điểm $M(x_0; y_0; z_0)$:**",
+          "- Lên trục $Ox$: $M_1(x_0; 0; 0)$; lên trục $Oy$: $M_2(0; y_0; 0)$; lên trục $Oz$: $M_3(0; 0; z_0)$.",
+          "- Lên mặt phẳng $(Oxy)$: $H_1(x_0; y_0; 0)$; lên $(Oyz)$: $H_2(0; y_0; z_0)$; lên $(Ozx)$: $H_3(x_0; 0; z_0)$.",
+          "**2. Tọa độ điểm đối xứng của điểm $M(x_0; y_0; z_0)$:**",
+          "- Qua gốc tọa độ $O$: $M'(-x_0; -y_0; -z_0)$.",
+          "- Qua trục $Ox$: $(x_0; -y_0; -z_0)$; qua trục $Oy$: $(-x_0; y_0; -z_0)$; qua trục $Oz$: $(-x_0; -y_0; z_0)$.",
+          "- Qua mặt phẳng $(Oxy)$: $(x_0; y_0; -z_0)$; qua $(Oyz)$: $(-x_0; y_0; z_0)$; qua $(Ozx)$: $(x_0; -y_0; z_0)$.",
+          "**3. Gắn hệ trục tọa độ $Oxyz$ giải bài toán thực tế:**",
+          "- Chọn gốc tọa độ $O$ tại góc phòng/mặt đất, trục $Ox, Oy$ dọc theo hai mép tường vuông góc, trục $Oz$ hướng thẳng đứng lên cao."
         ],
         examples: [
           {
-            title: "Ví dụ 1: Xác định tâm và bán kính mặt cầu",
-            question: "Tìm tâm và bán kính của mặt cầu $(S): (x - 2)^2 + (y + 1)^2 + (z - 4)^2 = 25$.",
-            solution: "So sánh với dạng $(x - a)^2 + (y - b)^2 + (z - c)^2 = R^2$ ta có:\n$a = 2, b = -1, c = 4$ và $R^2 = 25 \\implies R = 5$.\nVậy mặt cầu có tâm $I(2; -1; 4)$ và bán kính $R = 5$."
+            title: "Ví dụ 1: Tìm hình chiếu và điểm đối xứng qua mặt phẳng tọa độ",
+            question: "Trong không gian $Oxyz$, cho điểm $M(2; -3; 4)$. Tìm tọa độ hình chiếu vuông góc $H$ và điểm đối xứng $M'$ của $M$ qua mặt phẳng $(Ozx)$.",
+            solution: "- Chiếu vuông góc $M(2; -3; 4)$ lên mặt phẳng $(Ozx)$ (giữ nguyên $x, z$; cho $y = 0$): $H(2; 0; 4)$.\n- Điểm đối xứng $M'$ qua $(Ozx)$ (giữ nguyên $x, z$; đổi dấu $y$): $M'(2; 3; 4)$."
           },
           {
-            title: "Ví dụ 2: Viết phương trình mặt cầu có đường kính AB",
-            question: "Viết phương trình mặt cầu $(S)$ nhận đoạn thẳng $AB$ làm đường kính với $A(1; 2; -1), B(3; 0; 3)$.",
-            solution: "- Tâm $I$ của mặt cầu là trung điểm của $AB$: $I\\left(\\dfrac{1+3}{2}; \\dfrac{2+0}{2}; \\dfrac{-1+3}{2}\\right) = I(2; 1; 1)$.\n- Đường kính $AB = \\sqrt{(3-1)^2 + (0-2)^2 + (3+1)^2} = \\sqrt{4 + 4 + 16} = \\sqrt{24} = 2\\sqrt{6}$.\n- Bán kính $R = \\dfrac{AB}{2} = \\sqrt{6} \\implies R^2 = 6$.\nVậy phương trình mặt cầu là: $(x - 2)^2 + (y - 1)^2 + (z - 1)^2 = 6$."
+            title: "Ví dụ 2: Tìm điểm đối xứng qua trục tọa độ",
+            question: "Tìm tọa độ điểm $A'$ đối xứng với điểm $A(-1; 4; -2)$ qua trục $Oy$.",
+            solution: "Khi lấy đối xứng qua trục $Oy$, tung độ $y$ giữ nguyên, còn hoành độ $x$ và cao độ $z$ đổi dấu.\nVậy $A'(1; 4; 2)$."
           },
           {
-            title: "Ví dụ 3: Điều kiện phương trình tổng quát là mặt cầu",
-            question: "Tìm $m$ để phương trình $x^2 + y^2 + z^2 - 2x + 4y - 6z + m = 0$ là phương trình của một mặt cầu.",
-            solution: "Phương trình có các hệ số: $a = 1, b = -2, c = 3, d = m$.\nĐiều kiện là mặt cầu: $a^2 + b^2 + c^2 - d > 0 \\iff 1^2 + (-2)^2 + 3^2 - m > 0 \\iff 1 + 4 + 9 - m > 0 \\iff 14 - m > 0 \\iff m < 14$."
+            title: "Ví dụ 3: Ứng dụng định vị trong không gian thực tế",
+            question: "Trong một căn phòng hình hộp chữ nhật, chọn gốc tọa độ $O$ tại một góc sàn nhà, mặt phẳng $(Oxy)$ trùng với mặt sàn, đơn vị trên mỗi trục là mét. Một bóng đèn được treo tại vị trí $S(2; 3; 3{,}2)$. Tìm tọa độ hình chiếu của bóng đèn trên sàn nhà và khoảng cách từ bóng đèn đến sàn nhà.",
+            solution: "- Mặt sàn trùng với mặt phẳng $(Oxy)$ nên hình chiếu của bóng đèn $S(2; 3; 3{,}2)$ lên mặt sàn là $H(2; 3; 0)$.\n- Khoảng cách từ bóng đèn đến sàn nhà bằng $|z_S| = 3{,}2\\text{ m}$."
           }
         ],
         exercises: [
@@ -2520,81 +2524,81 @@ window.GRADE_12_LESSONS_DB = {
             id: "g12-c2-l7-d3-ex1",
             level: "Nhận biết",
             levelClass: "bg-slate-100 text-slate-700",
-            question: "Trong không gian $Oxyz$, mặt cầu $(S): (x - 1)^2 + (y + 2)^2 + (z - 3)^2 = 16$ có tọa độ tâm $I$ và bán kính $R$ là:",
-            shortAnswer: "$I(1; -2; 3)$ và $R = 4$",
-            fullSolution: "Đối chiếu với dạng chính tắc $(x - a)^2 + (y - b)^2 + (z - c)^2 = R^2$, ta có $a = 1, b = -2, c = 3$ và $R = \\sqrt{16} = 4$. Vậy $I(1; -2; 3), R = 4$."
+            question: "Trong không gian $Oxyz$, hình chiếu vuông góc của điểm $A(3; -2; 5)$ trên trục hoành $Ox$ có tọa độ là:",
+            shortAnswer: "$A_1(3; 0; 0)$",
+            fullSolution: "Hình chiếu vuông góc của điểm $A(x; y; z)$ lên trục $Ox$ giữ nguyên hoành độ $x$ và có tung độ, cao độ bằng $0$. Vậy $A_1(3; 0; 0)$."
           },
           {
             id: "g12-c2-l7-d3-ex2",
             level: "Nhận biết",
             levelClass: "bg-slate-100 text-slate-700",
-            question: "Phương trình mặt cầu có tâm $I(2; -1; 0)$ và bán kính $R = 3$ là:",
-            shortAnswer: "$(x - 2)^2 + (y + 1)^2 + z^2 = 9$",
-            fullSolution: "Phương trình mặt cầu tâm $I(2; -1; 0)$, bán kính $R = 3$ có dạng: $(x - 2)^2 + (y - (-1))^2 + (z - 0)^2 = 3^2 \\iff (x - 2)^2 + (y + 1)^2 + z^2 = 9$."
+            question: "Trong không gian $Oxyz$, hình chiếu vuông góc của điểm $B(4; -1; 6)$ trên mặt phẳng $(Oyz)$ có tọa độ là:",
+            shortAnswer: "$B_1(0; -1; 6)$",
+            fullSolution: "Khi chiếu lên mặt phẳng $(Oyz)$, hoành độ $x = 0$, giữ nguyên tung độ $y = -1$ và cao độ $z = 6$. Vậy $B_1(0; -1; 6)$."
           },
           {
             id: "g12-c2-l7-d3-ex3",
             level: "Nhận biết",
             levelClass: "bg-slate-100 text-slate-700",
-            question: "Điều kiện cần và đủ để phương trình $x^2 + y^2 + z^2 - 2ax - 2by - 2cz + d = 0$ là phương trình của một mặt cầu là:",
-            shortAnswer: "$a^2 + b^2 + c^2 - d > 0$",
-            fullSolution: "Đưa về dạng $(x-a)^2 + (y-b)^2 + (z-c)^2 = a^2 + b^2 + c^2 - d$. Vế phải đại diện cho $R^2$, do đó điều kiện để là mặt cầu bán kính thực $R > 0$ là $a^2 + b^2 + c^2 - d > 0$."
+            question: "Điểm đối xứng của điểm $P(2; -4; 1)$ qua mặt phẳng $(Oxy)$ có tọa độ là:",
+            shortAnswer: "$P'(2; -4; -1)$",
+            fullSolution: "Điểm đối xứng của $P(x; y; z)$ qua mặt phẳng $(Oxy)$ giữ nguyên $x, y$ và đổi dấu $z$, nên $P'(2; -4; -1)$."
           },
           {
             id: "g12-c2-l7-d3-ex4",
             level: "Nhận biết",
             levelClass: "bg-slate-100 text-slate-700",
-            question: "Mặt cầu $(S): x^2 + y^2 + z^2 - 2x + 4y - 6z + 5 = 0$ có bán kính $R$ bằng:",
-            shortAnswer: "$R = 3$",
-            fullSolution: "Hệ số: $a = 1, b = -2, c = 3, d = 5$. Bán kính $R = \\sqrt{a^2 + b^2 + c^2 - d} = \\sqrt{1^2 + (-2)^2 + 3^2 - 5} = \\sqrt{1 + 4 + 9 - 5} = \\sqrt{9} = 3$."
+            question: "Điểm đối xứng của điểm $Q(-3; 2; 5)$ qua trục cao $Oz$ có tọa độ là:",
+            shortAnswer: "$Q'(3; -2; 5)$",
+            fullSolution: "Khi lấy đối xứng qua trục $Oz$, cao độ $z = 5$ giữ nguyên, còn hoành độ và tung độ đổi dấu. Vậy $Q'(3; -2; 5)$."
           },
           {
             id: "g12-c2-l7-d3-ex5",
             level: "Thông hiểu",
             levelClass: "bg-emerald-100 text-emerald-800",
-            question: "Viết phương trình mặt cầu đường kính $AB$ với hai đầu mút là $A(1; 3; -2)$ và $B(3; -1; 4)$.",
-            shortAnswer: "$(x - 2)^2 + (y - 1)^2 + (z - 1)^2 = 14$",
-            fullSolution: "Tâm $I$ là trung điểm $AB$: $I(2; 1; 1)$. Bán kính $R = IA = \\sqrt{(1-2)^2 + (3-1)^2 + (-2-1)^2} = \\sqrt{1 + 4 + 9} = \\sqrt{14}$. Phương trình mặt cầu là $(x - 2)^2 + (y - 1)^2 + (z - 1)^2 = 14$."
+            question: "Cho điểm $M(3; -4; 2)$. Gọi $A, B, C$ lần lượt là hình chiếu vuông góc của $M$ lên ba trục tọa độ $Ox, Oy, Oz$. Tìm tọa độ trọng tâm $G$ của tam giác $ABC$.",
+            shortAnswer: "$G\\left(1; -\\dfrac{4}{3}; \\dfrac{2}{3}\\right)$",
+            fullSolution: "Ta có $A(3; 0; 0)$, $B(0; -4; 0)$, $C(0; 0; 2)$. Trọng tâm $G$ của tam giác $ABC$ có tọa độ: $x_G = \\dfrac{3+0+0}{3} = 1$, $y_G = \\dfrac{0-4+0}{3} = -\\dfrac{4}{3}$, $z_G = \\dfrac{0+0+2}{3} = \\dfrac{2}{3}$."
           },
           {
             id: "g12-c2-l7-d3-ex6",
             level: "Thông hiểu",
             levelClass: "bg-emerald-100 text-emerald-800",
-            question: "Viết phương trình mặt cầu $(S)$ có tâm $I(1; -2; 3)$ và đi qua điểm $A(2; 0; 1)$.",
-            shortAnswer: "$(x - 1)^2 + (y + 2)^2 + (z - 3)^2 = 9$",
-            fullSolution: "Bán kính mặt cầu chính bằng khoảng cách $IA$: $R^2 = IA^2 = (2 - 1)^2 + (0 - (-2))^2 + (1 - 3)^2 = 1^2 + 2^2 + (-2)^2 = 1 + 4 + 4 = 9$. Vậy phương trình mặt cầu là: $(x - 1)^2 + (y + 2)^2 + (z - 3)^2 = 9$."
+            question: "Cho điểm $M(2; 4; 6)$. Gọi $H, K, P$ lần lượt là hình chiếu vuông góc của $M$ lên các mặt phẳng $(Oxy), (Oyz), (Ozx)$. Tìm tọa độ trọng tâm $G$ của tam giác $HKP$.",
+            shortAnswer: "$G\\left(\\dfrac{4}{3}; \\dfrac{8}{3}; 4\\right)$",
+            fullSolution: "Ta có $H(2; 4; 0)$, $K(0; 4; 6)$, $P(2; 0; 6)$. Trọng tâm $G$ của $\\Delta HKP$ là: $G\\left(\\dfrac{2+0+2}{3}; \\dfrac{4+4+0}{3}; \\dfrac{0+6+6}{3}\\right) = G\\left(\\dfrac{4}{3}; \\dfrac{8}{3}; 4\\right)$."
           },
           {
             id: "g12-c2-l7-d3-ex7",
             level: "Thông hiểu",
             levelClass: "bg-emerald-100 text-emerald-800",
-            question: "Tìm $m$ để phương trình $x^2 + y^2 + z^2 - 4x + 2y - 2mz + 10m - 1 = 0$ là phương trình của một mặt cầu.",
-            shortAnswer: "$m < 1$ hoặc $m > 6$",
-            fullSolution: "Ta có $a = 2, b = -1, c = m, d = 10m - 1$. Điều kiện: $a^2 + b^2 + c^2 - d > 0 \\iff 2^2 + (-1)^2 + m^2 - (10m - 1) > 0 \\iff m^2 - 10m + 6 > 0 \\iff m < 5 - \\sqrt{19}$ hoặc $m > 5 + \\sqrt{19}$."
+            question: "Trong không gian $Oxyz$, khoảng cách từ điểm $M(3; -4; 5)$ đến mặt phẳng $(Oxy)$ và đến mặt phẳng $(Oyz)$ lần lượt bằng:",
+            shortAnswer: "$5$ và $3$",
+            fullSolution: "Khoảng cách từ $M(x; y; z)$ đến mặt phẳng $(Oxy)$ là $|z| = |5| = 5$, và đến mặt phẳng $(Oyz)$ là $|x| = |3| = 3$."
           },
           {
             id: "g12-c2-l7-d3-ex8",
             level: "Vận dụng",
             levelClass: "bg-blue-100 text-blue-800 font-bold",
-            question: "Viết phương trình mặt cầu ngoại tiếp tứ diện $OABC$ với $O(0;0;0), A(2;0;0), B(0;4;0), C(0;0;6)$.",
-            shortAnswer: "$x^2 + y^2 + z^2 - 2x - 4y - 6z = 0$",
-            fullSolution: "Vì $OA, OB, OC$ đôi một vuông góc nên tâm $I$ của mặt cầu ngoại tiếp có tọa độ $I\\left(\\dfrac{x_A}{2}; \\dfrac{y_B}{2}; \\dfrac{z_C}{2}\\right) = I(1; 2; 3)$. Bán kính $R^2 = OI^2 = 1^2 + 2^2 + 3^2 = 14$. Phương trình mặt cầu là: $(x - 1)^2 + (y - 2)^2 + (z - 3)^2 = 14 \\iff x^2 + y^2 + z^2 - 2x - 4y - 6z = 0$."
+            question: "Một máy bay không người lái (drone) bay trong không gian $Oxyz$ (đơn vị: mét) xuất phát từ điểm $A(10; 20; 0)$ trên mặt đất, di chuyển theo vectơ $\\vec{v} = (30; 40; 50)$ đến vị trí $B$. Tìm tọa độ điểm $B$ và độ cao của drone so với mặt đất $(Oxy)$.",
+            shortAnswer: "$B(40; 60; 50)$, độ cao $50\\text{ m}$",
+            fullSolution: "Ta có $\\vec{AB} = \\vec{v} = (30; 40; 50) \\implies B = (10+30; 20+40; 0+50) = (40; 60; 50)$. Độ cao của drone so với mặt đất $(Oxy)$ là $z_B = 50\\text{ m}$."
           },
           {
             id: "g12-c2-l7-d3-ex9",
             level: "Vận dụng",
             levelClass: "bg-blue-100 text-blue-800 font-bold",
-            question: "Viết phương trình mặt cầu có tâm thuộc trục $Oz$ và đi qua hai điểm $A(1; 2; -1)$ và $B(2; 1; 3)$.",
-            shortAnswer: "$x^2 + y^2 + (z - 1)^2 = 9$",
-            fullSolution: "Tâm $I \\in Oz \\implies I(0; 0; c)$. Vì $A, B$ thuộc mặt cầu nên $IA^2 = IB^2 \\iff 1^2 + 2^2 + (-1 - c)^2 = 2^2 + 1^2 + (3 - c)^2 \\iff 5 + (c + 1)^2 = 5 + (c - 3)^2 \\iff c^2 + 2c + 1 = c^2 - 6c + 9 \\iff 8c = 8 \\iff c = 1$. Khi đó tâm là $I(0; 0; 1)$ và bán kính $R^2 = IA^2 = 1 + 4 + (-2)^2 = 9$. Phương trình mặt cầu là: $x^2 + y^2 + (z - 1)^2 = 9$."
+            question: "Trong không gian $Oxyz$, cho hai điểm $A(1; 2; 3)$ và $B(3; 4; 1)$ nằm cùng phía đối với mặt phẳng $(Oxy)$. Tìm tọa độ điểm $M$ thuộc mặt phẳng $(Oxy)$ sao cho tổng khoảng cách $MA + MB$ nhỏ nhất.",
+            shortAnswer: "$M\\left(\\dfrac{5}{2}; \\dfrac{7}{2}; 0\\right)$",
+            fullSolution: "Lấy điểm $A'$ đối xứng với $A(1; 2; 3)$ qua mặt phẳng $(Oxy)$, ta được $A'(1; 2; -3)$. Với mọi $M \\in (Oxy)$, $MA + MB = MA' + MB \\ge A'B$. Dấu '=' xảy ra khi $M$ là giao điểm của đoạn thẳng $A'B$ với mặt phẳng $(Oxy)$ (có $z_M = 0$). Ta có $\\vec{A'B} = (2; 2; 4)$. Điểm $M$ trên $A'B$ có dạng $M(1 + 2t; 2 + 2t; -3 + 4t)$. Cho $z_M = 0 \\iff -3 + 4t = 0 \\iff t = \\dfrac{3}{4}$. Suy ra $M\\left(\\dfrac{5}{2}; \\dfrac{7}{2}; 0\\right)$."
           },
           {
             id: "g12-c2-l7-d3-ex10",
             level: "Vận dụng",
             levelClass: "bg-blue-100 text-blue-800 font-bold",
-            question: "Trong không gian $Oxyz$, cho họ mặt cầu $(S_m): x^2 + y^2 + z^2 - 2mx + 4my - 2z + 6m^2 - 5 = 0$. Tìm $m$ để bán kính của mặt cầu đạt giá trị nhỏ nhất.",
-            shortAnswer: "$m = 0$, $R_{\\min} = \\sqrt{6}$",
-            fullSolution: "Hệ số: $a = m, b = -2m, c = 1, d = 6m^2 - 5$. Bán kính $R = \\sqrt{a^2 + b^2 + c^2 - d} = \\sqrt{m^2 + 4m^2 + 1 - (6m^2 - 5)} = \\sqrt{-m^2 + 6}$. Để tồn tại mặt cầu thì $-m^2 + 6 > 0$. Bán kính lớn nhất hoặc nhỏ nhất? Nhận thấy $-m^2 + 6 \\le 6$, do đó $R$ đạt giá trị lớn nhất tại $m = 0$ bằng $\\sqrt{6}$. Nếu xét họ $d = 4m^2 - 2m$, ta tìm được cực trị của biểu thức bậc hai dưới dấu căn."
+            question: "Một phòng học hình hộp chữ nhật có chiều dài $8\\text{ m}$, chiều rộng $6\\text{ m}$ và chiều cao $4\\text{ m}$. Chọn hệ trục $Oxyz$ với gốc $O$ tại một góc sàn, $Ox$ theo chiều rộng, $Oy$ theo chiều dài, $Oz$ theo chiều cao. Một camera an ninh đặt tại đỉnh $C(6; 8; 4)$ và hướng tia nhìn vào tâm $I$ của bức tường nằm trên mặt phẳng $(Oyz)$. Tìm tọa độ vectơ $\\vec{CI}$.",
+            shortAnswer: "$\\vec{CI} = (-6; -4; -2)$",
+            fullSolution: "Bức tường nằm trên mặt phẳng $(Oyz)$ là hình chữ nhật có các kích thước dọc theo trục $Oy$ ($8\\text{ m}$) và trục $Oz$ ($4\\text{ m}$), có $x = 0$. Tâm $I$ của bức tường này có tọa độ $I(0; 4; 2)$. Khi đó vectơ hướng nhìn từ camera $C(6; 8; 4)$ tới tâm $I(0; 4; 2)$ là $\\vec{CI} = (0 - 6; 4 - 8; 2 - 4) = (-6; -4; -2)$."
           }
         ]
       }
@@ -2816,7 +2820,7 @@ window.GRADE_12_LESSONS_DB = {
             levelClass: "bg-blue-100 text-blue-800 font-bold",
             question: "Trong không gian $Oxyz$, cho tam giác $ABC$ có $A(1; 1; 1), B(2; 1; 0), C(2; 0; 2)$. Tìm tọa độ trực tâm $H$ của tam giác $ABC$.",
             shortAnswer: "$H\\left(\\dfrac{5}{3}; \\dfrac{2}{3}; \\dfrac{4}{3}\\right)$",
-            fullSolution: "Trực tâm $H$ nằm trong mặt phẳng $(ABC)$ và thỏa mãn $\\vec{AH} \\perp \\vec{BC}$ và $\\vec{BH} \\perp \\vec{AC}$. Gọi $H(x; y; z)$.\n$\\vec{BC} = (0; -1; 2) \\implies \\vec{AH} \\cdot \\vec{BC} = 0 \\iff -(y - 1) + 2(z - 1) = 0 \\iff -y + 2z = 1$.\n$\\vec{AC} = (1; -1; 1) \\implies \\vec{BH} \\cdot \\vec{AC} = 0 \\iff (x - 2) - (y - 1) + (z - 0) = 0 \\iff x - y + z = 1$.\nĐồng phẳng: $[\vec{AB}, \\vec{AC}] = (1; 1; 1) \\implies x + y + z - 3 = 0$.\nGiải hệ 3 phương trình bậc nhất 3 ẩn tìm được tọa độ duy nhất của trực tâm $H$."
+            fullSolution: "Trực tâm $H$ nằm trong mặt phẳng $(ABC)$ và thỏa mãn $\\vec{AH} \\perp \\vec{BC}$ và $\\vec{BH} \\perp \\vec{AC}$. Gọi $H(x; y; z)$.\n$\\vec{BC} = (0; -1; 2) \\implies \\vec{AH} \\cdot \\vec{BC} = 0 \\iff -(y - 1) + 2(z - 1) = 0 \\iff -y + 2z = 1$.\n$\\vec{AC} = (1; -1; 1) \\implies \\vec{BH} \\cdot \\vec{AC} = 0 \\iff (x - 2) - (y - 1) + (z - 0) = 0 \\iff x - y + z = 1$.\nĐồng phẳng: $[\\vec{AB}, \\vec{AC}] = (1; 1; 1) \\implies x + y + z - 3 = 0$.\nGiải hệ 3 phương trình bậc nhất 3 ẩn tìm được tọa độ duy nhất của trực tâm $H$."
           },
           {
             id: "g12-c2-l8-d2-ex9",
@@ -3536,9 +3540,9 @@ window.GRADE_12_LESSONS_DB = {
             id: "g12-c3-l10-d2-ex9",
             level: "Vận dụng",
             levelClass: "bg-blue-100 text-blue-800 font-bold",
-            question: "Cân nặng (kg) của 40 bao đường đóng gói tự động: $[48; 50)$ có 6 bao, $[50; 52)$ có 28 bao, $[52; 54)$ có 6 bao. Tính độ lệch chuẩn và xác định khoảng $[\bar{x} - s; \\bar{x} + s]$.",
+            question: "Cân nặng (kg) của 40 bao đường đóng gói tự động: $[48; 50)$ có 6 bao, $[50; 52)$ có 28 bao, $[52; 54)$ có 6 bao. Tính độ lệch chuẩn và xác định khoảng $[\\bar{x} - s; \\bar{x} + s]$.",
             shortAnswer: "$\\bar{x} = 51\\text{ kg}, s = 1\\text{ kg}$; khoảng $[50; 52]\\text{ kg}$",
-            fullSolution: "Giá trị đại diện: $49, 51, 53$. Tính đối xứng suy ra $\\bar{x} = 51\\text{ kg}$.\n- $s^2 = \\dfrac{6(49 - 51)^2 + 28(51 - 51)^2 + 6(53 - 51)^2}{40} = \\dfrac{6(4) + 6(4)}{40} = \\dfrac{48}{40} = 1{,}2$.\n- Độ lệch chuẩn: $s = \\sqrt{1{,}2} \\approx 1{,}095\\text{ kg}$.\n- Khoảng $[\bar{x} - s; \\bar{x} + s] = [51 - 1{,}095; 51 + 1{,}095] = [49{,}905; 52{,}095]$ bao trọn toàn bộ nhóm trung tâm 28 bao đường (chiếm $70\\%$ tổng số lượng)."
+            fullSolution: "Giá trị đại diện: $49, 51, 53$. Tính đối xứng suy ra $\\bar{x} = 51\\text{ kg}$.\n- $s^2 = \\dfrac{6(49 - 51)^2 + 28(51 - 51)^2 + 6(53 - 51)^2}{40} = \\dfrac{6(4) + 6(4)}{40} = \\dfrac{48}{40} = 1{,}2$.\n- Độ lệch chuẩn: $s = \\sqrt{1{,}2} \\approx 1{,}095\\text{ kg}$.\n- Khoảng $[\\bar{x} - s; \\bar{x} + s] = [51 - 1{,}095; 51 + 1{,}095] = [49{,}905; 52{,}095]$ bao trọn toàn bộ nhóm trung tâm 28 bao đường (chiếm $70\\%$ tổng số lượng)."
           },
           {
             id: "g12-c3-l10-d2-ex10",
@@ -5176,7 +5180,7 @@ window.GRADE_12_LESSONS_DB = {
           "  + Vô số nghiệm $\\implies d \\subset (P)$.",
           "**2. Vị trí tương đối giữa hai đường thẳng $d_1, d_2$:**",
           "- Nếu $\\vec{u_1}$ và $\\vec{u_2}$ cùng phương: song song hoặc trùng nhau.",
-          "- Nếu $\\vec{u_1}$ và $\\vec{u_2}$ không cùng phương: cắt nhau (hệ có nghiệm duy nhất) hoặc chéo nhau (hệ vô nghiệm, tức $[\vec{u_1}, \\vec{u_2}] \\cdot \\vec{M_1 M_2} \\ne 0$)."
+          "- Nếu $\\vec{u_1}$ và $\\vec{u_2}$ không cùng phương: cắt nhau (hệ có nghiệm duy nhất) hoặc chéo nhau (hệ vô nghiệm, tức $[\\vec{u_1}, \\vec{u_2}] \\cdot \\vec{M_1 M_2} \\ne 0$)."
         ],
         examples: [
           {

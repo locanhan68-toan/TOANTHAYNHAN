@@ -1762,7 +1762,7 @@ window.GRADE_10_LESSONS_DB = {  "g10-c1-l1": {
     {
       id: "g10-c4-l7-dang1",
       title: "Dạng 1: Khái niệm vectơ, phương, hướng và độ dài của vectơ",
-      description: "Vectơ là một đoạn thẳng có hướng. Điểm đầu (gốc), điểm cuối (ngọn). Giá của vectơ là đường thẳng đi qua điểm đầu và điểm cuối. Độ dài của vectơ kí hiệu $|\vec{a}|$ hoặc $|\vec{AB}| = AB$. Vectơ-không $\vec{0}$ có điểm đầu và điểm cuối trùng nhau, độ dài bằng 0.",
+      description: "Vectơ là một đoạn thẳng có hướng. Điểm đầu (gốc), điểm cuối (ngọn). Giá của vectơ là đường thẳng đi qua điểm đầu và điểm cuối. Độ dài của vectơ kí hiệu $|\\vec{a}|$ hoặc $|\\vec{AB}| = AB$. Vectơ-không $\\vec{0}$ có điểm đầu và điểm cuối trùng nhau, độ dài bằng 0.",
       exercises: [
         {
           id: "g10-c4-l7-d1-ex1",
@@ -2204,7 +2204,7 @@ window.GRADE_10_LESSONS_DB = {  "g10-c1-l1": {
     {
       id: "g10-c4-l8-dang3",
       title: "Dạng 3: Tính độ dài của vectơ tổng, hiệu và bài toán hợp lực",
-      description: "Tính $|\vec{a} + \vec{b}|$ và $|\vec{a} - \vec{b}|$ dựa trên góc giữa hai vectơ hoặc dựng hình bình hành. Hợp lực của hai lực $\vec{F} = \vec{F}_1 + \vec{F}_2$: $|\vec{F}|^2 = F_1^2 + F_2^2 + 2F_1 F_2 \cos\alpha$.",
+      description: "Tính $|\\vec{a} + \\vec{b}|$ và $|\\vec{a} - \\vec{b}|$ dựa trên góc giữa hai vectơ hoặc dựng hình bình hành. Hợp lực của hai lực $\\vec{F} = \\vec{F}_1 + \\vec{F}_2$: $|\\vec{F}|^2 = F_1^2 + F_2^2 + 2F_1 F_2 \\cos\\alpha$.",
       exercises: [
         {
           id: "g10-c4-l8-d3-ex1",

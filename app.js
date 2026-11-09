@@ -1445,6 +1445,48 @@ function renderArenaLeaderboard() {
 // ==========================================
 // 5. LÝ THUYẾT & DẠNG TOÁN
 // ==========================================
+function formatMathMarkdown(str) {
+  if (!str) return '';
+  return String(str).replace(/\*\*([^*]+)\*\*/g, '<strong class="text-slate-800 font-semibold">$1</strong>');
+}
+
+function getTopicDisplayName(t, idx) {
+  return (t && (t.name || t.title)) ? (t.name || t.title) : `Dạng ${idx + 1}`;
+}
+
+function getTopicMethodArray(t) {
+  if (!t) return [];
+  if (Array.isArray(t.method) && t.method.length > 0) return t.method;
+  if (typeof t.method === 'string' && t.method.trim()) {
+    return t.method.split('\n').map(s => s.trim()).filter(Boolean);
+  }
+  if (t.description && String(t.description).trim()) {
+    return String(t.description).split('\n').map(s => s.trim()).filter(Boolean);
+  }
+  return [
+    "Bước 1: Xác định dạng toán, tìm điều kiện xác định và công thức liên quan.",
+    "Bước 2: Thực hiện các phép biến đổi đại số / lập luận hình học theo từng bước.",
+    "Bước 3: Đối chiếu với điều kiện ban đầu, kiểm tra tính hợp lý và kết luận đáp số."
+  ];
+}
+
+function getTopicExamplesArray(t, tIdx) {
+  if (!t) return [];
+  if (Array.isArray(t.examples) && t.examples.length > 0) return t.examples;
+  if (Array.isArray(t.exercises) && t.exercises.length > 0) {
+    // Tự động trích xuất 2 bài toán tiêu biểu (1 Thông hiểu + 1 Vận dụng) làm Ví dụ minh họa có lời giải mẫu
+    const ex1 = t.exercises[4] || t.exercises[0];
+    const ex2 = t.exercises[7] || t.exercises[1] || t.exercises[0];
+    const picked = ex1 === ex2 ? [ex1] : [ex1, ex2];
+    return picked.filter(Boolean).map((ex, i) => ({
+      title: `Ví dụ minh họa ${i + 1} (${ex.level || 'Trọng tâm'})`,
+      question: ex.question,
+      solution: ex.fullSolution || ex.shortAnswer || "Áp dụng công thức trọng tâm của dạng toán."
+    }));
+  }
+  return [];
+}
+
 function renderTheory() {
   const container = document.getElementById('theory-content');
   if (!container) return;
@@ -1452,13 +1494,13 @@ function renderTheory() {
   
   container.innerHTML = `
     <div class="p-3.5 bg-blue-50/70 border-l-4 border-blue-600 rounded-r-xl text-sm text-blue-900 mb-4 font-medium">
-      ${theory.summary}
+      ${formatMathMarkdown(theory.summary)}
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       ${theory.sections.map(sec => `
         <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-300 transition">
           <h4 class="font-bold text-slate-800 text-sm mb-2 text-blue-700">${sec.title}</h4>
-          <div class="text-xs sm:text-sm text-slate-600 whitespace-pre-line leading-relaxed">${sec.content}</div>
+          <div class="text-xs sm:text-sm text-slate-600 whitespace-pre-line leading-relaxed">${formatMathMarkdown(sec.content)}</div>
         </div>
       `).join('')}
     </div>
@@ -1538,46 +1580,44 @@ function renderTopicMethod() {
         <span>Tổng Quan 3 Dạng Toán Trọng Tâm (30 Bài Toán Phân Tầng):</span>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 mt-2">
-        ${topics.map((t, idx) => `
+        ${topics.map((t, idx) => {
+          const mArr = getTopicMethodArray(t);
+          return `
           <div class="p-2.5 bg-white rounded-lg border border-indigo-100 text-xs">
             <div class="font-bold text-indigo-900 mb-1 flex items-center gap-1.5">
               <span class="w-2 h-2 rounded-full ${idx === 0 ? 'bg-emerald-500' : idx === 1 ? 'bg-blue-500' : 'bg-purple-500'}"></span>
-              <span>${t.name || ('Dạng ' + (idx + 1))}</span>
+              <span>${getTopicDisplayName(t, idx)}</span>
             </div>
             <div class="text-[11px] text-slate-500 line-clamp-2">
-              ${(t.method && t.method[0]) ? t.method[0] : 'Phương pháp giải chi tiết từng bước.'}
+              ${formatMathMarkdown(mArr[0] || 'Phương pháp giải chi tiết từng bước.')}
             </div>
           </div>
-        `).join('')}
+        `}).join('')}
       </div>
     `;
     return;
   }
 
   const activeTopic = topics[currentLessonTopicTab] || topics[0];
-  const methodSteps = activeTopic.method || [
-    "Bước 1: Xác định dạng toán, tìm điều kiện xác định và công thức liên quan.",
-    "Bước 2: Thực hiện các phép biến đổi đại số / lập luận hình học theo từng bước.",
-    "Bước 3: Đối chiếu với điều kiện ban đầu, kiểm tra tính hợp lý và kết luận đáp số."
-  ];
+  const methodSteps = getTopicMethodArray(activeTopic);
 
   container.innerHTML = `
     <div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 border-b border-blue-200/60">
       <div class="flex items-center gap-2">
         <span class="w-2.5 h-2.5 rounded-full ${currentLessonTopicTab === 0 ? 'bg-emerald-500' : currentLessonTopicTab === 1 ? 'bg-blue-500' : 'bg-purple-500'}"></span>
         <span class="font-black text-blue-950 text-xs sm:text-sm uppercase tracking-wide">
-          ${activeTopic.name || ('Dạng ' + (currentLessonTopicTab + 1))}
+          ${getTopicDisplayName(activeTopic, currentLessonTopicTab)}
         </span>
       </div>
       <span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${activeTopic.badgeClass || 'bg-blue-100 text-blue-700'}">
-        ${activeTopic.badge || 'Trọng tâm'}
+        ${activeTopic.badge || '4 Biết · 3 Hiểu · 3 Vận dụng (10 bài)'}
       </span>
     </div>
     <div class="space-y-1 pt-1 text-slate-700">
       ${methodSteps.map(step => `
         <div class="flex items-start gap-2">
           <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5"></i>
-          <span class="leading-relaxed font-medium">${step}</span>
+          <span class="leading-relaxed font-medium">${formatMathMarkdown(step)}</span>
         </div>
       `).join('')}
     </div>
@@ -1601,26 +1641,24 @@ function renderExamples() {
 
   let examplesToRender = [];
   if (currentLessonTopicTab === 'all') {
-    // Thu thập ví dụ từ cả 3 dạng
     topics.forEach((t, tIdx) => {
-      if (t.examples && t.examples.length) {
-        t.examples.forEach((ex, eIdx) => {
-          examplesToRender.push({
-            ...ex,
-            topicName: t.name || `Dạng ${tIdx + 1}`,
-            displayIdx: `${tIdx + 1}.${eIdx + 1}`
-          });
+      const exList = getTopicExamplesArray(t, tIdx);
+      exList.forEach((ex, eIdx) => {
+        examplesToRender.push({
+          ...ex,
+          topicName: getTopicDisplayName(t, tIdx),
+          displayIdx: `${tIdx + 1}.${eIdx + 1}`
         });
-      }
+      });
     });
     if (badgeEl) badgeEl.innerText = `${examplesToRender.length} Ví dụ (Tất cả 3 Dạng)`;
   } else {
     const activeTopic = topics[currentLessonTopicTab] || topics[0];
-    const rawExamples = activeTopic.examples || [];
+    const rawExamples = getTopicExamplesArray(activeTopic, currentLessonTopicTab);
     examplesToRender = rawExamples.map((ex, idx) => ({
       ...ex,
-      topicName: activeTopic.name || `Dạng ${currentLessonTopicTab + 1}`,
-      displayIdx: `${idx + 1}/3`
+      topicName: getTopicDisplayName(activeTopic, currentLessonTopicTab),
+      displayIdx: `${idx + 1}/${rawExamples.length}`
     }));
     if (badgeEl) badgeEl.innerText = `${examplesToRender.length} Ví dụ`;
   }
@@ -1633,12 +1671,12 @@ function renderExamples() {
           <span class="text-[11px] text-emerald-700 font-medium">Ví dụ ${ex.displayIdx}</span>
         </div>
         <div class="text-sm font-semibold text-slate-800 math-content mb-3 leading-relaxed">
-          ${ex.question}
+          ${formatMathMarkdown(ex.question)}
         </div>
       </div>
       <div class="pt-3 border-t border-emerald-200/60 text-xs sm:text-sm text-slate-700 math-content bg-white p-3 rounded-lg shadow-xs whitespace-pre-line leading-relaxed">
         <span class="font-bold text-emerald-700 block mb-1">💡 Lời giải chi tiết:</span>
-        ${ex.solution}
+        ${formatMathMarkdown(ex.solution)}
       </div>
     </div>
   `).join('');
@@ -1699,18 +1737,18 @@ function renderExercises() {
         </div>
 
         <div class="text-sm font-medium text-slate-800 math-content leading-relaxed">
-          ${ex.question}
+          ${formatMathMarkdown(ex.question)}
         </div>
 
         <div id="answer-box-${escapedId}" class="hidden p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs sm:text-sm text-slate-700 math-content">
-          <span class="font-bold text-slate-800">Đáp án:</span> ${shortAns}
+          <span class="font-bold text-slate-800">Đáp án:</span> ${formatMathMarkdown(shortAns)}
         </div>
 
         <div id="solution-box-${escapedId}" class="hidden p-3.5 bg-blue-50/70 border border-blue-200 rounded-xl text-xs sm:text-sm text-slate-800 math-content whitespace-pre-line leading-relaxed">
           <div class="font-bold text-blue-800 mb-1 flex items-center gap-1.5">
             <i data-lucide="sparkles" class="w-4 h-4 text-blue-600"></i> Hướng dẫn giải chi tiết (Độc quyền lớp Thầy):
           </div>
-          ${fullSol}
+          ${formatMathMarkdown(fullSol)}
         </div>
       </div>
     `;
@@ -1728,7 +1766,7 @@ function renderExercises() {
           <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-100/80 border border-slate-200">
             <div class="flex items-center gap-2 font-black text-slate-900 text-xs sm:text-sm">
               <span class="w-2.5 h-2.5 rounded-full ${tIdx === 0 ? 'bg-emerald-500' : tIdx === 1 ? 'bg-blue-500' : 'bg-purple-500'}"></span>
-              <span>${t.name || ('Dạng ' + (tIdx + 1))}</span>
+              <span>${getTopicDisplayName(t, tIdx)}</span>
             </div>
             <span class="text-[11px] font-bold text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">
               10 Bài toán (${exList.length} bài)
@@ -1743,7 +1781,7 @@ function renderExercises() {
   } else {
     const activeTopic = topics[currentLessonTopicTab] || topics[0];
     const exList = activeTopic.exercises || [];
-    if (headingEl) headingEl.innerText = `10 Bài tập rèn luyện ${activeTopic.name || ('Dạng ' + (currentLessonTopicTab + 1))}:`;
+    if (headingEl) headingEl.innerText = `10 Bài tập rèn luyện ${getTopicDisplayName(activeTopic, currentLessonTopicTab)}:`;
     if (totalPill) totalPill.innerText = `${exList.length} Bài toán`;
 
     container.innerHTML = exList.map((ex, exIdx) => renderSingleExerciseHtml(ex, exIdx)).join('');

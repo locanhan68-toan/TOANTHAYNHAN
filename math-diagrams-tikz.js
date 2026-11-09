@@ -557,7 +557,7 @@ window.MATH_TIKZ_LIBRARY = [
     id: "tikz-g10-trig-circle",
     grade: 10,
     chapterId: "g10-c3",
-    lessonId: "g10-c3-l7",
+    lessonId: "g10-c3-l5",
     title: "Đường tròn lượng giác đơn vị và các trục sin, cos",
     topic: "Lượng giác",
     desc: "Đường tròn định hướng bán kính R = 1. Trục hoành là trục cos, trục tung là trục sin.",
@@ -608,13 +608,13 @@ window.MATH_TIKZ_LIBRARY = [
   },
 
   // ------------------------------------------------------------------------
-  // LỚP 11: ĐỒ THỊ LƯỢNG GIÁC & QUAN HỆ VUÔNG GÓC KHÔNG GIAN
+  // LỚP 11: ĐỒ THỊ LƯỢNG GIÁC, HÌNH HỌC KHÔNG GIAN (CHƯƠNG IV & VII)
   // ------------------------------------------------------------------------
   {
     id: "tikz-g11-sin-function",
     grade: 11,
     chapterId: "g11-c1",
-    lessonId: "g11-c1-l2",
+    lessonId: "g11-c1-l3",
     title: "Đồ thị hàm số lượng giác y = sin x",
     topic: "Giải tích & Hàm số",
     desc: "Đồ thị sóng hình sin tuần hoàn với chu kỳ T = 2π, tập giá trị [-1; 1], đi qua gốc tọa độ O.",
@@ -632,7 +632,6 @@ window.MATH_TIKZ_LIBRARY = [
       <text x="105" y="44" font-size="11" font-weight="bold" fill="#64748b">1</text>
       <text x="100" y="144" font-size="11" font-weight="bold" fill="#64748b">-1</text>
       <!-- Sine wave path from x = -pi to x = 2.5pi -->
-      <!-- Scale: pi = 70px. Peak at pi/2 (155, 40), node at pi (190, 90), trough at 3pi/2 (225, 140), node at 2pi (260, 90) -->
       <path d="M 50,90 Q 85,140 120,90 T 190,90 T 260,90 T 330,90" fill="none" stroke="#4f46e5" stroke-width="3"/>
       <!-- Critical points -->
       <circle cx="155" cy="40" r="3.5" fill="#dc2626"/><text x="155" y="32" font-size="10" font-weight="bold" fill="#dc2626" text-anchor="middle">(π/2; 1)</text>
@@ -660,10 +659,70 @@ window.MATH_TIKZ_LIBRARY = [
   },
 
   {
+    id: "tikz-g11-pyramid-intersection",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "Hình chóp S.ABCD & Giao tuyến hai mặt phẳng (SAC) ∩ (SBD) = SO",
+    topic: "Hình học không gian - Quan hệ song song",
+    desc: "Trong hình chóp S.ABCD, gọi O = AC ∩ BD ở mặt đáy. Khi đó S và O là hai điểm chung của (SAC) và (SBD), suy ra giao tuyến SO = (SAC) ∩ (SBD).",
+    formula: "S \\in (SAC) \\cap (SBD), \\ O = AC \\cap BD \\implies (SAC) \\cap (SBD) = SO",
+    svg: `<svg viewBox="0 0 340 240" class="w-full h-auto max-h-56 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Base ABCD: A(60,165), B(115,210), C(275,210), D(220,165); Apex S(160,30); O(167.5,187.5) -->
+      <!-- Shaded intersection planes -->
+      <polygon points="160,30 60,165 275,210" fill="#dbeafe" fill-opacity="0.35"/>
+      <polygon points="160,30 115,210 220,165" fill="#fef3c7" fill-opacity="0.35"/>
+      <!-- Hidden lines (dashed): AD, CD, AC, BD, SO -->
+      <line x1="60" y1="165" x2="220" y2="165" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 4"/>
+      <line x1="220" y1="165" x2="275" y2="210" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 4"/>
+      <line x1="60" y1="165" x2="275" y2="210" stroke="#2563eb" stroke-width="1.8" stroke-dasharray="4 3"/>
+      <line x1="115" y1="210" x2="220" y2="165" stroke="#059669" stroke-width="1.8" stroke-dasharray="4 3"/>
+      <line x1="160" y1="30" x2="220" y2="165" stroke="#475569" stroke-width="1.8" stroke-dasharray="5 4"/>
+      <!-- Intersection line SO (highlighted dashed red) -->
+      <line x1="160" y1="30" x2="168" y2="188" stroke="#dc2626" stroke-width="2.6" stroke-dasharray="5 3"/>
+      <!-- Visible lines (solid): SA, SB, SC, AB, BC -->
+      <line x1="160" y1="30" x2="60" y2="165" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="160" y1="30" x2="115" y2="210" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="160" y1="30" x2="275" y2="210" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="60" y1="165" x2="115" y2="210" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="115" y1="210" x2="275" y2="210" stroke="#1e293b" stroke-width="2.2"/>
+      <!-- Vertices -->
+      <circle cx="160" cy="30" r="4" fill="#dc2626"/><text x="155" y="20" font-size="13" font-weight="black" fill="#dc2626">S</text>
+      <circle cx="60" cy="165" r="3.5" fill="#1e293b"/><text x="42" y="168" font-size="12" font-weight="bold">A</text>
+      <circle cx="115" cy="210" r="3.5" fill="#1e293b"/><text x="105" y="226" font-size="12" font-weight="bold">B</text>
+      <circle cx="275" cy="210" r="3.5" fill="#1e293b"/><text x="282" y="216" font-size="12" font-weight="bold">C</text>
+      <circle cx="220" cy="165" r="3.5" fill="#1e293b"/><text x="226" y="162" font-size="12" font-weight="bold">D</text>
+      <circle cx="168" cy="188" r="4" fill="#dc2626"/><text x="174" y="202" font-size="12" font-weight="black" fill="#dc2626">O</text>
+      <text x="173" y="115" font-size="11" font-weight="bold" fill="#dc2626">Giao tuyến SO</text>
+    </svg>`,
+    tikzCode: `% --- HÌNH CHÓP S.ABCD & GIAO TUYẾN HAI MẶT PHẲNG LỚP 11 ---
+\\begin{tikzpicture}[scale=1, line join=round, line cap=round]
+  \\coordinate (A) at (0,0);
+  \\coordinate (B) at (1.2,-1.3);
+  \\coordinate (C) at (4.5,-1.3);
+  \\coordinate (D) at (3.3,0);
+  \\coordinate (S) at (2.1,3.2);
+  % Giao điểm hai đường chéo đáy O = AC giao BD
+  \\coordinate (O) at (2.25,-0.65);
+  % Các nét khuất (nét đứt)
+  \\draw[dashed, gray!80!black] (A) -- (D) -- (C) (S) -- (D);
+  \\draw[dashed, blue] (A) -- (C);
+  \\draw[dashed, teal] (B) -- (D);
+  % Giao tuyến SO = (SAC) giao (SBD)
+  \\draw[dashed, very thick, red] (S) -- (O) node[midway, right] {$SO$};
+  % Các nét nhìn thấy (nét liền)
+  \\draw[thick] (S) -- (A) -- (B) -- (C) -- (S) -- (B);
+  % Nhãn các đỉnh
+  \\foreach \\p/\\pos in {S/above, A/left, B/below left, C/below right, D/above right, O/below}
+    \\fill (\\p) circle (1.5pt) node[\\pos] {$\\p$};
+\\end{tikzpicture}`
+  },
+
+  {
     id: "tikz-g11-line-plane-perp",
     grade: 11,
-    chapterId: "g11-c8",
-    lessonId: "g11-c8-l23",
+    chapterId: "g11-c7",
+    lessonId: "g11-c7-l23",
     title: "Đường thẳng vuông góc với mặt phẳng",
     topic: "Hình học không gian",
     desc: "Đường thẳng d vuông góc với hai đường thẳng cắt nhau a và b cùng nằm trong mặt phẳng (P) thì d vuông góc với (P).",
@@ -680,9 +739,7 @@ window.MATH_TIKZ_LIBRARY = [
       <!-- Point O -->
       <circle cx="180" cy="135" r="3.5" fill="#1e1b4b"/><text x="188" y="146" font-size="12" font-weight="bold">O</text>
       <!-- Line d perpendicular to (P) at O -->
-      <!-- Upper part (visible) -->
       <line x1="180" y1="20" x2="180" y2="135" stroke="#dc2626" stroke-width="2.8"/>
-      <!-- Lower part (hidden dashed then visible) -->
       <line x1="180" y1="135" x2="180" y2="180" stroke="#dc2626" stroke-width="2.2" stroke-dasharray="4 3"/>
       <line x1="180" y1="180" x2="180" y2="220" stroke="#dc2626" stroke-width="2.5"/>
       <text x="188" y="30" font-size="14" font-weight="black" fill="#dc2626">d</text>
@@ -715,7 +772,7 @@ window.MATH_TIKZ_LIBRARY = [
     id: "tikz-g12-cubic-graph",
     grade: 12,
     chapterId: "g12-c1",
-    lessonId: "g12-c1-l5",
+    lessonId: "g12-c1-l1",
     title: "Đồ thị hàm số bậc ba y = ax³ + bx² + cx + d có 2 cực trị",
     topic: "Ứng dụng đạo hàm",
     desc: "Hàm số có hai điểm cực trị x_CĐ, x_CT khi phương trình y' = 0 có hai nghiệm phân biệt (Δ' > 0).",
@@ -763,13 +820,64 @@ window.MATH_TIKZ_LIBRARY = [
   },
 
   {
-    id: "tikz-g12-oxyz-plane",
+    id: "tikz-g12-oxyz-vectors",
     grade: 12,
     chapterId: "g12-c2",
-    lessonId: "g12-c2-l8",
+    lessonId: "g12-c2-l7",
+    title: "Hệ trục toạ độ không gian Oxyz và Toạ độ của điểm, vectơ",
+    topic: "Toạ độ của vectơ trong không gian",
+    desc: "Hệ toạ độ Oxyz gồm 3 trục Ox, Oy, Oz đôi một vuông góc với 3 vectơ đơn vị i, j, k. Điểm M(x; y; z) biểu diễn qua hình hộp chữ nhật.",
+    formula: "\\vec{OM} = x\\vec{i} + y\\vec{j} + z\\vec{k} \\iff M(x; y; z)",
+    svg: `<svg viewBox="0 0 340 250" class="w-full h-auto max-h-60 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr-v12" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#dc2626"/>
+        </marker>
+      </defs>
+      <!-- Axes O(130, 155) -->
+      <line x1="130" y1="155" x2="130" y2="20" stroke="#1e293b" stroke-width="2.2"/>
+      <text x="136" y="25" font-size="13" font-weight="black">z</text>
+      <line x1="130" y1="155" x2="310" y2="155" stroke="#1e293b" stroke-width="2.2"/>
+      <text x="315" y="160" font-size="13" font-weight="black">y</text>
+      <line x1="130" y1="155" x2="45" y2="230" stroke="#1e293b" stroke-width="2.2"/>
+      <text x="32" y="235" font-size="13" font-weight="black">x</text>
+      <text x="115" y="170" font-size="13" font-weight="black">O</text>
+      <!-- Projections: x on Ox(80,199), y on Oy(230,155), M'(180,199), z on Oz(130,75), M(180,119) -->
+      <line x1="80" y1="199" x2="180" y2="199" stroke="#64748b" stroke-dasharray="4 3" stroke-width="1.5"/>
+      <line x1="230" y1="155" x2="180" y2="199" stroke="#64748b" stroke-dasharray="4 3" stroke-width="1.5"/>
+      <line x1="130" y1="155" x2="180" y2="199" stroke="#2563eb" stroke-dasharray="3 3" stroke-width="1.5"/>
+      <line x1="180" y1="199" x2="180" y2="119" stroke="#059669" stroke-dasharray="4 3" stroke-width="1.8"/>
+      <line x1="130" y1="75" x2="180" y2="119" stroke="#64748b" stroke-dasharray="4 3" stroke-width="1.5"/>
+      <!-- Vector OM -->
+      <line x1="130" y1="155" x2="180" y2="119" stroke="#dc2626" stroke-width="2.8" marker-end="url(#arr-v12)"/>
+      <circle cx="180" cy="119" r="4" fill="#dc2626"/><text x="188" y="116" font-size="12" font-weight="black" fill="#dc2626">M(x; y; z)</text>
+      <circle cx="180" cy="199" r="3" fill="#2563eb"/><text x="186" y="212" font-size="11" font-weight="bold" fill="#2563eb">M'(x; y; 0)</text>
+      <text x="65" y="195" font-size="11" font-weight="bold">x</text>
+      <text x="230" y="148" font-size="11" font-weight="bold">y</text>
+      <text x="115" y="78" font-size="11" font-weight="bold">z</text>
+    </svg>`,
+    tikzCode: `% --- HỆ TRỤC TỌA ĐỘ OXYZ & TỌA ĐỘ ĐIỂM M(x;y;z) LỚP 12 ---
+\\begin{tikzpicture}[>=stealth, scale=1]
+  \\draw[->, thick] (0,0,0) -- (4,0,0) node[right] {$y$};
+  \\draw[->, thick] (0,0,0) -- (0,3.5,0) node[above] {$z$};
+  \\draw[->, thick] (0,0,0) -- (0,0,4) node[below left] {$x$};
+  \\node[below left] at (0,0,0) {$O$};
+  \\coordinate (M) at (2.5,2,2);
+  \\coordinate (Mxy) at (2.5,0,2);
+  \\draw[dashed, gray] (2.5,0,0) node[above] {$y$} -- (Mxy) -- (0,0,2) node[left] {$x$};
+  \\draw[dashed, teal] (Mxy) node[below right] {$M'(x;y;0)$} -- (M) -- (0,2,0) node[left] {$z$};
+  \\draw[->, very thick, red] (0,0,0) -- (M) node[above right] {$M(x;y;z)$};
+\\end{tikzpicture}`
+  },
+
+  {
+    id: "tikz-g12-oxyz-plane",
+    grade: 12,
+    chapterId: "g12-c5",
+    lessonId: "g12-c5-l14",
     title: "Hệ trục toạ độ không gian Oxyz và Vectơ pháp tuyến mặt phẳng",
-    topic: "Hình học tọa độ không gian",
-    desc: "Hệ toạ độ Oxyz gồm 3 trục vuông góc từng đôi một. Mặt phẳng (P) được xác định bởi điểm đi qua và vectơ pháp tuyến n.",
+    topic: "Phương pháp toạ độ trong không gian",
+    desc: "Mặt phẳng (P) trong không gian Oxyz hoàn toàn được xác định khi biết một điểm M₀(x₀; y₀; z₀) đi qua và một vectơ pháp tuyến n = (A; B; C).",
     formula: "\\vec{n} = (A; B; C) \\perp (P), \\quad (P): A(x-x_0) + B(y-y_0) + C(z-z_0) = 0",
     svg: `<svg viewBox="0 0 340 260" class="w-full h-auto max-h-60 mx-auto" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -781,13 +889,10 @@ window.MATH_TIKZ_LIBRARY = [
         </marker>
       </defs>
       <!-- Axes Oxyz: Origin O(130, 160) -->
-      <!-- Oz vertical -->
       <line x1="130" y1="160" x2="130" y2="25" stroke="#1e293b" stroke-width="2.5" marker-end="url(#arr-xyz)"/>
       <text x="135" y="25" font-size="14" font-weight="black">z</text>
-      <!-- Oy horizontal right -->
       <line x1="130" y1="160" x2="310" y2="160" stroke="#1e293b" stroke-width="2.5" marker-end="url(#arr-xyz)"/>
       <text x="315" y="165" font-size="14" font-weight="black">y</text>
-      <!-- Ox oblique bottom-left -->
       <line x1="130" y1="160" x2="45" y2="235" stroke="#1e293b" stroke-width="2.5" marker-end="url(#arr-xyz)"/>
       <text x="35" y="240" font-size="14" font-weight="black">x</text>
       <text x="115" y="175" font-size="14" font-weight="black">O</text>
@@ -823,7 +928,7 @@ window.MATH_TIKZ_LIBRARY = [
     id: "tikz-g12-integral-area",
     grade: 12,
     chapterId: "g12-c4",
-    lessonId: "g12-c4-l17",
+    lessonId: "g12-c4-l13",
     title: "Ứng dụng hình học của Tích phân tính diện tích hình phẳng",
     topic: "Nguyên hàm & Tích phân",
     desc: "Diện tích hình phẳng giới hạn bởi đồ thị hàm số y = f(x), trục hoành Ox và hai đường thẳng x = a, x = b.",
@@ -835,10 +940,7 @@ window.MATH_TIKZ_LIBRARY = [
       <text x="325" y="164" font-size="12" font-weight="bold">x</text>
       <text x="55" y="25" font-size="12" font-weight="bold">y</text>
       <text x="38" y="175" font-size="12" font-weight="bold">O</text>
-      <!-- Area under curve from a(90,160) to b(240,160) -->
-      <!-- Curve path: y = -0.005*(x-165)^2 + 130 -> top around (165, 45) -->
       <path d="M 90,160 C 110,80 140,50 165,50 C 190,50 220,90 240,160 Z" fill="#dbeafe" stroke="none"/>
-      <!-- Shading lines inside area -->
       <g stroke="#93c5fd" stroke-width="1.2">
         <line x1="110" y1="160" x2="110" y2="105"/>
         <line x1="130" y1="160" x2="130" y2="72"/>
@@ -848,16 +950,12 @@ window.MATH_TIKZ_LIBRARY = [
         <line x1="210" y1="160" x2="210" y2="92"/>
         <line x1="230" y1="160" x2="230" y2="135"/>
       </g>
-      <!-- Curve y = f(x) -->
       <path d="M 60,190 C 100,60 140,45 165,45 C 195,45 230,80 270,200" fill="none" stroke="#2563eb" stroke-width="2.8"/>
       <text x="180" y="38" font-size="13" font-weight="bold" fill="#2563eb">y = f(x)</text>
-      <!-- Vertical bounding lines x = a, x = b -->
       <line x1="90" y1="160" x2="90" y2="105" stroke="#dc2626" stroke-width="2" stroke-dasharray="3 3"/>
       <line x1="240" y1="160" x2="240" y2="150" stroke="#dc2626" stroke-width="2" stroke-dasharray="3 3"/>
-      <!-- Ticks a and b -->
       <circle cx="90" cy="160" r="3.5" fill="#dc2626"/><text x="88" y="178" font-size="13" font-weight="black" fill="#dc2626">a</text>
       <circle cx="240" cy="160" r="3.5" fill="#dc2626"/><text x="238" y="178" font-size="13" font-weight="black" fill="#dc2626">b</text>
-      <!-- Area label -->
       <text x="165" y="115" font-size="14" font-weight="black" fill="#1e40af" text-anchor="middle">S = ∫ₐᵇ f(x)dx</text>
     </svg>`,
     tikzCode: `% --- ỨNG DỤNG TÍCH PHÂN TÍNH DIỆN TÍCH LỚP 12 ---
@@ -883,22 +981,20 @@ window.MATH_TIKZ_LIBRARY = [
 // HÀM TIỆN ÍCH QUẢN LÝ HÌNH VẼ & TIKZ
 // ==========================================================================
 
-// Tìm hình vẽ liên quan đến khối lớp hoặc bài học
+// Tìm hình vẽ liên quan đến đúng bài học hoặc đúng chương (TUYỆT ĐỐI không lấy hình của chương khác)
 window.getTikzDiagramForLesson = function(gradeId, chapterId, lessonId) {
-  // Tìm khớp bài học
+  // 1. Tìm khớp chính xác bài học
   if (lessonId) {
     const directMatch = window.MATH_TIKZ_LIBRARY.find(d => d.lessonId === lessonId);
     if (directMatch) return directMatch;
   }
-  // Tìm khớp chương
+  // 2. Tìm khớp chính xác chương của bài học đó
   if (chapterId) {
     const chMatch = window.MATH_TIKZ_LIBRARY.find(d => d.chapterId === chapterId);
     if (chMatch) return chMatch;
   }
-  // Tìm theo khối lớp
-  const gradeMatches = window.MATH_TIKZ_LIBRARY.filter(d => d.grade === parseInt(gradeId));
-  if (gradeMatches.length > 0) return gradeMatches[0];
-  return window.MATH_TIKZ_LIBRARY[0];
+  // Nếu chương/bài học không có hình vẽ riêng (ví dụ các bài đại số, số học thuần túy), trả về null để ẩn khung hình vẽ
+  return null;
 };
 
 // Sao chép mã TikZ LaTeX vào clipboard

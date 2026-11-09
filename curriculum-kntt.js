@@ -1,4 +1,4 @@
-﻿// ==========================================================================
+// ==========================================================================
 // BỘ DỮ LIỆU NỘI DUNG KIẾN THỨC THEO CHƯƠNG & BÀI - CHUẨN GDPT 2018
 // (LỚP 6 ĐẾN LỚP 12)
 // ==========================================================================
@@ -38,12 +38,12 @@ window.KNTT_CURRICULUM = {
         icon: "divide",
         summary: "Quan hệ chia hết, số nguyên tố, hợp số, ước chung lớn nhất (ƯCLN) và bội chung nhỏ nhất (BCNN).",
         lessons: [
-          { id: "g6-c2-l8", number: "Bài 8", title: "Quan hệ chia hết và tính chất", formula: "a \\ \\vdots \\ b \\ (b \\ne 0)", badge: "Cơ bản", desc: "Khái niệm chia hết, tính chất chia hết của một tổng." },
-          { id: "g6-c2-l9", number: "Bài 9", title: "Dấu hiệu chia hết cho 2, cho 5", formula: "Chữ số tận cùng: 0, 2, 4, 6, 8 / 0, 5", badge: "Cơ bản", desc: "Nhận biết nhanh số chia hết cho 2 và cho 5." },
-          { id: "g6-c2-l10", number: "Bài 10", title: "Dấu hiệu chia hết cho 3, cho 9", formula: "Tổng các chữ số \\ \\vdots \\ 3, \\ \\vdots \\ 9", badge: "Trọng tâm", desc: "Áp dụng tổng chữ số để xét tính chia hết." },
-          { id: "g6-c2-l11", number: "Bài 11", title: "Số nguyên tố. Hợp số", formula: "Ước chỉ gồm 1 và chính nó", badge: "Trọng tâm", desc: "Phân biệt số nguyên tố, phân tích ra thừa số nguyên tố." },
-          { id: "g6-c2-l12", number: "Bài 12", title: "Ước chung. Ước chung lớn nhất (ƯCLN)", formula: "\\text{ƯCLN}(a,b)", badge: "Trọng tâm 9+", desc: "Quy tắc tìm ƯCLN và ứng dụng rút gọn phân số." },
-          { id: "g6-c2-l13", number: "Bài 13", title: "Bội chung. Bội chung nhỏ nhất (BCNN)", formula: "\\text{BCNN}(a,b)", badge: "Trọng tâm 9+", desc: "Cách tìm BCNN và ứng dụng quy đồng mẫu số." }
+          { id: "g6-c2-l8", number: "Bài 8", title: "Quan hệ chia hết và tính chất", formula: "a \\ \\vdots \\ b \\ (b \\ne 0)", badge: "Cơ bản", desc: "Khái niệm chia hết, ước và bội, tính chất chia hết của một tổng." },
+          { id: "g6-c2-l9", number: "Bài 9A", title: "Dấu hiệu chia hết cho 2, cho 5", formula: "Chữ số tận cùng: 0, 2, 4, 6, 8 / 0, 5", badge: "Cơ bản", desc: "Nhận biết nhanh số chia hết cho 2, cho 5 và cả 2 và 5." },
+          { id: "g6-c2-l10", number: "Bài 9B", title: "Dấu hiệu chia hết cho 3, cho 9", formula: "Tổng các chữ số \\ \\vdots \\ 3, \\ \\vdots \\ 9", badge: "Trọng tâm", desc: "Áp dụng tổng các chữ số để xét tính chia hết cho 3 và cho 9." },
+          { id: "g6-c2-l11", number: "Bài 10", title: "Số nguyên tố. Hợp số", formula: "Ước chỉ gồm 1 và chính nó", badge: "Trọng tâm", desc: "Phân biệt số nguyên tố, hợp số và phân tích một số ra thừa số nguyên tố." },
+          { id: "g6-c2-l12", number: "Bài 11", title: "Ước chung. Ước chung lớn nhất (ƯCLN)", formula: "\\text{ƯCLN}(a,b)", badge: "Trọng tâm 9+", desc: "Quy tắc tìm ƯCLN, hai số nguyên tố cùng nhau và ứng dụng rút gọn phân số." },
+          { id: "g6-c2-l13", number: "Bài 12", title: "Bội chung. Bội chung nhỏ nhất (BCNN)", formula: "\\text{BCNN}(a,b)", badge: "Trọng tâm 9+", desc: "Quy tắc tìm BCNN và ứng dụng quy đồng mẫu các phân số." }
         ]
       },
       {
@@ -719,7 +719,7 @@ window.KNTT_CURRICULUM = {
         lessons: [
           { id: "g12-c1-l1", number: "Bài 1", title: "Tính đơn điệu và cực trị của hàm số", formula: "y' \\ge 0 \\Rightarrow \\text{đồng biến}, y' = 0 \\text{ đổi dấu}", badge: "Cốt lõi THPT", desc: "Điều kiện cần và đủ cho tính đơn điệu, các điểm cực đại, cực tiểu." },
           { id: "g12-c1-l2", number: "Bài 2", title: "Giá trị lớn nhất và giá trị nhỏ nhất của hàm số", formula: "\\max_{[a;b]} f(x), \\min_{[a;b]} f(x)", badge: "Cốt lõi THPT", desc: "Quy tắc tìm GTLN, GTNN trên một đoạn và trên khoảng vô hạn." },
-          { id: "g12-c1-l3", number: "Bài 3", title: "Đường tiệm cận của đồ thị hàm số", formula: "\\lim_{x \\to \\pm\\infty} f(x) = y_0 \\text{ (TCN)}, \\lim_{x \\to x_0} f(x) = \\infty \\text{ (TCĐ)}, y = ax+b \\text{ (TCX)}", badge: "Trọng tâm GDPT 2018", desc: "Điểm mới KNTT 12: Tiệm cận xiên $a = \\lim \\frac{f(x)}{x}, b = \\lim [f(x)-ax]$." },
+          { id: "g12-c1-l3", number: "Bài 3", title: "Đường tiệm cận của đồ thị hàm số", formula: "\\lim_{x \\to \\pm\\infty} f(x) = y_0 \\text{ (TCN)}, \\lim_{x \\to x_0} f(x) = \\infty \\text{ (TCĐ)}, y = ax+b \\text{ (TCX)}", badge: "Trọng tâm GDPT 2018", desc: "Tiệm cận ngang, tiệm cận đứng và tiệm cận xiên $a = \\lim \\frac{f(x)}{x}, b = \\lim [f(x)-ax]$." },
           { id: "g12-c1-l4", number: "Bài 4", title: "Khảo sát sự biến thiên và vẽ đồ thị của hàm số", formula: "y = \\frac{ax+b}{cx+d}, y = \\frac{ax^2+bx+c}{px+q}", badge: "Trọng tâm THPT", desc: "Sơ đồ khảo sát hoàn chỉnh các hàm số bậc ba, phân thức bậc nhất/bậc nhất, bậc hai/bậc nhất." },
           { id: "g12-c1-l5", number: "Bài 5", title: "Ứng dụng đạo hàm giải quyết bài toán thực tế", formula: "\\text{Tối ưu hóa: Chi phí min, Doanh thu max}", badge: "Thực tế 9+", desc: "Các bài toán thực tế về kinh tế, tối ưu hóa vật liệu hình học (hộp, lon, máng dẫn nước)." }
         ]
@@ -785,7 +785,7 @@ window.KNTT_CURRICULUM = {
         summary: "Khái niệm xác suất có điều kiện P(A|B), công thức nhân xác suất, công thức xác suất toàn phần và công thức Bayes (nội dung mới chuẩn GDPT 2018).",
         lessons: [
           { id: "g12-c6-l18", number: "Bài 18", title: "Xác suất có điều kiện", formula: "P(A|B) = \\frac{P(AB)}{P(B)} \\ (P(B) > 0)", badge: "Điểm Mới 2018", desc: "Định nghĩa xác suất có điều kiện và công thức nhân xác suất $P(AB) = P(B)P(A|B)$." },
-          { id: "g12-c6-l19", number: "Bài 19", title: "Công thức xác suất toàn phần và công thức Bayes", formula: "P(B) = \\sum P(A_i)P(B|A_i), P(A_i|B) = \\frac{P(A_i)P(B|A_i)}{P(B)}", badge: "Phân loại 9+ KNTT", desc: "Bài toán chuẩn đoán y khoa, xác suất phế phẩm, sơ đồ hình cây trong đề thi Tốt nghiệp THPT 2026." }
+          { id: "g12-c6-l19", number: "Bài 19", title: "Công thức xác suất toàn phần và công thức Bayes", formula: "P(B) = \\sum P(A_i)P(B|A_i), P(A_i|B) = \\frac{P(A_i)P(B|A_i)}{P(B)}", badge: "Phân loại 9+ THPT", desc: "Bài toán chẩn đoán y khoa, xác suất phế phẩm, sơ đồ hình cây trong đề thi Tốt nghiệp THPT 2026." }
         ]
       }
     ]
