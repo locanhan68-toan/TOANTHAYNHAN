@@ -4330,6 +4330,12 @@ function loadNavSelectedLesson() {
   if (headerTitle) headerTitle.innerText = `${lesson.number}: ${lesson.title}`;
   if (headerDesc) headerDesc.innerHTML = `${lesson.desc}. Công thức cốt lõi: <strong>$${lesson.formula || ''}$</strong>`;
 
+  // Xóa nội dung bài học cũ để đảm bảo cập nhật đồng bộ 100% với bài học mới được chọn
+  const oldTheory = document.getElementById('theory-content');
+  if (oldTheory) oldTheory.innerHTML = '';
+  const oldMethod = document.getElementById('topic-method-box');
+  if (oldMethod) oldMethod.innerHTML = '';
+
   // Tạo dữ liệu bài học động từ cơ sở dữ liệu nâng cao (curriculum-knowledge.js & math-diagrams-tikz.js)
   if (typeof window.getEnrichedLessonData === 'function') {
     MATH_DATA.currentLesson = window.getEnrichedLessonData(gradeId, chId, lId);

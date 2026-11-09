@@ -1,186 +1,186 @@
-﻿// ==========================================================================
-// CÆ  Sá»ž Dá»® LIá»†U BÃ€I Há»ŒC VÃ€ BÃ€I Táº¬P RÃˆN LUYá»†N TOÃN 11 CHUáº¨N GDPT 2018
-// Cáº¤U TRÃšC CHUáº¨N HÃ“A: 3 Dáº NG TOÃN x 10 BÃ€I Táº¬P (4 BIáº¾T - 3 HIá»‚U - 3 Váº¬N Dá»¤NG)
+// ==========================================================================
+// CƠ SỞ DỮ LIỆU BÀI HỌC VÀ BÀI TẬP RÈN LUYỆN TOÁN 11 CHUẨN GDPT 2018
+// CẤU TRÚC CHUẨN HÓA: 3 DẠNG TOÁN x 10 BÀI TẬP (4 BIẾT - 3 HIỂU - 3 VẬN DỤNG)
 // ==========================================================================
 
 window.GRADE_11_KNOWLEDGE = {
   "g11-c1": {
     chapterId: "g11-c1",
-    chapterNumber: "ChÆ°Æ¡ng I",
-    chapterTitle: "HÃ m Sá»‘ LÆ°á»£ng GiÃ¡c VÃ  PhÆ°Æ¡ng TrÃ¬nh LÆ°á»£ng GiÃ¡c",
-    semester: "Táº­p 1 - Há»c ká»³ I",
+    chapterNumber: "Chương I",
+    chapterTitle: "Hàm Số Lượng Giác Và Phương Trình Lượng Giác",
+    semester: "Tập 1 - Học kỳ I",
     theorySections: [
       {
-        title: "1. GÃ³c lÆ°á»£ng giÃ¡c & GiÃ¡ trá»‹ lÆ°á»£ng giÃ¡c cá»§a gÃ³c",
-        content: "- **Äá»•i Ä‘Æ¡n vá»‹:** $180^\\circ = \\pi\\text{ rad} \\implies 1^\\circ = \\frac{\\pi}{180}\\text{ rad}$ vÃ  $1\\text{ rad} = \\left(\\frac{180}{\\pi}\\right)^\\circ$.\n- **Äá»™ dÃ i cung trÃ²n:** $l = R \\cdot \\alpha$ (vá»›i $\\alpha$ tÃ­nh báº±ng radian).\n- **Äá»‹nh nghÄ©a trÃªn Ä‘Æ°á»ng trÃ²n lÆ°á»£ng giÃ¡c:** Äiá»ƒm ngá»n $M(x_M; y_M) \\implies \\sin\\alpha = y_M, \\cos\\alpha = x_M, \\tan\\alpha = \\frac{y_M}{x_M}, \\cot\\alpha = \\frac{x_M}{y_M}$.\n- **Há»‡ thá»©c cÆ¡ báº£n:** $\\sin^2\\alpha + \\cos^2\\alpha = 1; \\ 1 + \\tan^2\\alpha = \\frac{1}{\\cos^2\\alpha}; \\ 1 + \\cot^2\\alpha = \\frac{1}{\\sin^2\\alpha}; \\ \\tan\\alpha \\cdot \\cot\\alpha = 1$."
+        title: "1. Góc lượng giác & Giá trị lượng giác của góc",
+        content: "- **Đổi đơn vị:** $180^\\circ = \\pi\\text{ rad} \\implies 1^\\circ = \\frac{\\pi}{180}\\text{ rad}$ và $1\\text{ rad} = \\left(\\frac{180}{\\pi}\\right)^\\circ$.\n- **Độ dài cung tròn:** $l = R \\cdot \\alpha$ (với $\\alpha$ tính bằng radian).\n- **Định nghĩa trên đường tròn lượng giác:** Điểm ngọn $M(x_M; y_M) \\implies \\sin\\alpha = y_M, \\cos\\alpha = x_M, \\tan\\alpha = \\frac{y_M}{x_M}, \\cot\\alpha = \\frac{x_M}{y_M}$.\n- **Hệ thức cơ bản:** $\\sin^2\\alpha + \\cos^2\\alpha = 1; \\ 1 + \\tan^2\\alpha = \\frac{1}{\\cos^2\\alpha}; \\ 1 + \\cot^2\\alpha = \\frac{1}{\\sin^2\\alpha}; \\ \\tan\\alpha \\cdot \\cot\\alpha = 1$."
       },
       {
-        title: "2. CÃ´ng thá»©c lÆ°á»£ng giÃ¡c trá»ng tÃ¢m",
-        content: "- **CÃ´ng thá»©c cá»™ng:**\n  + $\\cos(a \\pm b) = \\cos a \\cos b \\mp \\sin a \\sin b$\n  + $\\sin(a \\pm b) = \\sin a \\cos b \\pm \\cos a \\sin b$\n  + $\\tan(a \\pm b) = \\frac{\\tan a \\pm \\tan b}{1 \\mp \\tan a \\tan b}$\n- **CÃ´ng thá»©c nhÃ¢n Ä‘Ã´i & háº¡ báº­c:**\n  + $\\sin 2a = 2\\sin a \\cos a$\n  + $\\cos 2a = \\cos^2 a - \\sin^2 a = 2\\cos^2 a - 1 = 1 - 2\\sin^2 a$\n  + $\\cos^2 a = \\frac{1 + \\cos 2a}{2}; \\ \\sin^2 a = \\frac{1 - \\cos 2a}{2}$\n- **Biáº¿n Ä‘á»•i tÃ­ch thÃ nh tá»•ng & tá»•ng thÃ nh tÃ­ch:**\n  + $\\cos a \\cos b = \\frac{1}{2}[\\cos(a-b) + \\cos(a+b)]; \\ \\sin a \\sin b = \\frac{1}{2}[\\cos(a-b) - \\cos(a+b)]$\n  + $\\cos u + \\cos v = 2\\cos\\frac{u+v}{2}\\cos\\frac{u-v}{2}; \\ \\sin u + \\sin v = 2\\sin\\frac{u+v}{2}\\cos\\frac{u-v}{2}$."
+        title: "2. Công thức lượng giác trọng tâm",
+        content: "- **Công thức cộng:**\n  + $\\cos(a \\pm b) = \\cos a \\cos b \\mp \\sin a \\sin b$\n  + $\\sin(a \\pm b) = \\sin a \\cos b \\pm \\cos a \\sin b$\n  + $\\tan(a \\pm b) = \\frac{\\tan a \\pm \\tan b}{1 \\mp \\tan a \\tan b}$\n- **Công thức nhân đôi & hạ bậc:**\n  + $\\sin 2a = 2\\sin a \\cos a$\n  + $\\cos 2a = \\cos^2 a - \\sin^2 a = 2\\cos^2 a - 1 = 1 - 2\\sin^2 a$\n  + $\\cos^2 a = \\frac{1 + \\cos 2a}{2}; \\ \\sin^2 a = \\frac{1 - \\cos 2a}{2}$\n- **Biến đổi tích thành tổng & tổng thành tích:**\n  + $\\cos a \\cos b = \\frac{1}{2}[\\cos(a-b) + \\cos(a+b)]; \\ \\sin a \\sin b = \\frac{1}{2}[\\cos(a-b) - \\cos(a+b)]$\n  + $\\cos u + \\cos v = 2\\cos\\frac{u+v}{2}\\cos\\frac{u-v}{2}; \\ \\sin u + \\sin v = 2\\sin\\frac{u+v}{2}\\cos\\frac{u-v}{2}$."
       },
       {
-        title: "3. HÃ m sá»‘ lÆ°á»£ng giÃ¡c & PhÆ°Æ¡ng trÃ¬nh lÆ°á»£ng giÃ¡c cÆ¡ báº£n",
-        content: "- **HÃ m sá»‘:**\n  + $y = \\sin x, y = \\cos x$: TXÄ $D = \\mathbb{R}$, chu ká»³ $2\\pi$, miá»n giÃ¡ trá»‹ $[-1; 1]$. $y = \\cos x$ lÃ  hÃ m sá»‘ cháºµn, $y = \\sin x$ lÃ  hÃ m sá»‘ láº».\n  + $y = \\tan x$: TXÄ $D = \\mathbb{R} \\setminus \\left\\{\\frac{\\pi}{2} + k\\pi\\right\\}$, chu ká»³ $\\pi$, lÃ  hÃ m sá»‘ láº».\n- **PhÆ°Æ¡ng trÃ¬nh cÆ¡ báº£n:**\n  + $\\sin x = m \\ (|m| \\le 1) \\iff x = \\alpha + k2\\pi$ hoáº·c $x = \\pi - \\alpha + k2\\pi$\n  + $\\cos x = m \\ (|m| \\le 1) \\iff x = \\pm \\alpha + k2\\pi$\n  + $\\tan x = m \\iff x = \\alpha + k\\pi$\n  + $\\cot x = m \\iff x = \\alpha + k\\pi$."
+        title: "3. Hàm số lượng giác & Phương trình lượng giác cơ bản",
+        content: "- **Hàm số:**\n  + $y = \\sin x, y = \\cos x$: TXĐ $D = \\mathbb{R}$, chu kỳ $2\\pi$, miền giá trị $[-1; 1]$. $y = \\cos x$ là hàm số chẵn, $y = \\sin x$ là hàm số lẻ.\n  + $y = \\tan x$: TXĐ $D = \\mathbb{R} \\setminus \\left\\{\\frac{\\pi}{2} + k\\pi\\right\\}$, chu kỳ $\\pi$, là hàm số lẻ.\n- **Phương trình cơ bản:**\n  + $\\sin x = m \\ (|m| \\le 1) \\iff x = \\alpha + k2\\pi$ hoặc $x = \\pi - \\alpha + k2\\pi$\n  + $\\cos x = m \\ (|m| \\le 1) \\iff x = \\pm \\alpha + k2\\pi$\n  + $\\tan x = m \\iff x = \\alpha + k\\pi$\n  + $\\cot x = m \\iff x = \\alpha + k\\pi$."
       }
     ]
   }
 ,
   "g11-c2": {
     chapterId: "g11-c2",
-    chapterNumber: "ChÆ°Æ¡ng II",
-    chapterTitle: "DÃ£y Sá»‘. Cáº¥p Sá»‘ Cá»™ng VÃ  Cáº¥p Sá»‘ NhÃ¢n",
-    semester: "Táº­p 1 - Há»c ká»³ I",
+    chapterNumber: "Chương II",
+    chapterTitle: "Dãy Số. Cấp Số Cộng Và Cấp Số Nhân",
+    semester: "Tập 1 - Học kỳ I",
     theorySections: [
       {
-        title: "1. DÃ£y sá»‘: Äá»‹nh nghÄ©a, tÃ­nh tÄƒng giáº£m & bá»‹ cháº·n",
-        content: "- **Äá»‹nh nghÄ©a:** HÃ m sá»‘ $u: \\mathbb{N}^* \\to \\mathbb{R}, n \\mapsto u_n$.\n- **DÃ£y sá»‘ tÄƒng, giáº£m:**\n  + TÄƒng: $u_{n+1} > u_n \\ (\\forall n \\in \\mathbb{N}^*)$ (xÃ©t hiá»‡u $u_{n+1} - u_n > 0$ hoáº·c tá»‰ sá»‘ $\\frac{u_{n+1}}{u_n} > 1$ khi $u_n > 0$).\n  + Giáº£m: $u_{n+1} < u_n \\ (\\forall n \\in \\mathbb{N}^*)$ (xÃ©t hiá»‡u $u_{n+1} - u_n < 0$ hoáº·c tá»‰ sá»‘ $\\frac{u_{n+1}}{u_n} < 1$).\n- **DÃ£y sá»‘ bá»‹ cháº·n:** Bá»‹ cháº·n dÆ°á»›i náº¿u $\\exists m: u_n \\ge m$; bá»‹ cháº·n trÃªn náº¿u $\\exists M: u_n \\le M$; bá»‹ cháº·n náº¿u vá»«a bá»‹ cháº·n trÃªn vá»«a bá»‹ cháº·n dÆ°á»›i."
+        title: "1. Dãy số: Định nghĩa, tính tăng giảm & bị chặn",
+        content: "- **Định nghĩa:** Hàm số $u: \\mathbb{N}^* \\to \\mathbb{R}, n \\mapsto u_n$.\n- **Dãy số tăng, giảm:**\n  + Tăng: $u_{n+1} > u_n \\ (\\forall n \\in \\mathbb{N}^*)$ (xét hiệu $u_{n+1} - u_n > 0$ hoặc tỉ số $\\frac{u_{n+1}}{u_n} > 1$ khi $u_n > 0$).\n  + Giảm: $u_{n+1} < u_n \\ (\\forall n \\in \\mathbb{N}^*)$ (xét hiệu $u_{n+1} - u_n < 0$ hoặc tỉ số $\\frac{u_{n+1}}{u_n} < 1$).\n- **Dãy số bị chặn:** Bị chặn dưới nếu $\\exists m: u_n \\ge m$; bị chặn trên nếu $\\exists M: u_n \\le M$; bị chặn nếu vừa bị chặn trên vừa bị chặn dưới."
       },
       {
-        title: "2. Cáº¥p sá»‘ cá»™ng: Sá»‘ háº¡ng tá»•ng quÃ¡t & Tá»•ng n sá»‘ háº¡ng Ä‘áº§u",
-        content: "- **Äá»‹nh nghÄ©a:** $u_{n+1} = u_n + d \\implies d = u_{n+1} - u_n$ (cÃ´ng sai khÃ´ng Ä‘á»•i).\n- **Sá»‘ háº¡ng tá»•ng quÃ¡t:** $u_n = u_1 + (n - 1)d$.\n- **TÃ­nh cháº¥t ba sá»‘ háº¡ng liÃªn tiáº¿p:** $u_{k-1} + u_{k+1} = 2u_k \\ (k \\ge 2)$.\n- **Tá»•ng $n$ sá»‘ háº¡ng Ä‘áº§u tiÃªn:** $S_n = \\frac{n(u_1 + u_n)}{2} = \\frac{n[2u_1 + (n - 1)d]}{2}$."
+        title: "2. Cấp số cộng: Số hạng tổng quát & Tổng n số hạng đầu",
+        content: "- **Định nghĩa:** $u_{n+1} = u_n + d \\implies d = u_{n+1} - u_n$ (công sai không đổi).\n- **Số hạng tổng quát:** $u_n = u_1 + (n - 1)d$.\n- **Tính chất ba số hạng liên tiếp:** $u_{k-1} + u_{k+1} = 2u_k \\ (k \\ge 2)$.\n- **Tổng $n$ số hạng đầu tiên:** $S_n = \\frac{n(u_1 + u_n)}{2} = \\frac{n[2u_1 + (n - 1)d]}{2}$."
       },
       {
-        title: "3. Cáº¥p sá»‘ nhÃ¢n: Sá»‘ háº¡ng tá»•ng quÃ¡t, Tá»•ng n sá»‘ háº¡ng Ä‘áº§u & LÃ£i kÃ©p",
-        content: "- **Äá»‹nh nghÄ©a:** $u_{n+1} = u_n \\cdot q \\implies q = \\frac{u_{n+1}}{u_n}$ (cÃ´ng bá»™i khÃ´ng Ä‘á»•i).\n- **Sá»‘ háº¡ng tá»•ng quÃ¡t:** $u_n = u_1 \\cdot q^{n-1}$.\n- **TÃ­nh cháº¥t ba sá»‘ háº¡ng liÃªn tiáº¿p:** $u_k^2 = u_{k-1} \\cdot u_{k+1} \\ (k \\ge 2)$.\n- **Tá»•ng $n$ sá»‘ háº¡ng Ä‘áº§u tiÃªn:** $S_n = \\frac{u_1(1 - q^n)}{1 - q} \\ (q \\ne 1)$. Náº¿u $q = 1 \\implies S_n = n u_1$.\n- **BÃ i toÃ¡n lÃ£i kÃ©p ngÃ¢n hÃ ng:** $S_n = A(1 + r)^n$ ($A$: tiá»n gá»‘c, $r$: lÃ£i suáº¥t má»—i ká»³, $n$: sá»‘ ká»³ háº¡n)."
+        title: "3. Cấp số nhân: Số hạng tổng quát, Tổng n số hạng đầu & Lãi kép",
+        content: "- **Định nghĩa:** $u_{n+1} = u_n \\cdot q \\implies q = \\frac{u_{n+1}}{u_n}$ (công bội không đổi).\n- **Số hạng tổng quát:** $u_n = u_1 \\cdot q^{n-1}$.\n- **Tính chất ba số hạng liên tiếp:** $u_k^2 = u_{k-1} \\cdot u_{k+1} \\ (k \\ge 2)$.\n- **Tổng $n$ số hạng đầu tiên:** $S_n = \\frac{u_1(1 - q^n)}{1 - q} \\ (q \\ne 1)$. Nếu $q = 1 \\implies S_n = n u_1$.\n- **Bài toán lãi kép ngân hàng:** $S_n = A(1 + r)^n$ ($A$: tiền gốc, $r$: lãi suất mỗi kỳ, $n$: số kỳ hạn)."
       }
     ]
   }
 ,
   "g11-c3": {
     chapterId: "g11-c3",
-    chapterNumber: "ChÆ°Æ¡ng III",
-    chapterTitle: "CÃ¡c Sá»‘ Äáº·c TrÆ°ng Äo Xu Tháº¿ Trung TÃ¢m Cá»§a Máº«u Sá»‘ Liá»‡u GhÃ©p NhÃ³m",
-    semester: "Táº­p 1 - Há»c ká»³ I",
+    chapterNumber: "Chương III",
+    chapterTitle: "Các Số Đặc Trưng Đo Xu Thế Trung Tâm Của Mẫu Số Liệu Ghép Nhóm",
+    semester: "Tập 1 - Học kỳ I",
     theorySections: [
       {
-        title: "1. Máº«u sá»‘ liá»‡u ghÃ©p nhÃ³m & GiÃ¡ trá»‹ Ä‘áº¡i diá»‡n",
-        content: "- **KhÃ¡i niá»‡m:** Máº«u sá»‘ liá»‡u ghÃ©p nhÃ³m lÃ  máº«u sá»‘ liá»‡u Ä‘Æ°á»£c chia thÃ nh cÃ¡c nhÃ³m liÃªn tiáº¿p dáº¡ng $[a_i; a_{i+1})$, trong Ä‘Ã³ $a_i$ lÃ  Ä‘áº§u mÃºt trÃ¡i, $a_{i+1}$ lÃ  Ä‘áº§u mÃºt pháº£i, Ä‘á»™ dÃ i nhÃ³m $h = a_{i+1} - a_i$.\n- **GiÃ¡ trá»‹ Ä‘áº¡i diá»‡n:** Má»—i nhÃ³m $[a_i; a_{i+1})$ cÃ³ giÃ¡ trá»‹ Ä‘áº¡i diá»‡n lÃ  trung Ä‘iá»ƒm $c_i = \\frac{a_i + a_{i+1}}{2}$.\n- **Cá»¡ máº«u:** $n = m_1 + m_2 + \\dots + m_k = \\sum_{i=1}^k m_i$ (vá»›i $m_i$ lÃ  táº§n sá»‘ cá»§a nhÃ³m $i$)."
+        title: "1. Mẫu số liệu ghép nhóm & Giá trị đại diện",
+        content: "- **Khái niệm:** Mẫu số liệu ghép nhóm là mẫu số liệu được chia thành các nhóm liên tiếp dạng $[a_i; a_{i+1})$, trong đó $a_i$ là đầu mút trái, $a_{i+1}$ là đầu mút phải, độ dài nhóm $h = a_{i+1} - a_i$.\n- **Giá trị đại diện:** Mỗi nhóm $[a_i; a_{i+1})$ có giá trị đại diện là trung điểm $c_i = \\frac{a_i + a_{i+1}}{2}$.\n- **Cỡ mẫu:** $n = m_1 + m_2 + \\dots + m_k = \\sum_{i=1}^k m_i$ (với $m_i$ là tần số của nhóm $i$)."
       },
       {
-        title: "2. Sá»‘ trung bÃ¬nh cá»™ng cá»§a máº«u sá»‘ liá»‡u ghÃ©p nhÃ³m",
-        content: "- **CÃ´ng thá»©c:** $\\bar{x} = \\frac{m_1 c_1 + m_2 c_2 + \\dots + m_k c_k}{n} = \\frac{1}{n}\\sum_{i=1}^k m_i c_i$.\n- **Ã nghÄ©a:** $\\bar{x}$ lÃ  giÃ¡ trá»‹ xáº¥p xá»‰ cho sá»‘ trung bÃ¬nh cá»§a máº«u sá»‘ liá»‡u gá»‘c, Ä‘áº¡i diá»‡n cho xu tháº¿ táº­p trung cá»§a dá»¯ liá»‡u khi khÃ´ng cÃ³ giÃ¡ trá»‹ ngoáº¡i lai."
+        title: "2. Số trung bình cộng của mẫu số liệu ghép nhóm",
+        content: "- **Công thức:** $\\bar{x} = \\frac{m_1 c_1 + m_2 c_2 + \\dots + m_k c_k}{n} = \\frac{1}{n}\\sum_{i=1}^k m_i c_i$.\n- **Ý nghĩa:** $\\bar{x}$ là giá trị xấp xỉ cho số trung bình của mẫu số liệu gốc, đại diện cho xu thế tập trung của dữ liệu khi không có giá trị ngoại lai."
       },
       {
-        title: "3. Trung vá»‹, Tá»© phÃ¢n vá»‹ & Má»‘t cá»§a máº«u sá»‘ liá»‡u ghÃ©p nhÃ³m",
-        content: "- **Trung vá»‹ $M_e$ ($= Q_2$):** TÃ¬m nhÃ³m $[u_m; u_{m+1})$ Ä‘áº§u tiÃªn cÃ³ táº§n sá»‘ tÃ­ch luá»¹ $cf_m \\ge \\frac{n}{2}$. Khi Ä‘Ã³:\n  $M_e = u_m + \\frac{\\frac{n}{2} - C}{m_m} \\cdot (u_{m+1} - u_m)$ ($C$ lÃ  táº§n sá»‘ tÃ­ch luá»¹ nhÃ³m trÆ°á»›c).\n- **Tá»© phÃ¢n vá»‹ $Q_1$:** NhÃ³m Ä‘áº§u tiÃªn cÃ³ $cf \\ge \\frac{n}{4}$: $Q_1 = u_p + \\frac{\\frac{n}{4} - C}{m_p} \\cdot (u_{p+1} - u_p)$.\n- **Tá»© phÃ¢n vá»‹ $Q_3$:** NhÃ³m Ä‘áº§u tiÃªn cÃ³ $cf \\ge \\frac{3n}{4}$: $Q_3 = u_q + \\frac{\\frac{3n}{4} - C}{m_q} \\cdot (u_{q+1} - u_q)$.\n- **Má»‘t $M_o$:** NhÃ³m $[u_j; u_{j+1})$ cÃ³ táº§n sá»‘ $m_j$ lá»›n nháº¥t:\n  $M_o = u_j + \\frac{m_j - m_{j-1}}{(m_j - m_{j-1}) + (m_j - m_{j+1})} \\cdot (u_{j+1} - u_j)$."
+        title: "3. Trung vị, Tứ phân vị & Mốt của mẫu số liệu ghép nhóm",
+        content: "- **Trung vị $M_e$ ($= Q_2$):** Tìm nhóm $[u_m; u_{m+1})$ đầu tiên có tần số tích luỹ $cf_m \\ge \\frac{n}{2}$. Khi đó:\n  $M_e = u_m + \\frac{\\frac{n}{2} - C}{m_m} \\cdot (u_{m+1} - u_m)$ ($C$ là tần số tích luỹ nhóm trước).\n- **Tứ phân vị $Q_1$:** Nhóm đầu tiên có $cf \\ge \\frac{n}{4}$: $Q_1 = u_p + \\frac{\\frac{n}{4} - C}{m_p} \\cdot (u_{p+1} - u_p)$.\n- **Tứ phân vị $Q_3$:** Nhóm đầu tiên có $cf \\ge \\frac{3n}{4}$: $Q_3 = u_q + \\frac{\\frac{3n}{4} - C}{m_q} \\cdot (u_{q+1} - u_q)$.\n- **Mốt $M_o$:** Nhóm $[u_j; u_{j+1})$ có tần số $m_j$ lớn nhất:\n  $M_o = u_j + \\frac{m_j - m_{j-1}}{(m_j - m_{j-1}) + (m_j - m_{j+1})} \\cdot (u_{j+1} - u_j)$."
       }
     ]
   },
   "g11-c4": {
     chapterId: "g11-c4",
-    chapterNumber: "ChÆ°Æ¡ng IV",
-    chapterTitle: "Quan Há»‡ Song Song Trong KhÃ´ng Gian",
-    semester: "Táº­p 1 - Há»c ká»³ I",
+    chapterNumber: "Chương IV",
+    chapterTitle: "Quan Hệ Song Song Trong Không Gian",
+    semester: "Tập 1 - Học kỳ I",
     theorySections: [
       {
-        title: "1. Äiá»ƒm, ÄÆ°á»ng tháº³ng vÃ  Máº·t pháº³ng trong khÃ´ng gian",
-        content: "- **CÃ¡ch xÃ¡c Ä‘á»‹nh máº·t pháº³ng:** Qua 3 Ä‘iá»ƒm khÃ´ng tháº³ng hÃ ng; qua 1 Ä‘iá»ƒm vÃ  1 Ä‘Æ°á»ng tháº³ng khÃ´ng chá»©a nÃ³; qua 2 Ä‘Æ°á»ng tháº³ng cáº¯t nhau; qua 2 Ä‘Æ°á»ng tháº³ng song song.\n- **Giao tuyáº¿n cá»§a hai máº·t pháº³ng:** TÃ¬m 2 Ä‘iá»ƒm chung phÃ¢n biá»‡t.\n- **Giao Ä‘iá»ƒm cá»§a Ä‘Æ°á»ng tháº³ng vÃ  máº·t pháº³ng:** TÃ¬m giao Ä‘iá»ƒm cá»§a Ä‘Æ°á»ng tháº³ng Ä‘Ã³ vá»›i má»™t Ä‘Æ°á»ng tháº³ng náº±m trong máº·t pháº³ng."
+        title: "1. Điểm, Đường thẳng và Mặt phẳng trong không gian",
+        content: "- **Cách xác định mặt phẳng:** Qua 3 điểm không thẳng hàng; qua 1 điểm và 1 đường thẳng không chứa nó; qua 2 đường thẳng cắt nhau; qua 2 đường thẳng song song.\n- **Giao tuyến của hai mặt phẳng:** Tìm 2 điểm chung phân biệt.\n- **Giao điểm của đường thẳng và mặt phẳng:** Tìm giao điểm của đường thẳng đó với một đường thẳng nằm trong mặt phẳng."
       },
       {
-        title: "2. Hai Ä‘Æ°á»ng tháº³ng song song & ÄÆ°á»ng tháº³ng song song máº·t pháº³ng",
-        content: "- **Hai Ä‘Æ°á»ng tháº³ng:** Cáº¯t nhau (1 Ä‘iá»ƒm chung), song song (cÃ¹ng máº·t pháº³ng, 0 Ä‘iá»ƒm chung), chÃ©o nhau (khÃ´ng Ä‘á»“ng pháº³ng).\n- **Äá»‹nh lÃ½ giao tuyáº¿n:** Hai mp láº§n lÆ°á»£t chá»©a 2 Ä‘Æ°á»ng tháº³ng song song thÃ¬ giao tuyáº¿n (náº¿u cÃ³) song song vá»›i 2 Ä‘Æ°á»ng Ä‘Ã³.\n- **ÄÆ°á»ng tháº³ng song song máº·t pháº³ng:** $d \\not\\subset (P), d \\parallel d' \\subset (P) \\implies d \\parallel (P)$."
+        title: "2. Hai đường thẳng song song & Đường thẳng song song mặt phẳng",
+        content: "- **Hai đường thẳng:** Cắt nhau (1 điểm chung), song song (cùng mặt phẳng, 0 điểm chung), chéo nhau (không đồng phẳng).\n- **Định lý giao tuyến:** Hai mp lần lượt chứa 2 đường thẳng song song thì giao tuyến (nếu có) song song với 2 đường đó.\n- **Đường thẳng song song mặt phẳng:** $d \\not\\subset (P), d \\parallel d' \\subset (P) \\implies d \\parallel (P)$."
       },
       {
-        title: "3. Hai máº·t pháº³ng song song & PhÃ©p chiáº¿u song song",
-        content: "- **Hai máº·t pháº³ng song song:** Máº·t pháº³ng $(P)$ chá»©a 2 Ä‘Æ°á»ng tháº³ng cáº¯t nhau $a, b$ cÃ¹ng song song vá»›i $(Q) \\implies (P) \\parallel (Q)$.\n- **Äá»‹nh lÃ½ ThalÃ¨s:** Ba mp song song cháº¯n trÃªn 2 cÃ¡t tuyáº¿n cÃ¡c Ä‘oáº¡n tháº³ng tÆ°Æ¡ng á»©ng tá»‰ lá»‡.\n- **HÃ¬nh lÄƒng trá»¥, hÃ¬nh há»™p, hÃ¬nh chÃ³p cá»¥t:** ÄÃ¡y song song, cáº¡nh bÃªn song song (lÄƒng trá»¥, há»™p) hoáº·c Ä‘á»“ng quy (chÃ³p cá»¥t).\n- **PhÃ©p chiáº¿u song song:** Báº£o toÃ n tÃ­nh tháº³ng hÃ ng, thá»© tá»± Ä‘iá»ƒm, tÃ­nh song song vÃ  tá»‰ sá»‘ Ä‘oáº¡n tháº³ng cÃ¹ng phÆ°Æ¡ng."
+        title: "3. Hai mặt phẳng song song & Phép chiếu song song",
+        content: "- **Hai mặt phẳng song song:** Mặt phẳng $(P)$ chứa 2 đường thẳng cắt nhau $a, b$ cùng song song với $(Q) \\implies (P) \\parallel (Q)$.\n- **Định lý Thalès:** Ba mp song song chắn trên 2 cát tuyến các đoạn thẳng tương ứng tỉ lệ.\n- **Hình lăng trụ, hình hộp, hình chóp cụt:** Đáy song song, cạnh bên song song (lăng trụ, hộp) hoặc đồng quy (chóp cụt).\n- **Phép chiếu song song:** Bảo toàn tính thẳng hàng, thứ tự điểm, tính song song và tỉ số đoạn thẳng cùng phương."
       }
     ]
   }
 ,
   "g11-c5": {
     chapterId: "g11-c5",
-    chapterNumber: "ChÆ°Æ¡ng V",
-    chapterTitle: "Giá»›i Háº¡n. HÃ m Sá»‘ LiÃªn Tá»¥c",
-    semester: "Táº­p 1 - Há»c ká»³ I",
+    chapterNumber: "Chương V",
+    chapterTitle: "Giới Hạn. Hàm Số Liên Tục",
+    semester: "Tập 1 - Học kỳ I",
     theorySections: [
       {
-        title: "1. Giá»›i háº¡n cá»§a dÃ£y sá»‘ & Cáº¥p sá»‘ nhÃ¢n lÃ¹i vÃ´ háº¡n",
-        content: "- **Giá»›i háº¡n cÆ¡ báº£n:** $\\lim \\frac{1}{n^k} = 0 \\ (k \\in \\mathbb{N}^*); \\lim q^n = 0 \\ (|q| < 1); \\lim c = c$.\n- **Khá»­ vÃ´ Ä‘á»‹nh phÃ¢n thá»©c há»¯u tá»‰:** Chia cáº£ tá»­ vÃ  máº«u cho luá»¹ thá»«a báº­c cao nháº¥t cá»§a $n$.\n- **Khá»­ vÃ´ Ä‘á»‹nh $\\infty - \\infty$:** NhÃ¢n lÆ°á»£ng liÃªn há»£p: $\\sqrt{A} - B = \\frac{A - B^2}{\\sqrt{A} + B}$; $\\sqrt[3]{A} - B = \\frac{A - B^3}{\\sqrt[3]{A^2} + B\\sqrt[3]{A} + B^2}$.\n- **Tá»•ng cáº¥p sá»‘ nhÃ¢n lÃ¹i vÃ´ háº¡n ($|q| < 1$):** $S = \\frac{u_1}{1 - q}$."
+        title: "1. Giới hạn của dãy số & Cấp số nhân lùi vô hạn",
+        content: "- **Giới hạn cơ bản:** $\\lim \\frac{1}{n^k} = 0 \\ (k \\in \\mathbb{N}^*); \\lim q^n = 0 \\ (|q| < 1); \\lim c = c$.\n- **Khử vô định phân thức hữu tỉ:** Chia cả tử và mẫu cho luỹ thừa bậc cao nhất của $n$.\n- **Khử vô định $\\infty - \\infty$:** Nhân lượng liên hợp: $\\sqrt{A} - B = \\frac{A - B^2}{\\sqrt{A} + B}$; $\\sqrt[3]{A} - B = \\frac{A - B^3}{\\sqrt[3]{A^2} + B\\sqrt[3]{A} + B^2}$.\n- **Tổng cấp số nhân lùi vô hạn ($|q| < 1$):** $S = \\frac{u_1}{1 - q}$."
       },
       {
-        title: "2. Giá»›i háº¡n cá»§a hÃ m sá»‘",
-        content: "- **Giá»›i háº¡n táº¡i má»™t Ä‘iá»ƒm:** Khá»­ dáº¡ng vÃ´ Ä‘á»‹nh $\\frac{0}{0}$ báº±ng phÃ¢n tÃ­ch nhÃ¢n tá»­ $(x - x_0)$ hoáº·c nhÃ¢n liÃªn há»£p chá»©a cÄƒn.\n- **Giá»›i háº¡n táº¡i vÃ´ cá»±c:** Chia cho luá»¹ thá»«a báº­c cao nháº¥t cá»§a $x$. LÆ°u Ã½ khi $x \\to -\\infty$ thÃ¬ $\\sqrt{x^2} = |x| = -x$.\n- **Giá»›i háº¡n má»™t bÃªn:** $\\lim_{x \\to x_0} f(x) = L \\iff \\lim_{x \\to x_0^+} f(x) = \\lim_{x \\to x_0^-} f(x) = L$."
+        title: "2. Giới hạn của hàm số",
+        content: "- **Giới hạn tại một điểm:** Khử dạng vô định $\\frac{0}{0}$ bằng phân tích nhân tử $(x - x_0)$ hoặc nhân liên hợp chứa căn.\n- **Giới hạn tại vô cực:** Chia cho luỹ thừa bậc cao nhất của $x$. Lưu ý khi $x \\to -\\infty$ thì $\\sqrt{x^2} = |x| = -x$.\n- **Giới hạn một bên:** $\\lim_{x \\to x_0} f(x) = L \\iff \\lim_{x \\to x_0^+} f(x) = \\lim_{x \\to x_0^-} f(x) = L$."
       },
       {
-        title: "3. HÃ m sá»‘ liÃªn tá»¥c",
-        content: "- **LiÃªn tá»¥c táº¡i má»™t Ä‘iá»ƒm:** HÃ m sá»‘ $y = f(x)$ liÃªn tá»¥c táº¡i $x_0 \\iff \\lim_{x \\to x_0} f(x) = f(x_0)$.\n- **LiÃªn tá»¥c trÃªn táº­p há»£p:** Äa thá»©c liÃªn tá»¥c trÃªn $\\mathbb{R}$; phÃ¢n thá»©c vÃ  lÆ°á»£ng giÃ¡c liÃªn tá»¥c trÃªn tá»«ng khoáº£ng xÃ¡c Ä‘á»‹nh.\n- **Äá»‹nh lÃ½ giÃ¡ trá»‹ trung gian:** Náº¿u $f(x)$ liÃªn tá»¥c trÃªn $[a; b]$ vÃ  $f(a) \\cdot f(b) < 0$ thÃ¬ phÆ°Æ¡ng trÃ¬nh $f(x) = 0$ cÃ³ Ã­t nháº¥t má»™t nghiá»‡m trong $(a; b)$."
+        title: "3. Hàm số liên tục",
+        content: "- **Liên tục tại một điểm:** Hàm số $y = f(x)$ liên tục tại $x_0 \\iff \\lim_{x \\to x_0} f(x) = f(x_0)$.\n- **Liên tục trên tập hợp:** Đa thức liên tục trên $\\mathbb{R}$; phân thức và lượng giác liên tục trên từng khoảng xác định.\n- **Định lý giá trị trung gian:** Nếu $f(x)$ liên tục trên $[a; b]$ và $f(a) \\cdot f(b) < 0$ thì phương trình $f(x) = 0$ có ít nhất một nghiệm trong $(a; b)$."
       }
     ]
   },
   "g11-c6": {
     chapterId: "g11-c6",
-    chapterNumber: "ChÆ°Æ¡ng VI",
-    chapterTitle: "HÃ m Sá»‘ MÅ© VÃ  HÃ m Sá»‘ LÃ´garit",
-    semester: "Táº­p 2 - Há»c ká»³ II",
+    chapterNumber: "Chương VI",
+    chapterTitle: "Hàm Số Mũ Và Hàm Số Lôgarit",
+    semester: "Tập 2 - Học kỳ II",
     theorySections: [
       {
-        title: "1. PhÃ©p tÃ­nh luá»¹ thá»«a vá»›i sá»‘ mÅ© thá»±c",
-        content: "- **Sá»‘ mÅ© há»¯u tá»‰ & thá»±c:** $a^{\\frac{m}{n}} = \\sqrt[n]{a^m} \\ (a > 0)$. CÃ¡c tÃ­nh cháº¥t: $a^m a^n = a^{m+n}; \\frac{a^m}{a^n} = a^{m-n}; (a^m)^n = a^{mn}; (ab)^m = a^m b^m$.\n- **So sÃ¡nh luá»¹ thá»«a:** Vá»›i $a > 1: m > n \\iff a^m > a^n$; vá»›i $0 < a < 1: m > n \\iff a^m < a^n$."
+        title: "1. Phép tính luỹ thừa với số mũ thực",
+        content: "- **Số mũ hữu tỉ & thực:** $a^{\\frac{m}{n}} = \\sqrt[n]{a^m} \\ (a > 0)$. Các tính chất: $a^m a^n = a^{m+n}; \\frac{a^m}{a^n} = a^{m-n}; (a^m)^n = a^{mn}; (ab)^m = a^m b^m$.\n- **So sánh luỹ thừa:** Với $a > 1: m > n \\iff a^m > a^n$; với $0 < a < 1: m > n \\iff a^m < a^n$."
       },
       {
-        title: "2. LÃ´garit & CÃ´ng thá»©c Ä‘á»•i cÆ¡ sá»‘",
-        content: "- **Äá»‹nh nghÄ©a:** $\\log_a b = c \\iff a^c = b \\ (a > 0, a \\ne 1, b > 0)$. CÃ¡c há»‡ quáº£: $\\log_a 1 = 0; \\log_a a = 1; a^{\\log_a b} = b$.\n- **Quy táº¯c tÃ­nh:** $\\log_a(xy) = \\log_a x + \\log_a y; \\log_a\\left(\\frac{x}{y}\\right) = \\log_a x - \\log_a y; \\log_a(x^\\alpha) = \\alpha\\log_a x$.\n- **Äá»•i cÆ¡ sá»‘:** $\\log_a b = \\frac{\\log_c b}{\\log_c a}; \\log_a b = \\frac{1}{\\log_b a}; \\log_{a^\\alpha} b = \\frac{1}{\\alpha}\\log_a b$."
+        title: "2. Lôgarit & Công thức đổi cơ số",
+        content: "- **Định nghĩa:** $\\log_a b = c \\iff a^c = b \\ (a > 0, a \\ne 1, b > 0)$. Các hệ quả: $\\log_a 1 = 0; \\log_a a = 1; a^{\\log_a b} = b$.\n- **Quy tắc tính:** $\\log_a(xy) = \\log_a x + \\log_a y; \\log_a\\left(\\frac{x}{y}\\right) = \\log_a x - \\log_a y; \\log_a(x^\\alpha) = \\alpha\\log_a x$.\n- **Đổi cơ số:** $\\log_a b = \\frac{\\log_c b}{\\log_c a}; \\log_a b = \\frac{1}{\\log_b a}; \\log_{a^\\alpha} b = \\frac{1}{\\alpha}\\log_a b$."
       },
       {
-        title: "3. HÃ m sá»‘ mÅ©, hÃ m sá»‘ lÃ´garit & PhÆ°Æ¡ng trÃ¬nh, báº¥t phÆ°Æ¡ng trÃ¬nh",
-        content: "- **HÃ m sá»‘ mÅ© $y = a^x$:** TXÄ $D = \\mathbb{R}$, táº­p giÃ¡ trá»‹ $(0; +\\infty)$. Äá»“ng biáº¿n khi $a > 1$, nghá»‹ch biáº¿n khi $0 < a < 1$. Äá»“ thá»‹ qua $(0; 1)$, tiá»‡m cáº­n ngang $y = 0$.\n- **HÃ m sá»‘ lÃ´garit $y = \\log_a x$:** TXÄ $D = (0; +\\infty)$, táº­p giÃ¡ trá»‹ $\\mathbb{R}$. Äá»“ng biáº¿n khi $a > 1$, nghá»‹ch biáº¿n khi $0 < a < 1$. Äá»“ thá»‹ qua $(1; 0)$, tiá»‡m cáº­n Ä‘á»©ng $x = 0$.\n- **PhÆ°Æ¡ng trÃ¬nh & Báº¥t phÆ°Æ¡ng trÃ¬nh:**\n  + $a^x = b \\iff x = \\log_a b \\ (b > 0)$. Khi $a > 1: a^{f(x)} > a^{g(x)} \\iff f(x) > g(x)$.\n  + $\\log_a f(x) = \\log_a g(x) \\iff f(x) = g(x) > 0$. Khi $0 < a < 1: \\log_a f(x) > \\log_a g(x) \\iff 0 < f(x) < g(x)$."
+        title: "3. Hàm số mũ, hàm số lôgarit & Phương trình, bất phương trình",
+        content: "- **Hàm số mũ $y = a^x$:** TXĐ $D = \\mathbb{R}$, tập giá trị $(0; +\\infty)$. Đồng biến khi $a > 1$, nghịch biến khi $0 < a < 1$. Đồ thị qua $(0; 1)$, tiệm cận ngang $y = 0$.\n- **Hàm số lôgarit $y = \\log_a x$:** TXĐ $D = (0; +\\infty)$, tập giá trị $\\mathbb{R}$. Đồng biến khi $a > 1$, nghịch biến khi $0 < a < 1$. Đồ thị qua $(1; 0)$, tiệm cận đứng $x = 0$.\n- **Phương trình & Bất phương trình:**\n  + $a^x = b \\iff x = \\log_a b \\ (b > 0)$. Khi $a > 1: a^{f(x)} > a^{g(x)} \\iff f(x) > g(x)$.\n  + $\\log_a f(x) = \\log_a g(x) \\iff f(x) = g(x) > 0$. Khi $0 < a < 1: \\log_a f(x) > \\log_a g(x) \\iff 0 < f(x) < g(x)$."
       }
     ]
   }
 ,
     "g11-c7": {
       chapterId: "g11-c7",
-      chapterNumber: "ChÆ°Æ¡ng VII",
-      chapterTitle: "Quan Há»‡ VuÃ´ng GÃ³c Trong KhÃ´ng Gian. Thá»ƒ TÃ­ch",
-      semester: "Táº­p 2 - Há»c ká»³ II",
+      chapterNumber: "Chương VII",
+      chapterTitle: "Quan Hệ Vuông Góc Trong Không Gian. Thể Tích",
+      semester: "Tập 2 - Học kỳ II",
       theorySections: [
         {
-          title: "1. Hai Ä‘Æ°á»ng tháº³ng vuÃ´ng gÃ³c & ÄÆ°á»ng tháº³ng vuÃ´ng gÃ³c vá»›i máº·t pháº³ng",
-          content: "- **GÃ³c giá»¯a hai Ä‘Æ°á»ng tháº³ng:** $\\cos(\\vec{u}, \\vec{v}) = \\frac{|\\vec{u} \\cdot \\vec{v}|}{|\\vec{u}| \\cdot |\\vec{v}|}$. Hai Ä‘Æ°á»ng tháº³ng vuÃ´ng gÃ³c khi vÃ  chá»‰ khi $\\vec{u} \\cdot \\vec{v} = 0$.\n- **ÄÆ°á»ng tháº³ng vuÃ´ng gÃ³c máº·t pháº³ng:** $d \\perp a, d \\perp b$ ($a, b$ cáº¯t nhau trong $(P)$) $\\implies d \\perp (P)$. Náº¿u $d \\perp (P)$ thÃ¬ $d \\perp$ má»i Ä‘Æ°á»ng tháº³ng náº±m trong $(P)$."
+          title: "1. Hai đường thẳng vuông góc & Đường thẳng vuông góc với mặt phẳng",
+          content: "- **Góc giữa hai đường thẳng:** $\\cos(\\vec{u}, \\vec{v}) = \\frac{|\\vec{u} \\cdot \\vec{v}|}{|\\vec{u}| \\cdot |\\vec{v}|}$. Hai đường thẳng vuông góc khi và chỉ khi $\\vec{u} \\cdot \\vec{v} = 0$.\n- **Đường thẳng vuông góc mặt phẳng:** $d \\perp a, d \\perp b$ ($a, b$ cắt nhau trong $(P)$) $\\implies d \\perp (P)$. Nếu $d \\perp (P)$ thì $d \\perp$ mọi đường thẳng nằm trong $(P)$."
         },
         {
-          title: "2. Hai máº·t pháº³ng vuÃ´ng gÃ³c & Khoáº£ng cÃ¡ch & GÃ³c",
-          content: "- **Hai máº·t pháº³ng vuÃ´ng gÃ³c:** $(P) \\perp (Q) \\iff (P)$ chá»©a má»™t Ä‘Æ°á»ng tháº³ng vuÃ´ng gÃ³c vá»›i $(Q)$.\n- **Khoáº£ng cÃ¡ch:**\n  + Tá»« Ä‘iá»ƒm Ä‘áº¿n máº·t pháº³ng: $d(M, (P)) = MH$ vá»›i $H$ lÃ  hÃ¬nh chiáº¿u vuÃ´ng gÃ³c cá»§a $M$ lÃªn $(P)$.\n  + Giá»¯a hai Ä‘Æ°á»ng tháº³ng chÃ©o nhau: Ä‘á»™ dÃ i Ä‘oáº¡n vuÃ´ng gÃ³c chung, hoáº·c khoáº£ng cÃ¡ch tá»« má»™t Ä‘Æ°á»ng Ä‘áº¿n máº·t pháº³ng song song chá»©a Ä‘Æ°á»ng kia.\n- **GÃ³c giá»¯a Ä‘Æ°á»ng tháº³ng vÃ  máº·t pháº³ng:** lÃ  gÃ³c giá»¯a Ä‘Æ°á»ng tháº³ng vÃ  hÃ¬nh chiáº¿u vuÃ´ng gÃ³c cá»§a nÃ³ lÃªn máº·t pháº³ng."
+          title: "2. Hai mặt phẳng vuông góc & Khoảng cách & Góc",
+          content: "- **Hai mặt phẳng vuông góc:** $(P) \\perp (Q) \\iff (P)$ chứa một đường thẳng vuông góc với $(Q)$.\n- **Khoảng cách:**\n  + Từ điểm đến mặt phẳng: $d(M, (P)) = MH$ với $H$ là hình chiếu vuông góc của $M$ lên $(P)$.\n  + Giữa hai đường thẳng chéo nhau: độ dài đoạn vuông góc chung, hoặc khoảng cách từ một đường đến mặt phẳng song song chứa đường kia.\n- **Góc giữa đường thẳng và mặt phẳng:** là góc giữa đường thẳng và hình chiếu vuông góc của nó lên mặt phẳng."
         },
         {
-          title: "3. Thá»ƒ tÃ­ch khá»‘i lÄƒng trá»¥, khá»‘i chÃ³p vÃ  khá»‘i chÃ³p cá»¥t Ä‘á»u",
-          content: "- **Khá»‘i lÄƒng trá»¥:** $V = B \\cdot h$ (khá»‘i há»™p chá»¯ nháº­t $V = abc$, khá»‘i láº­p phÆ°Æ¡ng $V = a^3$).\n- **Khá»‘i chÃ³p:** $V = \\frac{1}{3}B \\cdot h$.\n- **Khá»‘i chÃ³p cá»¥t Ä‘á»u:** $V = \\frac{1}{3}h(B + B' + \\sqrt{BB'})$.\n- **Tá»‰ sá»‘ thá»ƒ tÃ­ch Simson:** Cho hÃ¬nh chÃ³p tam giÃ¡c $S.ABC$: $\\frac{V_{S.A'B'C'}}{V_{S.ABC}} = \\frac{SA'}{SA} \\cdot \\frac{SB'}{SB} \\cdot \\frac{SC'}{SC}$."
+          title: "3. Thể tích khối lăng trụ, khối chóp và khối chóp cụt đều",
+          content: "- **Khối lăng trụ:** $V = B \\cdot h$ (khối hộp chữ nhật $V = abc$, khối lập phương $V = a^3$).\n- **Khối chóp:** $V = \\frac{1}{3}B \\cdot h$.\n- **Khối chóp cụt đều:** $V = \\frac{1}{3}h(B + B' + \\sqrt{BB'})$.\n- **Tỉ số thể tích Simson:** Cho hình chóp tam giác $S.ABC$: $\\frac{V_{S.A'B'C'}}{V_{S.ABC}} = \\frac{SA'}{SA} \\cdot \\frac{SB'}{SB} \\cdot \\frac{SC'}{SC}$."
         }
       ]
     },
     "g11-c8": {
       chapterId: "g11-c8",
-      chapterNumber: "ChÆ°Æ¡ng VIII",
-      chapterTitle: "CÃ¡c Quy Táº¯c TÃ­nh XÃ¡c Suáº¥t",
-      semester: "Táº­p 2 - Há»c ká»³ II",
+      chapterNumber: "Chương VIII",
+      chapterTitle: "Các Quy Tắc Tính Xác Suất",
+      semester: "Tập 2 - Học kỳ II",
       theorySections: [
         {
-          title: "1. Biáº¿n cá»‘ há»£p, biáº¿n cá»‘ giao vÃ  biáº¿n cá»‘ Ä‘á»™c láº­p",
-          content: "- **Biáº¿n cá»‘ há»£p:** $A \\cup B$ xáº£y ra khi cÃ³ Ã­t nháº¥t má»™t trong hai biáº¿n cá»‘ $A$ hoáº·c $B$ xáº£y ra.\n- **Biáº¿n cá»‘ giao:** $A \\cap B$ (hay $AB$) xáº£y ra khi cáº£ $A$ vÃ  $B$ Ä‘á»“ng thá»i xáº£y ra.\n- **Biáº¿n cá»‘ xung kháº¯c:** $A \\cap B = \\emptyset$ (khÃ´ng thá»ƒ cÃ¹ng xáº£y ra).\n- **Biáº¿n cá»‘ Ä‘á»‘i:** $\\overline{A}$ lÃ  biáº¿n cá»‘ khÃ´ng xáº£y ra $A$, ta cÃ³ $A \\cap \\overline{A} = \\emptyset$ vÃ  $A \\cup \\overline{A} = \\Omega$.\n- **Biáº¿n cá»‘ Ä‘á»™c láº­p:** Viá»‡c xáº£y ra hay khÃ´ng cá»§a biáº¿n cá»‘ nÃ y khÃ´ng áº£nh hÆ°á»Ÿng Ä‘áº¿n xÃ¡c suáº¥t xáº£y ra cá»§a biáº¿n cá»‘ kia."
+          title: "1. Biến cố hợp, biến cố giao và biến cố độc lập",
+          content: "- **Biến cố hợp:** $A \\cup B$ xảy ra khi có ít nhất một trong hai biến cố $A$ hoặc $B$ xảy ra.\n- **Biến cố giao:** $A \\cap B$ (hay $AB$) xảy ra khi cả $A$ và $B$ đồng thời xảy ra.\n- **Biến cố xung khắc:** $A \\cap B = \\emptyset$ (không thể cùng xảy ra).\n- **Biến cố đối:** $\\overline{A}$ là biến cố không xảy ra $A$, ta có $A \\cap \\overline{A} = \\emptyset$ và $A \\cup \\overline{A} = \\Omega$.\n- **Biến cố độc lập:** Việc xảy ra hay không của biến cố này không ảnh hưởng đến xác suất xảy ra của biến cố kia."
         },
         {
-          title: "2. CÃ´ng thá»©c cá»™ng vÃ  nhÃ¢n xÃ¡c suáº¥t",
-          content: "- **Quy táº¯c cá»™ng:**\n  + Náº¿u $A$ vÃ  $B$ xung kháº¯c: $P(A \\cup B) = P(A) + P(B)$.\n  + CÃ´ng thá»©c tá»•ng quÃ¡t: $P(A \\cup B) = P(A) + P(B) - P(AB)$.\n  + Biáº¿n cá»‘ Ä‘á»‘i: $P(\\overline{A}) = 1 - P(A)$.\n- **Quy táº¯c nhÃ¢n:** Náº¿u $A$ vÃ  $B$ Ä‘á»™c láº­p thÃ¬ $P(AB) = P(A) \\cdot P(B)$."
+          title: "2. Công thức cộng và nhân xác suất",
+          content: "- **Quy tắc cộng:**\n  + Nếu $A$ và $B$ xung khắc: $P(A \\cup B) = P(A) + P(B)$.\n  + Công thức tổng quát: $P(A \\cup B) = P(A) + P(B) - P(AB)$.\n  + Biến cố đối: $P(\\overline{A}) = 1 - P(A)$.\n- **Quy tắc nhân:** Nếu $A$ và $B$ độc lập thì $P(AB) = P(A) \\cdot P(B)$."
         }
       ]
     },
     "g11-c9": {
       chapterId: "g11-c9",
-      chapterNumber: "ChÆ°Æ¡ng IX",
-      chapterTitle: "Äáº¡o HÃ m",
-      semester: "Táº­p 2 - Há»c ká»³ II",
+      chapterNumber: "Chương IX",
+      chapterTitle: "Đạo Hàm",
+      semester: "Tập 2 - Học kỳ II",
       theorySections: [
         {
-          title: "1. Äá»‹nh nghÄ©a vÃ  Ã½ nghÄ©a cá»§a Ä‘áº¡o hÃ m",
-          content: "- **Äá»‹nh nghÄ©a:** $f'(x_0) = \\lim_{x \\to x_0} \\frac{f(x) - f(x_0)}{x - x_0} = \\lim_{\\Delta x \\to 0} \\frac{\\Delta y}{\\Delta x}$.\n- **Ã nghÄ©a hÃ¬nh há»c:** $k = f'(x_0)$ lÃ  há»‡ sá»‘ gÃ³c cá»§a tiáº¿p tuyáº¿n táº¡i $M(x_0; y_0)$. PhÆ°Æ¡ng trÃ¬nh tiáº¿p tuyáº¿n: $y = f'(x_0)(x - x_0) + y_0$.\n- **Ã nghÄ©a váº­t lÃ­:** Váº­n tá»‘c tá»©c thá»i $v(t) = s'(t)$; CÆ°á»ng Ä‘á»™ dÃ²ng Ä‘iá»‡n tá»©c thá»i $i(t) = q'(t)$."
+          title: "1. Định nghĩa và ý nghĩa của đạo hàm",
+          content: "- **Định nghĩa:** $f'(x_0) = \\lim_{x \\to x_0} \\frac{f(x) - f(x_0)}{x - x_0} = \\lim_{\\Delta x \\to 0} \\frac{\\Delta y}{\\Delta x}$.\n- **Ý nghĩa hình học:** $k = f'(x_0)$ là hệ số góc của tiếp tuyến tại $M(x_0; y_0)$. Phương trình tiếp tuyến: $y = f'(x_0)(x - x_0) + y_0$.\n- **Ý nghĩa vật lí:** Vận tốc tức thời $v(t) = s'(t)$; Cường độ dòng điện tức thời $i(t) = q'(t)$."
         },
         {
-          title: "2. CÃ¡c quy táº¯c tÃ­nh Ä‘áº¡o hÃ m vÃ  Ä‘áº¡o hÃ m hÃ m há»£p",
-          content: "- **Quy táº¯c:** $(u \\pm v)' = u' \\pm v'; (uv)' = u'v + uv'; \\left(\\frac{u}{v}\\right)' = \\frac{u'v - uv'}{v^2}$.\n- **Äáº¡o hÃ m lÆ°á»£ng giÃ¡c:** $(\\sin x)' = \\cos x; (\\cos x)' = -\\sin x; (\\tan x)' = \\frac{1}{\\cos^2 x}; (\\cot x)' = -\\frac{1}{\\sin^2 x}$.\n- **HÃ m mÅ© & LÃ´garit:** $(e^x)' = e^x; (a^x)' = a^x \\ln a; (\\ln x)' = \\frac{1}{x}; (\\log_a x)' = \\frac{1}{x \\ln a}$.\n- **Äáº¡o hÃ m hÃ m há»£p:** $y'_x = y'_u \\cdot u'_x$."
+          title: "2. Các quy tắc tính đạo hàm và đạo hàm hàm hợp",
+          content: "- **Quy tắc:** $(u \\pm v)' = u' \\pm v'; (uv)' = u'v + uv'; \\left(\\frac{u}{v}\\right)' = \\frac{u'v - uv'}{v^2}$.\n- **Đạo hàm lượng giác:** $(\\sin x)' = \\cos x; (\\cos x)' = -\\sin x; (\\tan x)' = \\frac{1}{\\cos^2 x}; (\\cot x)' = -\\frac{1}{\\sin^2 x}$.\n- **Hàm mũ & Lôgarit:** $(e^x)' = e^x; (a^x)' = a^x \\ln a; (\\ln x)' = \\frac{1}{x}; (\\log_a x)' = \\frac{1}{x \\ln a}$.\n- **Đạo hàm hàm hợp:** $y'_x = y'_u \\cdot u'_x$."
         },
         {
-          title: "3. Äáº¡o hÃ m cáº¥p hai",
-          content: "- **Äá»‹nh nghÄ©a:** Äáº¡o hÃ m cáº¥p hai $f''(x) = (f'(x))'$.\n- **Ã nghÄ©a váº­t lÃ­:** Gia tá»‘c tá»©c thá»i cá»§a chuyá»ƒn Ä‘á»™ng $a(t) = v'(t) = s''(t)$."
+          title: "3. Đạo hàm cấp hai",
+          content: "- **Định nghĩa:** Đạo hàm cấp hai $f''(x) = (f'(x))'$.\n- **Ý nghĩa vật lí:** Gia tốc tức thời của chuyển động $a(t) = v'(t) = s''(t)$."
         }
       ]
     }
@@ -9435,14 +9435,28 @@ window.getGrade11LessonData = function(chapterId, lessonId) {
   if (window.GRADE_11_LESSONS_DB && window.GRADE_11_LESSONS_DB[lessonId]) {
     const rawLesson = window.GRADE_11_LESSONS_DB[lessonId];
     const chData = window.GRADE_11_KNOWLEDGE ? window.GRADE_11_KNOWLEDGE[chapterId] : null;
+
+    let theorySections = [];
+    if (rawLesson.theory && rawLesson.theory.sections && rawLesson.theory.sections.length > 0) {
+      theorySections = rawLesson.theory.sections;
+    } else if (rawLesson.topics && rawLesson.topics.length >= 3) {
+      theorySections = rawLesson.topics.slice(0, 3).map((t, idx) => ({
+        title: `${idx + 1}. ${(t.name || t.title || '').replace(/^Dạng \d+:\s*/, '')}`,
+        content: Array.isArray(t.method) ? t.method.join('\n') : (t.description || (t.method ? String(t.method) : `Phương pháp giải trọng tâm dạng toán ${idx + 1}.`))
+      }));
+    } else if (chData && chData.theorySections) {
+      theorySections = chData.theorySections;
+    }
+
     return {
       gradeId: 11,
-      unitTitle: chData ? `${chData.chapterNumber}: ${chData.chapterTitle}` : "ToÃ¡n Lá»›p 11",
+      unitTitle: chData ? `${chData.chapterNumber}: ${chData.chapterTitle}` : "Toán Lớp 11",
       lessonTitle: rawLesson.title,
       theory: {
-        summary: `Há»‡ thá»‘ng kiáº¿n thá»©c trá»ng tÃ¢m bÃ i há»c chuáº©n GDPT 2018 (Thi ÄGNL & Tá»‘t nghiá»‡p THPT).`,
-        sections: chData ? chData.theorySections : []
+        summary: rawLesson.summary || (chData ? `Hệ thống kiến thức trọng tâm ${rawLesson.title} chuẩn GDPT 2018 (Thi ĐGNL & Tốt nghiệp THPT).` : `Hệ thống kiến thức trọng tâm bài học chuẩn GDPT 2018.`),
+        sections: theorySections
       },
+      diagram: window.getTikzDiagramForLesson ? window.getTikzDiagramForLesson(11, chapterId, lessonId) : null,
       topics: rawLesson.topics
     };
   }

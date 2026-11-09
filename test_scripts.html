@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script>
+window.testLogs = [];
+window.onerror = function(msg, url, line, col, error) {
+    window.testLogs.push("ERR: " + msg + " (" + url + ":" + line + ")");
+};
+</script>
+<script src="data.js"></script>
+<script src="curriculum-kntt.js"></script>
+<script src="math-diagrams-tikz.js"></script>
+<script src="curriculum-knowledge.js"></script>
+<script src="curriculum-grade9.js"></script>
+<script src="curriculum-grade10.js"></script>
+<script src="curriculum-grade11.js"></script>
+<script src="curriculum-grade12.js"></script>
+<script src="app.js"></script>
+</head>
+<body>
+<div id="result">STARTING</div>
+<script>
+try {
+    var l12 = window.getEnrichedLessonData(12, 'g12-c1', 'g12-c1-l5');
+    window.testLogs.push("L12_OK: " + (l12 ? l12.lessonTitle : 'null'));
+    window.testLogs.push("L12_THEORY: " + (l12 && l12.theory && l12.theory.sections ? l12.theory.sections.length : 'none'));
+    if (l12 && l12.theory && l12.theory.sections && l12.theory.sections[0]) {
+        window.testLogs.push("SEC_0_TITLE: " + l12.theory.sections[0].title);
+    }
+} catch (e) {
+    window.testLogs.push("CATCH_L12: " + e.message + " " + e.stack);
+}
+document.getElementById('result').innerText = window.testLogs.join(" | ");
+</script>
+</body>
+</html>

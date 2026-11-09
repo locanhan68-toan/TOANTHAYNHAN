@@ -1,145 +1,145 @@
-﻿// ==========================================================================
-// CÆ  Sá»ž Dá»® LIá»†U CHUYÃŠN SÃ‚U TOÃN Lá»šP 10 (GDPT 2018)
-// Há»‡ thá»‘ng 3 dáº¡ng toÃ¡n chuáº©n má»±c, 10 bÃ i táº­p má»—i dáº¡ng (4 Biáº¿t - 3 Hiá»ƒu - 3 Váº­n dá»¥ng)
+// ==========================================================================
+// CƠ SỞ DỮ LIỆU CHUYÊN SÂU TOÁN LỚP 10 (GDPT 2018)
+// Hệ thống 3 dạng toán chuẩn mực, 10 bài tập mỗi dạng (4 Biết - 3 Hiểu - 3 Vận dụng)
 // ==========================================================================
 
 window.GRADE_10_KNOWLEDGE = {
   "g10-c1": {
     chapterId: "g10-c1",
-    chapterNumber: "ChÆ°Æ¡ng I",
-    chapterTitle: "Má»‡nh Äá» VÃ  Táº­p Há»£p",
-    semester: "Táº­p 1 - Há»c ká»³ I",
+    chapterNumber: "Chương I",
+    chapterTitle: "Mệnh Đề Và Tập Hợp",
+    semester: "Tập 1 - Học kỳ I",
     theorySections: [
       {
-        title: "1. Má»‡nh Ä‘á» toÃ¡n há»c, má»‡nh Ä‘á» chá»©a biáº¿n & CÃ¡c phÃ©p toÃ¡n má»‡nh Ä‘á»",
-        content: "- **Má»‡nh Ä‘á»:** Má»™t cÃ¢u kháº³ng Ä‘á»‹nh cÃ³ tÃ­nh Ä‘Ãºng hoáº·c sai. Má»‡nh Ä‘á» khÃ´ng thá»ƒ vá»«a Ä‘Ãºng vá»«a sai.\n- **Má»‡nh Ä‘á» phá»§ Ä‘á»‹nh:** $\\overline{P}$ Ä‘Ãºng khi $P$ sai, vÃ  sai khi $P$ Ä‘Ãºng.\n- **Má»‡nh Ä‘á» kÃ©o theo:** $P \\Rightarrow Q$ chá»‰ sai khi $P$ Ä‘Ãºng vÃ  $Q$ sai. $P$ lÃ  Ä‘iá»u kiá»‡n Ä‘á»§, $Q$ lÃ  Ä‘iá»u kiá»‡n cáº§n.\n- **Má»‡nh Ä‘á» tÆ°Æ¡ng Ä‘Æ°Æ¡ng:** $P \\Leftrightarrow Q$ Ä‘Ãºng khi $P$ vÃ  $Q$ cÃ¹ng Ä‘Ãºng hoáº·c cÃ¹ng sai. $P$ lÃ  Ä‘iá»u kiá»‡n cáº§n vÃ  Ä‘á»§ Ä‘á»ƒ cÃ³ $Q$.\n- **KÃ­ hiá»‡u $\\forall, \\exists$:** $\\overline{\\forall x \\in X, P(x)} \\equiv \\exists x \\in X, \\overline{P(x)}$; $\\overline{\\exists x \\in X, P(x)} \\equiv \\forall x \\in X, \\overline{P(x)}$."
+        title: "1. Mệnh đề toán học, mệnh đề chứa biến & Các phép toán mệnh đề",
+        content: "- **Mệnh đề:** Một câu khẳng định có tính đúng hoặc sai. Mệnh đề không thể vừa đúng vừa sai.\n- **Mệnh đề phủ định:** $\\overline{P}$ đúng khi $P$ sai, và sai khi $P$ đúng.\n- **Mệnh đề kéo theo:** $P \\Rightarrow Q$ chỉ sai khi $P$ đúng và $Q$ sai. $P$ là điều kiện đủ, $Q$ là điều kiện cần.\n- **Mệnh đề tương đương:** $P \\Leftrightarrow Q$ đúng khi $P$ và $Q$ cùng đúng hoặc cùng sai. $P$ là điều kiện cần và đủ để có $Q$.\n- **Kí hiệu $\\forall, \\exists$:** $\\overline{\\forall x \\in X, P(x)} \\equiv \\exists x \\in X, \\overline{P(x)}$; $\\overline{\\exists x \\in X, P(x)} \\equiv \\forall x \\in X, \\overline{P(x)}$."
       },
       {
-        title: "2. Táº­p há»£p vÃ  cÃ¡c phÃ©p toÃ¡n trÃªn táº­p há»£p",
-        content: "- **Táº­p con:** $A \\subset B \\iff \\forall x \\in A \\implies x \\in B$. Táº­p cÃ³ $n$ pháº§n tá»­ thÃ¬ cÃ³ $2^n$ táº­p con.\n- **Hai táº­p báº±ng nhau:** $A = B \\iff A \\subset B$ vÃ  $B \\subset A$.\n- **CÃ¡c phÃ©p toÃ¡n:**\n  + Giao: $A \\cap B = \\{x \\mid x \\in A \\text{ vÃ  } x \\in B\\}$.\n  + Há»£p: $A \\cup B = \\{x \\mid x \\in A \\text{ hoáº·c } x \\in B\\}$.\n  + Hiá»‡u: $A \\setminus B = \\{x \\mid x \\in A \\text{ vÃ  } x \\notin B\\}$.\n  + Pháº§n bÃ¹: Náº¿u $A \\subset E$ thÃ¬ $C_E A = E \\setminus A$.\n- **CÃ¡c táº­p con cá»§a $\\mathbb{R}$:** Khoáº£ng $(a; b)$, Ä‘oáº¡n $[a; b]$, ná»­a khoáº£ng $[a; b), (a; b], (-\\infty; a), (a; +\\infty)$."
+        title: "2. Tập hợp và các phép toán trên tập hợp",
+        content: "- **Tập con:** $A \\subset B \\iff \\forall x \\in A \\implies x \\in B$. Tập có $n$ phần tử thì có $2^n$ tập con.\n- **Hai tập bằng nhau:** $A = B \\iff A \\subset B$ và $B \\subset A$.\n- **Các phép toán:**\n  + Giao: $A \\cap B = \\{x \\mid x \\in A \\text{ và } x \\in B\\}$.\n  + Hợp: $A \\cup B = \\{x \\mid x \\in A \\text{ hoặc } x \\in B\\}$.\n  + Hiệu: $A \\setminus B = \\{x \\mid x \\in A \\text{ và } x \\notin B\\}$.\n  + Phần bù: Nếu $A \\subset E$ thì $C_E A = E \\setminus A$.\n- **Các tập con của $\\mathbb{R}$:** Khoảng $(a; b)$, đoạn $[a; b]$, nửa khoảng $[a; b), (a; b], (-\\infty; a), (a; +\\infty)$."
       }
     ]
   },
   "g10-c2": {
     chapterId: "g10-c2",
-    chapterNumber: "ChÆ°Æ¡ng II",
-    chapterTitle: "Báº¥t PhÆ°Æ¡ng TrÃ¬nh VÃ  Há»‡ Báº¥t PhÆ°Æ¡ng TrÃ¬nh Báº­c Nháº¥t Hai áº¨n",
-    semester: "Táº­p 1 - Há»c ká»³ I",
+    chapterNumber: "Chương II",
+    chapterTitle: "Bất Phương Trình Và Hệ Bất Phương Trình Bậc Nhất Hai Ẩn",
+    semester: "Tập 1 - Học kỳ I",
     theorySections: [
       {
-        title: "1. Báº¥t phÆ°Æ¡ng trÃ¬nh báº­c nháº¥t hai áº©n",
-        content: "- **Dáº¡ng tá»•ng quÃ¡t:** $ax + by < c, ax + by \\le c, ax + by > c, ax + by \\ge c$ vá»›i $a^2 + b^2 \\ne 0$.\n- **Miá»n nghiá»‡m:** LÃ  ná»­a máº·t pháº³ng cÃ³ bá» lÃ  Ä‘Æ°á»ng tháº³ng $d: ax + by = c$. Láº¥y Ä‘iá»ƒm thá»­ khÃ´ng thuá»™c $d$ (thÆ°á»ng chá»n $O(0; 0)$) Ä‘á»ƒ xÃ¡c Ä‘á»‹nh ná»­a máº·t pháº³ng nghiá»‡m."
+        title: "1. Bất phương trình bậc nhất hai ẩn",
+        content: "- **Dạng tổng quát:** $ax + by < c, ax + by \\le c, ax + by > c, ax + by \\ge c$ với $a^2 + b^2 \\ne 0$.\n- **Miền nghiệm:** Là nửa mặt phẳng có bờ là đường thẳng $d: ax + by = c$. Lấy điểm thử không thuộc $d$ (thường chọn $O(0; 0)$) để xác định nửa mặt phẳng nghiệm."
       },
       {
-        title: "2. Há»‡ báº¥t phÆ°Æ¡ng trÃ¬nh báº­c nháº¥t hai áº©n & BÃ i toÃ¡n tá»‘i Æ°u",
-        content: "- **Há»‡ báº¥t phÆ°Æ¡ng trÃ¬nh báº­c nháº¥t hai áº©n:** Gá»“m tá»« hai báº¥t phÆ°Æ¡ng trÃ¬nh báº­c nháº¥t hai áº©n trá»Ÿ lÃªn. Miá»n nghiá»‡m lÃ  pháº§n giao cá»§a cÃ¡c miá»n nghiá»‡m thÃ nh pháº§n (thÆ°á»ng lÃ  miá»n Ä‘a giÃ¡c lá»“i).\n- **Äá»‹nh lÃ­ quy hoáº¡ch tuyáº¿n tÃ­nh:** Biá»ƒu thá»©c má»¥c tiÃªu $F(x; y) = ax + by$ luÃ´n Ä‘áº¡t giÃ¡ trá»‹ lá»›n nháº¥t (GTLN) vÃ  giÃ¡ trá»‹ nhá» nháº¥t (GTNN) táº¡i má»™t trong cÃ¡c Ä‘á»‰nh cá»§a miá»n Ä‘a giÃ¡c nghiá»‡m."
+        title: "2. Hệ bất phương trình bậc nhất hai ẩn & Bài toán tối ưu",
+        content: "- **Hệ bất phương trình bậc nhất hai ẩn:** Gồm từ hai bất phương trình bậc nhất hai ẩn trở lên. Miền nghiệm là phần giao của các miền nghiệm thành phần (thường là miền đa giác lồi).\n- **Định lí quy hoạch tuyến tính:** Biểu thức mục tiêu $F(x; y) = ax + by$ luôn đạt giá trị lớn nhất (GTLN) và giá trị nhỏ nhất (GTNN) tại một trong các đỉnh của miền đa giác nghiệm."
       }
     ]
   }
 ,
   "g10-c3": {
     chapterId: "g10-c3",
-    chapterNumber: "ChÆ°Æ¡ng III",
-    chapterTitle: "Há»‡ Thá»©c LÆ°á»£ng Trong Tam GiÃ¡c",
-    semester: "Táº­p 1 - Há»c ká»³ I",
+    chapterNumber: "Chương III",
+    chapterTitle: "Hệ Thức Lượng Trong Tam Giác",
+    semester: "Tập 1 - Học kỳ I",
     theorySections: [
       {
-        title: "1. GiÃ¡ trá»‹ lÆ°á»£ng giÃ¡c cá»§a má»™t gÃ³c tá»« 0Â° Ä‘áº¿n 180Â°",
-        content: "- **Äá»‹nh nghÄ©a trÃªn ná»­a Ä‘Æ°á»ng trÃ²n Ä‘Æ¡n vá»‹:** $M(x_0; y_0) \\implies \\sin\\alpha = y_0; \\cos\\alpha = x_0; \\tan\\alpha = \\frac{y_0}{x_0} \\ (x_0 \\ne 0); \\cot\\alpha = \\frac{x_0}{y_0} \\ (y_0 \\ne 0)$.\n- **Hai gÃ³c bÃ¹ nhau:** $\\sin(180^\\circ - \\alpha) = \\sin\\alpha; \\cos(180^\\circ - \\alpha) = -\\cos\\alpha; \\tan(180^\\circ - \\alpha) = -\\tan\\alpha; \\cot(180^\\circ - \\alpha) = -\\cot\\alpha$.\n- **Há»‡ thá»©c cÆ¡ báº£n:** $\\sin^2\\alpha + \\cos^2\\alpha = 1; 1 + \\tan^2\\alpha = \\frac{1}{\\cos^2\\alpha}; \\tan\\alpha \\cdot \\cot\\alpha = 1$."
+        title: "1. Giá trị lượng giác của một góc từ 0° đến 180°",
+        content: "- **Định nghĩa trên nửa đường tròn đơn vị:** $M(x_0; y_0) \\implies \\sin\\alpha = y_0; \\cos\\alpha = x_0; \\tan\\alpha = \\frac{y_0}{x_0} \\ (x_0 \\ne 0); \\cot\\alpha = \\frac{x_0}{y_0} \\ (y_0 \\ne 0)$.\n- **Hai góc bù nhau:** $\\sin(180^\\circ - \\alpha) = \\sin\\alpha; \\cos(180^\\circ - \\alpha) = -\\cos\\alpha; \\tan(180^\\circ - \\alpha) = -\\tan\\alpha; \\cot(180^\\circ - \\alpha) = -\\cot\\alpha$.\n- **Hệ thức cơ bản:** $\\sin^2\\alpha + \\cos^2\\alpha = 1; 1 + \\tan^2\\alpha = \\frac{1}{\\cos^2\\alpha}; \\tan\\alpha \\cdot \\cot\\alpha = 1$."
       },
       {
-        title: "2. Há»‡ thá»©c lÆ°á»£ng trong tam giÃ¡c & CÃ¡c cÃ´ng thá»©c diá»‡n tÃ­ch",
-        content: "- **Äá»‹nh lÃ­ cÃ´sin:** $a^2 = b^2 + c^2 - 2bc\\cos A \\implies \\cos A = \\frac{b^2 + c^2 - a^2}{2bc}$.\n- **Äá»™ dÃ i Ä‘Æ°á»ng trung tuyáº¿n:** $m_a^2 = \\frac{2(b^2 + c^2) - a^2}{4}$.\n- **Äá»‹nh lÃ­ sin:** $\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C} = 2R$.\n- **CÃ¡c cÃ´ng thá»©c diá»‡n tÃ­ch tam giÃ¡c:** $S = \\frac{1}{2}ah_a = \\frac{1}{2}ab\\sin C = \\frac{abc}{4R} = pr = \\sqrt{p(p-a)(p-b)(p-c)}$ vá»›i $p = \\frac{a+b+c}{2}$."
+        title: "2. Hệ thức lượng trong tam giác & Các công thức diện tích",
+        content: "- **Định lí côsin:** $a^2 = b^2 + c^2 - 2bc\\cos A \\implies \\cos A = \\frac{b^2 + c^2 - a^2}{2bc}$.\n- **Độ dài đường trung tuyến:** $m_a^2 = \\frac{2(b^2 + c^2) - a^2}{4}$.\n- **Định lí sin:** $\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C} = 2R$.\n- **Các công thức diện tích tam giác:** $S = \\frac{1}{2}ah_a = \\frac{1}{2}ab\\sin C = \\frac{abc}{4R} = pr = \\sqrt{p(p-a)(p-b)(p-c)}$ với $p = \\frac{a+b+c}{2}$."
       }
     ]
   },
   "g10-c4": {
     chapterId: "g10-c4",
-    chapterNumber: "ChÆ°Æ¡ng IV",
-    chapterTitle: "VectÆ¡",
-    semester: "Táº­p 1 - Há»c ká»³ I",
+    chapterNumber: "Chương IV",
+    chapterTitle: "Vectơ",
+    semester: "Tập 1 - Học kỳ I",
     theorySections: [
       {
-        title: "1. CÃ¡c Ä‘á»‹nh nghÄ©a cÆ¡ báº£n & PhÃ©p cá»™ng, trá»« vectÆ¡",
-        content: "- **Äá»‹nh nghÄ©a:** VectÆ¡ lÃ  Ä‘oáº¡n tháº³ng cÃ³ hÆ°á»›ng. Hai vectÆ¡ báº±ng nhau khi cÃ¹ng hÆ°á»›ng vÃ  cÃ¹ng Ä‘á»™ dÃ i.\n- **Quy táº¯c ba Ä‘iá»ƒm:** $\\vec{AB} + \\vec{BC} = \\vec{AC}$.\n- **Quy táº¯c hÃ¬nh bÃ¬nh hÃ nh:** $\\vec{AB} + \\vec{AD} = \\vec{AC}$ (vá»›i $ABCD$ lÃ  hÃ¬nh bÃ¬nh hÃ nh).\n- **Quy táº¯c trá»« chung gá»‘c:** $\\vec{OB} - \\vec{OA} = \\vec{AB}$."
+        title: "1. Các định nghĩa cơ bản & Phép cộng, trừ vectơ",
+        content: "- **Định nghĩa:** Vectơ là đoạn thẳng có hướng. Hai vectơ bằng nhau khi cùng hướng và cùng độ dài.\n- **Quy tắc ba điểm:** $\\vec{AB} + \\vec{BC} = \\vec{AC}$.\n- **Quy tắc hình bình hành:** $\\vec{AB} + \\vec{AD} = \\vec{AC}$ (với $ABCD$ là hình bình hành).\n- **Quy tắc trừ chung gốc:** $\\vec{OB} - \\vec{OA} = \\vec{AB}$."
       },
       {
-        title: "2. TÃ­ch cá»§a vectÆ¡ vá»›i má»™t sá»‘ & Toáº¡ Ä‘á»™ vectÆ¡",
-        content: "- **TÃ­ch sá»‘ vá»›i vectÆ¡:** $k\\vec{a}$ cÃ¹ng hÆ°á»›ng vá»›i $\\vec{a}$ khi $k > 0$, ngÆ°á»£c hÆ°á»›ng khi $k < 0$; $|k\\vec{a}| = |k||\\vec{a}|$.\n- **Trung Ä‘iá»ƒm & Trá»ng tÃ¢m:** $I$ lÃ  trung Ä‘iá»ƒm $AB \\implies \\vec{OA} + \\vec{OB} = 2\\vec{OI}$; $G$ lÃ  trá»ng tÃ¢m $\\Delta ABC \\implies \\vec{OA} + \\vec{OB} + \\vec{OC} = 3\\vec{OG}$.\n- **Toáº¡ Ä‘á»™ vectÆ¡:** $\\vec{u} = x\\vec{i} + y\\vec{j} = (x; y)$. $\\vec{AB} = (x_B - x_A; y_B - y_A)$.\n- **Äá»™ dÃ i & Khoáº£ng cÃ¡ch:** $|\\vec{u}| = \\sqrt{x^2 + y^2}$, $AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}$."
+        title: "2. Tích của vectơ với một số & Toạ độ vectơ",
+        content: "- **Tích số với vectơ:** $k\\vec{a}$ cùng hướng với $\\vec{a}$ khi $k > 0$, ngược hướng khi $k < 0$; $|k\\vec{a}| = |k||\\vec{a}|$.\n- **Trung điểm & Trọng tâm:** $I$ là trung điểm $AB \\implies \\vec{OA} + \\vec{OB} = 2\\vec{OI}$; $G$ là trọng tâm $\\Delta ABC \\implies \\vec{OA} + \\vec{OB} + \\vec{OC} = 3\\vec{OG}$.\n- **Toạ độ vectơ:** $\\vec{u} = x\\vec{i} + y\\vec{j} = (x; y)$. $\\vec{AB} = (x_B - x_A; y_B - y_A)$.\n- **Độ dài & Khoảng cách:** $|\\vec{u}| = \\sqrt{x^2 + y^2}$, $AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}$."
       },
       {
-        title: "3. TÃ­ch vÃ´ hÆ°á»›ng cá»§a hai vectÆ¡",
-        content: "- **Äá»‹nh nghÄ©a:** $\\vec{u} \\cdot \\vec{v} = |\\vec{u}||\\vec{v}|\\cos(\\vec{u}, \\vec{v})$. BÃ¬nh phÆ°Æ¡ng vÃ´ hÆ°á»›ng: $\\vec{u}^2 = |\\vec{u}|^2$.\n- **Biá»ƒu thá»©c toáº¡ Ä‘á»™:** $\\vec{u} \\cdot \\vec{v} = x_1 x_2 + y_1 y_2$.\n- **Äiá»u kiá»‡n vuÃ´ng gÃ³c:** $\\vec{u} \\perp \\vec{v} \\iff \\vec{u} \\cdot \\vec{v} = 0 \\iff x_1 x_2 + y_1 y_2 = 0$.\n- **GÃ³c giá»¯a hai vectÆ¡:** $\\cos(\\vec{u}, \\vec{v}) = \\frac{x_1 x_2 + y_1 y_2}{\\sqrt{x_1^2 + y_1^2}\\sqrt{x_2^2 + y_2^2}}$."
+        title: "3. Tích vô hướng của hai vectơ",
+        content: "- **Định nghĩa:** $\\vec{u} \\cdot \\vec{v} = |\\vec{u}||\\vec{v}|\\cos(\\vec{u}, \\vec{v})$. Bình phương vô hướng: $\\vec{u}^2 = |\\vec{u}|^2$.\n- **Biểu thức toạ độ:** $\\vec{u} \\cdot \\vec{v} = x_1 x_2 + y_1 y_2$.\n- **Điều kiện vuông góc:** $\\vec{u} \\perp \\vec{v} \\iff \\vec{u} \\cdot \\vec{v} = 0 \\iff x_1 x_2 + y_1 y_2 = 0$.\n- **Góc giữa hai vectơ:** $\\cos(\\vec{u}, \\vec{v}) = \\frac{x_1 x_2 + y_1 y_2}{\\sqrt{x_1^2 + y_1^2}\\sqrt{x_2^2 + y_2^2}}$."
       }
     ]
   }
 ,
   "g10-c5": {
     chapterId: "g10-c5",
-    chapterNumber: "ChÆ°Æ¡ng VI",
-    chapterTitle: "HÃ m Sá»‘, Äá»“ Thá»‹ VÃ  á»¨ng Dá»¥ng",
-    semester: "Táº­p 2 - Há»c ká»³ II",
+    chapterNumber: "Chương VI",
+    chapterTitle: "Hàm Số, Đồ Thị Và Ứng Dụng",
+    semester: "Tập 2 - Học kỳ II",
     theorySections: [
       {
-        title: "1. KhÃ¡i niá»‡m hÃ m sá»‘ & Sá»± biáº¿n thiÃªn",
-        content: "- **Äá»‹nh nghÄ©a:** HÃ m sá»‘ $y = f(x)$ xÃ¡c Ä‘á»‹nh trÃªn $D \\subset \\mathbb{R}$.\n- **Äá»“ng biáº¿n, nghá»‹ch biáº¿n:** $f(x)$ Ä‘á»“ng biáº¿n trÃªn $(a; b) \\iff \\forall x_1 < x_2 \\implies f(x_1) < f(x_2)$; nghá»‹ch biáº¿n trÃªn $(a; b) \\iff \\forall x_1 < x_2 \\implies f(x_1) > f(x_2)$.\n- **Äá»“ thá»‹:** Táº­p há»£p cÃ¡c Ä‘iá»ƒm $M(x; f(x))$ trÃªn máº·t pháº³ng $Oxy$."
+        title: "1. Khái niệm hàm số & Sự biến thiên",
+        content: "- **Định nghĩa:** Hàm số $y = f(x)$ xác định trên $D \\subset \\mathbb{R}$.\n- **Đồng biến, nghịch biến:** $f(x)$ đồng biến trên $(a; b) \\iff \\forall x_1 < x_2 \\implies f(x_1) < f(x_2)$; nghịch biến trên $(a; b) \\iff \\forall x_1 < x_2 \\implies f(x_1) > f(x_2)$.\n- **Đồ thị:** Tập hợp các điểm $M(x; f(x))$ trên mặt phẳng $Oxy$."
       },
       {
-        title: "2. HÃ m sá»‘ báº­c hai",
-        content: "- **Dáº¡ng hÃ m sá»‘:** $y = ax^2 + bx + c$ ($a \\ne 0$).\n- **Äá»‰nh & Trá»¥c Ä‘á»‘i xá»©ng:** Äá»‰nh $I\\left(-\\frac{b}{2a}; -\\frac{\\Delta}{4a}\\right)$, trá»¥c Ä‘á»‘i xá»©ng $x = -\\frac{b}{2a}$.\n- **Bá» lÃµm & ÄÆ¡n Ä‘iá»‡u:** $a > 0$ quay lÃªn (nghá»‹ch biáº¿n trÃªn $(-\\infty; x_I)$, Ä‘á»“ng biáº¿n trÃªn $(x_I; +\\infty)$); $a < 0$ quay xuá»‘ng (Ä‘á»“ng biáº¿n trÃªn $(-\\infty; x_I)$, nghá»‹ch biáº¿n trÃªn $(x_I; +\\infty)$)."
+        title: "2. Hàm số bậc hai",
+        content: "- **Dạng hàm số:** $y = ax^2 + bx + c$ ($a \\ne 0$).\n- **Đỉnh & Trục đối xứng:** Đỉnh $I\\left(-\\frac{b}{2a}; -\\frac{\\Delta}{4a}\\right)$, trục đối xứng $x = -\\frac{b}{2a}$.\n- **Bề lõm & Đơn điệu:** $a > 0$ quay lên (nghịch biến trên $(-\\infty; x_I)$, đồng biến trên $(x_I; +\\infty)$); $a < 0$ quay xuống (đồng biến trên $(-\\infty; x_I)$, nghịch biến trên $(x_I; +\\infty)$)."
       },
       {
-        title: "3. Dáº¥u cá»§a tam thá»©c báº­c hai & Báº¥t phÆ°Æ¡ng trÃ¬nh báº­c hai",
-        content: "- **Äá»‹nh lÃ­ vá» dáº¥u:** XÃ©t $f(x) = ax^2 + bx + c$ ($a \\ne 0$). Náº¿u $\\Delta < 0 \\implies af(x) > 0, \\forall x \\in \\mathbb{R}$; náº¿u $\\Delta = 0 \\implies af(x) > 0, \\forall x \\ne -\\frac{b}{2a}$; náº¿u $\\Delta > 0 \\implies f(x)$ cÃ³ 2 nghiá»‡m $x_1 < x_2$, 'trong trÃ¡i, ngoÃ i cÃ¹ng' vá»›i há»‡ sá»‘ $a$.\n- **Äiá»u kiá»‡n giá»¯ dáº¥u trÃªn $\\mathbb{R}$:** $f(x) > 0, \\forall x \\in \\mathbb{R} \\iff a > 0, \\Delta < 0$; $f(x) \\ge 0, \\forall x \\in \\mathbb{R} \\iff a > 0, \\Delta \\le 0$."
+        title: "3. Dấu của tam thức bậc hai & Bất phương trình bậc hai",
+        content: "- **Định lí về dấu:** Xét $f(x) = ax^2 + bx + c$ ($a \\ne 0$). Nếu $\\Delta < 0 \\implies af(x) > 0, \\forall x \\in \\mathbb{R}$; nếu $\\Delta = 0 \\implies af(x) > 0, \\forall x \\ne -\\frac{b}{2a}$; nếu $\\Delta > 0 \\implies f(x)$ có 2 nghiệm $x_1 < x_2$, 'trong trái, ngoài cùng' với hệ số $a$.\n- **Điều kiện giữ dấu trên $\\mathbb{R}$:** $f(x) > 0, \\forall x \\in \\mathbb{R} \\iff a > 0, \\Delta < 0$; $f(x) \\ge 0, \\forall x \\in \\mathbb{R} \\iff a > 0, \\Delta \\le 0$."
       },
       {
-        title: "4. PhÆ°Æ¡ng trÃ¬nh quy vá» phÆ°Æ¡ng trÃ¬nh báº­c hai",
-        content: "- **Dáº¡ng 1:** $\\sqrt{f(x)} = \\sqrt{g(x)} \\implies f(x) = g(x)$, giáº£i tÃ¬m nghiá»‡m rá»“i thá»­ láº¡i vÃ o phÆ°Æ¡ng trÃ¬nh ban Ä‘áº§u.\n- **Dáº¡ng 2:** $\\sqrt{f(x)} = g(x) \\iff \\begin{cases} g(x) \\ge 0 \\\\ f(x) = [g(x)]^2 \\end{cases}$."
+        title: "4. Phương trình quy về phương trình bậc hai",
+        content: "- **Dạng 1:** $\\sqrt{f(x)} = \\sqrt{g(x)} \\implies f(x) = g(x)$, giải tìm nghiệm rồi thử lại vào phương trình ban đầu.\n- **Dạng 2:** $\\sqrt{f(x)} = g(x) \\iff \\begin{cases} g(x) \\ge 0 \\\\ f(x) = [g(x)]^2 \\end{cases}$."
       }
     ]
   },
   "g10-c6": {
     chapterId: "g10-c6",
-    chapterNumber: "ChÆ°Æ¡ng VII",
-    chapterTitle: "PhÆ°Æ¡ng PhÃ¡p Toáº¡ Äá»™ Trong Máº·t Pháº³ng (Oxy)",
-    semester: "Táº­p 2 - Há»c ká»³ II",
+    chapterNumber: "Chương VII",
+    chapterTitle: "Phương Pháp Toạ Độ Trong Mặt Phẳng (Oxy)",
+    semester: "Tập 2 - Học kỳ II",
     theorySections: [
       {
-        title: "1. PhÆ°Æ¡ng trÃ¬nh Ä‘Æ°á»ng tháº³ng",
-        content: "- **VTCP & VTPT:** $\\vec{u} = (u_1; u_2) \\perp \\vec{n} = (-u_2; u_1)$.\n- **PT tham sá»‘:** $\\begin{cases} x = x_0 + u_1 t \\\\ y = y_0 + u_2 t \\end{cases}$.\n- **PT tá»•ng quÃ¡t:** $a(x - x_0) + b(y - y_0) = 0 \\iff ax + by + c = 0$ ($a^2 + b^2 > 0$)."
+        title: "1. Phương trình đường thẳng",
+        content: "- **VTCP & VTPT:** $\\vec{u} = (u_1; u_2) \\perp \\vec{n} = (-u_2; u_1)$.\n- **PT tham số:** $\\begin{cases} x = x_0 + u_1 t \\\\ y = y_0 + u_2 t \\end{cases}$.\n- **PT tổng quát:** $a(x - x_0) + b(y - y_0) = 0 \\iff ax + by + c = 0$ ($a^2 + b^2 > 0$)."
       },
       {
-        title: "2. Vá»‹ trÃ­ tÆ°Æ¡ng Ä‘á»‘i, gÃ³c vÃ  khoáº£ng cÃ¡ch",
-        content: "- **Vá»‹ trÃ­ tÆ°Æ¡ng Ä‘á»‘i:** Dá»±a vÃ o sá»‘ nghiá»‡m há»‡ phÆ°Æ¡ng trÃ¬nh hai Ä‘Æ°á»ng tháº³ng.\n- **GÃ³c giá»¯a hai Ä‘Æ°á»ng tháº³ng:** $\\cos(\\Delta_1, \\Delta_2) = \\frac{|a_1 a_2 + b_1 b_2|}{\\sqrt{a_1^2+b_1^2}\\sqrt{a_2^2+b_2^2}}$ ($0^\\circ \\le \\varphi \\le 90^\\circ$).\n- **Khoáº£ng cÃ¡ch tá»« Ä‘iá»ƒm Ä‘áº¿n Ä‘Æ°á»ng tháº³ng:** $d(M_0, \\Delta) = \\frac{|ax_0 + by_0 + c|}{\\sqrt{a^2 + b^2}}$."
+        title: "2. Vị trí tương đối, góc và khoảng cách",
+        content: "- **Vị trí tương đối:** Dựa vào số nghiệm hệ phương trình hai đường thẳng.\n- **Góc giữa hai đường thẳng:** $\\cos(\\Delta_1, \\Delta_2) = \\frac{|a_1 a_2 + b_1 b_2|}{\\sqrt{a_1^2+b_1^2}\\sqrt{a_2^2+b_2^2}}$ ($0^\\circ \\le \\varphi \\le 90^\\circ$).\n- **Khoảng cách từ điểm đến đường thẳng:** $d(M_0, \\Delta) = \\frac{|ax_0 + by_0 + c|}{\\sqrt{a^2 + b^2}}$."
       },
       {
-        title: "3. ÄÆ°á»ng trÃ²n trong máº·t pháº³ng toáº¡ Ä‘á»™",
-        content: "- **PT chÃ­nh táº¯c:** $(x - a)^2 + (y - b)^2 = R^2$ (tÃ¢m $I(a; b)$, bÃ¡n kÃ­nh $R$).\n- **PT tá»•ng quÃ¡t:** $x^2 + y^2 - 2ax - 2by + c = 0$ ($a^2 + b^2 - c > 0 \\implies R = \\sqrt{a^2 + b^2 - c}$).\n- **Tiáº¿p tuyáº¿n táº¡i $M_0(x_0; y_0) \\in (C)$:** $(x_0 - a)(x - a) + (y_0 - b)(y - b) = R^2$."
+        title: "3. Đường tròn trong mặt phẳng toạ độ",
+        content: "- **PT chính tắc:** $(x - a)^2 + (y - b)^2 = R^2$ (tâm $I(a; b)$, bán kính $R$).\n- **PT tổng quát:** $x^2 + y^2 - 2ax - 2by + c = 0$ ($a^2 + b^2 - c > 0 \\implies R = \\sqrt{a^2 + b^2 - c}$).\n- **Tiếp tuyến tại $M_0(x_0; y_0) \\in (C)$:** $(x_0 - a)(x - a) + (y_0 - b)(y - b) = R^2$."
       },
       {
-        title: "4. Ba Ä‘Æ°á»ng conic (Elip, Hypebol, Parabol)",
-        content: "- **Elip:** $\\frac{x^2}{a^2} + \\frac{y^2}{b^2} = 1$ ($a > b > 0, c^2 = a^2 - b^2, F_{1,2}(\\pm c; 0)$).\n- **Hypebol:** $\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 1$ ($a, b > 0, c^2 = a^2 + b^2, F_{1,2}(\\pm c; 0)$).\n- **Parabol:** $y^2 = 2px$ ($p > 0, F\\left(\\frac{p}{2}; 0\\right)$, Ä‘Æ°á»ng chuáº©n $x = -\\frac{p}{2}$)."
+        title: "4. Ba đường conic (Elip, Hypebol, Parabol)",
+        content: "- **Elip:** $\\frac{x^2}{a^2} + \\frac{y^2}{b^2} = 1$ ($a > b > 0, c^2 = a^2 - b^2, F_{1,2}(\\pm c; 0)$).\n- **Hypebol:** $\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 1$ ($a, b > 0, c^2 = a^2 + b^2, F_{1,2}(\\pm c; 0)$).\n- **Parabol:** $y^2 = 2px$ ($p > 0, F\\left(\\frac{p}{2}; 0\\right)$, đường chuẩn $x = -\\frac{p}{2}$)."
       }
     ]
   }
 ,
   "g10-c7": {
     chapterId: "g10-c7",
-    chapterNumber: "ChÆ°Æ¡ng VIII",
-    chapterTitle: "Äáº¡i Sá»‘ Tá»• Há»£p",
-    semester: "Táº­p 2 - Há»c ká»³ II",
+    chapterNumber: "Chương VIII",
+    chapterTitle: "Đại Số Tổ Hợp",
+    semester: "Tập 2 - Học kỳ II",
     theorySections: [
       {
-        title: "1. Quy táº¯c cá»™ng vÃ  quy táº¯c nhÃ¢n",
-        content: "- **Quy táº¯c cá»™ng:** CÃ´ng viá»‡c hoÃ n thÃ nh bá»Ÿi má»™t trong hai hÃ nh Ä‘á»™ng loáº¡i trá»« nhau ($A$ cÃ³ $m$ cÃ¡ch, $B$ cÃ³ $n$ cÃ¡ch) $\\implies m + n$ cÃ¡ch.\n- **Quy táº¯c nhÃ¢n:** CÃ´ng viá»‡c hoÃ n thÃ nh qua hai cÃ´ng Ä‘oáº¡n liÃªn tiáº¿p ($A$ cÃ³ $m$ cÃ¡ch, $B$ cÃ³ $n$ cÃ¡ch) $\\implies m \\cdot n$ cÃ¡ch.\n- **SÆ¡ Ä‘á»“ cÃ¢y:** Biá»ƒu diá»…n cÃ¡c nhÃ¡nh phÃ¢n chia cÃ´ng viá»‡c trá»±c quan."
+        title: "1. Quy tắc cộng và quy tắc nhân",
+        content: "- **Quy tắc cộng:** Công việc hoàn thành bởi một trong hai hành động loại trừ nhau ($A$ có $m$ cách, $B$ có $n$ cách) $\\implies m + n$ cách.\n- **Quy tắc nhân:** Công việc hoàn thành qua hai công đoạn liên tiếp ($A$ có $m$ cách, $B$ có $n$ cách) $\\implies m \\cdot n$ cách.\n- **Sơ đồ cây:** Biểu diễn các nhánh phân chia công việc trực quan."
       },
       {
-        title: "2. HoÃ¡n vá»‹, chá»‰nh há»£p vÃ  tá»• há»£p",
-        content: "- **HoÃ¡n vá»‹:** $P_n = n! = n(n-1)\\dots 1$ (sáº¯p thá»© tá»± $n$ pháº§n tá»­, $0! = 1$).\n- **Chá»‰nh há»£p:** $A_n^k = \\frac{n!}{(n-k)!}$ (chá»n $k$ tá»« $n$ vÃ  sáº¯p thá»© tá»±, $1 \\le k \\le n$).\n- **Tá»• há»£p:** $C_n^k = \\frac{n!}{k!(n-k)!}$ (chá»n $k$ tá»« $n$ khÃ´ng ká»ƒ thá»© tá»±, $0 \\le k \\le n$).\n- **TÃ­nh cháº¥t tá»• há»£p:** $C_n^k = C_n^{n-k}$, $C_{n-1}^{k-1} + C_{n-1}^k = C_n^k$."
+        title: "2. Hoán vị, chỉnh hợp và tổ hợp",
+        content: "- **Hoán vị:** $P_n = n! = n(n-1)\\dots 1$ (sắp thứ tự $n$ phần tử, $0! = 1$).\n- **Chỉnh hợp:** $A_n^k = \\frac{n!}{(n-k)!}$ (chọn $k$ từ $n$ và sắp thứ tự, $1 \\le k \\le n$).\n- **Tổ hợp:** $C_n^k = \\frac{n!}{k!(n-k)!}$ (chọn $k$ từ $n$ không kể thứ tự, $0 \\le k \\le n$).\n- **Tính chất tổ hợp:** $C_n^k = C_n^{n-k}$, $C_{n-1}^{k-1} + C_{n-1}^k = C_n^k$."
       },
       {
-        title: "3. Nhá»‹ thá»©c Newton",
-        content: "- **Khai triá»ƒn báº­c 4:** $(a+b)^4 = a^4 + 4a^3b + 6a^2b^2 + 4ab^3 + b^4$.\n- **Khai triá»ƒn báº­c 5:** $(a+b)^5 = a^5 + 5a^4b + 10a^3b^2 + 10a^2b^3 + 5ab^4 + b^5$.\n- **Sá»‘ háº¡ng tá»•ng quÃ¡t:** $T_{k+1} = C_n^k a^{n-k} b^k$ ($0 \\le k \\le n$).\n- **Tá»•ng há»‡ sá»‘:** $P(1) = (a+b)^n$; $\\sum_{k=0}^n C_n^k = 2^n$."
+        title: "3. Nhị thức Newton",
+        content: "- **Khai triển bậc 4:** $(a+b)^4 = a^4 + 4a^3b + 6a^2b^2 + 4ab^3 + b^4$.\n- **Khai triển bậc 5:** $(a+b)^5 = a^5 + 5a^4b + 10a^3b^2 + 10a^2b^3 + 5ab^4 + b^5$.\n- **Số hạng tổng quát:** $T_{k+1} = C_n^k a^{n-k} b^k$ ($0 \\le k \\le n$).\n- **Tổng hệ số:** $P(1) = (a+b)^n$; $\\sum_{k=0}^n C_n^k = 2^n$."
       }
     ]
   }
@@ -6046,7 +6046,7 @@ window.GRADE_10_LESSONS_DB = {  "g10-c1-l1": {
   }
 };
 
-// Aliases for BÃ i 23, 24, 25 (ChÆ°Æ¡ng 8)
+// Aliases for Bài 23, 24, 25 (Chương 8)
 if (window.GRADE_10_LESSONS_DB) {
   window.GRADE_10_LESSONS_DB["g10-c8-l23"] = window.GRADE_10_LESSONS_DB["g10-c7-l20"];
   window.GRADE_10_LESSONS_DB["g10-c8-l24"] = window.GRADE_10_LESSONS_DB["g10-c7-l21"];
@@ -6057,14 +6057,28 @@ window.getGrade10LessonData = function(chapterId, lessonId) {
   if (window.GRADE_10_LESSONS_DB && window.GRADE_10_LESSONS_DB[lessonId]) {
     const rawLesson = window.GRADE_10_LESSONS_DB[lessonId];
     const chData = window.GRADE_10_KNOWLEDGE ? window.GRADE_10_KNOWLEDGE[chapterId] : null;
+
+    let theorySections = [];
+    if (rawLesson.theory && rawLesson.theory.sections && rawLesson.theory.sections.length > 0) {
+      theorySections = rawLesson.theory.sections;
+    } else if (rawLesson.topics && rawLesson.topics.length >= 3) {
+      theorySections = rawLesson.topics.slice(0, 3).map((t, idx) => ({
+        title: `${idx + 1}. ${(t.name || t.title || '').replace(/^Dạng \d+:\s*/, '')}`,
+        content: Array.isArray(t.method) ? t.method.join('\n') : (t.description || (t.method ? String(t.method) : `Phương pháp giải trọng tâm dạng toán ${idx + 1}.`))
+      }));
+    } else if (chData && chData.theorySections) {
+      theorySections = chData.theorySections;
+    }
+
     return {
       gradeId: 10,
-      unitTitle: chData ? `${chData.chapterNumber}: ${chData.chapterTitle}` : "ToÃ¡n Lá»›p 10",
+      unitTitle: chData ? `${chData.chapterNumber}: ${chData.chapterTitle}` : "Toán Lớp 10",
       lessonTitle: rawLesson.title,
       theory: {
-        summary: `Há»‡ thá»‘ng kiáº¿n thá»©c trá»ng tÃ¢m bÃ i há»c chuáº©n GDPT 2018 (Thi ÄGNL & Tá»‘t nghiá»‡p THPT).`,
-        sections: chData ? chData.theorySections : []
+        summary: rawLesson.summary || (chData ? `Hệ thống kiến thức trọng tâm ${rawLesson.title} chuẩn GDPT 2018 (Thi ĐGNL & Tốt nghiệp THPT).` : `Hệ thống kiến thức trọng tâm bài học chuẩn GDPT 2018.`),
+        sections: theorySections
       },
+      diagram: window.getTikzDiagramForLesson ? window.getTikzDiagramForLesson(10, chapterId, lessonId) : null,
       topics: rawLesson.topics
     };
   }

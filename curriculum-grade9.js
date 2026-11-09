@@ -1,4 +1,4 @@
-﻿// ==========================================================================
+// ==========================================================================
 // CO SO DU LIEU CHUYEN SAU TOAN LOP 9 (GDPT 2018)
 // He thong 3 dang toan chuan muc, 10 bai tap moi dang (4 Biet - 3 Hieu - 3 Van dung)
 // Bao gom: 27 bai hoc toan dien tu Chuong I den Chuong X
@@ -15,81 +15,81 @@
 window.GRADE_9_KNOWLEDGE = {
   "g9-c1": {
     chapterId: "g9-c1",
-    chapterNumber: "ChÆ°Æ¡ng I",
-    chapterTitle: "PhÆ°Æ¡ng TrÃ¬nh VÃ  Há»‡ Hai PhÆ°Æ¡ng TrÃ¬nh Báº­c Nháº¥t Hai áº¨n",
-    semester: "Táº­p 1 - Há»c ká»³ I",
+    chapterNumber: "Chương I",
+    chapterTitle: "Phương Trình Và Hệ Hai Phương Trình Bậc Nhất Hai Ẩn",
+    semester: "Tập 1 - Học kỳ I",
     theorySections: [
       {
-        title: "1. KhÃ¡i niá»‡m phÆ°Æ¡ng trÃ¬nh báº­c nháº¥t hai áº©n & Minh há»a hÃ¬nh há»c",
-        content: "- **PhÆ°Æ¡ng trÃ¬nh báº­c nháº¥t hai áº©n:** Há»‡ thá»©c dáº¡ng $ax + by = c$ vá»›i $a, b$ khÃ´ng Ä‘á»“ng thá»i báº±ng 0 ($a^2 + b^2 \\ne 0$).\n- **Nghiá»‡m cá»§a phÆ°Æ¡ng trÃ¬nh:** Cáº·p sá»‘ $(x_0; y_0)$ thá»a mÃ£n $ax_0 + by_0 = c$. PhÆ°Æ¡ng trÃ¬nh báº­c nháº¥t hai áº©n luÃ´n cÃ³ vÃ´ sá»‘ nghiá»‡m.\n- **Minh há»a hÃ¬nh há»c:** Trong máº·t pháº³ng tá»a Ä‘á»™ $Oxy$, táº­p há»£p cÃ¡c Ä‘iá»ƒm biá»ƒu diá»…n cÃ¡c nghiá»‡m cá»§a phÆ°Æ¡ng trÃ¬nh $ax + by = c$ lÃ  Ä‘Æ°á»ng tháº³ng $d: ax + by = c$."
+        title: "1. Khái niệm phương trình bậc nhất hai ẩn & Minh họa hình học",
+        content: "- **Phương trình bậc nhất hai ẩn:** Hệ thức dạng $ax + by = c$ với $a, b$ không đồng thời bằng 0 ($a^2 + b^2 \\ne 0$).\n- **Nghiệm của phương trình:** Cặp số $(x_0; y_0)$ thỏa mãn $ax_0 + by_0 = c$. Phương trình bậc nhất hai ẩn luôn có vô số nghiệm.\n- **Minh họa hình học:** Trong mặt phẳng tọa độ $Oxy$, tập hợp các điểm biểu diễn các nghiệm của phương trình $ax + by = c$ là đường thẳng $d: ax + by = c$."
       },
       {
-        title: "2. Há»‡ hai phÆ°Æ¡ng trÃ¬nh báº­c nháº¥t hai áº©n & CÃ¡c phÆ°Æ¡ng phÃ¡p giáº£i",
-        content: "- **Há»‡ hai phÆ°Æ¡ng trÃ¬nh báº­c nháº¥t hai áº©n:** CÃ³ dáº¡ng $\\begin{cases} ax + by = c \\\\ a'x + b'y = c' \\end{cases}$ ($a^2 + b^2 \\ne 0, a'^2 + b'^2 \\ne 0$).\n- **PhÆ°Æ¡ng phÃ¡p tháº¿:** Tá»« má»™t phÆ°Æ¡ng trÃ¬nh rÃºt má»™t áº©n theo áº©n kia rá»“i tháº¿ vÃ o phÆ°Æ¡ng trÃ¬nh cÃ²n láº¡i Ä‘á»ƒ Ä‘Æ°á»£c phÆ°Æ¡ng trÃ¬nh báº­c nháº¥t má»™t áº©n.\n- **PhÆ°Æ¡ng phÃ¡p cá»™ng Ä‘áº¡i sá»‘:** NhÃ¢n hai váº¿ má»—i phÆ°Æ¡ng trÃ¬nh vá»›i há»‡ sá»‘ thÃ­ch há»£p sao cho cÃ¡c há»‡ sá»‘ cá»§a má»™t áº©n báº±ng nhau hoáº·c Ä‘á»‘i nhau, rá»“i trá»« hoáº·c cá»™ng hai phÆ°Æ¡ng trÃ¬nh tá»«ng váº¿ Ä‘á»ƒ triá»‡t tiÃªu áº©n Ä‘Ã³.\n- **PhÆ°Æ¡ng phÃ¡p Ä‘áº·t áº©n phá»¥:** Äáº·t áº©n má»›i cho cÃ¡c biá»ƒu thá»©c láº·p láº¡i (phÃ¢n thá»©c, cÄƒn thá»©c) Ä‘á»ƒ Ä‘Æ°a vá» há»‡ phÆ°Æ¡ng trÃ¬nh báº­c nháº¥t hai áº©n quen thuá»™c."
+        title: "2. Hệ hai phương trình bậc nhất hai ẩn & Các phương pháp giải",
+        content: "- **Hệ hai phương trình bậc nhất hai ẩn:** Có dạng $\\begin{cases} ax + by = c \\\\ a'x + b'y = c' \\end{cases}$ ($a^2 + b^2 \\ne 0, a'^2 + b'^2 \\ne 0$).\n- **Phương pháp thế:** Từ một phương trình rút một ẩn theo ẩn kia rồi thế vào phương trình còn lại để được phương trình bậc nhất một ẩn.\n- **Phương pháp cộng đại số:** Nhân hai vế mỗi phương trình với hệ số thích hợp sao cho các hệ số của một ẩn bằng nhau hoặc đối nhau, rồi trừ hoặc cộng hai phương trình từng vế để triệt tiêu ẩn đó.\n- **Phương pháp đặt ẩn phụ:** Đặt ẩn mới cho các biểu thức lặp lại (phân thức, căn thức) để đưa về hệ phương trình bậc nhất hai ẩn quen thuộc."
       },
       {
-        title: "3. Giáº£i bÃ i toÃ¡n báº±ng cÃ¡ch láº­p há»‡ phÆ°Æ¡ng trÃ¬nh",
-        content: "- **BÆ°á»›c 1: Láº­p há»‡ phÆ°Æ¡ng trÃ¬nh:**\n  + Chá»n hai áº©n sá»‘ vÃ  Ä‘áº·t Ä‘iá»u kiá»‡n thÃ­ch há»£p cho áº©n (kÃ¨m Ä‘Æ¡n vá»‹ Ä‘o).\n  + Biá»ƒu diá»…n cÃ¡c Ä‘áº¡i lÆ°á»£ng chÆ°a biáº¿t theo áº©n vÃ  cÃ¡c Ä‘áº¡i lÆ°á»£ng Ä‘Ã£ biáº¿t.\n  + Láº­p hai phÆ°Æ¡ng trÃ¬nh biá»ƒu thá»‹ má»‘i tÆ°Æ¡ng quan giá»¯a cÃ¡c Ä‘áº¡i lÆ°á»£ng.\n- **BÆ°á»›c 2: Giáº£i há»‡ phÆ°Æ¡ng trÃ¬nh vá»«a láº­p.**\n- **BÆ°á»›c 3: Äá»‘i chiáº¿u Ä‘iá»u kiá»‡n vÃ  káº¿t luáº­n bÃ i toÃ¡n thá»±c táº¿.**\n- **CÃ¡c mÃ´ hÃ¬nh kinh Ä‘iá»ƒn:** BÃ i toÃ¡n chuyá»ƒn Ä‘á»™ng, toÃ¡n lÃ m chung - lÃ m riÃªng, toÃ¡n nÄƒng suáº¥t lao Ä‘á»™ng, toÃ¡n tá»· lá»‡ pháº§n trÄƒm - pha cháº¿ ná»“ng Ä‘á»™ dung dá»‹ch, vÃ  toÃ¡n hÃ¬nh há»c diá»‡n tÃ­ch chu vi."
+        title: "3. Giải bài toán bằng cách lập hệ phương trình",
+        content: "- **Bước 1: Lập hệ phương trình:**\n  + Chọn hai ẩn số và đặt điều kiện thích hợp cho ẩn (kèm đơn vị đo).\n  + Biểu diễn các đại lượng chưa biết theo ẩn và các đại lượng đã biết.\n  + Lập hai phương trình biểu thị mối tương quan giữa các đại lượng.\n- **Bước 2: Giải hệ phương trình vừa lập.**\n- **Bước 3: Đối chiếu điều kiện và kết luận bài toán thực tế.**\n- **Các mô hình kinh điển:** Bài toán chuyển động, toán làm chung - làm riêng, toán năng suất lao động, toán tỷ lệ phần trăm - pha chế nồng độ dung dịch, và toán hình học diện tích chu vi."
       }
     ]
   },
   "g9-c2": {
     chapterId: "g9-c2",
-    chapterNumber: "ChÆ°Æ¡ng II",
-    chapterTitle: "PhÆ°Æ¡ng TrÃ¬nh VÃ  Báº¥t PhÆ°Æ¡ng TrÃ¬nh Báº­c Nháº¥t Má»™t áº¨n",
-    semester: "Táº­p 1 - Há»c ká»³ I",
+    chapterNumber: "Chương II",
+    chapterTitle: "Phương Trình Và Bất Phương Trình Bậc Nhất Một Ẩn",
+    semester: "Tập 1 - Học kỳ I",
     theorySections: [
       {
-        title: "1. PhÆ°Æ¡ng trÃ¬nh quy vá» phÆ°Æ¡ng trÃ¬nh báº­c nháº¥t má»™t áº©n",
-        content: "- **PhÆ°Æ¡ng trÃ¬nh tÃ­ch:** $A(x) \\cdot B(x) = 0 \\iff A(x) = 0$ hoáº·c $B(x) = 0$. Chuyá»ƒn táº¥t cáº£ háº¡ng tá»­ vá» váº¿ trÃ¡i vÃ  phÃ¢n tÃ­ch thÃ nh nhÃ¢n tá»­.\n- **PhÆ°Æ¡ng trÃ¬nh chá»©a áº©n á»Ÿ máº«u:**\n  + TÃ¬m ÄKXÄ (cho táº¥t cáº£ máº«u thá»©c khÃ¡c 0).\n  + Quy Ä‘á»“ng máº«u hai váº¿ rá»“i khá»­ máº«u.\n  + Giáº£i phÆ°Æ¡ng trÃ¬nh thu Ä‘Æ°á»£c.\n  + Äá»‘i chiáº¿u Ä‘iá»u kiá»‡n xÃ¡c Ä‘á»‹nh Ä‘á»ƒ loáº¡i nghiá»‡m ngoáº¡i lai vÃ  káº¿t luáº­n táº­p nghiá»‡m."
+        title: "1. Phương trình quy về phương trình bậc nhất một ẩn",
+        content: "- **Phương trình tích:** $A(x) \\cdot B(x) = 0 \\iff A(x) = 0$ hoặc $B(x) = 0$. Chuyển tất cả hạng tử về vế trái và phân tích thành nhân tử.\n- **Phương trình chứa ẩn ở mẫu:**\n  + Tìm ĐKXĐ (cho tất cả mẫu thức khác 0).\n  + Quy đồng mẫu hai vế rồi khử mẫu.\n  + Giải phương trình thu được.\n  + Đối chiếu điều kiện xác định để loại nghiệm ngoại lai và kết luận tập nghiệm."
       },
       {
-        title: "2. Báº¥t Ä‘áº³ng thá»©c vÃ  cÃ¡c tÃ­nh cháº¥t cÆ¡ báº£n",
-        content: "- **KhÃ¡i niá»‡m:** Báº¥t Ä‘áº³ng thá»©c cÃ³ dáº¡ng $a < b, a > b, a \\le b, a \\ge b$.\n- **LiÃªn há»‡ vá»›i phÃ©p cá»™ng:** $a < b \\implies a + c < b + c$ (cá»™ng cÃ¹ng sá»‘ giá»¯ nguyÃªn chiá»u BÄT).\n- **LiÃªn há»‡ vá»›i phÃ©p nhÃ¢n:**\n  + NhÃ¢n hai váº¿ vá»›i sá»‘ dÆ°Æ¡ng: $a < b, c > 0 \\implies ac < bc$ (giá»¯ nguyÃªn chiá»u).\n  + NhÃ¢n hai váº¿ vá»›i sá»‘ Ã¢m: $a < b, c < 0 \\implies ac > bc$ (Ä‘á»•i chiá»u BÄT).\n- **Báº¥t Ä‘áº³ng thá»©c CÃ´-si (AM-GM):** Cho hai sá»‘ khÃ´ng Ã¢m $a, b \\ge 0$: $\\frac{a + b}{2} \\ge \\sqrt{ab} \\iff a + b \\ge 2\\sqrt{ab}$. Dáº¥u Ä‘áº³ng thá»©c xáº£y ra khi $a = b$."
+        title: "2. Bất đẳng thức và các tính chất cơ bản",
+        content: "- **Khái niệm:** Bất đẳng thức có dạng $a < b, a > b, a \\le b, a \\ge b$.\n- **Liên hệ với phép cộng:** $a < b \\implies a + c < b + c$ (cộng cùng số giữ nguyên chiều BĐT).\n- **Liên hệ với phép nhân:**\n  + Nhân hai vế với số dương: $a < b, c > 0 \\implies ac < bc$ (giữ nguyên chiều).\n  + Nhân hai vế với số âm: $a < b, c < 0 \\implies ac > bc$ (đổi chiều BĐT).\n- **Bất đẳng thức Cô-si (AM-GM):** Cho hai số không âm $a, b \\ge 0$: $\\frac{a + b}{2} \\ge \\sqrt{ab} \\iff a + b \\ge 2\\sqrt{ab}$. Dấu đẳng thức xảy ra khi $a = b$."
       },
       {
-        title: "3. Báº¥t phÆ°Æ¡ng trÃ¬nh báº­c nháº¥t má»™t áº©n & MÃ´ hÃ¬nh hÃ³a thá»±c tiá»…n",
-        content: "- **Äá»‹nh nghÄ©a:** Báº¥t phÆ°Æ¡ng trÃ¬nh dáº¡ng $ax + b < 0, ax + b > 0, ax + b \\le 0, ax + b \\ge 0$ ($a \\ne 0$).\n- **Quy táº¯c giáº£i:** Chuyá»ƒn váº¿ Ä‘á»•i dáº¥u háº¡ng tá»­, chia cáº£ hai váº¿ cho há»‡ sá»‘ $a$ (chÃº Ã½ Ä‘á»•i chiá»u khi chia sá»‘ Ã¢m).\n- **á»¨ng dá»¥ng thá»±c táº¿:** BÃ i toÃ¡n quáº£n lÃ½ chi phÃ­ cÃ¡ nhÃ¢n, so sÃ¡nh gÃ³i cÆ°á»›c dá»‹ch vá»¥ viá»…n thÃ´ng, tÃ­nh Ä‘iá»ƒm thi trung bÃ¬nh tÃ­ch lÅ©y, bÃ i toÃ¡n kiá»ƒm soÃ¡t táº£i trá»ng an toÃ n vÃ  kinh doanh tá»‘i Æ°u hÃ³a lá»£i nhuáº­n."
+        title: "3. Bất phương trình bậc nhất một ẩn & Mô hình hóa thực tiễn",
+        content: "- **Định nghĩa:** Bất phương trình dạng $ax + b < 0, ax + b > 0, ax + b \\le 0, ax + b \\ge 0$ ($a \\ne 0$).\n- **Quy tắc giải:** Chuyển vế đổi dấu hạng tử, chia cả hai vế cho hệ số $a$ (chú ý đổi chiều khi chia số âm).\n- **Ứng dụng thực tế:** Bài toán quản lý chi phí cá nhân, so sánh gói cước dịch vụ viễn thông, tính điểm thi trung bình tích lũy, bài toán kiểm soát tải trọng an toàn và kinh doanh tối ưu hóa lợi nhuận."
       }
     ]
   },
   "g9-c3": {
     chapterId: "g9-c3",
-    chapterNumber: "ChÆ°Æ¡ng III",
-    chapterTitle: "CÄƒn Báº­c Hai VÃ  CÄƒn Báº­c Ba",
-    semester: "Táº­p 1 - Há»c ká»³ I",
+    chapterNumber: "Chương III",
+    chapterTitle: "Căn Bậc Hai Và Căn Bậc Ba",
+    semester: "Tập 1 - Học kỳ I",
     theorySections: [
       {
-        title: "1. CÄƒn báº­c hai sá»‘ há»c vÃ  háº±ng Ä‘áº³ng thá»©c cÄƒn thá»©c",
-        content: "- **CÄƒn báº­c hai sá»‘ há»c:** Vá»›i $a \\ge 0$, sá»‘ $\\sqrt{a}$ lÃ  cÄƒn báº­c hai sá»‘ há»c cá»§a $a$ ($\\sqrt{a} = x \\iff x \\ge 0$ vÃ  $x^2 = a$). Sá»‘ $a > 0$ cÃ³ hai cÄƒn báº­c hai lÃ  $\\pm \\sqrt{a}$.\n- **Äiá»u kiá»‡n xÃ¡c Ä‘á»‹nh:** CÄƒn thá»©c báº­c hai $\\sqrt{A}$ cÃ³ nghÄ©a khi vÃ  chá»‰ khi $A \\ge 0$.\n- **Háº±ng Ä‘áº³ng thá»©c cá»‘t lÃµi:** $\\sqrt{A^2} = |A| = A$ náº¿u $A \\ge 0$, vÃ  $-A$ náº¿u $A < 0$."
+        title: "1. Căn bậc hai số học và hằng đẳng thức căn thức",
+        content: "- **Căn bậc hai số học:** Với $a \\ge 0$, số $\\sqrt{a}$ là căn bậc hai số học của $a$ ($\\sqrt{a} = x \\iff x \\ge 0$ và $x^2 = a$). Số $a > 0$ có hai căn bậc hai là $\\pm \\sqrt{a}$.\n- **Điều kiện xác định:** Căn thức bậc hai $\\sqrt{A}$ có nghĩa khi và chỉ khi $A \\ge 0$.\n- **Hằng đẳng thức cốt lõi:** $\\sqrt{A^2} = |A| = A$ nếu $A \\ge 0$, và $-A$ nếu $A < 0$."
       },
       {
-        title: "2. Khai phÆ°Æ¡ng má»™t tÃ­ch, má»™t thÆ°Æ¡ng vÃ  biáº¿n Ä‘á»•i Ä‘Æ¡n giáº£n cÄƒn thá»©c",
-        content: "- **Khai phÆ°Æ¡ng má»™t tÃ­ch:** $\\sqrt{A \\cdot B} = \\sqrt{A} \\cdot \\sqrt{B}$ ($A, B \\ge 0$).\n- **Khai phÆ°Æ¡ng má»™t thÆ°Æ¡ng:** $\\sqrt{\\frac{A}{B}} = \\frac{\\sqrt{A}}{\\sqrt{B}}$ ($A \\ge 0, B > 0$).\n- **ÄÆ°a thá»«a sá»‘ ra ngoÃ i/vÃ o trong dáº¥u cÄƒn:** $\\sqrt{A^2 B} = |A|\\sqrt{B}$; $A\\sqrt{B} = \\sqrt{A^2 B}$ ($A \\ge 0$) hoáº·c $-\\sqrt{A^2 B}$ ($A < 0$).\n- **Trá»¥c cÄƒn thá»©c á»Ÿ máº«u:** $\\frac{A}{\\sqrt{B}} = \\frac{A\\sqrt{B}}{B}$; $\\frac{A}{\\sqrt{B} \\pm \\sqrt{C}} = \\frac{A(\\sqrt{B} \\mp \\sqrt{C})}{B - C}$."
+        title: "2. Khai phương một tích, một thương và biến đổi đơn giản căn thức",
+        content: "- **Khai phương một tích:** $\\sqrt{A \\cdot B} = \\sqrt{A} \\cdot \\sqrt{B}$ ($A, B \\ge 0$).\n- **Khai phương một thương:** $\\sqrt{\\frac{A}{B}} = \\frac{\\sqrt{A}}{\\sqrt{B}}$ ($A \\ge 0, B > 0$).\n- **Đưa thừa số ra ngoài/vào trong dấu căn:** $\\sqrt{A^2 B} = |A|\\sqrt{B}$; $A\\sqrt{B} = \\sqrt{A^2 B}$ ($A \\ge 0$) hoặc $-\\sqrt{A^2 B}$ ($A < 0$).\n- **Trục căn thức ở mẫu:** $\\frac{A}{\\sqrt{B}} = \\frac{A\\sqrt{B}}{B}$; $\\frac{A}{\\sqrt{B} \\pm \\sqrt{C}} = \\frac{A(\\sqrt{B} \\mp \\sqrt{C})}{B - C}$."
       },
       {
-        title: "3. CÄƒn báº­c ba vÃ  á»©ng dá»¥ng",
-        content: "- **KhÃ¡i niá»‡m:** CÄƒn báº­c ba cá»§a sá»‘ $a$ lÃ  sá»‘ $x$ sao cho $x^3 = a$. KÃ­ hiá»‡u $\\sqrt[3]{a}$. Má»i sá»‘ thá»±c Ä‘á»u cÃ³ duy nháº¥t má»™t cÄƒn báº­c ba (khÃ´ng cáº§n Ä‘iá»u kiá»‡n khÃ´ng Ã¢m).\n- **TÃ­nh cháº¥t:** $(\\sqrt[3]{a})^3 = \\sqrt[3]{a^3} = a$; $\\sqrt[3]{ab} = \\sqrt[3]{a}\\sqrt[3]{b}$; $\\sqrt[3]{\\frac{a}{b}} = \\frac{\\sqrt[3]{a}}{\\sqrt[3]{b}}$ ($b \\ne 0$).\n- **Giáº£i phÆ°Æ¡ng trÃ¬nh:** $\\sqrt[3]{f(x)} = c \\iff f(x) = c^3$."
+        title: "3. Căn bậc ba và ứng dụng",
+        content: "- **Khái niệm:** Căn bậc ba của số $a$ là số $x$ sao cho $x^3 = a$. Kí hiệu $\\sqrt[3]{a}$. Mọi số thực đều có duy nhất một căn bậc ba (không cần điều kiện không âm).\n- **Tính chất:** $(\\sqrt[3]{a})^3 = \\sqrt[3]{a^3} = a$; $\\sqrt[3]{ab} = \\sqrt[3]{a}\\sqrt[3]{b}$; $\\sqrt[3]{\\frac{a}{b}} = \\frac{\\sqrt[3]{a}}{\\sqrt[3]{b}}$ ($b \\ne 0$).\n- **Giải phương trình:** $\\sqrt[3]{f(x)} = c \\iff f(x) = c^3$."
       }
     ]
   },
   "g9-c4": {
     chapterId: "g9-c4",
-    chapterNumber: "ChÆ°Æ¡ng IV",
-    chapterTitle: "Há»‡ Thá»©c LÆ°á»£ng Trong Tam GiÃ¡c VuÃ´ng",
-    semester: "Táº­p 1 - Há»c ká»³ I",
+    chapterNumber: "Chương IV",
+    chapterTitle: "Hệ Thức Lượng Trong Tam Giác Vuông",
+    semester: "Tập 1 - Học kỳ I",
     theorySections: [
       {
-        title: "1. Tá»‰ sá»‘ lÆ°á»£ng giÃ¡c cá»§a gÃ³c nhá»n",
-        content: "- **Äá»‹nh nghÄ©a tá»‰ sá»‘ lÆ°á»£ng giÃ¡c:** Cho gÃ³c nhá»n $\\alpha$ trong tam giÃ¡c vuÃ´ng:\n  + $\\sin \\alpha = \\frac{\\text{Ä‘á»‘i}}{\\text{huyá»n}}$;\n  + $\\cos \\alpha = \\frac{\\text{ká»}}{\\text{huyá»n}}$;\n  + $\\tan \\alpha = \\frac{\\text{Ä‘á»‘i}}{\\text{ká»}}$;\n  + $\\cot \\alpha = \\frac{\\text{ká»}}{\\text{Ä‘á»‘i}}$.\n- **Hai gÃ³c phá»¥ nhau:** Náº¿u $\\alpha + \\beta = 90^\\circ$ thÃ¬ $\\sin \\alpha = \\cos \\beta, \\cos \\alpha = \\sin \\beta, \\tan \\alpha = \\cot \\beta, \\cot \\alpha = \\tan \\beta$.\n- **Há»‡ thá»©c cÆ¡ báº£n:** $\\tan \\alpha = \\frac{\\sin \\alpha}{\\cos \\alpha}, \\cot \\alpha = \\frac{\\cos \\alpha}{\\sin \\alpha}, \\tan \\alpha \\cdot \\cot \\alpha = 1, \\sin^2 \\alpha + \\cos^2 \\alpha = 1$."
+        title: "1. Tỉ số lượng giác của góc nhọn",
+        content: "- **Định nghĩa tỉ số lượng giác:** Cho góc nhọn $\\alpha$ trong tam giác vuông:\n  + $\\sin \\alpha = \\frac{\\text{đối}}{\\text{huyền}}$;\n  + $\\cos \\alpha = \\frac{\\text{kề}}{\\text{huyền}}$;\n  + $\\tan \\alpha = \\frac{\\text{đối}}{\\text{kề}}$;\n  + $\\cot \\alpha = \\frac{\\text{kề}}{\\text{đối}}$.\n- **Hai góc phụ nhau:** Nếu $\\alpha + \\beta = 90^\\circ$ thì $\\sin \\alpha = \\cos \\beta, \\cos \\alpha = \\sin \\beta, \\tan \\alpha = \\cot \\beta, \\cot \\alpha = \\tan \\beta$.\n- **Hệ thức cơ bản:** $\\tan \\alpha = \\frac{\\sin \\alpha}{\\cos \\alpha}, \\cot \\alpha = \\frac{\\cos \\alpha}{\\sin \\alpha}, \\tan \\alpha \\cdot \\cot \\alpha = 1, \\sin^2 \\alpha + \\cos^2 \\alpha = 1$."
       },
       {
-        title: "2. Há»‡ thá»©c giá»¯a cáº¡nh vÃ  gÃ³c trong tam giÃ¡c vuÃ´ng & Giáº£i tam giÃ¡c vuÃ´ng",
-        content: "- **Cáº¡nh gÃ³c vuÃ´ng theo cáº¡nh huyá»n:** $b = a \\sin B = a \\cos C$; $c = a \\sin C = a \\cos B$.\n- **Cáº¡nh gÃ³c vuÃ´ng theo cáº¡nh gÃ³c vuÃ´ng kia:** $b = c \\tan B = c \\cot C$; $c = b \\tan C = b \\cot B$.\n- **Giáº£i tam giÃ¡c vuÃ´ng:** TÃ¬m táº¥t cáº£ cÃ¡c cáº¡nh vÃ  gÃ³c chÆ°a biáº¿t khi biáº¿t trÆ°á»›c hai yáº¿u tá»‘ (trong Ä‘Ã³ cÃ³ Ã­t nháº¥t má»™t cáº¡nh)."
+        title: "2. Hệ thức giữa cạnh và góc trong tam giác vuông & Giải tam giác vuông",
+        content: "- **Cạnh góc vuông theo cạnh huyền:** $b = a \\sin B = a \\cos C$; $c = a \\sin C = a \\cos B$.\n- **Cạnh góc vuông theo cạnh góc vuông kia:** $b = c \\tan B = c \\cot C$; $c = b \\tan C = b \\cot B$.\n- **Giải tam giác vuông:** Tìm tất cả các cạnh và góc chưa biết khi biết trước hai yếu tố (trong đó có ít nhất một cạnh)."
       },
       {
-        title: "3. á»¨ng dá»¥ng thá»±c táº¿ tá»‰ sá»‘ lÆ°á»£ng giÃ¡c",
-        content: "- **Äo chiá»u cao:** Äo chiá»u cao thÃ¡p, cÃ¢y cá»‘i, tÃ²a nhÃ  báº±ng giÃ¡c káº¿ vÃ  gÃ³c nÃ¢ng.\n- **Äo khoáº£ng cÃ¡ch:** Äo khoáº£ng cÃ¡ch hai Ä‘iá»ƒm khÃ´ng tá»›i Ä‘Æ°á»£c, chiá»u rá»™ng khÃºc sÃ´ng mÃ  khÃ´ng cáº§n qua sÃ´ng.\n- **GÃ³c nÃ¢ng vÃ  gÃ³c háº¡:** Nháº­n diá»‡n gÃ³c nÃ¢ng (trÃ´ng lÃªn) vÃ  gÃ³c háº¡ (trÃ´ng xuá»‘ng) tá»« Ä‘Æ°á»ng chÃ¢n trá»i náº±m ngang."
+        title: "3. Ứng dụng thực tế tỉ số lượng giác",
+        content: "- **Đo chiều cao:** Đo chiều cao tháp, cây cối, tòa nhà bằng giác kế và góc nâng.\n- **Đo khoảng cách:** Đo khoảng cách hai điểm không tới được, chiều rộng khúc sông mà không cần qua sông.\n- **Góc nâng và góc hạ:** Nhận diện góc nâng (trông lên) và góc hạ (trông xuống) từ đường chân trời nằm ngang."
       }
     ]
   },
@@ -7428,14 +7428,28 @@ window.getGrade9LessonData = function(chapterId, lessonId) {
   if (window.GRADE_9_LESSONS_DB && window.GRADE_9_LESSONS_DB[lessonId]) {
     const rawLesson = window.GRADE_9_LESSONS_DB[lessonId];
     const chData = window.GRADE_9_KNOWLEDGE ? window.GRADE_9_KNOWLEDGE[chapterId] : null;
+
+    let theorySections = [];
+    if (rawLesson.theory && rawLesson.theory.sections && rawLesson.theory.sections.length > 0) {
+      theorySections = rawLesson.theory.sections;
+    } else if (rawLesson.topics && rawLesson.topics.length >= 3) {
+      theorySections = rawLesson.topics.slice(0, 3).map((t, idx) => ({
+        title: `${idx + 1}. ${(t.name || t.title || '').replace(/^Dạng \d+:\s*/, '')}`,
+        content: Array.isArray(t.method) ? t.method.join('\n') : (t.description || (t.method ? String(t.method) : `Phương pháp giải trọng tâm dạng toán ${idx + 1}.`))
+      }));
+    } else if (chData && chData.theorySections) {
+      theorySections = chData.theorySections;
+    }
+
     return {
       gradeId: 9,
-      unitTitle: chData ? `${chData.chapterNumber}: ${chData.chapterTitle}` : "ToÃ¡n Lá»›p 9",
+      unitTitle: chData ? `${chData.chapterNumber}: ${chData.chapterTitle}` : "Toán Lớp 9",
       lessonTitle: rawLesson.title,
       theory: {
-        summary: `Há»‡ thá»‘ng kiáº¿n thá»©c trá»ng tÃ¢m bÃ i há»c chuáº©n GDPT 2018 (Thi Tuyá»ƒn sinh Lá»›p 10 & Kháº£o sÃ¡t cháº¥t lÆ°á»£ng).`,
-        sections: chData ? chData.theorySections : []
+        summary: rawLesson.summary || (chData ? `Hệ thống kiến thức trọng tâm ${rawLesson.title} chuẩn GDPT 2018 (Thi Tuyển sinh Lớp 10 & Khảo sát chất lượng).` : `Hệ thống kiến thức trọng tâm bài học chuẩn GDPT 2018.`),
+        sections: theorySections
       },
+      diagram: window.getTikzDiagramForLesson ? window.getTikzDiagramForLesson(9, chapterId, lessonId) : null,
       topics: rawLesson.topics
     };
   }

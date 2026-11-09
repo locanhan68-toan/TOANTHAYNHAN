@@ -1,4 +1,4 @@
-﻿// ==========================================================================
+// ==========================================================================
 // CƠ SỞ DỮ LIỆU NÂNG CAO TOÀN DIỆN TOÁN LỚP 12 (CHUẨN GDPT 2018)
 // ĐẦY ĐỦ 6 CHƯƠNG - 19 BÀI HỌC - 3 DẠNG TOÁN/BÀI - 10 BÀI TẬP/DẠNG (30 BÀI/BÀI)
 // ==========================================================================
@@ -150,7 +150,7 @@ window.GRADE_12_KNOWLEDGE = {
 };
 
 // ==========================================================================
-// CÆ  Sá»ž Dá»® LIá»†U BÃ€I Há»ŒC TOÃN 12 CHI TIáº¾T (CHUáº¨N 3 Dáº NG x 10 BÃ€I 4-3-3)
+// CƠ SỞ DỮ LIỆU BÀI HỌC TOÁN 12 CHI TIẾT (CHUẨN 3 DẠNG x 10 BÀI 4-3-3)
 // ==========================================================================
 window.GRADE_12_LESSONS_DB = {
   // ------------------------------------------------------------------------
@@ -1548,7 +1548,7 @@ window.GRADE_12_LESSONS_DB = {
         ]
       }
     ]
-  },,
+  },
 
   // ------------------------------------------------------------------------
   // BÀI 5: ỨNG DỤNG ĐẠO HÀM ĐỂ GIẢI QUYẾT MỘT SỐ BÀI TOÁN THỰC TIỄN
@@ -6668,14 +6668,27 @@ window.getGrade12LessonData = function(chapterId, lessonId) {
   // 1. Kiểm tra nếu có dữ liệu định nghĩa chuyên sâu tĩnh
   if (window.GRADE_12_LESSONS_DB && window.GRADE_12_LESSONS_DB[lessonId]) {
     const rawLesson = window.GRADE_12_LESSONS_DB[lessonId];
-    const chData = window.GRADE_12_KNOWLEDGE[chapterId];
+    const chData = window.GRADE_12_KNOWLEDGE ? window.GRADE_12_KNOWLEDGE[chapterId] : null;
+
+    let theorySections = [];
+    if (rawLesson.theory && rawLesson.theory.sections && rawLesson.theory.sections.length > 0) {
+      theorySections = rawLesson.theory.sections;
+    } else if (rawLesson.topics && rawLesson.topics.length >= 3) {
+      theorySections = rawLesson.topics.slice(0, 3).map((t, idx) => ({
+        title: `${idx + 1}. ${(t.name || t.title || '').replace(/^Dạng \d+:\s*/, '')}`,
+        content: Array.isArray(t.method) ? t.method.join('\n') : (t.description || (t.method ? String(t.method) : `Phương pháp giải trọng tâm dạng toán ${idx + 1}.`))
+      }));
+    } else if (chData && chData.theorySections) {
+      theorySections = chData.theorySections;
+    }
+
     return {
       gradeId: 12,
       unitTitle: chData ? `${chData.chapterNumber}: ${chData.chapterTitle}` : "Toán Lớp 12",
       lessonTitle: rawLesson.title,
       theory: {
-        summary: `Hệ thống kiến thức trọng tâm bài học chuẩn GDPT 2018 (Thi Tốt Nghiệp THPT 2026 & ĐGNL).`,
-        sections: chData ? chData.theorySections : []
+        summary: rawLesson.summary || (chData ? `Hệ thống kiến thức trọng tâm ${rawLesson.title} chuẩn GDPT 2018 (Thi Tốt Nghiệp THPT 2026 & ĐGNL).` : `Hệ thống kiến thức trọng tâm bài học chuẩn GDPT 2018.`),
+        sections: theorySections
       },
       diagram: window.getTikzDiagramForLesson ? window.getTikzDiagramForLesson(12, chapterId, lessonId) : null,
       topics: rawLesson.topics
