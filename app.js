@@ -18,13 +18,18 @@ const PENDING_REG_STORAGE_KEY = 'TOAN_PENDING_REGISTRATIONS_V2';
 const CURRENT_USER_KEY = 'TOAN_CURRENT_USER_V2';
 
 let currentUser = null;
+let USERS = [];
+let pendingRegistrations = [];
 
 function loadUsersFromStorage() {
   try {
     const raw = localStorage.getItem(USERS_STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        USERS = parsed;
+        return USERS;
+      }
     }
   } catch (e) {
     console.warn("Could not load users:", e);
@@ -35,13 +40,16 @@ function loadUsersFromStorage() {
     { username: 'nguyenvanan', password: '123', name: 'Nguyễn Văn An', email: 'nguyenvanan.toan9@gmail.com', role: 'student', apiKey: 'TOAN-9PLUS-2026', assignedClassId: 'lop-9a' },
     { username: 'hocsinh', password: '123', name: 'Trần Thị Mai', email: 'tranmai.toan9@gmail.com', role: 'student', apiKey: 'TOAN-FREE-2026', assignedClassId: 'lop-9a' }
   ];
-  saveUsersToStorage(defaultUsers);
-  return defaultUsers;
+  USERS = defaultUsers;
+  saveUsersToStorage(USERS);
+  return USERS;
 }
 
 function saveUsersToStorage(users) {
   try {
-    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+    const data = users !== undefined ? users : USERS;
+    USERS = data;
+    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(data));
   } catch (e) {
     console.warn("Could not save users:", e);
   }
@@ -52,7 +60,10 @@ function loadPendingRegistrationsFromStorage() {
     const raw = localStorage.getItem(PENDING_REG_STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) return parsed;
+      if (Array.isArray(parsed)) {
+        pendingRegistrations = parsed;
+        return pendingRegistrations;
+      }
     }
   } catch (e) {
     console.warn("Could not load pending registrations:", e);
@@ -79,13 +90,16 @@ function loadPendingRegistrationsFromStorage() {
       registeredAt: '08/11/2026 21:15'
     }
   ];
-  savePendingRegistrationsToStorage(defaultPending);
-  return defaultPending;
+  pendingRegistrations = defaultPending;
+  savePendingRegistrationsToStorage(pendingRegistrations);
+  return pendingRegistrations;
 }
 
 function savePendingRegistrationsToStorage(list) {
   try {
-    localStorage.setItem(PENDING_REG_STORAGE_KEY, JSON.stringify(list));
+    const data = list !== undefined ? list : pendingRegistrations;
+    pendingRegistrations = data;
+    localStorage.setItem(PENDING_REG_STORAGE_KEY, JSON.stringify(data));
   } catch (e) {
     console.warn("Could not save pending registrations:", e);
   }
@@ -2077,9 +2091,13 @@ function renderPendingRegistrations() {
   const badge = document.getElementById('pending-badge');
   if (!tbody) return;
 
+  if (!pendingRegistrations || pendingRegistrations.length === 0) {
+    loadPendingRegistrationsFromStorage();
+  }
+
   const list = pendingRegistrations || [];
 
-  if (countText) countText.innerText = `${list.length} Học sinh chờ phân lớp`;
+  if (countText) countText.innerText = `${list.length} Học sinh chờ Thầy xếp vào nhóm`;
   if (countLabel) countLabel.style.display = list.length > 0 ? 'inline-flex' : 'none';
   if (badge) {
     badge.innerText = list.length;
@@ -2089,12 +2107,12 @@ function renderPendingRegistrations() {
   if (list.length === 0) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="6" class="py-8 text-center text-slate-400 text-xs">
-          <div class="w-12 h-12 rounded-full bg-slate-100 mx-auto flex items-center justify-center text-slate-400 mb-2">
-            <i data-lucide="check-circle" class="w-6 h-6 text-emerald-500"></i>
+        <td colspan="6" class="py-10 text-center text-slate-400 text-xs">
+          <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 mx-auto flex items-center justify-center mb-3 border border-emerald-100 shadow-xs">
+            <i data-lucide="check-circle" class="w-7 h-7"></i>
           </div>
-          <span class="font-bold text-slate-600 block text-sm">Tuyệt vời! Không có học sinh nào đang chờ phân lớp.</span>
-          <span class="text-[11px] text-slate-400 mt-1 block">Tất cả học sinh đăng ký mới đã được Thầy xếp vào các lớp tương ứng.</span>
+          <span class="font-extrabold text-slate-700 block text-base">Tuyệt vời! Không có học sinh nào đang chờ phân lớp.</span>
+          <span class="text-xs text-slate-500 mt-1 block">Tất cả học sinh đăng ký mới đã được Thầy xếp hoặc gửi yêu cầu vào các nhóm/lớp học của Thầy.</span>
         </td>
       </tr>
     `;
@@ -2103,49 +2121,60 @@ function renderPendingRegistrations() {
   }
 
   const classOptions = MATH_DATA.classes && MATH_DATA.classes.length > 0
-    ? MATH_DATA.classes.map(c => `<option value="${c.id}">${c.name} (Khối ${c.grade})</option>`).join('')
+    ? MATH_DATA.classes.map(c => `<option value="${c.id}">${c.name} (Khối kiến thức ${c.grade} • Mã: ${c.code})</option>`).join('')
     : '<option value="">Chưa có lớp nào</option>';
 
   tbody.innerHTML = list.map(req => `
-    <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-      <td class="py-3 px-4 font-semibold text-slate-800">
-        <div class="font-bold text-slate-900 text-sm">${req.name}</div>
-        <div class="flex items-center gap-1.5 mt-0.5">
+    <tr class="hover:bg-indigo-50/30 transition border-b border-slate-100">
+      <td class="py-3.5 px-4 font-semibold text-slate-800">
+        <div class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+          <span>${req.name}</span>
+          <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-200">Đăng ký mới</span>
+        </div>
+        <div class="flex items-center gap-1.5 mt-1">
           <span class="text-xs text-indigo-600 font-mono font-bold">@${req.username}</span>
-          <span class="px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 text-[10px]">Đăng ký mới</span>
+          <span class="text-[11px] text-slate-400 font-normal">• Mật khẩu: <span class="font-mono text-slate-600">***</span></span>
         </div>
       </td>
-      <td class="py-3 px-4 text-xs font-mono text-slate-700">
-        <div class="flex items-center gap-1">
-          <i data-lucide="mail" class="w-3.5 h-3.5 text-slate-400"></i>
-          <span>${req.email || 'Chưa cập nhật'}</span>
+      <td class="py-3.5 px-4 text-xs font-mono text-slate-700">
+        <div class="flex items-center gap-1.5">
+          <i data-lucide="mail" class="w-4 h-4 text-slate-400 shrink-0"></i>
+          <span class="font-medium text-slate-800">${req.email || 'Chưa cập nhật'}</span>
         </div>
       </td>
-      <td class="py-3 px-4">
+      <td class="py-3.5 px-4">
         <div class="flex flex-col gap-1">
-          <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold border border-purple-200 inline-block w-fit">
+          <span class="px-2.5 py-0.5 rounded-lg bg-purple-100 text-purple-900 text-[11px] font-mono font-bold border border-purple-200 inline-block w-fit">
             ${req.apiKey || 'TOAN-9PLUS-2026'}
           </span>
-          <span class="text-[10px] text-slate-500">Gói 9+ Tuyển sinh</span>
+          <span class="text-[10px] text-slate-500 font-medium">${req.apiLevel || 'Gói Bứt Phá Điểm 9+'}</span>
         </div>
       </td>
-      <td class="py-3 px-4 text-xs text-slate-500 font-medium">
-        ${req.createdAt || 'Hôm nay'}
+      <td class="py-3.5 px-4 text-xs text-slate-500 font-medium whitespace-nowrap">
+        ${req.registeredAt || req.createdAt || 'Hôm nay'}
       </td>
-      <td class="py-3 px-4">
-        <select id="assign-class-select-${req.id}" class="w-full sm:w-auto p-2 border-2 border-indigo-200 focus:border-indigo-500 rounded-xl text-xs font-bold text-indigo-950 bg-white shadow-xs">
+      <td class="py-3.5 px-4">
+        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Xếp vào lớp/nhóm của Thầy:</label>
+        <select id="assign-class-select-${req.id}" class="w-full min-w-[200px] p-2 border-2 border-indigo-200 focus:border-indigo-500 rounded-xl text-xs font-bold text-indigo-950 bg-white shadow-xs">
           ${classOptions}
         </select>
       </td>
-      <td class="py-3 px-4 text-center">
-        <div class="flex items-center justify-center gap-2">
+      <td class="py-3.5 px-4 text-center">
+        <div class="flex items-center justify-center gap-1.5">
           <button onclick="assignStudentToClass('${req.id}')" 
-            class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 shadow-sm hover:shadow-md">
+            title="Thêm học sinh trực tiếp vào nhóm lớp đã chọn"
+            class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 shadow-xs hover:shadow whitespace-nowrap">
             <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> Xếp Vào Lớp
           </button>
+          <button onclick="sendGroupInvite('${req.id}')" 
+            title="Gửi yêu cầu / lời mời tham gia nhóm học tập cho học sinh"
+            class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 shadow-xs whitespace-nowrap">
+            <i data-lucide="send" class="w-3.5 h-3.5"></i> Gửi Yêu Cầu
+          </button>
           <button onclick="rejectStudentRegistration('${req.id}')" 
-            class="px-2.5 py-1.5 bg-slate-100 hover:bg-red-50 hover:text-red-600 text-slate-600 rounded-xl text-xs font-semibold transition border border-slate-200">
-            Từ chối
+            title="Hủy yêu cầu đăng ký"
+            class="p-1.5 bg-slate-100 hover:bg-red-50 hover:text-red-600 text-slate-400 rounded-xl transition border border-slate-200" title="Từ chối">
+            <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
       </td>
@@ -2159,7 +2188,14 @@ function renderPendingRequests() {
   renderPendingRegistrations();
 }
 
-function assignStudentToClass(reqId) {
+function sendGroupInvite(reqId) {
+  assignStudentToClass(reqId, true);
+}
+
+function assignStudentToClass(reqId, isInvite = false) {
+  if (!pendingRegistrations || pendingRegistrations.length === 0) {
+    loadPendingRegistrationsFromStorage();
+  }
   const req = pendingRegistrations.find(r => r.id === reqId);
   if (!req) {
     alert("Không tìm thấy thông tin đăng ký của học sinh!");
@@ -2200,10 +2236,12 @@ function assignStudentToClass(reqId) {
   targetClass.studentsCount = targetClass.students.length;
 
   // Cập nhật thông tin lớp trong USERS database
+  if (!USERS || USERS.length === 0) loadUsersFromStorage();
   const userRecord = USERS.find(u => u.username === req.username);
   if (userRecord) {
     userRecord.assignedClassId = targetClass.id;
     userRecord.assignedClassName = targetClass.name;
+    userRecord.status = 'active';
     saveUsersToStorage();
   }
 
@@ -2216,7 +2254,11 @@ function assignStudentToClass(reqId) {
   renderClasses();
   renderExamStats();
 
-  alert(`🎉 ĐÃ XẾP HỌC SINH VÀO LỚP THÀNH CÔNG!\n\nHọc sinh: ${req.name} (@${req.username})\nĐã được Thầy xếp vào lớp: "${targetClass.name}"\n\nHọc sinh hiện đã chính thức có tên trong danh sách lớp của Thầy!`);
+  if (isInvite) {
+    alert(`📨 ĐÃ GỬI YÊU CẦU & THÊM VÀO NHÓM THÀNH CÔNG!\n\n- Học sinh: ${req.name} (@${req.username})\n- Lớp/Nhóm của Thầy: "${targetClass.name}" (Khối kiến thức ${targetClass.grade})\n- Gmail thông báo: ${req.email || 'Đã liên kết'}\n\nHọc sinh đã nhận được yêu cầu tham gia và chính thức có tên trong nhóm học của Thầy!`);
+  } else {
+    alert(`🎉 ĐÃ XẾP HỌC SINH VÀO LỚP THÀNH CÔNG!\n\n- Học sinh: ${req.name} (@${req.username})\n- Đã được Thầy xếp vào lớp: "${targetClass.name}" (Khối kiến thức ${targetClass.grade})\n\nHọc sinh hiện đã chính thức có tên trong danh sách lớp của Thầy!`);
+  }
 }
 
 function rejectStudentRegistration(reqId) {
@@ -2323,9 +2365,9 @@ function renderClasses() {
         <div>
           <div class="flex items-center gap-2">
             <h4 class="font-bold text-slate-900 text-base sm:text-lg">${c.name}</h4>
-            <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs font-bold rounded">Khối ${c.grade}</span>
+            <span class="px-2.5 py-0.5 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-lg border border-indigo-200">Khối kiến thức Lớp ${c.grade}</span>
           </div>
-          <p class="text-xs text-slate-500 mt-0.5">Mã mời: <strong class="font-mono text-blue-600">${c.code}</strong> • Sĩ số: <strong>${c.students ? c.students.length : 0} học sinh</strong></p>
+          <p class="text-xs text-slate-500 mt-0.5">Mã nhóm: <strong class="font-mono text-indigo-700 font-bold bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">${c.code}</strong> • Sĩ số: <strong>${c.students ? c.students.length : 0} học sinh</strong> ${c.description ? `• <span class="italic text-slate-400">${c.description}</span>` : ''}</p>
         </div>
         <div class="flex items-center gap-2">
           <button onclick="deleteClass('${c.id}', '${c.name.replace(/'/g, "\\'")}')" 
@@ -2493,35 +2535,46 @@ function closeCreateClassModal() {
 }
 
 function confirmCreateClass() {
-  const name = document.getElementById('new-class-name').value.trim();
-  const grade = parseInt(document.getElementById('new-class-grade').value);
-  const code = document.getElementById('new-class-code').value.trim().toUpperCase();
+  const nameInput = document.getElementById('new-class-name');
+  const gradeInput = document.getElementById('new-class-grade');
+  const codeInput = document.getElementById('new-class-code');
+  const descInput = document.getElementById('new-class-desc');
+
+  const name = nameInput ? nameInput.value.trim() : '';
+  const grade = gradeInput ? parseInt(gradeInput.value) : 9;
+  const code = codeInput ? codeInput.value.trim().toUpperCase() : '';
+  const desc = descInput ? descInput.value.trim() : '';
 
   if (!name || !code) {
-    alert("Vui lòng điền đầy đủ Tên lớp và Mã lớp!");
+    alert("Vui lòng điền đầy đủ Tên lớp/nhóm và Mã tham gia!");
     return;
   }
 
-  MATH_DATA.classes.push({
+  // Khởi tạo đối tượng lớp học / nhóm học tập mới do Thầy tạo
+  const newClass = {
     id: 'lop_' + Date.now(),
     name: name,
-    grade: grade,
+    grade: grade, // Khối kiến thức chương trình (Khối 6 đến Khối 12)
     code: code,
+    description: desc || `Nhóm học tập Toán Khối ${grade} do Thầy Giáo phụ trách`,
     studentsCount: 0,
     students: [],
     pendingRequests: []
-  });
+  };
 
+  MATH_DATA.classes.push(newClass);
   saveClassesStorage();
   closeCreateClassModal();
-  document.getElementById('new-class-name').value = '';
-  document.getElementById('new-class-code').value = '';
+
+  if (nameInput) nameInput.value = '';
+  if (codeInput) codeInput.value = '';
+  if (descInput) descInput.value = '';
   
   populateRegisterClassDropdown();
   renderClasses();
   renderPendingRegistrations();
   renderExamStats();
-  alert(`✅ Đã tạo thành công lớp "${name}" (Khối ${grade})!\nLớp học đã được lưu vĩnh viễn vào hệ thống.`);
+  alert(`✅ ĐÃ TẠO THÀNH CÔNG LỚP HỌC / NHÓM HỌC TẬP!\n\n- Tên lớp/nhóm: ${name}\n- Thuộc Khối kiến thức: Khối ${grade}\n- Mã tham gia nhóm: ${code}\n\nLớp học đã được lưu vĩnh viễn vào hệ thống và sẵn sàng để Thầy xếp học sinh vào học!`);
 }
 
 function deleteClass(classId, className) {
