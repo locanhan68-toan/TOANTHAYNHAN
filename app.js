@@ -588,6 +588,12 @@ function handleStudentRegister(e) {
   });
   savePendingRegistrationsToStorage(pendingList);
 
+  // Tự động điền tài khoản vừa tạo sang Form Đăng Nhập
+  const loginUserEl = document.getElementById('login-username');
+  const loginPassEl = document.getElementById('login-password');
+  if (loginUserEl) loginUserEl.value = username;
+  if (loginPassEl) loginPassEl.value = password;
+
   // 3. Hiển thị thông báo đăng ký thành công
   const form = document.getElementById('student-register-form');
   const successBox = document.getElementById('register-success-box');
@@ -597,21 +603,18 @@ function handleStudentRegister(e) {
 
   if (form) form.classList.add('hidden');
   if (successBox) successBox.classList.remove('hidden');
-  if (successTitle) successTitle.innerText = "Đã Gửi Đăng Ký Thành Công!";
+  if (successTitle) successTitle.innerText = "Đã Đăng Ký Tài Khoản Thành Công!";
   if (successDesc) {
     successDesc.innerHTML = `
       Xin chúc mừng <strong>${name}</strong>!<br>
       Tài khoản của em đã được tạo thành công với Tên đăng nhập: <strong class="font-mono text-indigo-700">@${username}</strong>, Mã API: <strong class="font-mono text-indigo-700">${apiKey}</strong>.<br><br>
-      📌 <strong>Quy trình phân lớp:</strong> Hồ sơ của em đã được chuyển đến <strong>Bảng quản trị của Thầy</strong>. Thầy sẽ xem xét và <em>trực tiếp xếp em vào lớp học phù hợp</em> để em nhận bài tập và xem lời giải chi tiết!
+      📌 <strong>Quy trình phân lớp:</strong> Hồ sơ của em đã được chuyển đến <strong>Bảng quản trị của Thầy</strong>. Thầy sẽ xem xét và trực tiếp xếp em vào lớp học phù hợp!
     `;
   }
   if (successActions) {
     successActions.innerHTML = `
       <button onclick="quickFillCredentials('${username}', '${password}')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold rounded-xl transition shadow-md flex items-center gap-2">
         👉 Đăng Nhập Ngay Với Tài Khoản Vừa Tạo
-      </button>
-      <button onclick="quickLogin('teacher')" class="px-4 py-2 bg-purple-50 text-purple-800 text-xs font-bold rounded-xl hover:bg-purple-100 transition">
-        Xem Thử Bảng Phân Lớp Của Thầy (Demo)
       </button>
       <button onclick="resetRegisterForm()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition">
         Đăng ký học sinh khác
@@ -627,31 +630,38 @@ function handleUserLogin(e) {
   e.preventDefault();
   const usernameInput = document.getElementById('login-username');
   const passwordInput = document.getElementById('login-password');
-  const username = usernameInput ? usernameInput.value.trim().toLowerCase() : '';
+  const accountInput = usernameInput ? usernameInput.value.trim().toLowerCase() : '';
   const password = passwordInput ? passwordInput.value.trim() : '';
 
-  if (!username) {
-    alert("Vui lòng nhập Tên đăng nhập!");
+  if (!accountInput) {
+    alert("Vui lòng nhập Tên đăng nhập hoặc Gmail đã đăng ký!");
     if (usernameInput) usernameInput.focus();
     return;
   }
   if (!password) {
-    alert("Vui lòng nhập Mật khẩu!");
+    alert("Vui lòng nhập Mật khẩu đăng nhập!");
     if (passwordInput) passwordInput.focus();
     return;
   }
 
   const users = loadUsersFromStorage();
-  const user = users.find(u => u.username.toLowerCase() === username && u.password === password);
+  const user = users.find(u => 
+    (u.username.toLowerCase() === accountInput || (u.email && u.email.toLowerCase() === accountInput)) && 
+    u.password === password
+  );
 
   if (!user) {
-    alert("⚠️ Sai Tên đăng nhập hoặc Mật khẩu!\n\nVui lòng kiểm tra lại hoặc nhấp chọn 1 trong các tài khoản mẫu bên dưới (Ví dụ: admin / 123 hoặc nguyenvanan / 123) để đăng nhập nhanh.");
+    alert("⚠️ Tên đăng nhập hoặc Mật khẩu đăng nhập không chính xác!\n\nVui lòng kiểm tra lại thông tin hoặc bấm 'Chưa có tài khoản? 👉 Đăng ký' để tạo tài khoản mới.");
     return;
   }
 
   currentUser = user;
   try {
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
+    if (user.apiKey) {
+      localStorage.setItem('TOAN_GOOGLE_STUDIO_API_KEY', user.apiKey);
+      localStorage.setItem('GEMINI_API_KEY', user.apiKey);
+    }
   } catch (err) {}
 
   if (user.role === 'teacher') {
@@ -665,9 +675,9 @@ function handleUserLogin(e) {
     switchTab('arena');
     if (user.assignedClassId) {
       const cls = MATH_DATA.classes.find(c => c.id === user.assignedClassId);
-      alert(`🎉 Xin chào em ${user.name}!\nEm đã được xếp vào lớp: "${cls ? cls.name : 'Lớp Toán của Thầy'}".\nChúc em học tập và rèn luyện tốt!`);
+      alert(`🎉 Xin chào em ${user.name}!\nĐăng nhập thành công với tài khoản: @${user.username}\nEm đã được xếp vào lớp: "${cls ? cls.name : 'Lớp Toán của Thầy'}".\nChúc em học tập và rèn luyện tốt!`);
     } else {
-      alert(`Xin chào em ${user.name}!\nTài khoản của em đang chờ Thầy xếp vào lớp học chính thức.\nEm có thể làm bài thi Đấu trường tự do và học lý thuyết trong lúc chờ!`);
+      alert(`🎉 Xin chào em ${user.name}!\nĐăng nhập thành công với tài khoản: @${user.username} (Mã API: ${user.apiKey || 'TOAN-9PLUS-2026'}).\nTài khoản của em đang chờ Thầy xếp vào lớp học chính thức. Em có thể làm bài thi Đấu trường và học lý thuyết ngay!`);
     }
   }
 }
