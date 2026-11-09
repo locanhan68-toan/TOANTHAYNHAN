@@ -227,6 +227,18 @@ window.KNTT_CURRICULUM = {
           { id: "g7-c7-l28", number: "Bài 33", title: "Sự đồng quy của ba đường trung tuyến (Trọng tâm)", formula: "AG = \\frac{2}{3} AM", badge: "Trọng tâm 9+", desc: "Khái niệm trọng tâm G và tỉ lệ vàng của đường trung tuyến." },
           { id: "g7-c7-l29", number: "Bài 34", title: "Sự đồng quy của ba đường phân giác, trung trực, cao", formula: "\\text{Tâm nội tiếp, tâm ngoại tiếp, trực tâm}", badge: "Trọng tâm 9+", desc: "4 điểm đặc biệt của tam giác và các tính chất cách đều." }
         ]
+      },
+      {
+        id: "g7-c8",
+        number: "Chương X",
+        title: "Một Số Hình Khối Trong Thực Tiễn",
+        semester: "Tập 2 - Học kỳ II",
+        icon: "box",
+        summary: "Hình hộp chữ nhật, hình lập phương, hình lăng trụ đứng tam giác và tứ giác, diện tích xung quanh và thể tích.",
+        lessons: [
+          { id: "g7-c8-l30", number: "Bài 35", title: "Hình hộp chữ nhật và hình lập phương", formula: "S_{xq} = 2(a+b)c, V = abc", badge: "Không gian", desc: "Các đỉnh, cạnh, mặt, đường chéo, diện tích xung quanh và thể tích hình hộp chữ nhật, hình lập phương." },
+          { id: "g7-c8-l31", number: "Bài 36", title: "Hình lăng trụ đứng tam giác và hình lăng trụ đứng tứ giác", formula: "S_{xq} = C_{\\text{đáy}} \\cdot h, V = S_{\\text{đáy}} \\cdot h", badge: "Không gian", desc: "Cấu tạo, diện tích xung quanh và thể tích hình lăng trụ đứng tam giác, tứ giác trong thực tế." }
+        ]
       }
     ]
   },
@@ -337,6 +349,18 @@ window.KNTT_CURRICULUM = {
           { id: "g8-c7-l27", number: "Bài 34", title: "Ba trường hợp đồng dạng của hai tam giác", formula: "\\text{c-c-c, c-g-c, g-g}", badge: "Cốt lõi", desc: "Nhận biết và chứng minh tam giác đồng dạng." },
           { id: "g8-c7-l28", number: "Bài 35", title: "Định lí Pythagore và ứng dụng", formula: "a^2 = b^2 + c^2", badge: "Trọng tâm", desc: "Định lí Pythagore thuận và đảo trong tam giác vuông." },
           { id: "g8-c7-l29", number: "Bài 36", title: "Các trường hợp đồng dạng của hai tam giác vuông", formula: "\\text{Góc nhọn, tỉ số hai cạnh góc vuông, cạnh huyền - cạnh góc vuông}", badge: "Trọng tâm 9+", desc: "Ứng dụng giải các bài toán hình học thực tế và tính chiều cao." }
+        ]
+      },
+      {
+        id: "g8-c10",
+        number: "Chương X",
+        title: "Một Số Hình Khối Trong Thực Tiễn",
+        semester: "Tập 2 - Học kỳ II",
+        icon: "pyramid",
+        summary: "Hình chóp tam giác đều và hình chóp tứ giác đều, diện tích xung quanh, diện tích toàn phần và thể tích.",
+        lessons: [
+          { id: "g8-c10-l35", number: "Bài 38", title: "Hình chóp tam giác đều", formula: "S_{xq} = p \\cdot d, V = \\frac{1}{3} S_{\\text{đáy}} \\cdot h", badge: "Không gian", desc: "Đáy là tam giác đều, các mặt bên là tam giác cân bằng nhau, trung đoạn d và chiều cao h." },
+          { id: "g8-c10-l36", number: "Bài 39", title: "Hình chóp tứ giác đều", formula: "S_{xq} = p \\cdot d, V = \\frac{1}{3} a^2 h", badge: "Không gian", desc: "Đáy là hình vuông, chân đường cao trùng tâm đáy, tính diện tích xung quanh và thể tích." }
         ]
       }
     ]

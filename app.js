@@ -1490,12 +1490,35 @@ function getTopicExamplesArray(t, tIdx) {
 function renderTheory() {
   const container = document.getElementById('theory-content');
   if (!container) return;
-  const theory = MATH_DATA.currentLesson.theory;
+  const curLesson = MATH_DATA.currentLesson || {};
+  const theory = curLesson.theory;
+  if (!theory) return;
+
+  const isSpatial = window.SPATIAL_CHAPTER_IDS && window.SPATIAL_CHAPTER_IDS.includes(curLesson.chapterId);
+  const diagram = curLesson.diagram;
+  const spatialTheoryBanner = (isSpatial && diagram && diagram.svg) ? `
+    <div class="mb-4 p-4 bg-gradient-to-r from-indigo-50/80 via-white to-sky-50/80 rounded-2xl border border-indigo-200 shadow-2xs flex flex-col md:flex-row items-center gap-4">
+      <div class="w-full md:w-64 shrink-0 bg-white p-3 rounded-xl border border-indigo-100 shadow-2xs flex items-center justify-center">
+        ${diagram.svg}
+      </div>
+      <div class="space-y-1.5 flex-1">
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-indigo-100 text-indigo-800">
+          <i data-lucide="box" class="w-3.5 h-3.5"></i> Hình Minh Họa Không Gian Trực Quan
+        </div>
+        <h4 class="text-sm sm:text-base font-black text-slate-900">${diagram.title}</h4>
+        <p class="text-xs text-slate-600 leading-relaxed">${diagram.desc}</p>
+        <div class="pt-1 text-xs font-bold text-indigo-900">
+          Công thức trọng tâm: $${diagram.formula}$
+        </div>
+      </div>
+    </div>
+  ` : '';
   
   container.innerHTML = `
     <div class="p-3.5 bg-blue-50/70 border-l-4 border-blue-600 rounded-r-xl text-sm text-blue-900 mb-4 font-medium">
       ${formatMathMarkdown(theory.summary)}
     </div>
+    ${spatialTheoryBanner}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       ${theory.sections.map(sec => `
         <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-300 transition">
@@ -1663,7 +1686,16 @@ function renderExamples() {
     if (badgeEl) badgeEl.innerText = `${examplesToRender.length} Ví dụ`;
   }
 
-  container.innerHTML = examplesToRender.map(ex => `
+  const curLesson = MATH_DATA.currentLesson || {};
+  const gId = curLesson.gradeId;
+  const chId = curLesson.chapterId;
+  const lId = curLesson.lessonId;
+
+  container.innerHTML = examplesToRender.map(ex => {
+    const spatialHtml = (typeof window.getSpatialIllustrationHtml === 'function')
+      ? window.getSpatialIllustrationHtml(ex.question, gId, chId, lId)
+      : '';
+    return `
     <div class="p-4 rounded-xl border border-emerald-200 bg-emerald-50/40 flex flex-col justify-between hover:shadow-sm transition">
       <div>
         <div class="flex items-center justify-between mb-2">
@@ -1673,13 +1705,15 @@ function renderExamples() {
         <div class="text-sm font-semibold text-slate-800 math-content mb-3 leading-relaxed">
           ${formatMathMarkdown(ex.question)}
         </div>
+        ${spatialHtml}
       </div>
       <div class="pt-3 border-t border-emerald-200/60 text-xs sm:text-sm text-slate-700 math-content bg-white p-3 rounded-lg shadow-xs whitespace-pre-line leading-relaxed">
         <span class="font-bold text-emerald-700 block mb-1">💡 Lời giải chi tiết:</span>
         ${formatMathMarkdown(ex.solution)}
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function renderExercises() {
@@ -1714,6 +1748,10 @@ function renderExercises() {
     const fullSol = ex.fullSolution || ex.solution || "Đang cập nhật lời giải chi tiết.";
     const exTitle = ex.title || `Bài ${exIndex + 1}`;
     const escapedId = String(ex.id).replace(/[^a-zA-Z0-9_-]/g, '_');
+    const curLesson = MATH_DATA.currentLesson || {};
+    const spatialHtml = (typeof window.getSpatialIllustrationHtml === 'function')
+      ? window.getSpatialIllustrationHtml(ex.question, curLesson.gradeId, curLesson.chapterId, curLesson.lessonId)
+      : '';
 
     return `
       <div class="p-4 rounded-xl border border-slate-200 bg-white hover:border-slate-300 transition space-y-2.5">
@@ -1739,6 +1777,7 @@ function renderExercises() {
         <div class="text-sm font-medium text-slate-800 math-content leading-relaxed">
           ${formatMathMarkdown(ex.question)}
         </div>
+        ${spatialHtml}
 
         <div id="answer-box-${escapedId}" class="hidden p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs sm:text-sm text-slate-700 math-content">
           <span class="font-bold text-slate-800">Đáp án:</span> ${formatMathMarkdown(shortAns)}
@@ -1746,7 +1785,7 @@ function renderExercises() {
 
         <div id="solution-box-${escapedId}" class="hidden p-3.5 bg-blue-50/70 border border-blue-200 rounded-xl text-xs sm:text-sm text-slate-800 math-content whitespace-pre-line leading-relaxed">
           <div class="font-bold text-blue-800 mb-1 flex items-center gap-1.5">
-            <i data-lucide="sparkles" class="w-4 h-4 text-blue-600"></i> Hướng dẫn giải chi tiết (Độc quyền lớp Thầy):
+            <i data-lucide="sparkles" class="w-4 h-4 text-blue-600"></i> Hướng dẫn giải chi tiết:
           </div>
           ${formatMathMarkdown(fullSol)}
         </div>
@@ -4376,10 +4415,12 @@ function loadNavSelectedLesson() {
 
   // Tạo dữ liệu bài học động từ cơ sở dữ liệu nâng cao (curriculum-knowledge.js & math-diagrams-tikz.js)
   if (typeof window.getEnrichedLessonData === 'function') {
-    MATH_DATA.currentLesson = window.getEnrichedLessonData(gradeId, chId, lId);
+    MATH_DATA.currentLesson = window.getEnrichedLessonData(gradeId, chId, lesson.id);
   } else {
     MATH_DATA.currentLesson = {
       gradeId: gradeId,
+      chapterId: chId,
+      lessonId: lesson.id,
       unitTitle: `${chapter.number}: ${chapter.title}`,
       lessonTitle: `${lesson.number}: ${lesson.title}`,
       theory: {
@@ -4399,7 +4440,7 @@ function loadNavSelectedLesson() {
           }
         ]
       },
-      diagram: window.getTikzDiagramForLesson ? window.getTikzDiagramForLesson(gradeId, chId, lId) : null,
+      diagram: window.getTikzDiagramForLesson ? window.getTikzDiagramForLesson(gradeId, chId, lesson.id) : null,
       topics: [
         {
           id: "dang-kntt",
@@ -4428,11 +4469,19 @@ function loadNavSelectedLesson() {
             levelClass: i < 4 ? "bg-slate-100 text-slate-700" : i < 8 ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700",
             question: `Cho bài toán thứ ${i + 1} về chủ đề "${lesson.title}". Vận dụng công thức $${lesson.formula || 'x'}$ để tính giá trị chính xác hoặc tìm tập nghiệm.`,
             answer: `Đáp số bài ${i + 1}: $x = ${i + 1}$ hoặc giá trị tương ứng thỏa mãn điều kiện.`,
-            solution: `Hướng dẫn giải bài ${i + 1}: Phân tích đề bài theo 3 bước chuẩn của Thầy: 1. Đặt ẩn phụ hoặc xác định công thức -> 2. Biến đổi biểu thức -> 3. Đối chiếu điều kiện và kết luận.`
+            solution: `Hướng dẫn giải bài ${i + 1}: Phân tích đề bài theo 3 bước chuẩn: 1. Đặt ẩn phụ hoặc xác định công thức -> 2. Biến đổi biểu thức -> 3. Đối chiếu điều kiện và kết luận.`
           }))
         }
       ]
     };
+  }
+  if (MATH_DATA.currentLesson) {
+    MATH_DATA.currentLesson.gradeId = gradeId;
+    MATH_DATA.currentLesson.chapterId = chId;
+    MATH_DATA.currentLesson.lessonId = lesson.id;
+    if (window.getTikzDiagramForLesson) {
+      MATH_DATA.currentLesson.diagram = window.getTikzDiagramForLesson(gradeId, chId, lesson.id);
+    }
   }
 
   currentLessonTopicTab = 0;

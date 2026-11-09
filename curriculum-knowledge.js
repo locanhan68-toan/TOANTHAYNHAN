@@ -257,7 +257,7 @@ function build10ExercisesForTopic(gradeId, chapter, lesson, dangIndex, dangName)
 
       qText = `Bài toán vận dụng số ${i}: Cho bài toán yêu cầu kỹ năng biến đổi đại số, giải phương trình hoặc lập luận hình học thuộc ${ct} - "${lt}". Biết biểu thức thỏa mãn hệ thức liên hệ $${f}$ với tham số phụ $k = ${i}$. Hãy thực hiện các bước biến đổi để tìm tập nghiệm hoặc chứng minh hệ thức tương ứng.`;
       aText = `Đáp số Bài 2.${i}: Nghiệm tìm được là $x = \\dfrac{${i * 4 + 1}}{${i + 1}}$ (hoặc mệnh đề hình học được chứng minh hoàn tất).`;
-      sText = `Hướng dẫn giải chi tiết Bài 2.${i}:\n- Bước 1: Phân tích bài toán theo 3 bước chuẩn của Thầy. Đặt ẩn phụ hoặc biến đổi vế phức tạp về dạng cơ bản.\n- Bước 2: Vận dụng tính chất bắc cầu và công thức $${f}$. Biến đổi tương đương đưa về phương trình đại số / quan hệ góc cạnh.\n- Bước 3: Giải phương trình ta được $x = \\dfrac{${i * 4 + 1}}{${i + 1}}$. Đối chiếu điều kiện ban đầu để kết luận.`;
+      sText = `Hướng dẫn giải chi tiết Bài 2.${i}:\n- Bước 1: Phân tích bài toán theo 3 bước chuẩn. Đặt ẩn phụ hoặc biến đổi vế phức tạp về dạng cơ bản.\n- Bước 2: Vận dụng tính chất bắc cầu và công thức $${f}$. Biến đổi tương đương đưa về phương trình đại số / quan hệ góc cạnh.\n- Bước 3: Giải phương trình ta được $x = \\dfrac{${i * 4 + 1}}{${i + 1}}$. Đối chiếu điều kiện ban đầu để kết luận.`;
 
     } else {
       // DẠNG 3: NÂNG CAO 9+ & THỰC TIỄN / TUYỂN SINH (10 BÀI)
@@ -2257,6 +2257,62 @@ window.LESSON_THEORY_DB = {
       "title": "3. Hình chiếu vuông góc và Điểm đối xứng trên trục, mặt phẳng tọa độ",
       "content": "Cho điểm $M(x_0; y_0; z_0)$:\n- **Hình chiếu vuông góc lên trục** (thuộc trục nào giữ nguyên tọa độ đó, còn lại bằng $0$):\n  + Lên $Ox$: $(x_0; 0; 0)$; $\\quad$ lên $Oy$: $(0; y_0; 0)$; $\\quad$ lên $Oz$: $(0; 0; z_0)$.\n- **Hình chiếu vuông góc lên mặt phẳng tọa độ** (thuộc mặt nào giữ nguyên $2$ tọa độ đó, tọa độ thiếu bằng $0$):\n  + Lên $(Oxy)$: $(x_0; y_0; 0)$; $\\quad$ lên $(Oyz)$: $(0; y_0; z_0)$; $\\quad$ lên $(Ozx)$: $(x_0; 0; z_0)$.\n- **Điểm đối xứng:** Qua trục/mặt phẳng nào thì giữ nguyên tọa độ thuộc trục/mặt phẳng đó và **đổi dấu** các tọa độ còn lại."
     }
+  ],
+  "g7-c8-l30": [
+    {
+      "title": "1. Các yếu tố của Hình hộp chữ nhật và Hình lập phương",
+      "content": "- **Hình hộp chữ nhật** $ABCD.A'B'C'D'$ có $6$ mặt là các hình chữ nhật, $8$ đỉnh, $12$ cạnh và $4$ đường chéo ($AC', BD', CA', DB'$) bằng nhau.\n- **Hình lập phương** là hình hộp chữ nhật có $6$ mặt đều là hình vuông bằng nhau ($12$ cạnh đều bằng $a$)."
+    },
+    {
+      "title": "2. Công thức Diện tích xung quanh, Diện tích toàn phần và Thể tích",
+      "content": "- **Hình hộp chữ nhật** có chiều dài $a$, chiều rộng $b$, chiều cao $c$:\n$$S_{xq} = 2(a + b)c; \\quad S_{tp} = 2(a + b)c + 2ab; \\quad V = a \\cdot b \\cdot c$$\n- **Hình lập phương** cạnh $a$:\n$$S_{xq} = 4a^2; \\quad S_{tp} = 6a^2; \\quad V = a^3$$"
+    },
+    {
+      "title": "3. Ứng dụng tính toán thực tế (sơn tường, bể cá, thùng hàng)",
+      "content": "- Khi tính diện tích quét sơn căn phòng hoặc diện tích kính làm bể cá **không nắp**:\n$$S_{\\text{cần tính}} = S_{xq} + S_{\\text{1 đáy}} = 2(a + b)c + ab$$\n- Đổi đơn vị thể tích: $1\\text{ m}^3 = 1000\\text{ dm}^3 = 1000\\text{ lít}$; $1\\text{ dm}^3 = 1\\text{ lít} = 1000\\text{ cm}^3$."
+    }
+  ],
+  "g7-c8-l31": [
+    {
+      "title": "1. Cấu tạo Hình lăng trụ đứng tam giác và Hình lăng trụ đứng tứ giác",
+      "content": "- **Hình lăng trụ đứng tam giác** $ABC.A'B'C'$ có $2$ mặt đáy là hai tam giác song song và bằng nhau, $3$ mặt bên là các hình chữ nhật, các cạnh bên vuông góc với đáy và bằng chiều cao $h$.\n- **Hình lăng trụ đứng tứ giác** $ABCD.A'B'C'D'$ có $2$ đáy là tứ giác và $4$ mặt bên là các hình chữ nhật."
+    },
+    {
+      "title": "2. Công thức Diện tích xung quanh và Thể tích lăng trụ đứng",
+      "content": "- Gọi $C_{\\text{đáy}}$ là chu vi đáy, $S_{\\text{đáy}}$ là diện tích đáy và $h$ là chiều cao:\n$$S_{xq} = C_{\\text{đáy}} \\cdot h; \\quad S_{tp} = S_{xq} + 2S_{\\text{đáy}}; \\quad V = S_{\\text{đáy}} \\cdot h$$"
+    },
+    {
+      "title": "3. Vận dụng giải bài toán thực tế (lều trại, gầu xúc, hộp bánh)",
+      "content": "- Bước 1: Xác định đúng mặt nào là **mặt đáy** của hình lăng trụ đứng (hai mặt song song bằng nhau là hai đáy, khoảng cách giữa hai đáy là chiều cao $h$).\n- Bước 2: Tính chu vi đáy $C_{\\text{đáy}}$ và diện tích đáy $S_{\\text{đáy}}$, từ đó suy ra $S_{xq}$ và $V$."
+    }
+  ],
+  "g8-c10-l35": [
+    {
+      "title": "1. Định nghĩa và Các yếu tố của Hình chóp tam giác đều",
+      "content": "- **Hình chóp tam giác đều** $S.ABC$ có đáy $ABC$ là tam giác đều cạnh $a$, các mặt bên $SAB, SBC, SCA$ là các tam giác cân bằng nhau tại đỉnh $S$.\n- Chân đường cao $H$ kẻ từ đỉnh $S$ xuống mặt đáy trùng với **trọng tâm** (tâm đường tròn ngoại tiếp) của tam giác đều $ABC$."
+    },
+    {
+      "title": "2. Công thức Diện tích xung quanh và Thể tích hình chóp tam giác đều",
+      "content": "- Gọi $p = \\dfrac{3a}{2}$ là nửa chu vi đáy, $d = SM$ là **trung đoạn** (chiều cao của mặt bên), $h = SH$ là chiều cao hình chóp:\n$$S_{xq} = p \\cdot d = 3 \\cdot \\left(\\dfrac{1}{2} a \\cdot d\\right); \\quad S_{\\text{đáy}} = \\dfrac{a^2\\sqrt{3}}{4}; \\quad V = \\dfrac{1}{3} S_{\\text{đáy}} \\cdot h$$"
+    },
+    {
+      "title": "3. Liên hệ Pythagore giữa cạnh bên, trung đoạn và chiều cao",
+      "content": "- Gọi $M$ là trung điểm của $BC$, khi đó $AM = \\dfrac{a\\sqrt{3}}{2}$, $HM = \\dfrac{1}{3}AM = \\dfrac{a\\sqrt{3}}{6}$ và $AH = \\dfrac{2}{3}AM = \\dfrac{a\\sqrt{3}}{3}$.\n- Áp dụng định lí Pythagore: $SM^2 = SH^2 + HM^2 \\iff d^2 = h^2 + \\left(\\dfrac{a\\sqrt{3}}{6}\\right)^2$ và $SB^2 = SM^2 + BM^2$."
+    }
+  ],
+  "g8-c10-l36": [
+    {
+      "title": "1. Định nghĩa và Các yếu tố của Hình chóp tứ giác đều",
+      "content": "- **Hình chóp tứ giác đều** $S.ABCD$ có mặt đáy $ABCD$ là **hình vuông** cạnh $a$, $4$ mặt bên là các tam giác cân bằng nhau tại đỉnh $S$.\n- Chân đường cao $O$ kẻ từ $S$ xuống đáy trùng với **giao điểm hai đường chéo** $AC \\cap BD$ của hình vuông đáy."
+    },
+    {
+      "title": "2. Công thức Diện tích xung quanh, Diện tích toàn phần và Thể tích",
+      "content": "- Với cạnh đáy $a$, nửa chu vi đáy $p = 2a$, trung đoạn $d = SI$ và chiều cao $h = SO$:\n$$S_{xq} = p \\cdot d = 2a \\cdot d; \\quad S_{tp} = S_{xq} + a^2; \\quad V = \\dfrac{1}{3} S_{\\text{đáy}} \\cdot h = \\dfrac{1}{3} a^2 h$$"
+    },
+    {
+      "title": "3. Hệ thức Pythagore trong hình chóp tứ giác đều và bài toán thực tế",
+      "content": "- Gọi $I$ là trung điểm $CD$, ta có $OI = \\dfrac{a}{2}$ và $OA = \\dfrac{a\\sqrt{2}}{2}$.\n- Trong $\\Delta SOI$ vuông tại $O$: $d^2 = SI^2 = SO^2 + OI^2 = h^2 + \\left(\\dfrac{a}{2}\\right)^2$.\n- Trong $\\Delta SOA$ vuông tại $O$: $SA^2 = SO^2 + OA^2 = h^2 + \\dfrac{a^2}{2}$."
+    }
   ]
 };
 
@@ -2377,7 +2433,7 @@ function generate3TopicsForLesson(gradeId, chapter, lesson) {
 // ==========================================================================
 // HÀM LÀM GIÀU LÝ THUYẾT & PHƯƠNG PHÁP TỪ LESSON_THEORY_DB CHO MỌI KHỐI LỚP
 // ==========================================================================
-function applyLessonTheoryEnrichment(lessonData, lessonId) {
+function applyLessonTheoryEnrichment(lessonData, gradeId, chapterId, lessonId) {
   if (!lessonData) return lessonData;
   const customSections = (window.LESSON_THEORY_DB && lessonId && window.LESSON_THEORY_DB[lessonId])
     ? window.LESSON_THEORY_DB[lessonId]
@@ -2400,6 +2456,12 @@ function applyLessonTheoryEnrichment(lessonData, lessonId) {
       });
     }
   }
+  lessonData.gradeId = gradeId;
+  lessonData.chapterId = chapterId;
+  lessonData.lessonId = lessonId;
+  if (typeof window.getTikzDiagramForLesson === 'function') {
+    lessonData.diagram = window.getTikzDiagramForLesson(gradeId, chapterId, lessonId);
+  }
   return lessonData;
 }
 
@@ -2413,25 +2475,25 @@ window.getEnrichedLessonData = function(gradeId, chapterId, lessonId) {
   // Nếu là Lớp 9, ưu tiên lấy từ cơ sở dữ liệu chuyên sâu Toán 9 toàn diện
   if (gId === 9 && typeof window.getGrade9LessonData === 'function') {
     const g9Data = window.getGrade9LessonData(chapterId, lessonId);
-    if (g9Data) return applyLessonTheoryEnrichment(g9Data, lessonId);
+    if (g9Data) return applyLessonTheoryEnrichment(g9Data, gId, chapterId, lessonId);
   }
 
   // Nếu là Lớp 10, ưu tiên lấy từ cơ sở dữ liệu chuyên sâu Toán 10 toàn diện
   if (gId === 10 && typeof window.getGrade10LessonData === 'function') {
     const g10Data = window.getGrade10LessonData(chapterId, lessonId);
-    if (g10Data) return applyLessonTheoryEnrichment(g10Data, lessonId);
+    if (g10Data) return applyLessonTheoryEnrichment(g10Data, gId, chapterId, lessonId);
   }
 
   // Nếu là Lớp 11, ưu tiên lấy từ cơ sở dữ liệu chuyên sâu Toán 11 toàn diện
   if (gId === 11 && typeof window.getGrade11LessonData === 'function') {
     const g11Data = window.getGrade11LessonData(chapterId, lessonId);
-    if (g11Data) return applyLessonTheoryEnrichment(g11Data, lessonId);
+    if (g11Data) return applyLessonTheoryEnrichment(g11Data, gId, chapterId, lessonId);
   }
 
   // Nếu là Lớp 12, ưu tiên lấy từ cơ sở dữ liệu chuyên sâu Toán 12 toàn diện
   if (gId === 12 && typeof window.getGrade12LessonData === 'function') {
     const g12Data = window.getGrade12LessonData(chapterId, lessonId);
-    if (g12Data) return applyLessonTheoryEnrichment(g12Data, lessonId);
+    if (g12Data) return applyLessonTheoryEnrichment(g12Data, gId, chapterId, lessonId);
   }
 
   const chData = window.CHAPTER_KNOWLEDGE_BASE[chapterId];
@@ -2472,6 +2534,8 @@ window.getEnrichedLessonData = function(gradeId, chapterId, lessonId) {
 
   return {
     gradeId: gId,
+    chapterId: chapterId,
+    lessonId: actualLessonId,
     unitTitle: chapter ? `${chapter.number}: ${chapter.title}` : `Toán Lớp ${gId}`,
     lessonTitle: lesson ? `${lesson.number}: ${lesson.title}` : "Bài Học Chuẩn",
     theory: {
