@@ -1693,7 +1693,7 @@ function renderExamples() {
 
   container.innerHTML = examplesToRender.map(ex => {
     const spatialHtml = (typeof window.getSpatialIllustrationHtml === 'function')
-      ? window.getSpatialIllustrationHtml(ex.question, gId, chId, lId)
+      ? window.getSpatialIllustrationHtml(ex.question, gId, chId, lId, { isExample: true })
       : '';
     return `
     <div class="p-4 rounded-xl border border-emerald-200 bg-emerald-50/40 flex flex-col justify-between hover:shadow-sm transition">
@@ -1750,7 +1750,7 @@ function renderExercises() {
     const escapedId = String(ex.id).replace(/[^a-zA-Z0-9_-]/g, '_');
     const curLesson = MATH_DATA.currentLesson || {};
     const spatialHtml = (typeof window.getSpatialIllustrationHtml === 'function')
-      ? window.getSpatialIllustrationHtml(ex.question, curLesson.gradeId, curLesson.chapterId, curLesson.lessonId)
+      ? window.getSpatialIllustrationHtml(ex.question, curLesson.gradeId, curLesson.chapterId, curLesson.lessonId, { isExercise: true, exIndex: exIndex })
       : '';
 
     return `

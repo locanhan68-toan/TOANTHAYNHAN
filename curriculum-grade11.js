@@ -2987,6 +2987,20 @@ window.GRADE_11_KNOWLEDGE = {
       id: "g11-c4-l10-dang1",
       title: "Dạng 1: Các tính chất thừa nhận và cách xác định mặt phẳng",
       description: "Nắm vững các tiên đề lập mặt phẳng (qua 3 điểm không thẳng hàng, qua điểm và đường thẳng, qua 2 đường thẳng cắt nhau) và quan hệ liên thuộc.",
+      examples: [
+        {
+          title: "Ví dụ minh họa 1 (Thông hiểu)",
+          question: "Cho 4 điểm $A, B, C, D$ không đồng phẳng. Có thể tạo được bao nhiêu mặt phẳng phân biệt đi qua 3 trong số 4 điểm đã cho?",
+          shortAnswer: "4 mặt phẳng: (ABC), (ABD), (ACD), (BCD)",
+          solution: "Theo tính chất thừa nhận (tiên đề): Cứ 3 điểm không thẳng hàng xác định duy nhất một mặt phẳng.\n- Vì 4 điểm $A, B, C, D$ không đồng phẳng nên trong 4 điểm đó không có 3 điểm nào thẳng hàng.\n- Số mặt phẳng phân biệt tạo được bằng số cách chọn 3 điểm từ 4 điểm đã cho, tức là số tổ hợp chập 3 của 4 phần tử:\n$$C_4^3 = \\dfrac{4!}{3!(4-3)!} = 4$$\n- Bốn mặt phẳng đó là bốn mặt của khối tứ diện $ABCD$: $(ABC), (ABD), (ACD), (BCD)$."
+        },
+        {
+          title: "Ví dụ minh họa 2 (Vận dụng)",
+          question: "Cho hình chóp $S.ABCD$ đáy là hình bình hành. Lấy điểm $M$ trên cạnh $SA$ ($M$ không trùng $S, A$) và điểm $N$ trên cạnh $SB$ ($N$ không trùng $S, B$) sao cho $MN$ không song song với $AB$. Gọi $I$ là giao điểm của $MN$ và $AB$. Chứng minh điểm $I$ là điểm chung của đường thẳng $MN$ và mặt phẳng $(ABCD)$.",
+          shortAnswer: "$I = MN \\cap AB \\implies I = MN \\cap (ABCD)$",
+          solution: "1. Trong mặt phẳng $(SAB)$:\n- Ta có $M \\in SA \\subset (SAB)$ và $N \\in SB \\subset (SAB)$ nên đường thẳng $MN \\subset (SAB)$.\n- Cạnh đáy $AB \\subset (SAB)$.\n- Vì hai đường thẳng $MN$ và $AB$ cùng nằm trong mặt phẳng $(SAB)$ và không song song với nhau, nên chúng cắt nhau tại điểm $I$.\n\n2. Chứng minh $I$ là điểm chung của $MN$ và mặt phẳng $(ABCD)$:\n- Do $I = MN \\cap AB$, suy ra $I \\in MN$.\n- Mặt khác $I \\in AB$ mà $AB \\subset (ABCD)$ nên $I \\in (ABCD)$.\n- Vậy điểm $I$ vừa thuộc đường thẳng $MN$, vừa thuộc mặt phẳng đáy $(ABCD)$, tức là $I = MN \\cap (ABCD)$."
+        }
+      ],
       exercises: [
         {
           id: "g11-c4-l10-d1-ex1",
@@ -3074,6 +3088,20 @@ window.GRADE_11_KNOWLEDGE = {
       id: "g11-c4-l10-dang2",
       title: "Dạng 2: Tìm giao tuyến của hai mặt phẳng",
       description: "Phương pháp tìm hai điểm chung phân biệt để xác định đường giao tuyến giữa hai mặt phẳng trong hình chóp và tứ diện.",
+      examples: [
+        {
+          title: "Ví dụ minh họa 1 (Thông hiểu)",
+          question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành. Gọi $O$ là giao điểm của hai đường chéo $AC$ và $BD$. Tìm giao tuyến của hai mặt phẳng $(SAC)$ và $(SBD)$.",
+          shortAnswer: "Giao tuyến $SO = (SAC) \\cap (SBD)$",
+          solution: "1. Điểm chung thứ nhất:\n- Đỉnh $S$ thuộc cả hai mặt phẳng $(SAC)$ và $(SBD)$, do đó $S \\in (SAC) \\cap (SBD)$.\n\n2. Điểm chung thứ hai:\n- Trong mặt phẳng đáy $(ABCD)$, gọi $O = AC \\cap BD$.\n- Vì $O \\in AC \\subset (SAC)$ nên $O \\in (SAC)$.\n- Vì $O \\in BD \\subset (SBD)$ nên $O \\in (SBD)$.\n- Suy ra $O \\in (SAC) \\cap (SBD)$.\n\n3. Kết luận: Hai mặt phẳng $(SAC)$ và $(SBD)$ có hai điểm chung phân biệt là $S$ và $O$, do đó giao tuyến là đường thẳng $SO$:\n$$(SAC) \\cap (SBD) = SO$$"
+        },
+        {
+          title: "Ví dụ minh họa 2 (Vận dụng)",
+          question: "Cho tứ diện $ABCD$. Lấy điểm $M$ trên cạnh $AB$, $N$ trên cạnh $AC$ sao cho $MN$ không song song với $BC$. Tìm giao tuyến của mặt phẳng $(DMN)$ với mặt phẳng $(BCD)$.",
+          shortAnswer: "Đường thẳng nối $D$ và $E = MN \\cap BC$",
+          solution: "1. Điểm chung thứ nhất: Điểm $D$ hiển nhiên thuộc cả hai mặt phẳng $(DMN)$ và $(BCD)$.\n2. Điểm chung thứ hai:\n- Trong mặt phẳng $(ABC)$, do $MN$ không song song $BC$ nên $MN$ cắt $BC$ kéo dài tại $E$.\n- Vì $E \\in MN \\subset (DMN)$ nên $E \\in (DMN)$.\n- Vì $E \\in BC \\subset (BCD)$ nên $E \\in (BCD)$.\n- Suy ra $E$ là điểm chung thứ hai.\n3. Kết luận: Giao tuyến cần tìm là đường thẳng $DE$."
+        }
+      ],
       exercises: [
         {
           id: "g11-c4-l10-d2-ex1",
@@ -3161,6 +3189,20 @@ window.GRADE_11_KNOWLEDGE = {
       id: "g11-c4-l10-dang3",
       title: "Dạng 3: Tìm giao điểm của đường thẳng và mặt phẳng & Thiết diện của hình chóp",
       description: "Kỹ thuật chọn mặt phẳng phụ tìm giao điểm $d \\cap (P)$ và xác định đa giác thiết diện cắt khối không gian.",
+      examples: [
+        {
+          title: "Ví dụ minh họa 1 (Thông hiểu)",
+          question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình thang ($AB \\parallel CD$). Gọi $M$ là trung điểm của $SC$. Tìm giao điểm của đường thẳng $SD$ với mặt phẳng $(ABM)$.",
+          shortAnswer: "Điểm $N = SD \\cap (ABM)$ (với $N = SD \\cap AM$)",
+          solution: "1. Chọn mặt phẳng phụ chứa đường thẳng $SD$:\n- Chọn mặt phẳng chéo $(SCD)$ (hoặc $(SBD)$).\n2. Tìm giao tuyến của mặt phẳng phụ $(SCD)$ và $(ABM)$:\n- Ta có $M \\in SC \\subset (SCD)$ và $M \\in (ABM) \\Rightarrow M$ là điểm chung.\n- Trong đáy $ABCD$, gọi $E = AB \\cap CD$ (khi $AB$ và $CD$ không song song, hoặc nếu hình thang đáy lớn đáy bé cắt nhau tại $E$).\n- Khi đó $ME$ là giao tuyến của $(ABM)$ và $(SCD)$.\n3. Tìm giao điểm:\n- Trong mặt phẳng $(SCD)$, đường thẳng $ME$ cắt cạnh $SD$ tại $N$.\n- Vì $N \\in ME \\subset (ABM)$ và $N \\in SD$ nên $N = SD \\cap (ABM)$."
+        },
+        {
+          title: "Ví dụ minh họa 2 (Vận dụng)",
+          question: "Cho hình chóp $S.ABCD$ đáy $ABCD$ là hình bình hành. Gọi $M, N$ lần lượt là trung điểm của $SB, SC$. Lấy điểm $P$ trên cạnh $SA$ sao cho $SP = 2PA$. Tìm thiết diện của hình chóp cắt bởi mặt phẳng $(MNP)$.",
+          shortAnswer: "Tứ giác $MNQP$ (hình thang)",
+          solution: "1. Tìm các đoạn giao tuyến trên từng mặt:\n- Trên mặt $(SBC)$: giao tuyến là đoạn $MN$. Vì $M, N$ là trung điểm $SB, SC$ nên $MN \\parallel BC$.\n- Trên mặt $(SAB)$: giao tuyến là đoạn $PM$.\n2. Tìm giao tuyến với các mặt còn lại:\n- Mặt phẳng $(MNP)$ chứa $MN \\parallel BC \\parallel AD$, nên giao tuyến của $(MNP)$ với $(SAD)$ đi qua điểm chung $P$ và song song với $AD$.\n- Từ $P$, kẻ đường thẳng song song với $AD$ cắt $SD$ tại $Q$. Khi đó $PQ \\subset (MNP)$ và $PQ \\parallel MN$.\n- Trên mặt $(SCD)$: nối $N$ với $Q$ được giao tuyến $NQ$.\n3. Kết luận: Thiết diện cắt hình chóp bởi mặt phẳng $(MNP)$ là tứ giác $MNQP$ (là một hình thang vì $MN \\parallel PQ$)."
+        }
+      ],
       exercises: [
         {
           id: "g11-c4-l10-d3-ex1",

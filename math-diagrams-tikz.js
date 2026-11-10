@@ -1039,6 +1039,266 @@ window.MATH_TIKZ_LIBRARY = [
   },
 
   {
+    id: "tikz-g11-4points-tetra",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "4 điểm A, B, C, D không đồng phẳng (Khối tứ diện)",
+    topic: "Hình học không gian - Điểm, Đường thẳng và Mặt phẳng",
+    desc: "Cứ mỗi 3 điểm không thẳng hàng trong 4 điểm A, B, C, D không đồng phẳng xác định duy nhất 1 mặt phẳng. Có tất cả C₄³ = 4 mặt phẳng phân biệt: (ABC), (ABD), (ACD), (BCD).",
+    formula: "C_4^3 = 4 \\text{ mặt phẳng: } (ABC), (ABD), (ACD), (BCD)",
+    svg: `<svg viewBox="0 0 340 240" class="w-full h-auto max-h-56 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- 4 Non-coplanar points A, B, C, D forming tetrahedron ABCD -->
+      <polygon points="160,32 65,185 180,215" fill="#eff6ff" fill-opacity="0.65" stroke="#3b82f6" stroke-width="1.8"/>
+      <polygon points="160,32 180,215 275,165" fill="#e0e7ff" fill-opacity="0.65" stroke="#6366f1" stroke-width="1.8"/>
+      <!-- Hidden edge BD (dashed) -->
+      <line x1="65" y1="185" x2="275" y2="165" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5 3"/>
+      <!-- Visible edges -->
+      <line x1="160" y1="32" x2="65" y2="185" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="160" y1="32" x2="180" y2="215" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="160" y1="32" x2="275" y2="165" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="65" y1="185" x2="180" y2="215" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="180" y1="215" x2="275" y2="165" stroke="#1e293b" stroke-width="2.2"/>
+      <!-- Vertices -->
+      <circle cx="160" cy="32" r="4.5" fill="#dc2626"/><text x="160" y="20" font-size="13" font-weight="black" fill="#dc2626" text-anchor="middle">A</text>
+      <circle cx="65" cy="185" r="4" fill="#2563eb"/><text x="46" y="192" font-size="13" font-weight="bold" fill="#1e1b4b">B</text>
+      <circle cx="180" cy="215" r="4" fill="#2563eb"/><text x="180" y="233" font-size="13" font-weight="bold" fill="#1e1b4b" text-anchor="middle">C</text>
+      <circle cx="275" cy="165" r="4" fill="#2563eb"/><text x="286" y="170" font-size="13" font-weight="bold" fill="#1e1b4b">D</text>
+      <!-- Face labels -->
+      <rect x="98" y="112" width="50" height="20" rx="4" fill="#3b82f6" fill-opacity="0.15" stroke="#3b82f6" stroke-width="1"/>
+      <text x="123" y="126" font-size="10.5" font-weight="bold" fill="#1d4ed8" text-anchor="middle">(ABC)</text>
+      <rect x="203" y="112" width="50" height="20" rx="4" fill="#6366f1" fill-opacity="0.15" stroke="#6366f1" stroke-width="1"/>
+      <text x="228" y="126" font-size="10.5" font-weight="bold" fill="#4338ca" text-anchor="middle">(ACD)</text>
+      <text x="160" y="198" font-size="10.5" font-weight="bold" fill="#64748b" text-anchor="middle">Đáy (BCD)</text>
+    </svg>`,
+    tikzCode: `% --- 4 ĐIỂM KHÔNG ĐỒNG PHẲNG TẠO NÊN 4 MẶT TỨ DIỆN LỚP 11 ---
+\\begin{tikzpicture}[scale=1, line join=round]
+  \\coordinate (A) at (1.8,3.2);
+  \\coordinate (B) at (0,0);
+  \\coordinate (C) at (2.2,-0.8);
+  \\coordinate (D) at (4.0,0.2);
+  \\draw[dashed] (B) -- (D);
+  \\draw[thick, fill=blue!10, fill opacity=0.5] (A) -- (B) -- (C) -- cycle;
+  \\draw[thick, fill=indigo!10, fill opacity=0.5] (A) -- (C) -- (D) -- cycle;
+  \\foreach \\p/\\pos in {A/above, B/left, C/below, D/right}
+    \\fill (\\p) circle (1.5pt) node[\\pos] {$\\p$};
+\\end{tikzpicture}`
+  },
+
+  {
+    id: "tikz-g11-line-plane-intersection",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "Giao điểm của đường thẳng MN và mặt phẳng đáy (ABCD)",
+    topic: "Hình học không gian - Điểm, Đường thẳng và Mặt phẳng",
+    desc: "Trong mặt phẳng (SAB), hai đường thẳng MN và AB cùng thuộc một mặt phẳng và không song song nên cắt nhau tại điểm I. Vì I thuộc đường thẳng AB nên I thuộc mặt phẳng đáy (ABCD). Do đó I = MN ∩ (ABCD).",
+    formula: "I = MN \\cap AB, \\quad AB \\subset (ABCD) \\implies I = MN \\cap (ABCD)",
+    svg: `<svg viewBox="0 0 350 245" class="w-full h-auto max-h-56 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Base plane (ABCD) background -->
+      <polygon points="55,180 200,180 255,135 110,135" fill="#f0fdf4" fill-opacity="0.6" stroke="#22c55e" stroke-width="1.2" stroke-dasharray="3 3"/>
+      <!-- Hidden base edges -->
+      <line x1="110" y1="135" x2="255" y2="135" stroke="#94a3b8" stroke-width="1.6" stroke-dasharray="4 3"/>
+      <line x1="110" y1="135" x2="75" y2="180" stroke="#94a3b8" stroke-width="1.6" stroke-dasharray="4 3"/>
+      <line x1="135" y1="35" x2="110" y2="135" stroke="#94a3b8" stroke-width="1.6" stroke-dasharray="4 3"/>
+      <!-- Visible pyramid edges: S(135,35), A(75,180), B(195,180), C(255,135) -->
+      <line x1="135" y1="35" x2="75" y2="180" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="135" y1="35" x2="195" y2="180" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="135" y1="35" x2="255" y2="135" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="75" y1="180" x2="195" y2="180" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="195" y1="180" x2="255" y2="135" stroke="#1e293b" stroke-width="2.2"/>
+      <!-- Points M(111,93) on SA, N(177,136.5) on SB -->
+      <!-- Line MN and its extension to I(243,180) -->
+      <line x1="111" y1="93" x2="177" y2="136.5" stroke="#dc2626" stroke-width="2.8"/>
+      <line x1="177" y1="136.5" x2="243" y2="180" stroke="#dc2626" stroke-width="2.2" stroke-dasharray="4 2"/>
+      <!-- Extended edge AB from B(195,180) to I(243,180) -->
+      <line x1="195" y1="180" x2="243" y2="180" stroke="#2563eb" stroke-width="2.4" stroke-dasharray="4 2"/>
+      <!-- Intersection I -->
+      <circle cx="243" cy="180" r="4.5" fill="#dc2626"/>
+      <text x="248" y="196" font-size="11.5" font-weight="black" fill="#dc2626">I = MN ∩ (ABCD)</text>
+      <!-- Dots & Labels -->
+      <circle cx="135" cy="35" r="4" fill="#1e293b"/><text x="135" y="24" font-size="13" font-weight="black" fill="#1e293b" text-anchor="middle">S</text>
+      <circle cx="75" cy="180" r="3.5" fill="#1e293b"/><text x="58" y="186" font-size="12" font-weight="bold">A</text>
+      <circle cx="195" cy="180" r="3.5" fill="#1e293b"/><text x="188" y="198" font-size="12" font-weight="bold">B</text>
+      <circle cx="255" cy="135" r="3.5" fill="#1e293b"/><text x="264" y="139" font-size="12" font-weight="bold">C</text>
+      <circle cx="110" cy="135" r="3" fill="#64748b"/><text x="96" y="136" font-size="12" font-weight="bold" fill="#64748b">D</text>
+      <circle cx="111" cy="93" r="4" fill="#dc2626"/><text x="95" y="93" font-size="12" font-weight="black" fill="#dc2626">M</text>
+      <circle cx="177" cy="136.5" r="4" fill="#dc2626"/><text x="187" y="136" font-size="12" font-weight="black" fill="#dc2626">N</text>
+      <text x="80" y="215" font-size="11" font-weight="bold" fill="#15803d">Mặt phẳng đáy (ABCD)</text>
+    </svg>`,
+    tikzCode: `% --- GIAO ĐIỂM ĐƯỜNG THẲNG MN VÀ MẶT ĐÁY (ABCD) LỚP 11 ---
+\\begin{tikzpicture}[scale=1, line join=round]
+  \\coordinate (S) at (2,3.5);
+  \\coordinate (A) at (0,0);
+  \\coordinate (B) at (3,0);
+  \\coordinate (C) at (4.2,0.9);
+  \\coordinate (D) at (1.2,0.9);
+  \\coordinate (M) at ($(S)!0.4!(A)$);
+  \\coordinate (N) at ($(S)!0.7!(B)$);
+  \\coordinate (I) at (intersection of M--N and A--B);
+  \\draw[dashed] (A) -- (D) -- (C) (S) -- (D);
+  \\draw[thick] (S) -- (A) -- (B) -- (C) -- (S) -- (B);
+  \\draw[very thick, red] (M) -- (N);
+  \\draw[dashed, red] (N) -- (I);
+  \\draw[dashed, blue] (B) -- (I);
+  \\filldraw[red] (I) circle (2pt) node[below right] {$I = MN \\cap (ABCD)$};
+  \\foreach \\p/\\pos in {S/above, A/left, B/below, C/right, D/above left, M/left, N/right}
+    \\fill (\\p) circle (1.5pt) node[\\pos] {$\\p$};
+\\end{tikzpicture}`
+  },
+
+  {
+    id: "tikz-g11-skew-lines-pq",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "Tứ diện ABCD & Hai đường thẳng chéo nhau PQ và BC",
+    topic: "Hình học không gian - Điểm, Đường thẳng và Mặt phẳng",
+    desc: "Điểm P trên cạnh AB, điểm Q trên cạnh CD. Hai đường thẳng PQ (màu đỏ) và BC (màu xanh) không cùng nằm trong bất kì mặt phẳng nào (chéo nhau), vì nếu đồng phẳng thì 4 điểm A, B, C, D sẽ đồng phẳng (mâu thuẫn với giả thiết tứ diện).",
+    formula: "P \\in AB, \\ Q \\in CD \\implies PQ \\text{ và } BC \\text{ chéo nhau}",
+    svg: `<svg viewBox="0 0 340 245" class="w-full h-auto max-h-56 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Tetrahedron ABCD -->
+      <polygon points="155,30 65,185 185,215" fill="#eff6ff" fill-opacity="0.45"/>
+      <polygon points="155,30 185,215 265,160" fill="#e0e7ff" fill-opacity="0.45"/>
+      <!-- Hidden edge BD (dashed) -->
+      <line x1="65" y1="185" x2="265" y2="160" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5 3"/>
+      <!-- Visible edges -->
+      <line x1="155" y1="30" x2="65" y2="185" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="155" y1="30" x2="185" y2="215" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="155" y1="30" x2="265" y2="160" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="185" y1="215" x2="265" y2="160" stroke="#1e293b" stroke-width="2.2"/>
+      <!-- Edge BC (highlighted in Blue) -->
+      <line x1="65" y1="185" x2="185" y2="215" stroke="#2563eb" stroke-width="3.2"/>
+      <!-- Segment PQ (highlighted in Red) with P(115,100) on AB, Q(225,188) on CD -->
+      <line x1="115" y1="100" x2="225" y2="188" stroke="#dc2626" stroke-width="3"/>
+      <!-- Vertices -->
+      <circle cx="155" cy="30" r="3.5" fill="#1e293b"/><text x="155" y="18" font-size="13" font-weight="black" text-anchor="middle">A</text>
+      <circle cx="65" cy="185" r="3.5" fill="#1e293b"/><text x="48" y="190" font-size="13" font-weight="bold">B</text>
+      <circle cx="185" cy="215" r="3.5" fill="#1e293b"/><text x="185" y="234" font-size="13" font-weight="bold" text-anchor="middle">C</text>
+      <circle cx="265" cy="160" r="3.5" fill="#1e293b"/><text x="275" y="165" font-size="13" font-weight="bold">D</text>
+      <!-- Points P and Q -->
+      <circle cx="115" cy="100" r="4.5" fill="#dc2626"/><text x="96" y="98" font-size="12" font-weight="black" fill="#dc2626">P ∈ AB</text>
+      <circle cx="225" cy="188" r="4.5" fill="#dc2626"/><text x="235" y="202" font-size="12" font-weight="black" fill="#dc2626">Q ∈ CD</text>
+      <!-- Legend badges -->
+      <text x="175" y="135" font-size="11" font-weight="bold" fill="#dc2626" transform="rotate(38 175 135)">Đoạn thẳng PQ</text>
+      <text x="110" y="210" font-size="11" font-weight="bold" fill="#2563eb">Cạnh BC</text>
+    </svg>`,
+    tikzCode: `% --- TỨ DIỆN ABCD VÀ HAI ĐƯỜNG THẲNG CHÉO NHAU PQ VÀ BC ---
+\\begin{tikzpicture}[scale=1, line join=round]
+  \\coordinate (A) at (1.8,3.2);
+  \\coordinate (B) at (0,0);
+  \\coordinate (C) at (2.4,-0.8);
+  \\coordinate (D) at (4.0,0.2);
+  \\coordinate (P) at ($(A)!0.45!(B)$);
+  \\coordinate (Q) at ($(C)!0.5!(D)$);
+  \\draw[dashed] (B) -- (D);
+  \\draw[thick] (A) -- (B) (A) -- (C) (A) -- (D) (C) -- (D);
+  \\draw[very thick, blue] (B) -- (C) node[midway, below] {$BC$};
+  \\draw[very thick, red] (P) -- (Q) node[midway, above right] {$PQ$};
+  \\filldraw[red] (P) circle (1.5pt) node[left] {$P$};
+  \\filldraw[red] (Q) circle (1.5pt) node[below right] {$Q$};
+  \\foreach \\p/\\pos in {A/above, B/left, C/below, D/right}
+    \\fill (\\p) circle (1.4pt) node[\\pos] {$\\p$};
+\\end{tikzpicture}`
+  },
+
+  {
+    id: "tikz-g11-pyramid-structure",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "Hình chóp tứ giác S.ABCD (5 mặt, 8 cạnh, 5 đỉnh)",
+    topic: "Hình học không gian - Điểm, Đường thẳng và Mặt phẳng",
+    desc: "Hình chóp tứ giác S.ABCD gồm: 1 đỉnh S, 1 mặt đáy là tứ giác ABCD, 4 mặt bên là các tam giác SAB, SBC, SCD, SDA (tổng 5 mặt). Có 4 cạnh đáy AB, BC, CD, DA và 4 cạnh bên SA, SB, SC, SD (tổng 8 cạnh).",
+    formula: "\\text{Đỉnh } S, \\text{ Đáy } ABCD, \\ 5 \\text{ mặt}, \\ 8 \\text{ cạnh}",
+    svg: `<svg viewBox="0 0 340 240" class="w-full h-auto max-h-56 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Pyramid S.ABCD -->
+      <polygon points="170,30 70,180 185,210" fill="#eff6ff" fill-opacity="0.6"/>
+      <polygon points="170,30 185,210 270,165" fill="#e0e7ff" fill-opacity="0.6"/>
+      <!-- Hidden base edges -->
+      <line x1="130" y1="140" x2="270" y2="165" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5 3"/>
+      <line x1="130" y1="140" x2="70" y2="180" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5 3"/>
+      <line x1="170" y1="30" x2="130" y2="140" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5 3"/>
+      <!-- Visible edges -->
+      <line x1="170" y1="30" x2="70" y2="180" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="170" y1="30" x2="185" y2="210" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="170" y1="30" x2="270" y2="165" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="70" y1="180" x2="185" y2="210" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="185" y1="210" x2="270" y2="165" stroke="#1e293b" stroke-width="2.2"/>
+      <!-- Vertices -->
+      <circle cx="170" cy="30" r="4.5" fill="#dc2626"/><text x="170" y="18" font-size="13" font-weight="black" fill="#dc2626" text-anchor="middle">S (Đỉnh)</text>
+      <circle cx="70" cy="180" r="3.5" fill="#1e293b"/><text x="52" y="186" font-size="12" font-weight="bold">A</text>
+      <circle cx="185" cy="210" r="3.5" fill="#1e293b"/><text x="185" y="228" font-size="12" font-weight="bold" text-anchor="middle">B</text>
+      <circle cx="270" cy="165" r="3.5" fill="#1e293b"/><text x="280" y="170" font-size="12" font-weight="bold">C</text>
+      <circle cx="130" cy="140" r="3.5" fill="#64748b"/><text x="116" y="138" font-size="12" font-weight="bold" fill="#64748b">D</text>
+      <text x="170" y="180" font-size="11" font-weight="bold" fill="#4338ca" text-anchor="middle">Mặt đáy ABCD</text>
+    </svg>`,
+    tikzCode: `% --- CẤU TRÚC HÌNH CHÓP TỨ GIÁC S.ABCD ---
+\\begin{tikzpicture}[scale=1, line join=round]
+  \\coordinate (S) at (2,3.5);
+  \\coordinate (A) at (0,0);
+  \\coordinate (B) at (2.2,-0.8);
+  \\coordinate (C) at (4.0,0.1);
+  \\coordinate (D) at (1.5,0.7);
+  \\draw[dashed] (A) -- (D) -- (C) (S) -- (D);
+  \\draw[thick] (S) -- (A) -- (B) -- (C) -- (S) -- (B);
+  \\foreach \\p/\\pos in {S/above, A/left, B/below, C/right, D/above left}
+    \\fill (\\p) circle (1.4pt) node[\\pos] {$\\p$};
+\\end{tikzpicture}`
+  },
+
+  {
+    id: "tikz-g11-line-on-face-tetra",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "Tứ diện ABCD & Đường thẳng MN thuộc mặt phẳng (ABC)",
+    topic: "Hình học không gian - Điểm, Đường thẳng và Mặt phẳng",
+    desc: "Điểm M trên cạnh AB, điểm N trên cạnh AC. Vì cả M và N đều thuộc mặt phẳng (ABC) nên đường thẳng MN nằm trọn trong mặt phẳng (ABC).",
+    formula: "M \\in AB, \\ N \\in AC \\implies MN \\subset (ABC)",
+    svg: `<svg viewBox="0 0 340 240" class="w-full h-auto max-h-56 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Tetrahedron ABCD with face (ABC) -->
+      <polygon points="160,30 65,185 180,215" fill="#eff6ff" fill-opacity="0.7" stroke="#2563eb" stroke-width="1.5"/>
+      <polygon points="160,30 180,215 265,160" fill="#f8fafc" fill-opacity="0.4"/>
+      <!-- Hidden edge BD -->
+      <line x1="65" y1="185" x2="265" y2="160" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5 3"/>
+      <!-- Edges -->
+      <line x1="160" y1="30" x2="65" y2="185" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="160" y1="30" x2="180" y2="215" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="160" y1="30" x2="265" y2="160" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="65" y1="185" x2="180" y2="215" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="180" y1="215" x2="265" y2="160" stroke="#1e293b" stroke-width="2.2"/>
+      <!-- M(117,100) on AB, N(170,122) on AC -->
+      <!-- Line MN on face (ABC) -->
+      <line x1="117" y1="100" x2="170" y2="122" stroke="#dc2626" stroke-width="3"/>
+      <circle cx="117" cy="100" r="4" fill="#dc2626"/><text x="100" y="98" font-size="12" font-weight="black" fill="#dc2626">M</text>
+      <circle cx="170" cy="122" r="4" fill="#dc2626"/><text x="180" y="125" font-size="12" font-weight="black" fill="#dc2626">N</text>
+      <text x="135" y="145" font-size="11" font-weight="bold" fill="#dc2626">MN ⊂ (ABC)</text>
+      <!-- Vertices -->
+      <circle cx="160" cy="30" r="3.5" fill="#1e293b"/><text x="160" y="18" font-size="13" font-weight="black" text-anchor="middle">A</text>
+      <circle cx="65" cy="185" r="3.5" fill="#1e293b"/><text x="48" y="190" font-size="12" font-weight="bold">B</text>
+      <circle cx="180" cy="215" r="3.5" fill="#1e293b"/><text x="180" y="233" font-size="12" font-weight="bold" text-anchor="middle">C</text>
+      <circle cx="265" cy="160" r="3.5" fill="#1e293b"/><text x="275" y="165" font-size="12" font-weight="bold">D</text>
+    </svg>`,
+    tikzCode: `% --- ĐƯỜNG THẲNG MN NẰM TRONG MẶT PHẲNG (ABC) LỚP 11 ---
+\\begin{tikzpicture}[scale=1, line join=round]
+  \\coordinate (A) at (1.8,3.2);
+  \\coordinate (B) at (0,0);
+  \\coordinate (C) at (2.2,-0.8);
+  \\coordinate (D) at (4.0,0.2);
+  \\coordinate (M) at ($(A)!0.45!(B)$);
+  \\coordinate (N) at ($(A)!0.5!(C)$);
+  \\draw[dashed] (B) -- (D);
+  \\draw[thick] (A) -- (B) -- (C) -- (D) -- (A) -- (C);
+  \\draw[very thick, red] (M) -- (N) node[midway, below] {$MN \\subset (ABC)$};
+  \\filldraw[red] (M) circle (1.5pt) node[left] {$M$};
+  \\filldraw[red] (N) circle (1.5pt) node[right] {$N$};
+  \\foreach \\p/\\pos in {A/above, B/left, C/below, D/right}
+    \\fill (\\p) circle (1.4pt) node[\\pos] {$\\p$};
+\\end{tikzpicture}`
+  },
+
+  {
     id: "tikz-g11-parallel-lines-tetra",
     grade: 11,
     chapterId: "g11-c4",
@@ -2008,19 +2268,64 @@ window.getTikzDiagramForLesson = function(gradeId, chapterId, lessonId) {
 // Kiểm tra xem chương/bài học có phải là Hình học không gian hay không và trả về khung hình minh họa 3D trực quan đi kèm
 window.SPATIAL_CHAPTER_IDS = ["g7-c8", "g8-c10", "g9-c8", "g11-c4", "g11-c7", "g12-c2", "g12-c5"];
 
-window.getSpatialIllustrationHtml = function(questionText, gradeId, chapterId, lessonId) {
-  const isSpatialChapter = window.SPATIAL_CHAPTER_IDS.includes(chapterId);
+window.getSpatialIllustrationHtml = function(questionText, gradeId, chapterId, lessonId, options) {
+  const opts = options || {};
   const q = String(questionText || "").toLowerCase();
 
-  // Nếu không thuộc chương hình học không gian và đề bài không nhắc tới khối không gian thì không hiển thị
-  if (!isSpatialChapter && !/(hình chóp|tứ diện|lăng trụ|hình hộp|lập phương|hình trụ|hình nón|hình cầu|mặt cầu|oxyz)/i.test(q)) {
+  // 1. CÁC CÂU HỎI LÝ THUYẾT / TIÊN ĐỀ / ĐẾM TỔ HỢP / ĐỊNH NGHĨA THUẦN TÚY:
+  // TUYỆT ĐỐI KHÔNG GHÉP HÌNH KHÔNG PHÙ HỢP
+  const isPureTheoryOrCounting = (
+    /có bao nhiêu mặt phẳng đi qua 3 điểm/i.test(q) ||
+    /nêu các cách xác định một mặt phẳng/i.test(q) ||
+    /nếu đường thẳng d có hai điểm phân biệt thuộc/i.test(q) ||
+    /cho 6 điểm phân biệt trong đó không có 4 điểm/i.test(q) ||
+    /nếu hai mặt phẳng phân biệt.*có một điểm chung/i.test(q) ||
+    /muốn tìm giao điểm của đường thẳng d với mặt phẳng/i.test(q)
+  );
+  if (isPureTheoryOrCounting) {
     return "";
+  }
+
+  // 2. Với bài tập rèn luyện (khi không phải Ví dụ mẫu có hình riêng):
+  // Các câu hỏi lý thuyết / đếm số mặt phẳng như Bài 5, Bài 10, Bài 6 (hỏi O thuộc mặt nào) -> không ghép hình lệch đề
+  if (opts.isExercise) {
+    if (/cho 4 điểm.*không đồng phẳng.*bao nhiêu mặt phẳng/i.test(q)) {
+      return "";
+    }
+    if (/điểm o thuộc những mặt phẳng nào/i.test(q)) {
+      return "";
+    }
   }
 
   let matchedId = null;
 
-  // Nhận diện thông minh theo nội dung câu hỏi / bài tập
-  if (/mặt cầu|\(s\)/i.test(q) && (gradeId === 12 || /oxyz|tâm i/i.test(q))) {
+  // 3. Khớp chính xác theo nội dung đề bài và hình học cụ thể:
+  // Bài toán: Giao điểm của MN với đáy (ABCD) trong hình chóp S.ABCD (Ví dụ 2 & Bài 8)
+  if (/mn không song song.*ab/i.test(q) || (/m trên cạnh sa/i.test(q) && /n trên cạnh sb/i.test(q)) || /i là giao điểm của mn và ab/i.test(q)) {
+    matchedId = "tikz-g11-line-plane-intersection";
+  }
+  // Bài toán: Tứ diện ABCD có P trên AB, Q trên CD chứng minh PQ và BC chéo nhau (Bài 9)
+  else if (/p trên cạnh ab/i.test(q) && /q trên cạnh cd/i.test(q) && /chéo nhau/i.test(q)) {
+    matchedId = "tikz-g11-skew-lines-pq";
+  }
+  // Bài toán: 4 điểm không đồng phẳng tạo thành 4 mặt phẳng của tứ diện (Ví dụ 1)
+  else if (/4 điểm.*không đồng phẳng.*bao nhiêu mặt phẳng/i.test(q)) {
+    matchedId = "tikz-g11-4points-tetra";
+  }
+  // Bài toán: Tứ diện ABCD có M trên AB, N trên AC thuộc (ABC) (Bài 7)
+  else if (/m trên cạnh ab/i.test(q) && /n trên cạnh ac/i.test(q) && /nằm trong mặt phẳng nào/i.test(q)) {
+    matchedId = "tikz-g11-line-on-face-tetra";
+  }
+  // Bài toán: Hình chóp tứ giác S.ABCD có bao nhiêu mặt, bao nhiêu cạnh (Bài 4)
+  else if (/hình chóp tứ giác s\.abcd có bao nhiêu mặt/i.test(q)) {
+    matchedId = "tikz-g11-pyramid-structure";
+  }
+  // Bài toán: Giao tuyến (SAC) ∩ (SBD) = SO của hình chóp S.ABCD (Dạng 2)
+  else if (/giao tuyến.*(sac).*(sbd)/i.test(q) || (/giao tuyến hai mặt phẳng/i.test(q) && /s\.abcd/i.test(q) && /o = ac/i.test(q))) {
+    matchedId = "tikz-g11-pyramid-intersection";
+  }
+  // Các khối không gian chuẩn khác:
+  else if (/mặt cầu|\(s\)/i.test(q) && (gradeId === 12 || /oxyz|tâm i/i.test(q))) {
     matchedId = "tikz-g12-oxyz-sphere";
   } else if (/hình cầu|khối cầu|mặt cầu/i.test(q)) {
     matchedId = "tikz-g9-sphere";
@@ -2040,20 +2345,14 @@ window.getSpatialIllustrationHtml = function(questionText, gradeId, chapterId, l
     matchedId = "tikz-g8-pyramid";
   } else if (/chóp tam giác đều/i.test(q)) {
     matchedId = "tikz-g8-regular-tri-pyramid";
-  } else if (/s\.abcd/i.test(q)) {
-    matchedId = (chapterId === "g11-c7") ? "tikz-g11-perp-planes-pyramid" : "tikz-g11-pyramid-intersection";
-  } else if (/s\.abc/i.test(q)) {
-    matchedId = (lessonId === "g11-c7-l27" || /thể tích/i.test(q)) ? "tikz-g11-volume-pyramid-prism" : "tikz-g11-distance-pyramid";
-  } else if (/tứ diện/i.test(q)) {
-    matchedId = "tikz-g11-parallel-lines-tetra";
   } else if (/phép chiếu song song|hình biểu diễn/i.test(q)) {
     matchedId = "tikz-g11-parallel-projection";
   }
 
-  let diagram = matchedId ? window.MATH_TIKZ_LIBRARY.find(d => d.id === matchedId) : null;
-  if (!diagram) {
-    diagram = window.getTikzDiagramForLesson(gradeId, chapterId, lessonId);
-  }
+  // TUYỆT ĐỐI KHÔNG FALLBACK SANG HÌNH BÀI HỌC CHUNG CHO BÀI TẬP/VÍ DỤ NỮA
+  if (!matchedId) return "";
+
+  const diagram = window.MATH_TIKZ_LIBRARY.find(d => d.id === matchedId);
   if (!diagram) return "";
 
   return `
