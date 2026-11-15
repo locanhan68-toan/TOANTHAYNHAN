@@ -1480,6 +1480,265 @@ window.MATH_TIKZ_LIBRARY = [
   },
 
   {
+    id: "tikz-g11-parallel-intersection-s",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l11",
+    title: "Hình chóp S.ABCD & Giao tuyến d qua S song song AB, CD",
+    topic: "Hình học không gian - Hai đường thẳng song song",
+    desc: "Trong hình chóp S.ABCD (đáy hình bình hành), hai mặt phẳng (SAB) và (SCD) chứa hai đường thẳng song song AB // CD và có điểm chung S. Do đó giao tuyến của chúng là đường thẳng d đi qua S và song song với AB, CD.",
+    formula: "AB \\parallel CD, \\ S \\in (SAB) \\cap (SCD) \\implies (SAB) \\cap (SCD) = d \\parallel AB \\parallel CD",
+    svg: `<svg viewBox="0 0 340 240" class="w-full h-auto max-h-56 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Base ABCD: A(60,170), B(120,215), C(275,215), D(215,170); S(160,50) -->
+      <polygon points="160,50 60,170 120,215" fill="#eff6ff" fill-opacity="0.4"/>
+      <polygon points="160,50 215,170 275,215" fill="#fef3c7" fill-opacity="0.35"/>
+      <!-- Intersection line d through S parallel to AB, CD (red bold) -->
+      <line x1="70" y1="50" x2="250" y2="50" stroke="#dc2626" stroke-width="2.6"/>
+      <text x="255" y="54" font-size="13" font-weight="black" fill="#dc2626">d // AB // CD</text>
+      <!-- Hidden edges: AD, CD, SD (dashed) -->
+      <line x1="60" y1="170" x2="215" y2="170" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 4"/>
+      <line x1="215" y1="170" x2="275" y2="215" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 4"/>
+      <line x1="160" y1="50" x2="215" y2="170" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 4"/>
+      <!-- Visible edges: SA, SB, SC, AB, BC (solid) -->
+      <line x1="160" y1="50" x2="60" y2="170" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="160" y1="50" x2="120" y2="215" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="160" y1="50" x2="275" y2="215" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="60" y1="170" x2="120" y2="215" stroke="#2563eb" stroke-width="2.5"/>
+      <line x1="120" y1="215" x2="275" y2="215" stroke="#1e293b" stroke-width="2.2"/>
+      <!-- Vertices -->
+      <circle cx="160" cy="50" r="4" fill="#dc2626"/><text x="156" y="38" font-size="13" font-weight="black" fill="#dc2626">S</text>
+      <circle cx="60" cy="170" r="3.5" fill="#1e293b"/><text x="44" y="174" font-size="12" font-weight="bold">A</text>
+      <circle cx="120" cy="215" r="3.5" fill="#1e293b"/><text x="115" y="232" font-size="12" font-weight="bold">B</text>
+      <circle cx="275" cy="215" r="3.5" fill="#1e293b"/><text x="282" y="222" font-size="12" font-weight="bold">C</text>
+      <circle cx="215" cy="170" r="3.5" fill="#1e293b"/><text x="222" y="167" font-size="12" font-weight="bold">D</text>
+    </svg>`,
+    tikzCode: `% --- GIAO TUYẾN SONG SONG QUA ĐỈNH S CỦA HÌNH CHÓP LỚP 11 ---
+\\begin{tikzpicture}[scale=1, line join=round]
+  \\coordinate (A) at (0,0);
+  \\coordinate (B) at (1.2,-1.2);
+  \\coordinate (C) at (4.5,-1.2);
+  \\coordinate (D) at (3.3,0);
+  \\coordinate (S) at (2.1,3.2);
+  \\draw[dashed, gray] (A) -- (D) -- (C) (S) -- (D);
+  \\draw[thick] (S) -- (A) -- (B) -- (C) -- (S) -- (B);
+  % Giao tuyến d qua S song song AB, CD
+  \\draw[very thick, red] ($(S)-(1.8,0)$) -- ($(S)+(1.8,0)$) node[right] {$d \\parallel AB \\parallel CD$};
+  \\foreach \\p/\\pos in {S/above, A/left, B/below left, C/below right, D/above right}
+    \\fill (\\p) circle (1.5pt) node[\\pos] {$\\p$};
+\\end{tikzpicture}`
+  },
+
+  {
+    id: "tikz-g11-tetra-midsegment-parallelogram",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l11",
+    title: "Tứ diện ABCD & Thiết diện hình bình hành PQRS",
+    topic: "Hình học không gian - Hai đường thẳng song song",
+    desc: "Gọi P, Q, R, S lần lượt là trung điểm của AB, BC, CD, DA trong tứ diện ABCD. Ta có PQ // AC // SR và PS // BD // QR. Do đó tứ giác PQRS là hình bình hành.",
+    formula: "PQ \\parallel SR \\parallel AC, \\quad PS \\parallel QR \\parallel BD \\implies PQRS \\text{ là hình bình hành}",
+    svg: `<svg viewBox="0 0 340 245" class="w-full h-auto max-h-56 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Tetrahedron ABCD: A(165,30), B(65,185), C(185,220), D(275,160) -->
+      <!-- Midpoints: P on AB(115,107.5), Q on BC(125,202.5), R on CD(230,190), S on AD(220,95) -->
+      <polygon points="115,108 125,203 230,190 220,95" fill="#10b981" fill-opacity="0.35" stroke="#059669" stroke-width="2"/>
+      <!-- Hidden edges: BD (dashed), PS (dashed on hidden face ABD) -->
+      <line x1="65" y1="185" x2="275" y2="160" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 3"/>
+      <!-- Visible edges of tetrahedron -->
+      <line x1="165" y1="30" x2="65" y2="185" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="65" y1="185" x2="185" y2="220" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="185" y1="220" x2="275" y2="160" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="165" y1="30" x2="185" y2="220" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="165" y1="30" x2="275" y2="160" stroke="#1e293b" stroke-width="2.2"/>
+      <!-- Midpoints P, Q, R, S -->
+      <circle cx="115" cy="108" r="3.5" fill="#059669"/><text x="100" y="105" font-size="12" font-weight="black" fill="#059669">P</text>
+      <circle cx="125" cy="203" r="3.5" fill="#059669"/><text x="118" y="222" font-size="12" font-weight="black" fill="#059669">Q</text>
+      <circle cx="230" cy="190" r="3.5" fill="#059669"/><text x="238" y="200" font-size="12" font-weight="black" fill="#059669">R</text>
+      <circle cx="220" cy="95" r="3.5" fill="#059669"/><text x="228" y="93" font-size="12" font-weight="black" fill="#059669">S</text>
+      <!-- Tetrahedron Vertices -->
+      <circle cx="165" cy="30" r="3.5" fill="#1e293b"/><text x="165" y="18" font-size="13" font-weight="black">A</text>
+      <circle cx="65" cy="185" r="3.5" fill="#1e293b"/><text x="48" y="190" font-size="12" font-weight="bold">B</text>
+      <circle cx="185" cy="220" r="3.5" fill="#1e293b"/><text x="185" y="238" font-size="12" font-weight="bold">C</text>
+      <circle cx="275" cy="160" r="3.5" fill="#1e293b"/><text x="284" y="164" font-size="12" font-weight="bold">D</text>
+    </svg>`,
+    tikzCode: `% --- THIẾT DIỆN HÌNH BÌNH HÀNH TRONG TỨ DIỆN LỚP 11 ---
+\\begin{tikzpicture}[scale=1, line join=round]
+  \\coordinate (A) at (1.8,3.2);
+  \\coordinate (B) at (0,0);
+  \\coordinate (C) at (2.2,-0.9);
+  \\coordinate (D) at (4.0,0.2);
+  \\coordinate (P) at ($(A)!0.5!(B)$);
+  \\coordinate (Q) at ($(B)!0.5!(C)$);
+  \\coordinate (R) at ($(C)!0.5!(D)$);
+  \\coordinate (S) at ($(D)!0.5!(A)$);
+  \\draw[dashed, gray] (B) -- (D) (P) -- (S);
+  \\draw[thick] (A) -- (B) -- (C) -- (D) -- (A) -- (C);
+  \\draw[very thick, teal, fill=teal!20, fill opacity=0.5] (P) -- (Q) -- (R) -- (S) -- cycle;
+  \\foreach \\p/\\pos in {A/above, B/left, C/below, D/right, P/left, Q/below, R/right, S/above right}
+    \\fill (\\p) circle (1.4pt) node[\\pos] {$\\p$};
+\\end{tikzpicture}`
+  },
+
+  {
+    id: "tikz-g11-line-parallel-pyramid",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l12",
+    title: "Hình chóp S.ABCD & OM song song mặt phẳng (SAD)",
+    topic: "Hình học không gian - Đường thẳng song song mặt phẳng",
+    desc: "Đáy ABCD là hình bình hành tâm O, M là trung điểm cạnh SC. Trong tam giác SAC, OM là đường trung bình nên OM // SA. Do SA nằm trong mặt phẳng (SAD), suy ra OM // (SAD).",
+    formula: "OM \\parallel SA, \\ SA \\subset (SAD) \\implies OM \\parallel (SAD)",
+    svg: `<svg viewBox="0 0 340 240" class="w-full h-auto max-h-56 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Base ABCD: A(65,165), B(120,210), C(275,210), D(220,165); O(170,187.5); Apex S(160,30); M(217.5,120) -->
+      <!-- Shaded face (SAD) -->
+      <polygon points="160,30 65,165 220,165" fill="#e0e7ff" fill-opacity="0.45"/>
+      <!-- Hidden base lines & diagonals: AD, CD, AC, BD (dashed) -->
+      <line x1="65" y1="165" x2="220" y2="165" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 4"/>
+      <line x1="220" y1="165" x2="275" y2="210" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 4"/>
+      <line x1="65" y1="165" x2="275" y2="210" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <line x1="120" y1="210" x2="220" y2="165" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <line x1="160" y1="30" x2="220" y2="165" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 4"/>
+      <!-- Highlighted OM // SA (red bold dashed) -->
+      <line x1="170" y1="188" x2="218" y2="120" stroke="#dc2626" stroke-width="2.6" stroke-dasharray="5 3"/>
+      <!-- Highlighted SA (blue solid) -->
+      <line x1="160" y1="30" x2="65" y2="165" stroke="#2563eb" stroke-width="2.6"/>
+      <!-- Visible edges -->
+      <line x1="160" y1="30" x2="120" y2="210" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="160" y1="30" x2="275" y2="210" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="65" y1="165" x2="120" y2="210" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="120" y1="210" x2="275" y2="210" stroke="#1e293b" stroke-width="2.2"/>
+      <!-- Points -->
+      <circle cx="160" cy="30" r="3.5" fill="#1e293b"/><text x="156" y="18" font-size="13" font-weight="black">S</text>
+      <circle cx="65" cy="165" r="3.5" fill="#2563eb"/><text x="48" y="168" font-size="12" font-weight="bold" fill="#2563eb">A</text>
+      <circle cx="120" cy="210" r="3.5" fill="#1e293b"/><text x="112" y="228" font-size="12" font-weight="bold">B</text>
+      <circle cx="275" cy="210" r="3.5" fill="#1e293b"/><text x="282" y="215" font-size="12" font-weight="bold">C</text>
+      <circle cx="220" cy="165" r="3.5" fill="#1e293b"/><text x="226" y="162" font-size="12" font-weight="bold">D</text>
+      <circle cx="170" cy="188" r="3.5" fill="#dc2626"/><text x="168" y="204" font-size="12" font-weight="black" fill="#dc2626">O</text>
+      <circle cx="218" cy="120" r="3.5" fill="#dc2626"/><text x="226" y="120" font-size="12" font-weight="black" fill="#dc2626">M</text>
+      <text x="210" y="152" font-size="11" font-weight="bold" fill="#dc2626">OM // SA ⇒ OM // (SAD)</text>
+    </svg>`,
+    tikzCode: `% --- OM SONG SONG MẶT PHẲNG (SAD) LỚP 11 ---
+\\begin{tikzpicture}[scale=1, line join=round]
+  \\coordinate (A) at (0,0);
+  \\coordinate (B) at (1.2,-1.2);
+  \\coordinate (C) at (4.5,-1.2);
+  \\coordinate (D) at (3.3,0);
+  \\coordinate (S) at (2.0,3.2);
+  \\coordinate (O) at (2.25,-0.6);
+  \\coordinate (M) at ($(S)!0.5!(C)$);
+  \\draw[dashed, gray] (A) -- (D) -- (C) (S) -- (D) (A) -- (C) (B) -- (D);
+  \\draw[dashed, very thick, red] (O) -- (M) node[midway, right] {$OM \\parallel SA$};
+  \\draw[very thick, blue] (S) -- (A);
+  \\draw[thick] (A) -- (B) -- (C) -- (S) -- (B);
+  \\foreach \\p/\\pos in {S/above, A/left, B/below, C/right, D/above right, O/below, M/right}
+    \\fill (\\p) circle (1.4pt) node[\\pos] {$\\p$};
+\\end{tikzpicture}`
+  },
+
+  {
+    id: "tikz-g11-planes-parallel-pyramid",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l13",
+    title: "Hình chóp S.ABCD & Mặt phẳng (MNP) song song mặt đáy (ABCD)",
+    topic: "Hình học không gian - Hai mặt phẳng song song",
+    desc: "Gọi M, N, P lần lượt là trung điểm của SA, SB, SC trong hình chóp S.ABCD. Vì MN // AB và NP // BC nên hai đường thẳng cắt nhau trong (MNP) cùng song song với mặt đáy (ABCD), suy ra (MNP) // (ABCD).",
+    formula: "MN \\parallel AB, \\ NP \\parallel BC \\implies (MNP) \\parallel (ABCD)",
+    svg: `<svg viewBox="0 0 340 240" class="w-full h-auto max-h-56 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Apex S(160,30); Base ABCD: A(65,175), B(120,220), C(275,220), D(220,175) -->
+      <!-- Midpoints: M on SA(112.5,102.5), N on SB(140,125), P on SC(217.5,125), Q on SD(190,102.5) -->
+      <!-- Parallel plane MNPQ (teal shaded) -->
+      <polygon points="112,103 140,125 218,125 190,103" fill="#06b6d4" fill-opacity="0.35" stroke="#0891b2" stroke-width="1.8"/>
+      <!-- Hidden edges: AD, CD, SD, MQ (dashed) -->
+      <line x1="65" y1="175" x2="220" y2="175" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 4"/>
+      <line x1="220" y1="175" x2="275" y2="220" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 4"/>
+      <line x1="160" y1="30" x2="220" y2="175" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 4"/>
+      <!-- Visible edges -->
+      <line x1="160" y1="30" x2="65" y2="175" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="160" y1="30" x2="120" y2="220" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="160" y1="30" x2="275" y2="220" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="65" y1="175" x2="120" y2="220" stroke="#2563eb" stroke-width="2.5"/>
+      <line x1="120" y1="220" x2="275" y2="220" stroke="#2563eb" stroke-width="2.5"/>
+      <!-- Points -->
+      <circle cx="160" cy="30" r="3.5" fill="#1e293b"/><text x="156" y="18" font-size="13" font-weight="black">S</text>
+      <circle cx="65" cy="175" r="3.5" fill="#1e293b"/><text x="48" y="178" font-size="12" font-weight="bold">A</text>
+      <circle cx="120" cy="220" r="3.5" fill="#1e293b"/><text x="114" y="238" font-size="12" font-weight="bold">B</text>
+      <circle cx="275" cy="220" r="3.5" fill="#1e293b"/><text x="282" y="224" font-size="12" font-weight="bold">C</text>
+      <circle cx="220" cy="175" r="3.5" fill="#1e293b"/><text x="226" y="172" font-size="12" font-weight="bold">D</text>
+      <circle cx="112" cy="103" r="3" fill="#0891b2"/><text x="96" y="102" font-size="11" font-weight="black" fill="#0891b2">M</text>
+      <circle cx="140" cy="125" r="3" fill="#0891b2"/><text x="135" y="140" font-size="11" font-weight="black" fill="#0891b2">N</text>
+      <circle cx="218" cy="125" r="3.5" fill="#0891b2"/><text x="224" y="130" font-size="11" font-weight="black" fill="#0891b2">P</text>
+      <text x="145" y="92" font-size="11" font-weight="bold" fill="#0891b2">(MNP) // (ABCD)</text>
+    </svg>`,
+    tikzCode: `% --- HAI MẶT PHẲNG SONG SONG TRONG HÌNH CHÓP LỚP 11 ---
+\\begin{tikzpicture}[scale=1, line join=round]
+  \\coordinate (A) at (0,0);
+  \\coordinate (B) at (1.2,-1.2);
+  \\coordinate (C) at (4.5,-1.2);
+  \\coordinate (D) at (3.3,0);
+  \\coordinate (S) at (2.0,3.2);
+  \\coordinate (M) at ($(S)!0.5!(A)$);
+  \\coordinate (N) at ($(S)!0.5!(B)$);
+  \\coordinate (P) at ($(S)!0.5!(C)$);
+  \\coordinate (Q) at ($(S)!0.5!(D)$);
+  \\draw[dashed, gray] (A) -- (D) -- (C) (S) -- (D) (M) -- (Q) -- (P);
+  \\draw[thick] (S) -- (A) -- (B) -- (C) -- (S) -- (B);
+  \\draw[very thick, teal, fill=teal!20, fill opacity=0.5] (M) -- (N) -- (P) -- (Q) -- cycle;
+  \\foreach \\p/\\pos in {S/above, A/left, B/below, C/right, D/above right, M/left, N/below, P/right}
+    \\fill (\\p) circle (1.4pt) node[\\pos] {$\\p$};
+\\end{tikzpicture}`
+  },
+
+  {
+    id: "tikz-g11-thales-space",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l13",
+    title: "Định lý Thalès trong không gian (3 mặt phẳng song song chắn 2 cát tuyến)",
+    topic: "Hình học không gian - Hai mặt phẳng song song",
+    desc: "Ba mặt phẳng đôi một song song (α) // (β) // (γ) chắn trên hai cát tuyến bất kì d₁ và d₂ các đoạn thẳng tương ứng tỉ lệ: AB / A'B' = BC / B'C' = AC / A'C'.",
+    formula: "\\frac{AB}{A'B'} = \\frac{BC}{B'C'} = \\frac{AC}{A'C'} \\quad ((\\alpha) \\parallel (\\beta) \\parallel (\\gamma))",
+    svg: `<svg viewBox="0 0 340 240" class="w-full h-auto max-h-56 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- 3 parallel planes: (alpha) top y=40..75, (beta) mid y=105..140, (gamma) bot y=170..205 -->
+      <polygon points="45,70 230,70 285,35 100,35" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.8"/>
+      <text x="60" y="62" font-size="12" font-weight="black" fill="#1d4ed8">(α)</text>
+      <polygon points="45,135 230,135 285,100 100,100" fill="#f0fdf4" stroke="#10b981" stroke-width="1.8"/>
+      <text x="60" y="127" font-size="12" font-weight="black" fill="#047857">(β)</text>
+      <polygon points="45,200 230,200 285,165 100,165" fill="#fefce8" stroke="#eab308" stroke-width="1.8"/>
+      <text x="60" y="192" font-size="12" font-weight="black" fill="#a16207">(γ)</text>
+      <!-- Transversals d1 (red) and d2 (purple) -->
+      <line x1="110" y1="20" x2="145" y2="225" stroke="#dc2626" stroke-width="2.3"/>
+      <text x="100" y="24" font-size="12" font-weight="black" fill="#dc2626">d₁</text>
+      <line x1="240" y1="20" x2="205" y2="225" stroke="#7c3aed" stroke-width="2.3"/>
+      <text x="248" y="24" font-size="12" font-weight="black" fill="#7c3aed">d₂</text>
+      <!-- Intersection points on d1: A(116,53), B(128,118), C(140,183) -->
+      <circle cx="116" cy="53" r="3.5" fill="#dc2626"/><text x="122" y="52" font-size="11" font-weight="black" fill="#dc2626">A</text>
+      <circle cx="128" cy="118" r="3.5" fill="#dc2626"/><text x="134" y="117" font-size="11" font-weight="black" fill="#dc2626">B</text>
+      <circle cx="140" cy="183" r="3.5" fill="#dc2626"/><text x="146" y="182" font-size="11" font-weight="black" fill="#dc2626">C</text>
+      <!-- Intersection points on d2: A'(235,53), B'(223,118), C'(211,183) -->
+      <circle cx="235" cy="53" r="3.5" fill="#7c3aed"/><text x="242" y="55" font-size="11" font-weight="black" fill="#7c3aed">A'</text>
+      <circle cx="223" cy="118" r="3.5" fill="#7c3aed"/><text x="230" y="120" font-size="11" font-weight="black" fill="#7c3aed">B'</text>
+      <circle cx="211" cy="183" r="3.5" fill="#7c3aed"/><text x="218" y="185" font-size="11" font-weight="black" fill="#7c3aed">C'</text>
+    </svg>`,
+    tikzCode: `% --- ĐỊNH LÝ THALÈS TRONG KHÔNG GIAN LỚP 11 ---
+\\begin{tikzpicture}[scale=1]
+  % 3 mặt phẳng song song
+  \\draw[thick, blue, fill=blue!10] (0,0) -- (4,0) -- (5,1) -- (1,1) -- cycle node[below right] {$(\\gamma)$};
+  \\draw[thick, teal, fill=teal!10] (0,1.5) -- (4,1.5) -- (5,2.5) -- (1,2.5) -- cycle node[below right] {$(\\beta)$};
+  \\draw[thick, purple, fill=purple!10] (0,3) -- (4,3) -- (5,4) -- (1,4) -- cycle node[below right] {$(\\alpha)$};
+  % Cát tuyến d1 và d2
+  \\draw[very thick, red] (1.5,4.3) -- (2.2,-0.3) node[below] {$d_1$};
+  \\draw[very thick, violet] (3.8,4.3) -- (3.2,-0.3) node[below] {$d_2$};
+  % Nhãn điểm
+  \\filldraw[red] (1.65,3.3) circle (1.5pt) node[left] {$A$};
+  \\filldraw[red] (1.85,1.8) circle (1.5pt) node[left] {$B$};
+  \\filldraw[red] (2.05,0.3) circle (1.5pt) node[left] {$C$};
+  \\filldraw[violet] (3.65,3.3) circle (1.5pt) node[right] {$A'$};
+  \\filldraw[violet] (3.48,1.8) circle (1.5pt) node[right] {$B'$};
+  \\filldraw[violet] (3.30,0.3) circle (1.5pt) node[right] {$C'$};
+\\end{tikzpicture}`
+  },
+
+  {
     id: "tikz-g11-line-plane-perp",
     grade: 11,
     chapterId: "g11-c7",
@@ -2280,7 +2539,32 @@ window.getSpatialIllustrationHtml = function(questionText, gradeId, chapterId, l
     /nếu đường thẳng d có hai điểm phân biệt thuộc/i.test(q) ||
     /cho 6 điểm phân biệt trong đó không có 4 điểm/i.test(q) ||
     /nếu hai mặt phẳng phân biệt.*có một điểm chung/i.test(q) ||
-    /muốn tìm giao điểm của đường thẳng d với mặt phẳng/i.test(q)
+    /muốn tìm giao điểm của đường thẳng d với mặt phẳng/i.test(q) ||
+    /thế nào là hai đường thẳng chéo nhau/i.test(q) ||
+    /hai đường thẳng song song trong không gian là hai đường thẳng/i.test(q) ||
+    /trong tam giác abc, nếu m, n lần lượt là trung điểm/i.test(q) ||
+    /nêu định lý về giao tuyến của ba mặt phẳng/i.test(q) ||
+    /phát biểu định lý về giao tuyến/i.test(q) ||
+    /phát biểu định lý thalès/i.test(q) ||
+    /nêu dấu hiệu nhận biết/i.test(q) ||
+    /nêu các vị trí tương đối/i.test(q) ||
+    /cặp cạnh đối diện nào song song/i.test(q) ||
+    /trong không gian, cho ba đường thẳng phân biệt.*nếu a.*song song.*b/i.test(q) ||
+    /trong không gian, nếu a.*song song.*b và c.*song song.*b/i.test(q) ||
+    /tứ diện abcd có tất cả bao nhiêu cặp cạnh chéo nhau/i.test(q) ||
+    /4 đường thẳng phân biệt đôi một song song.*tối đa bao nhiêu mặt phẳng/i.test(q) ||
+    /qua một điểm nằm ngoài một mặt phẳng cho trước/i.test(q) ||
+    /hai mặt phẳng phân biệt cùng song song với một mặt phẳng thứ ba/i.test(q) ||
+    /hai mặt phẳng song song chắn trên hai đường thẳng song song/i.test(q) ||
+    /đoạn thẳng nối hai điểm bất kì thuộc hai mặt phẳng song song có độ dài ngắn nhất khi nào/i.test(q) ||
+    /phép chiếu song song biến ba điểm thẳng hàng/i.test(q) ||
+    /phép chiếu song song biến hai đường thẳng song song/i.test(q) ||
+    /phép chiếu song song có bảo toàn tỉ số độ dài/i.test(q) ||
+    /phép chiếu song song có luôn bảo toàn độ lớn của một góc/i.test(q) ||
+    /nếu m là trung điểm của đoạn thẳng ab, thì hình chiếu/i.test(q) ||
+    /cho hình bình hành abcd\. hình chiếu song song của hình bình hành/i.test(q) ||
+    /cho đoạn thẳng ab có độ dài bằng a\. khi nào hình chiếu/i.test(q) ||
+    /thiết diện của tứ diện cắt bởi mặt phẳng song song với hai cạnh đối của tứ diện là hình gì/i.test(q)
   );
   if (isPureTheoryOrCounting) {
     return "";
@@ -2299,31 +2583,72 @@ window.getSpatialIllustrationHtml = function(questionText, gradeId, chapterId, l
 
   let matchedId = null;
 
-  // 3. Khớp chính xác theo nội dung đề bài và hình học cụ thể:
-  // Bài toán: Giao điểm của MN với đáy (ABCD) trong hình chóp S.ABCD (Ví dụ 2 & Bài 8)
+  // 3. Khớp chính xác 100% theo nội dung đề bài và hình học cụ thể:
+  // Bài 10: Giao điểm của MN với đáy (ABCD) trong hình chóp S.ABCD (Ví dụ 2 & Bài 8)
   if (/mn không song song.*ab/i.test(q) || (/m trên cạnh sa/i.test(q) && /n trên cạnh sb/i.test(q)) || /i là giao điểm của mn và ab/i.test(q)) {
     matchedId = "tikz-g11-line-plane-intersection";
   }
-  // Bài toán: Tứ diện ABCD có P trên AB, Q trên CD chứng minh PQ và BC chéo nhau (Bài 9)
+  // Bài 10: Tứ diện ABCD có P trên AB, Q trên CD chứng minh PQ và BC chéo nhau (Bài 9)
   else if (/p trên cạnh ab/i.test(q) && /q trên cạnh cd/i.test(q) && /chéo nhau/i.test(q)) {
     matchedId = "tikz-g11-skew-lines-pq";
   }
-  // Bài toán: 4 điểm không đồng phẳng tạo thành 4 mặt phẳng của tứ diện (Ví dụ 1)
+  // Bài 10: 4 điểm không đồng phẳng tạo thành 4 mặt phẳng của tứ diện (Ví dụ 1)
   else if (/4 điểm.*không đồng phẳng.*bao nhiêu mặt phẳng/i.test(q)) {
     matchedId = "tikz-g11-4points-tetra";
   }
-  // Bài toán: Tứ diện ABCD có M trên AB, N trên AC thuộc (ABC) (Bài 7)
+  // Bài 10: Tứ diện ABCD có M trên AB, N trên AC thuộc (ABC) (Bài 7)
   else if (/m trên cạnh ab/i.test(q) && /n trên cạnh ac/i.test(q) && /nằm trong mặt phẳng nào/i.test(q)) {
     matchedId = "tikz-g11-line-on-face-tetra";
   }
-  // Bài toán: Hình chóp tứ giác S.ABCD có bao nhiêu mặt, bao nhiêu cạnh (Bài 4)
+  // Bài 10: Hình chóp tứ giác S.ABCD có bao nhiêu mặt, bao nhiêu cạnh (Bài 4)
   else if (/hình chóp tứ giác s\.abcd có bao nhiêu mặt/i.test(q)) {
     matchedId = "tikz-g11-pyramid-structure";
   }
-  // Bài toán: Giao tuyến (SAC) ∩ (SBD) = SO của hình chóp S.ABCD (Dạng 2)
+  // Bài 10: Giao tuyến (SAC) ∩ (SBD) = SO của hình chóp S.ABCD
   else if (/giao tuyến.*(sac).*(sbd)/i.test(q) || (/giao tuyến hai mặt phẳng/i.test(q) && /s\.abcd/i.test(q) && /o = ac/i.test(q))) {
     matchedId = "tikz-g11-pyramid-intersection";
   }
+
+  // Bài 11: Giao tuyến qua S song song AB, CD trong hình chóp S.ABCD (Dạng 3)
+  else if ((/giao tuyến của hai mặt phẳng/i.test(q) && /(sab).*(scd)/i.test(q)) || (/giao tuyến.*(sad).*(sbc)/i.test(q)) || (/giao tuyến của hai mặt phẳng.*(sab).*(scd)/i.test(q)) || (/giao tuyến qua s/i.test(q) && /song song với ab/i.test(q))) {
+    matchedId = "tikz-g11-parallel-intersection-s";
+  }
+  // Bài 11: Tứ diện ABCD có 4 trung điểm P, Q, R, S tạo thành hình bình hành PQRS (Dạng 2 & Dạng 3 thiết diện)
+  else if ((/p, q, r, s.*trung điểm.*ab, bc, cd, da/i.test(q) && /pqrs là hình bình hành/i.test(q)) || (/thiết diện của tứ diện.*cắt bởi mặt phẳng.*song song với bc và ad/i.test(q))) {
+    matchedId = "tikz-g11-tetra-midsegment-parallelogram";
+  }
+  // Bài 11: Tứ diện ABCD và hai đường thẳng song song (Dạng 2)
+  else if (/tứ diện abcd/i.test(q) && /m, n.*trung điểm.*ab.*ac.*chứng minh mn.*bc/i.test(q)) {
+    matchedId = "tikz-g11-parallel-lines-tetra";
+  }
+
+  // Bài 12: Hình chóp S.ABCD đáy hình bình hành tâm O, OM song song (SAD) (Dạng 1)
+  else if ((/s\.abcd.*đáy.*hình bình hành tâm o/i.test(q) && /m là trung điểm.*sc.*chứng minh.*om.*(sad)/i.test(q)) || (/om.*song song.*(sad)/i.test(q))) {
+    matchedId = "tikz-g11-line-parallel-pyramid";
+  }
+  // Bài 12: Dấu hiệu đường thẳng song song mặt phẳng
+  else if (/d.*song song.*với một mặt phẳng/i.test(q) && /d.*song song.*a.*nằm trong/i.test(q)) {
+    matchedId = "tikz-g11-line-parallel-plane";
+  }
+
+  // Bài 13: Hình chóp S.ABCD có trung điểm SA, SB, SC chứng minh (MNP) // (ABCD) (Dạng 1)
+  else if ((/s\.abcd.*đáy.*hình bình hành/i.test(q) && /m, n, p.*trung điểm.*sa, sb, sc.*chứng minh.*(mnp).*(abcd)/i.test(q)) || (/(mnp).*song song.*(abcd)/i.test(q))) {
+    matchedId = "tikz-g11-planes-parallel-pyramid";
+  }
+  // Bài 13: Định lý Thalès không gian (Dạng 2: 3 mặt phẳng song song cắt 2 cát tuyến)
+  else if (/ba mặt phẳng song song.*(alpha).*(beta).*(gamma).*cắt.*đường thẳng/i.test(q) || (/định lý thalès trong không gian/i.test(q) && /cát tuyến/i.test(q)) || (/a'b'.*8\s*cm.*b'c'/i.test(q))) {
+    matchedId = "tikz-g11-thales-space";
+  }
+  // Bài 13: Lăng trụ tam giác ABC.A'B'C' (Dạng 3)
+  else if (/lăng trụ tam giác abc\.a'b'c'/i.test(q) && /hai mặt phẳng đáy/i.test(q)) {
+    matchedId = "tikz-g11-parallel-planes-prism";
+  }
+
+  // Bài 14: Phép chiếu song song bảo toàn tỉ số và tính chất (Dạng 1)
+  else if (/hình chiếu song song.*g'.*trọng tâm/i.test(q) || (/phép chiếu song song/i.test(q) && /theo phương l/i.test(q))) {
+    matchedId = "tikz-g11-parallel-projection";
+  }
+
   // Các khối không gian chuẩn khác:
   else if (/mặt cầu|\(s\)/i.test(q) && (gradeId === 12 || /oxyz|tâm i/i.test(q))) {
     matchedId = "tikz-g12-oxyz-sphere";
@@ -2345,11 +2670,9 @@ window.getSpatialIllustrationHtml = function(questionText, gradeId, chapterId, l
     matchedId = "tikz-g8-pyramid";
   } else if (/chóp tam giác đều/i.test(q)) {
     matchedId = "tikz-g8-regular-tri-pyramid";
-  } else if (/phép chiếu song song|hình biểu diễn/i.test(q)) {
-    matchedId = "tikz-g11-parallel-projection";
   }
 
-  // TUYỆT ĐỐI KHÔNG FALLBACK SANG HÌNH BÀI HỌC CHUNG CHO BÀI TẬP/VÍ DỤ NỮA
+  // TUYỆT ĐỐI KHÔNG FALLBACK SANG HÌNH BÀI HỌC CHUNG CHO BÀI TẬP/VÍ DỤ
   if (!matchedId) return "";
 
   const diagram = window.MATH_TIKZ_LIBRARY.find(d => d.id === matchedId);

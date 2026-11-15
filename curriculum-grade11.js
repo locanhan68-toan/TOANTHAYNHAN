@@ -3292,11 +3292,43 @@ window.GRADE_11_KNOWLEDGE = {
   "g11-c4-l11": {
     lessonId: "g11-c4-l11",
     title: "Bài 11: Hai đường thẳng song song",
+    summary: "Hệ thống kiến thức trọng tâm Bài 11: Hai đường thẳng song song chuẩn GDPT 2018 (Thi ĐGNL & Tốt nghiệp THPT).",
+    theory: {
+      summary: "Hệ thống kiến thức trọng tâm Bài 11: Hai đường thẳng song song chuẩn GDPT 2018 (Thi ĐGNL & Tốt nghiệp THPT).",
+      sections: [
+        {
+          title: "1. Vị trí tương đối của hai đường thẳng trong không gian",
+          content: "- **Trường hợp 1 (Đồng phẳng):**\n  + Cắt nhau: Có đúng 1 điểm chung.\n  + Song song: Cùng thuộc một mặt phẳng và không có điểm chung.\n  + Trùng nhau: Có vô số điểm chung.\n- **Trường hợp 2 (Không đồng phẳng):**\n  + Chéo nhau: Không cùng nằm trong bất kì mặt phẳng nào."
+        },
+        {
+          title: "2. Tính chất cơ bản về hai đường thẳng song song",
+          content: "- **Định lý 1:** Trong không gian, qua một điểm nằm ngoài một đường thẳng có một và chỉ một đường thẳng song song với đường thẳng đó.\n- **Định lý 2 (Bắc cầu):** Hai đường thẳng phân biệt cùng song song với một đường thẳng thứ ba thì song song với nhau:\n$$a \\parallel c \\text{ và } b \\parallel c \\implies a \\parallel b$$"
+        },
+        {
+          title: "3. Định lý giao tuyến của ba mặt phẳng & Giao tuyến song song",
+          content: "- **Định lý ba giao tuyến:** Nếu ba mặt phẳng đôi một cắt nhau theo ba giao tuyến phân biệt thì ba giao tuyến đó hoặc đồng quy hoặc đôi một song song.\n- **Hệ quả tìm giao tuyến song song:** Nếu hai mặt phẳng phân biệt lần lượt chứa hai đường thẳng song song thì giao tuyến của chúng (nếu có) song song với hai đường thẳng đó (hoặc trùng với một trong hai đường):\n$$\\begin{cases} a \\subset (P), \\ b \\subset (Q) \\\\ a \\parallel b \\\\ (P) \\cap (Q) = d \\end{cases} \\implies d \\parallel a \\parallel b$$"
+        }
+      ]
+    },
     topics: [
     {
       id: "g11-c4-l11-dang1",
       title: "Dạng 1: Vị trí tương đối giữa hai đường thẳng trong không gian",
       description: "Phân biệt 4 vị trí: cắt nhau, trùng nhau, song song (đồng phẳng) và chéo nhau (không đồng phẳng).",
+      examples: [
+        {
+          title: "Ví dụ minh họa 1 (Thông hiểu)",
+          question: "Cho tứ diện $ABCD$. Chứng minh rằng hai đường thẳng $AB$ và $CD$ chéo nhau. Tứ diện $ABCD$ có tất cả bao nhiêu cặp cạnh chéo nhau?",
+          shortAnswer: "3 cặp cạnh chéo nhau: (AB, CD), (AC, BD), (AD, BC)",
+          solution: "1. Giả sử $AB$ và $CD$ không chéo nhau, tức là $AB$ và $CD$ cùng thuộc một mặt phẳng $(P)$.\n- Khi đó cả 4 điểm $A, B, C, D$ đều thuộc $(P)$, mâu thuẫn với giả thiết $ABCD$ là tứ diện (4 điểm không đồng phẳng).\n- Do đó hai đường thẳng $AB$ và $CD$ chéo nhau.\n2. Tứ diện $ABCD$ có 6 cạnh đôi một tạo thành 3 cặp cạnh đối diện không có đỉnh chung: $(AB, CD)$, $(AC, BD)$, $(AD, BC)$. Cả 3 cặp cạnh đối này đều là các cặp đường thẳng chéo nhau."
+        },
+        {
+          title: "Ví dụ minh họa 2 (Vận dụng)",
+          question: "Cho hình chóp $S.ABCD$ có đáy là hình bình hành. Xác định vị trí tương đối giữa hai đường thẳng $SA$ và $CD$.",
+          shortAnswer: "Hai đường thẳng $SA$ và $CD$ chéo nhau",
+          solution: "1. Giả sử $SA$ và $CD$ đồng phẳng, tức là cùng thuộc mặt phẳng $(\\alpha)$.\n- Khi đó $S, A, C, D \\in (\\alpha)$. Vì $ABCD$ là hình bình hành nên điểm $B$ cũng phải thuộc mặt phẳng $(ACD) = (\\alpha)$.\n- Suy ra tất cả các đỉnh của hình chóp đều thuộc $(\\alpha)$, mâu thuẫn với định nghĩa hình chóp.\n2. Lập luận ngắn gọn theo định lý:\n- Ta có $CD \\subset (ABCD)$ và đường thẳng $SA$ cắt mặt phẳng đáy $(ABCD)$ tại điểm $A$.\n- Vì $A \\notin CD$ nên đường thẳng $SA$ và đường thẳng $CD$ chéo nhau."
+        }
+      ],
       exercises: [
         {
           id: "g11-c4-l11-d1-ex1",
@@ -3384,6 +3416,20 @@ window.GRADE_11_KNOWLEDGE = {
       id: "g11-c4-l11-dang2",
       title: "Dạng 2: Chứng minh hai đường thẳng song song trong không gian",
       description: "Sử dụng tính chất đường trung bình, định lý Thalès trong tam giác, cạnh đối hình bình hành và bắc cầu qua đường thẳng thứ ba.",
+      examples: [
+        {
+          title: "Ví dụ minh họa 1 (Thông hiểu)",
+          question: "Cho tứ diện $ABCD$. Gọi $P, Q, R, S$ lần lượt là trung điểm của các cạnh $AB, BC, CD, DA$. Chứng minh rằng tứ giác $PQRS$ là hình bình hành.",
+          shortAnswer: "Tứ giác $PQRS$ là hình bình hành",
+          solution: "1. Trong tam giác $ABC$:\n- $P$ là trung điểm $AB$, $Q$ là trung điểm $BC$ nên $PQ$ là đường trung bình của $\\triangle ABC$.\n- Suy ra $PQ \\parallel AC$ và $PQ = \\dfrac{1}{2}AC$.\n2. Trong tam giác $ADC$:\n- $S$ là trung điểm $AD$, $R$ là trung điểm $CD$ nên $SR$ là đường trung bình của $\\triangle ADC$.\n- Suy ra $SR \\parallel AC$ và $SR = \\dfrac{1}{2}AC$.\n3. Kết luận:\n- Ta có $PQ \\parallel SR$ (cùng song song với $AC$) và $PQ = SR = \\dfrac{1}{2}AC$.\n- Tứ giác $PQRS$ có một cặp cạnh đối song song và bằng nhau nên $PQRS$ là hình bình hành."
+        },
+        {
+          title: "Ví dụ minh họa 2 (Vận dụng)",
+          question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành. Gọi $M, N$ lần lượt là trung điểm của $SA$ và $SB$. Chứng minh rằng $MN \\parallel CD$.",
+          shortAnswer: "$MN \\parallel CD$",
+          solution: "1. Trong tam giác $SAB$:\n- $M, N$ lần lượt là trung điểm của $SA, SB$ nên $MN$ là đường trung bình của $\\triangle SAB$.\n- Suy ra $MN \\parallel AB$.\n2. Vì $ABCD$ là hình bình hành nên cạnh đối $AB \\parallel CD$.\n3. Theo định lý ba đường thẳng song song (tính chất bắc cầu):\n$$\\begin{cases} MN \\parallel AB \\\\ CD \\parallel AB \\end{cases} \\implies MN \\parallel CD$$"
+        }
+      ],
       exercises: [
         {
           id: "g11-c4-l11-d2-ex1",
@@ -3471,6 +3517,20 @@ window.GRADE_11_KNOWLEDGE = {
       id: "g11-c4-l11-dang3",
       title: "Dạng 3: Tìm giao tuyến của hai mặt phẳng chứa hai đường thẳng song song & Thiết diện",
       description: "Áp dụng định lý giao tuyến song song: nếu hai mặt phẳng lần lượt chứa hai đường thẳng song song thì giao tuyến của chúng (nếu có) song song với hai đường thẳng đó.",
+      examples: [
+        {
+          title: "Ví dụ minh họa 1 (Thông hiểu)",
+          question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành. Tìm giao tuyến của hai mặt phẳng $(SAB)$ và $(SCD)$.",
+          shortAnswer: "Đường thẳng $d$ đi qua $S$ và song song với $AB, CD$",
+          solution: "1. Điểm chung: Điểm $S$ là điểm chung của hai mặt phẳng $(SAB)$ và $(SCD)$, tức là $S \\in (SAB) \\cap (SCD)$.\n2. Đường thẳng song song:\n- Ta có $AB \\subset (SAB)$ và $CD \\subset (SCD)$.\n- Vì $ABCD$ là hình bình hành nên $AB \\parallel CD$.\n3. Theo định lý giao tuyến song song:\n- Hai mặt phẳng $(SAB)$ và $(SCD)$ lần lượt chứa hai đường thẳng song song $AB$ và $CD$ nên giao tuyến của chúng là đường thẳng $d$ đi qua điểm chung $S$ và song song với $AB, CD$:\n$$(SAB) \\cap (SCD) = d \\quad (d \\parallel AB \\parallel CD)$$"
+        },
+        {
+          title: "Ví dụ minh họa 2 (Vận dụng)",
+          question: "Cho tứ diện $ABCD$. Gọi $M$ là một điểm thuộc cạnh $AB$ ($M \\ne A, B$). Mặt phẳng $(\\alpha)$ đi qua $M$ và song song với hai cạnh đối $BC$ và $AD$. Tìm thiết diện của tứ diện cắt bởi mặt phẳng $(\\alpha)$.",
+          shortAnswer: "Thiết diện là hình bình hành $MNPQ$",
+          solution: "1. Xác định các đoạn giao tuyến:\n- Mặt phẳng $(\\alpha) \\parallel BC$ và chứa $M \\in (ABC)$ nên giao tuyến của $(\\alpha)$ với $(ABC)$ là đường thẳng qua $M$ song song với $BC$, cắt $AC$ tại $N$ ($MN \\parallel BC$).\n- Mặt phẳng $(\\alpha) \\parallel AD$ và chứa $N \\in (ACD)$ nên giao tuyến với $(ACD)$ là đường thẳng qua $N$ song song với $AD$, cắt $CD$ tại $P$ ($NP \\parallel AD$).\n- Mặt phẳng $(\\alpha) \\parallel BC$ và chứa $P \\in (BCD)$ nên giao tuyến với $(BCD)$ là đường thẳng qua $P$ song song với $BC$, cắt $BD$ tại $Q$ ($PQ \\parallel BC$).\n- Nối $Q$ với $M$, ta có $MQ$ là giao tuyến trên mặt $(ABD)$ và $MQ \\parallel AD$.\n2. Kết luận hình dạng thiết diện:\n- Tứ giác $MNPQ$ có $MN \\parallel PQ$ (cùng $\\parallel BC$) và $NP \\parallel MQ$ (cùng $\\parallel AD$).\n- Vậy thiết diện là hình bình hành $MNPQ$."
+        }
+      ],
       exercises: [
         {
           id: "g11-c4-l11-d3-ex1",
@@ -3533,8 +3593,8 @@ window.GRADE_11_KNOWLEDGE = {
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho hình chóp $S.ABCD$ đáy là hình bình hành. Gọi $M$ là trung điểm cạnh $SC$. Mặt phẳng $(\\alpha)$ đi qua $M$ và song song với $BD$ và $SA$. Tìm thiết diện của hình chóp cắt bởi mặt phẳng $(\\alpha)$.",
-          shortAnswer: "Ngũ giác",
-          fullSolution: "- Trong $(SAC)$: qua $M$ kẻ đường thẳng song song $SA$ cắt $AC$ tại $O'$ (với $O'$ là trung điểm $OC$).\n- Trong đáy $(ABCD)$: qua $O'$ kẻ đường thẳng song song với $BD$ cắt $BC$ tại $P$ và cắt $CD$ tại $Q$.\n- Trong $(SBC)$: nối $MP$ là đoạn giao tuyến.\n- Trong $(SCD)$: nối $MQ$ là đoạn giao tuyến.\nThiết diện thu được là tam giác $MPQ$ (hoặc nếu mở rộng cắt tiếp thì thành đa giác tương ứng, ở đây mặt cắt trực tiếp tạo thành tam giác $MPQ$)."
+          shortAnswer: "Tam giác $MPQ$",
+          fullSolution: "- Trong $(SAC)$: qua $M$ kẻ đường thẳng song song $SA$ cắt $AC$ tại $O'$ (với $O'$ là trung điểm $OC$).\n- Trong đáy $(ABCD)$: qua $O'$ kẻ đường thẳng song song với $BD$ cắt $BC$ tại $P$ và cắt $CD$ tại $Q$.\n- Trong $(SBC)$: nối $MP$ là đoạn giao tuyến.\n- Trong $(SCD)$: nối $MQ$ là đoạn giao tuyến.\nThiết diện thu được là tam giác $MPQ$."
         },
         {
           id: "g11-c4-l11-d3-ex9",
@@ -3560,11 +3620,43 @@ window.GRADE_11_KNOWLEDGE = {
   "g11-c4-l12": {
     lessonId: "g11-c4-l12",
     title: "Bài 12: Đường thẳng và mặt phẳng song song",
+    summary: "Hệ thống kiến thức trọng tâm Bài 12: Đường thẳng và mặt phẳng song song chuẩn GDPT 2018 (Thi ĐGNL & Tốt nghiệp THPT).",
+    theory: {
+      summary: "Hệ thống kiến thức trọng tâm Bài 12: Đường thẳng và mặt phẳng song song chuẩn GDPT 2018 (Thi ĐGNL & Tốt nghiệp THPT).",
+      sections: [
+        {
+          title: "1. Vị trí tương đối của đường thẳng d và mặt phẳng (P)",
+          content: "- **d cắt (P):** d và (P) có duy nhất 1 điểm chung ($d \\cap (P) = \\{M\\}$).\n- **d song song với (P):** d và (P) không có điểm chung nào ($d \\parallel (P) \\iff d \\cap (P) = \\emptyset$).\n- **d nằm trong (P):** Mọi điểm thuộc d đều thuộc (P) ($d \\subset (P)$)."
+        },
+        {
+          title: "2. Dấu hiệu nhận biết đường thẳng song song với mặt phẳng",
+          content: "- **Định lý 1 (Phương pháp chứng minh $d \\parallel (P)$):** Nếu đường thẳng d không nằm trong mặt phẳng (P) và song song với một đường thẳng a nằm trong (P) thì d song song với (P):\n$$\\begin{cases} d \\not\\subset (P) \\\\ d \\parallel a \\\\ a \\subset (P) \\end{cases} \\implies d \\parallel (P)$$"
+        },
+        {
+          title: "3. Tính chất & Định lý giao tuyến liên quan đường song song",
+          content: "- **Định lý 2:** Cho đường thẳng $d \\parallel (P)$. Nếu mặt phẳng (Q) chứa d và cắt (P) theo giao tuyến a thì $a \\parallel d$:\n$$\\begin{cases} d \\parallel (P) \\\\ d \\subset (Q) \\\\ (P) \\cap (Q) = a \\end{cases} \\implies a \\parallel d$$\n- **Hệ quả:** Hai mặt phẳng phân biệt cùng song song với một đường thẳng thì giao tuyến của chúng (nếu có) cũng song song với đường thẳng đó."
+        }
+      ]
+    },
     topics: [
     {
       id: "g11-c4-l12-dang1",
       title: "Dạng 1: Điều kiện và phương pháp chứng minh đường thẳng song song với mặt phẳng",
       description: "Định lý: $d \\not\\subset (P)$ và $d \\parallel d' \\subset (P) \\Rightarrow d \\parallel (P)$. Phương pháp tìm đường thẳng $d'$ song song với $d$ trong mặt phẳng $(P)$.",
+      examples: [
+        {
+          title: "Ví dụ minh họa 1 (Thông hiểu)",
+          question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành tâm $O$. Gọi $M$ là trung điểm của cạnh $SC$. Chứng minh đường thẳng $OM$ song song với mặt phẳng $(SAD)$.",
+          shortAnswer: "$OM \\parallel (SAD)$",
+          solution: "1. Trong tam giác $SAC$:\n- $O$ là trung điểm đường chéo đáy $AC$ (do $ABCD$ là hình bình hành).\n- $M$ là trung điểm của cạnh bên $SC$.\n- Suy ra $OM$ là đường trung bình của tam giác $SAC$, do đó $OM \\parallel SA$.\n2. Chứng minh $OM \\parallel (SAD)$:\n- Ta có $SA \\subset (SAD)$.\n- Đường thẳng $OM$ không nằm trong mặt phẳng $(SAD)$ (vì $O$ nằm trên $BD, M \\in SC$).\n- Theo dấu hiệu nhận biết:\n$$\\begin{cases} OM \\not\\subset (SAD) \\\\ OM \\parallel SA \\\\ SA \\subset (SAD) \\end{cases} \\implies OM \\parallel (SAD)$$"
+        },
+        {
+          title: "Ví dụ minh họa 2 (Vận dụng)",
+          question: "Cho tứ diện $ABCD$. Gọi $M, N$ lần lượt là trung điểm của hai cạnh $AB$ và $AC$. Chứng minh đường thẳng $MN$ song song với mặt phẳng $(BCD)$.",
+          shortAnswer: "$MN \\parallel (BCD)$",
+          solution: "1. Trong tam giác $ABC$, vì $M, N$ lần lượt là trung điểm của $AB, AC$ nên $MN$ là đường trung bình của tam giác $ABC$.\n- Suy ra $MN \\parallel BC$.\n2. Xét vị trí tương đối với mặt phẳng đáy $(BCD)$:\n- Cạnh $BC \\subset (BCD)$.\n- Đường thẳng $MN \\not\\subset (BCD)$ (vì $M \\in AB$ ngoài $(BCD)$).\n- Vậy $MN \\parallel (BCD)$."
+        }
+      ],
       exercises: [
         {
           id: "g11-c4-l12-d1-ex1",
@@ -3652,6 +3744,20 @@ window.GRADE_11_KNOWLEDGE = {
       id: "g11-c4-l12-dang2",
       title: "Dạng 2: Tìm giao tuyến & Thiết diện song song với một đường thẳng",
       description: "Định lý: Nếu đường thẳng $a \\parallel (P)$, mặt phẳng $(Q) \\supset a$ và $(Q) \\cap (P) = b$ thì $b \\parallel a$. Ứng dụng dựng thiết diện.",
+      examples: [
+        {
+          title: "Ví dụ minh họa 1 (Thông hiểu)",
+          question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành. Gọi $M$ là một điểm thuộc cạnh $SB$ ($M \\ne S, B$). Mặt phẳng $(\\alpha)$ đi qua $M$ và song song với $AB$ và $SC$. Tìm thiết diện của hình chóp cắt bởi mặt phẳng $(\\alpha)$.",
+          shortAnswer: "Thiết diện là hình thang $MNPQ$",
+          solution: "1. Giao tuyến với các mặt chứa đường thẳng song song:\n- Mặt phẳng $(\\alpha) \\parallel AB$ và chứa $M \\in (SAB)$ nên giao tuyến với $(SAB)$ là đoạn $MN \\parallel AB$ ($N \\in SA$).\n- Mặt phẳng $(\\alpha) \\parallel SC$ và chứa $M \\in (SBC)$ nên giao tuyến với $(SBC)$ là đoạn $MP \\parallel SC$ ($P \\in BC$).\n- Mặt phẳng $(\\alpha) \\parallel AB \\parallel CD$ và chứa $P \\in (ABCD)$ nên giao tuyến với $(ABCD)$ là đoạn $PQ \\parallel CD$ ($Q \\in AD$).\n- Nối $Q$ với $N$, ta có đoạn giao tuyến trên mặt $(SAD)$ là $NQ$ (song song với $SC$).\n2. Kết luận: Thiết diện cắt hình chóp là tứ giác $MNPQ$, có $MN \\parallel PQ$ nên $MNPQ$ là hình thang."
+        },
+        {
+          title: "Ví dụ minh họa 2 (Vận dụng)",
+          question: "Cho tứ diện đều $ABCD$ có cạnh bằng $a$. Mặt phẳng $(\\alpha)$ song song với $AB$ và $CD$, cắt cạnh $AC$ tại $M$ với $AM = x$ ($0 < x < a$). Chứng minh thiết diện tạo bởi $(\\alpha)$ với tứ diện là hình chữ nhật và tính diện tích thiết diện theo $a$ và $x$.",
+          shortAnswer: "Hình chữ nhật có diện tích $S = x(a - x)$",
+          solution: "1. Xác định thiết diện:\n- Mặt phẳng $(\\alpha)$ cắt 4 mặt của tứ diện theo 4 đoạn giao tuyến lần lượt song song với $AB$ và $CD$, tạo thành hình bình hành $MNPQ$.\n- Độ dài các cạnh: $MN = a - x$ và $MQ = x$.\n2. Chứng minh là hình chữ nhật:\n- Do tứ diện đều nên hai cạnh đối $AB \\perp CD$.\n- Vì $MN \\parallel AB$ và $MQ \\parallel CD$ nên $MN \\perp MQ$.\n- Hình bình hành có 1 góc vuông nên $MNPQ$ là hình chữ nhật.\n3. Diện tích thiết diện:\n$$S = MN \\cdot MQ = (a - x)x = ax - x^2$$"
+        }
+      ],
       exercises: [
         {
           id: "g11-c4-l12-d2-ex1",
@@ -3722,7 +3828,7 @@ window.GRADE_11_KNOWLEDGE = {
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho tứ diện $ABCD$ có $AB \\perp CD$, $AB = 6\\text{ cm}, CD = 8\\text{ cm}$. Mặt phẳng $(\\alpha)$ song song với cả $AB$ và $CD$, cắt cạnh $AC$ tại $M$ với $AM = x\\text{ cm}$ ($AC = 10\\text{ cm}, 0 < x < 10$). Tính chu vi của thiết diện tạo bởi $(\\alpha)$ với tứ diện.",
-          shortAnswer: "Chu vi $P = 16 - 0.4x$ hoặc tính cụ thể theo tỉ số",
+          shortAnswer: "Chu vi $P = 12 + 0.4x\\text{ cm}$",
           fullSolution: "Thiết diện là hình chữ nhật $MNPQ$ (do $MN \\parallel AB, MQ \\parallel CD$ và $AB \\perp CD$).\n- Độ dài $MN$: $\\dfrac{MN}{AB} = \\dfrac{CM}{CA} = \\dfrac{10 - x}{10} \\Rightarrow MN = \\dfrac{6(10 - x)}{10} = 6 - 0.6x$.\n- Độ dài $MQ$: $\\dfrac{MQ}{CD} = \\dfrac{AM}{AC} = \\dfrac{x}{10} \\Rightarrow MQ = \\dfrac{8x}{10} = 0.8x$.\nChu vi thiết diện:\n$P = 2(MN + MQ) = 2(6 - 0.6x + 0.8x) = 2(6 + 0.2x) = 12 + 0.4x\\text{ cm}$."
         },
         {
@@ -3739,6 +3845,20 @@ window.GRADE_11_KNOWLEDGE = {
       id: "g11-c4-l12-dang3",
       title: "Dạng 3: Ứng dụng thực tế và tính chất đường thẳng song song mặt phẳng",
       description: "Nhận biết và giải quyết các bài toán kiến trúc, xây dựng, kết cấu mái nhà, giàn giáo và thang máy.",
+      examples: [
+        {
+          title: "Ví dụ minh họa 1 (Thông hiểu)",
+          question: "Trong một phòng học hình hộp chữ nhật, mép giao giữa trần nhà và bức tường bên song song với mặt phẳng nào?",
+          shortAnswer: "Mặt sàn phòng học",
+          solution: "Mép giao giữa trần nhà và bức tường bên là một đường thẳng $d$ nằm trên trần nhà $(P)$. Vì trần nhà $(P)$ song song với mặt sàn $(Q)$ nên đường thẳng $d$ song song với mặt phẳng sàn nhà $(Q)$."
+        },
+        {
+          title: "Ví dụ minh họa 2 (Vận dụng)",
+          question: "Một thanh xà gồ đặt ngang trên đỉnh một mái nhà hình chóp có hai bức tường hồi song song. Chứng minh thanh xà gồ song song với mặt đất.",
+          shortAnswer: "Thanh xà gồ song song với mặt phẳng sàn",
+          solution: "Thanh xà gồ là giao tuyến của hai mái dốc. Hai mái dốc cắt hai bức tường hồi song song theo các giao tuyến song song với xà gồ. Do các đường gióng của tường đều song song với mặt sàn nên theo tính chất bắc cầu, thanh xà gồ song song với mặt phẳng nền nhà."
+        }
+      ],
       exercises: [
         {
           id: "g11-c4-l12-d3-ex1",
@@ -3828,11 +3948,43 @@ window.GRADE_11_KNOWLEDGE = {
   "g11-c4-l13": {
     lessonId: "g11-c4-l13",
     title: "Bài 13: Hai mặt phẳng song song",
+    summary: "Hệ thống kiến thức trọng tâm Bài 13: Hai mặt phẳng song song chuẩn GDPT 2018 (Thi ĐGNL & Tốt nghiệp THPT).",
+    theory: {
+      summary: "Hệ thống kiến thức trọng tâm Bài 13: Hai mặt phẳng song song chuẩn GDPT 2018 (Thi ĐGNL & Tốt nghiệp THPT).",
+      sections: [
+        {
+          title: "1. Định nghĩa & Dấu hiệu nhận biết hai mặt phẳng song song",
+          content: "- **Định nghĩa:** Hai mặt phẳng $(P)$ và $(Q)$ gọi là song song nếu chúng không có điểm chung nào ($ (P) \\parallel (Q) \\iff (P) \\cap (Q) = \\emptyset $).\n- **Định lý 1 (Dấu hiệu nhận biết):** Nếu mặt phẳng $(P)$ chứa hai đường thẳng cắt nhau $a, b$ và hai đường thẳng này cùng song song với mặt phẳng $(Q)$ thì $(P) \\parallel (Q)$:\n$$\\begin{cases} a, b \\subset (P), \\ a \\cap b = \\{I\\} \\\\ a \\parallel (Q), \\ b \\parallel (Q) \\end{cases} \\implies (P) \\parallel (Q)$$"
+        },
+        {
+          title: "2. Tính chất của hai mặt phẳng song song",
+          content: "- **Tính chất 1:** Qua một điểm nằm ngoài một mặt phẳng cho trước có một và chỉ một mặt phẳng song song với mặt phẳng đã cho.\n- **Tính chất 2:** Hai mặt phẳng phân biệt cùng song song với một mặt phẳng thứ ba thì song song với nhau.\n- **Tính chất 3:** Nếu hai mặt phẳng song song bị cắt bởi một mặt phẳng thứ ba thì hai giao tuyến tạo thành song song với nhau:\n$$\\begin{cases} (P) \\parallel (Q) \\\\ (R) \\cap (P) = a \\\\ (R) \\cap (Q) = b \\end{cases} \\implies a \\parallel b$$"
+        },
+        {
+          title: "3. Định lý Thalès trong không gian & Hình lăng trụ",
+          content: "- **Định lý Thalès không gian:** Ba mặt phẳng đôi một song song chắn trên hai cát tuyến bất kì các đoạn thẳng tương ứng tỉ lệ:\n$$\\frac{AB}{A'B'} = \\frac{BC}{B'C'} = \\frac{AC}{A'C'}$$\n- **Hình lăng trụ và hình hộp:** Hai đáy là các đa giác bằng nhau và nằm trên hai mặt phẳng song song; các cạnh bên song song và bằng nhau; các mặt bên là các hình bình hành."
+        }
+      ]
+    },
     topics: [
     {
       id: "g11-c4-l13-dang1",
       title: "Dạng 1: Điều kiện và phương pháp chứng minh hai mặt phẳng song song",
       description: "Định lý: Nếu $(P)$ chứa hai đường thẳng cắt nhau cùng song song với $(Q)$ thì $(P) \\parallel (Q)$. Phương pháp chứng minh hai mặt phẳng song song.",
+      examples: [
+        {
+          title: "Ví dụ minh họa 1 (Thông hiểu)",
+          question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành. Gọi $M, N, P$ lần lượt là trung điểm của các cạnh bên $SA, SB, SC$. Chứng minh mặt phẳng $(MNP)$ song song với mặt phẳng đáy $(ABCD)$.",
+          shortAnswer: "$(MNP) \\parallel (ABCD)$",
+          solution: "1. Trong tam giác $SAB$:\n- $M, N$ là trung điểm $SA, SB \\implies MN$ là đường trung bình của $\\triangle SAB$.\n- Suy ra $MN \\parallel AB$. Mà $AB \\subset (ABCD)$ nên $MN \\parallel (ABCD)$.\n2. Trong tam giác $SBC$:\n- $N, P$ là trung điểm $SB, SC \\implies NP$ là đường trung bình của $\\triangle SBC$.\n- Suy ra $NP \\parallel BC$. Mà $BC \\subset (ABCD)$ nên $NP \\parallel (ABCD)$.\n3. Kết luận:\n- Hai đường thẳng $MN$ và $NP$ cắt nhau tại điểm $N$ và cùng nằm trong mặt phẳng $(MNP)$.\n- Cả $MN$ và $NP$ cùng song song với mặt phẳng đáy $(ABCD)$.\n- Do đó theo định lý nhận biết: $(MNP) \\parallel (ABCD)$."
+        },
+        {
+          title: "Ví dụ minh họa 2 (Vận dụng)",
+          question: "Cho hình hộp $ABCD.A'B'C'D'$. Chứng minh mặt phẳng $(BDA')$ song song với mặt phẳng $(B'D'C)$.",
+          shortAnswer: "$(BDA') \\parallel (B'D'C)$",
+          solution: "1. Xét tứ giác $BDD'B'$: Có $BB' \\parallel DD'$ và $BB' = DD'$ nên $BDD'B'$ là hình bình hành $\\implies BD \\parallel B'D'$.\n- Vì $B'D' \\subset (B'D'C)$ nên $BD \\parallel (B'D'C)$.\n2. Xét tứ giác $A'BCD'$: Có $A'B \\parallel D'C$ và $A'B = D'C$ nên $A'BCD'$ là hình bình hành $\\implies BA' \\parallel CD'$.\n- Vì $CD' \\subset (B'D'C)$ nên $BA' \\parallel (B'D'C)$.\n3. Hai đường thẳng cắt nhau $BD$ và $BA'$ trong mặt phẳng $(BDA')$ cùng song song với mặt phẳng $(B'D'C)$, do đó $(BDA') \\parallel (B'D'C)$."
+        }
+      ],
       exercises: [
         {
           id: "g11-c4-l13-d1-ex1",
@@ -3920,6 +4072,20 @@ window.GRADE_11_KNOWLEDGE = {
       id: "g11-c4-l13-dang2",
       title: "Dạng 2: Tính chất hai mặt phẳng song song, định lý Thalès không gian & Thiết diện",
       description: "Định lý Thalès trong không gian, tính chất chắn các đoạn thẳng bằng nhau giữa hai mặt phẳng song song và xác định thiết diện song song.",
+      examples: [
+        {
+          title: "Ví dụ minh họa 1 (Thông hiểu)",
+          question: "Ba mặt phẳng song song $(\\alpha), (\\beta), (\\gamma)$ cắt đường thẳng $d_1$ tại $A, B, C$ và cắt đường thẳng $d_2$ tại $A', B', C'$. Biết $AB = 6\\text{ cm}, BC = 9\\text{ cm}$ và $A'B' = 8\\text{ cm}$. Tính độ dài đoạn thẳng $B'C'$.",
+          shortAnswer: "$B'C' = 12\\text{ cm}$",
+          solution: "Theo định lý Thalès trong không gian, ba mặt phẳng song song chắn trên hai cát tuyến $d_1, d_2$ các đoạn thẳng tương ứng tỉ lệ:\n$$\\dfrac{AB}{A'B'} = \\dfrac{BC}{B'C'}$$\nThay số: $\\dfrac{6}{8} = \\dfrac{9}{B'C'} \\implies B'C' = \\dfrac{8 \\times 9}{6} = 12\\text{ cm}$."
+        },
+        {
+          title: "Ví dụ minh họa 2 (Vận dụng)",
+          question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình vuông cạnh $a$. Mặt phẳng $(\\alpha)$ song song với đáy cắt cạnh $SA$ tại $M$ sao cho $SM = 2MA$. Tính diện tích thiết diện của hình chóp cắt bởi mặt phẳng $(\\alpha)$ theo $a$.",
+          shortAnswer: "Diện tích $S = \\dfrac{4}{9}a^2$",
+          solution: "1. Xác định thiết diện:\n- Mặt phẳng $(\\alpha) \\parallel (ABCD)$ nên cắt các mặt bên $(SAB), (SBC), (SCD), (SDA)$ theo các đoạn giao tuyến lần lượt song song với các cạnh đáy $AB, BC, CD, DA$.\n- Thiết diện là hình vuông $MNPQ$ đồng dạng với đáy $ABCD$.\n2. Tính tỉ số và diện tích:\n- Vì $SM = 2MA \\implies SA = SM + MA = 3MA \\implies \\dfrac{SM}{SA} = \\dfrac{2}{3}$.\n- Tỉ số đồng dạng của thiết diện với đáy là $k = \\dfrac{SM}{SA} = \\dfrac{2}{3}$.\n- Tỉ số diện tích bằng bình phương tỉ số đồng dạng:\n$$\\dfrac{S_{MNPQ}}{S_{ABCD}} = k^2 = \\left(\\dfrac{2}{3}\\right)^2 = \\dfrac{4}{9}$$\n- Vì đáy là hình vuông cạnh $a$ nên $S_{ABCD} = a^2$. Vậy diện tích thiết diện là $S = \\dfrac{4}{9}a^2$."
+        }
+      ],
       exercises: [
         {
           id: "g11-c4-l13-d2-ex1",
@@ -4007,6 +4173,20 @@ window.GRADE_11_KNOWLEDGE = {
       id: "g11-c4-l13-dang3",
       title: "Dạng 3: Hình lăng trụ, hình hộp, hình chóp cụt & Bài toán thực tế",
       description: "Định nghĩa, tính chất của hình lăng trụ, hình hộp, hình chóp cụt và giải các bài toán thực tiễn về khoảng tầng, kết cấu chịu lực.",
+      examples: [
+        {
+          title: "Ví dụ minh họa 1 (Thông hiểu)",
+          question: "Cho hình lăng trụ tam giác $ABC.A'B'C'$. Chứng minh các mặt bên $ABB'A', BCC'B', CAA'C'$ là các hình bình hành.",
+          shortAnswer: "Các mặt bên đều là hình bình hành",
+          solution: "Theo định nghĩa và tính chất của hình lăng trụ:\n- Các cạnh bên $AA', BB', CC'$ đôi một song song và bằng nhau.\n- Tứ giác $ABB'A'$ có $AA' \\parallel BB'$ và $AA' = BB'$ nên $ABB'A'$ là hình bình hành.\n- Tương tự, các tứ giác $BCC'B'$ và $CAA'C'$ cũng có một cặp cạnh đối song song và bằng nhau nên đều là hình bình hành."
+        },
+        {
+          title: "Ví dụ minh họa 2 (Vận dụng)",
+          question: "Một bồn chứa nước có dạng hình chóp cụt tứ giác đều với cạnh đáy lớn bằng $2\\text{ m}$, cạnh đáy nhỏ bằng $1\\text{ m}$. Tính tỉ số diện tích giữa đáy nhỏ và đáy lớn của bồn chứa.",
+          shortAnswer: "Tỉ số diện tích là $\\dfrac{1}{4}$",
+          solution: "Đáy lớn là hình vuông cạnh $a = 2\\text{ m} \\implies S_1 = 2^2 = 4\\text{ m}^2$.\nĐáy nhỏ là hình vuông cạnh $b = 1\\text{ m} \\implies S_2 = 1^2 = 1\\text{ m}^2$.\nTỉ số diện tích giữa đáy nhỏ và đáy lớn là:\n$$\\dfrac{S_2}{S_1} = \\dfrac{1}{4}$$"
+        }
+      ],
       exercises: [
         {
           id: "g11-c4-l13-d3-ex1",
@@ -4096,11 +4276,43 @@ window.GRADE_11_KNOWLEDGE = {
   "g11-c4-l14": {
     lessonId: "g11-c4-l14",
     title: "Bài 14: Phép chiếu song song",
+    summary: "Hệ thống kiến thức trọng tâm Bài 14: Phép chiếu song song chuẩn GDPT 2018 (Thi ĐGNL & Tốt nghiệp THPT).",
+    theory: {
+      summary: "Hệ thống kiến thức trọng tâm Bài 14: Phép chiếu song song chuẩn GDPT 2018 (Thi ĐGNL & Tốt nghiệp THPT).",
+      sections: [
+        {
+          title: "1. Khái niệm phép chiếu song song",
+          content: "- Cho mặt phẳng $(P)$ và đường thẳng $l$ cắt $(P)$. Phép đặt tương ứng mỗi điểm $M$ trong không gian với điểm $M' \\in (P)$ sao cho $MM' \\parallel l$ (hoặc $M' \\equiv M$ khi $M \\in (P)$) gọi là **phép chiếu song song lên mặt phẳng $(P)$ theo phương $l$**.\n- $(P)$ gọi là mặt phẳng chiếu, $l$ là phương chiếu, $M'$ là hình chiếu song song của $M$."
+        },
+        {
+          title: "2. Các tính chất cơ bản của phép chiếu song song",
+          content: "- Biến ba điểm thẳng hàng thành ba điểm thẳng hàng và bảo toàn thứ tự giữa chúng.\n- Biến đường thẳng thành đường thẳng (nếu không song song với phương chiếu), biến tia thành tia, biến đoạn thẳng thành đoạn thẳng.\n- Biến hai đường thẳng song song thành hai đường thẳng song song hoặc trùng nhau.\n- Bảo toàn tỉ số độ dài của hai đoạn thẳng cùng nằm trên một đường thẳng hoặc nằm trên hai đường thẳng song song."
+        },
+        {
+          title: "3. Hình biểu diễn của một hình không gian",
+          content: "- **Quy tắc vẽ hình biểu diễn:**\n  + Đường nhìn thấy vẽ nét liền (—), đường bị che khuất vẽ nét đứt (- - -).\n  + Giữ nguyên tính song song và tỉ số các đoạn thẳng song song.\n  + Tam giác bất kì (đều, cân, vuông) biểu diễn bằng tam giác.\n  + Hình bình hành, hình chữ nhật, hình thoi, hình vuông biểu diễn bằng hình bình hành.\n  + Đường tròn biểu diễn bằng hình elip."
+        }
+      ]
+    },
     topics: [
     {
       id: "g11-c4-l14-dang1",
       title: "Dạng 1: Các tính chất của phép chiếu song song",
       description: "Bảo toàn tính thẳng hàng, thứ tự điểm, tính song song và tỉ số đoạn thẳng cùng phương.",
+      examples: [
+        {
+          title: "Ví dụ minh họa 1 (Thông hiểu)",
+          question: "Cho đoạn thẳng $AB$ có trung điểm $M$. Gọi $A', B', M'$ lần lượt là hình chiếu song song của $A, B, M$ lên mặt phẳng $(P)$ theo phương $l$ (với phương $l$ không song song với đường thẳng $AB$). Chứng minh rằng $M'$ là trung điểm của đoạn thẳng $A'B'$.",
+          shortAnswer: "$M'$ là trung điểm của đoạn thẳng $A'B'$",
+          solution: "1. Do phương chiếu $l$ không song song với đường thẳng $AB$ nên hình chiếu của ba điểm thẳng hàng $A, M, B$ là ba điểm thẳng hàng $A', M', B'$ trên mặt phẳng $(P)$ và bảo toàn thứ tự giữa chúng ($M'$ nằm giữa $A'$ và $B'$).\n2. Theo tính chất bảo toàn tỉ số độ dài của hai đoạn thẳng nằm trên cùng một đường thẳng qua phép chiếu song song:\n$$\\dfrac{M'A'}{M'B'} = \\dfrac{MA}{MB}$$\n3. Vì $M$ là trung điểm của $AB$ nên $MA = MB \\implies \\dfrac{MA}{MB} = 1$.\n- Do đó $\\dfrac{M'A'}{M'B'} = 1 \\implies M'A' = M'B'$.\n- Vậy $M'$ chính là trung điểm của đoạn thẳng $A'B'$."
+        },
+        {
+          title: "Ví dụ minh họa 2 (Vận dụng)",
+          question: "Cho tam giác $ABC$ có trọng tâm $G$. Gọi $A', B', C', G'$ lần lượt là hình chiếu song song của $A, B, C, G$ lên mặt phẳng $(P)$ theo phương $l$. Chứng minh rằng $G'$ là trọng tâm của tam giác $A'B'C'$.",
+          shortAnswer: "$G'$ là trọng tâm tam giác $A'B'C'$",
+          solution: "1. Gọi $M$ là trung điểm của cạnh $BC$. Khi đó hình chiếu song song của $M$ là điểm $M'$ trên $(P)$, và theo tính chất phép chiếu song song thì $M'$ là trung điểm của đoạn thẳng $B'C'$.\n2. Vì $G$ là trọng tâm tam giác $ABC$ nên $G$ thuộc trung tuyến $AM$ và thỏa mãn tỉ số:\n$$\\dfrac{AG}{AM} = \\dfrac{2}{3}$$\n3. Do phép chiếu song song biến đường thẳng $AM$ thành đường thẳng $A'M'$ và bảo toàn tỉ số độ dài đoạn thẳng trên cùng đường thẳng, ta có:\n$$\\dfrac{A'G'}{A'M'} = \\dfrac{AG}{AM} = \\dfrac{2}{3}$$\n4. Đoạn thẳng $A'M'$ là đường trung tuyến của tam giác $A'B'C'$ và điểm $G' \\in A'M'$ thỏa mãn $\\dfrac{A'G'}{A'M'} = \\dfrac{2}{3}$. Do đó $G'$ chính là trọng tâm của tam giác $A'B'C'$."
+        }
+      ],
       exercises: [
         {
           id: "g11-c4-l14-d1-ex1",
@@ -4188,6 +4400,20 @@ window.GRADE_11_KNOWLEDGE = {
       id: "g11-c4-l14-dang2",
       title: "Dạng 2: Xác định hình chiếu song song của một hình không gian & Tìm điểm chiếu",
       description: "Dựng hình chiếu của điểm, đoạn thẳng, đa giác theo phương chiếu $\\Delta$ lên mặt phẳng $(P)$.",
+      examples: [
+        {
+          title: "Ví dụ minh họa 1 (Thông hiểu)",
+          question: "Hình biểu diễn của hình chữ nhật, hình thoi, hình vuông trong không gian nói chung là hình gì? Giải thích vì sao.",
+          shortAnswer: "Hình bình hành",
+          solution: "1. Phép chiếu song song bảo toàn tính song song của hai đường thẳng: hai đường thẳng song song trong không gian khi chiếu lên mặt phẳng sẽ trở thành hai đường thẳng song song hoặc trùng nhau.\n2. Phép chiếu song song không bảo toàn độ dài đoạn thẳng và không bảo toàn độ lớn của góc (góc vuông không nhất thiết biến thành góc vuông, hai đoạn thẳng bằng nhau không cùng phương không nhất thiết biến thành hai đoạn thẳng bằng nhau).\n3. Do đó, hình chữ nhật, hình thoi, hình vuông đều có các cặp cạnh đối song song nên hình biểu diễn của chúng nói chung là một hình bình hành."
+        },
+        {
+          title: "Ví dụ minh họa 2 (Vận dụng)",
+          question: "Hình biểu diễn của một đường tròn trên một mặt phẳng theo phương chiếu xiên là hình gì?",
+          shortAnswer: "Hình elip (hoặc đường tròn)",
+          solution: "Hình biểu diễn của đường tròn qua phép chiếu song song nói chung là một hình elip (hoặc đường tròn khi mặt phẳng chứa đường tròn song song với mặt phẳng chiếu, hoặc một đoạn thẳng khi phương chiếu song song với mặt phẳng chứa đường tròn)."
+        }
+      ],
       exercises: [
         {
           id: "g11-c4-l14-d2-ex1",
@@ -4275,6 +4501,20 @@ window.GRADE_11_KNOWLEDGE = {
       id: "g11-c4-l14-dang3",
       title: "Dạng 3: Hình biểu diễn của các hình khối trong không gian & Bài toán bóng đổ ánh sáng",
       description: "Quy tắc vẽ hình biểu diễn của tam giác, hình vuông, hình tròn và ứng dụng bóng đổ mặt trời trong thực tế.",
+      examples: [
+        {
+          title: "Ví dụ minh họa 1 (Thông hiểu)",
+          question: "Nêu các quy tắc vẽ hình biểu diễn của một hình không gian trên mặt phẳng vẽ.",
+          shortAnswer: "Nét thấy vẽ liền, nét khuất vẽ đứt; giữ nguyên tính song song và tỉ số đoạn thẳng",
+          solution: "Quy tắc vẽ hình biểu diễn chuẩn:\n1. Đường thẳng nhìn thấy được vẽ bằng nét liền (—), đường thẳng bị che khuất được vẽ bằng nét đứt (- - -).\n2. Giữ nguyên tính song song và tỉ số độ dài của các đoạn thẳng cùng nằm trên một đường thẳng hoặc trên hai đường thẳng song song.\n3. Hình biểu diễn của hình bình hành, hình chữ nhật, hình thoi, hình vuông là hình bình hành.\n4. Hình biểu diễn của đường tròn là hình elip."
+        },
+        {
+          title: "Ví dụ minh họa 2 (Vận dụng)",
+          question: "Dưới ánh nắng mặt trời buổi sáng, một cọc tiêu thẳng đứng cao $1.5\\text{ m}$ có bóng in trên mặt đất dài $2\\text{ m}$. Cùng thời điểm đó, bóng của một cột cờ trên mặt đất dài $16\\text{ m}$. Tính chiều cao của cột cờ.",
+          shortAnswer: "Cột cờ cao $12\\text{ m}$",
+          solution: "Các tia nắng mặt trời xem như song song với nhau. Do đó bóng của các vật thể thẳng đứng trên mặt đất bằng phẳng là hình chiếu song song của chúng theo phương tia nắng mặt trời.\n- Chiều cao cọc $h_1 = 1.5\\text{ m}$, bóng $l_1 = 2\\text{ m}$.\n- Bóng cột cờ $l_2 = 16\\text{ m}$, chiều cao cột cờ $h_2$.\nTheo tính chất tỉ lệ của phép chiếu song song:\n$$\\dfrac{h_2}{h_1} = \\dfrac{l_2}{l_1} \\implies h_2 = \\dfrac{l_2 \\times h_1}{l_1} = \\dfrac{16 \\times 1.5}{2} = 12\\text{ m}$$\nVậy cột cờ có chiều cao là $12\\text{ m}$."
+        }
+      ],
       exercises: [
         {
           id: "g11-c4-l14-d3-ex1",
