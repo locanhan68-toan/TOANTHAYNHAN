@@ -1,4 +1,4 @@
-// ==========================================================================
+﻿// ==========================================================================
 // THƯ VIỆN HÌNH VẼ TOÁN HỌC & MÃ NGUỒN TIKZ (CHUẨN LATEX CHO GIÁO VIÊN)
 // PHỤC VỤ GIẢNG DẠY VÀ HỌC TẬP TỪ LỚP 6 ĐẾN LỚP 12 (GDPT 2018)
 // ==========================================================================
@@ -2154,6 +2154,199 @@ window.MATH_TIKZ_LIBRARY = [
   \\draw[very thick, red] (D) -- (K);
   \\filldraw[red] (K) circle (1.8pt) node[left] {$K = DM \\cap (ABC)$};
   \\foreach \\p/\\pos in {A/above, B/left, C/below, D/right, E/below, G/below right, M/right}
+    \\fill (\\p) circle (1.4pt) node[\\pos] {$\\p$};
+\\end{tikzpicture}`
+  },
+
+{
+    id: "tikz-g11-desargues-space",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "Định lý Desargues trong không gian & 3 điểm D, E, F thẳng hàng",
+    topic: "Hình học không gian - Điểm, Đường thẳng và Mặt phẳng",
+    desc: "Cho đỉnh S và hai tam giác ABC, A'B'C'. Các cặp cạnh tương ứng cắt nhau: D = AB ∩ A'B', E = BC ∩ B'C', F = CA ∩ C'A'. Vì D, E, F vừa thuộc (ABC) vừa thuộc (A'B'C') nên chúng cùng nằm trên giao tuyến của hai mặt phẳng đó, do đó D, E, F thẳng hàng.",
+    formula: "D, E, F \\in (ABC) \\cap (A'B'C') \\implies D, E, F \\text{ thẳng hàng}",
+    svg: `<svg viewBox="0 0 350 250" class="w-full h-auto max-h-56 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Apex S(150,25) -->
+      <!-- Rays: SA to A(65,130), SB to B(135,175), SC to C(235,145) -->
+      <!-- Points A'(108,78) on SA, B'(142,100) on SB, C'(192,85) on SC -->
+      <polygon points="65,130 135,175 235,145" fill="#eff6ff" fill-opacity="0.5" stroke="#2563eb" stroke-width="1.8"/>
+      <polygon points="108,78 142,100 192,85" fill="#fef3c7" fill-opacity="0.5" stroke="#ca8a04" stroke-width="1.8"/>
+      <!-- Rays from S -->
+      <line x1="150" y1="25" x2="65" y2="130" stroke="#1e293b" stroke-width="1.8"/>
+      <line x1="150" y1="25" x2="135" y2="175" stroke="#1e293b" stroke-width="1.8"/>
+      <line x1="150" y1="25" x2="235" y2="145" stroke="#1e293b" stroke-width="1.8"/>
+      <!-- Intersection line DEF (Red solid) at bottom -->
+      <line x1="30" y1="225" x2="330" y2="225" stroke="#dc2626" stroke-width="2.8"/>
+      <!-- Extended edges cutting line DEF -->
+      <!-- AB and A'B' cut at D(45,225) -->
+      <line x1="65" y1="130" x2="45" y2="225" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3 2"/>
+      <line x1="108" y1="78" x2="45" y2="225" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3 2"/>
+      <!-- BC and B'C' cut at E(175,225) -->
+      <line x1="135" y1="175" x2="175" y2="225" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3 2"/>
+      <!-- CA and C'A' cut at F(305,225) -->
+      <line x1="235" y1="145" x2="305" y2="225" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3 2"/>
+      <!-- Vertices S, A, B, C, A', B', C' -->
+      <circle cx="150" cy="25" r="3.5" fill="#1e293b"/><text x="150" y="15" font-size="12" font-weight="black" text-anchor="middle">S</text>
+      <circle cx="65" cy="130" r="3.5" fill="#2563eb"/><text x="48" y="132" font-size="11" font-weight="bold" fill="#2563eb">A</text>
+      <circle cx="135" cy="175" r="3.5" fill="#2563eb"/><text x="125" y="188" font-size="11" font-weight="bold" fill="#2563eb">B</text>
+      <circle cx="235" cy="145" r="3.5" fill="#2563eb"/><text x="245" y="148" font-size="11" font-weight="bold" fill="#2563eb">C</text>
+      <circle cx="108" cy="78" r="3.5" fill="#ca8a04"/><text x="96" y="78" font-size="11" font-weight="bold" fill="#ca8a04">A'</text>
+      <circle cx="142" cy="100" r="3.5" fill="#ca8a04"/><text x="152" y="104" font-size="11" font-weight="bold" fill="#ca8a04">B'</text>
+      <circle cx="192" cy="85" r="3.5" fill="#ca8a04"/><text x="202" y="85" font-size="11" font-weight="bold" fill="#ca8a04">C'</text>
+      <!-- Intersection points D, E, F -->
+      <circle cx="45" cy="225" r="4.5" fill="#dc2626"/><text x="45" y="242" font-size="12" font-weight="black" fill="#dc2626" text-anchor="middle">D</text>
+      <circle cx="175" cy="225" r="4.5" fill="#dc2626"/><text x="175" y="242" font-size="12" font-weight="black" fill="#dc2626" text-anchor="middle">E</text>
+      <circle cx="305" cy="225" r="4.5" fill="#dc2626"/><text x="305" y="242" font-size="12" font-weight="black" fill="#dc2626" text-anchor="middle">F</text>
+      <text x="230" y="215" font-size="11" font-weight="black" fill="#dc2626">Giao tuyến: D, E, F thẳng hàng</text>
+    </svg>`,
+    tikzCode: `% --- ĐỊNH LÝ DESARGUES TRONG KHÔNG GIAN ---
+\\begin{tikzpicture}[scale=1, line join=round]
+  \\coordinate (S) at (2,3.5);
+  \\coordinate (A) at (0.2,1.2);
+  \\coordinate (B) at (1.5,0.4);
+  \\coordinate (C) at (3.5,0.8);
+  \\coordinate (A1) at ($(S)!0.5!(A)$);
+  \\coordinate (B1) at ($(S)!0.55!(B)$);
+  \\coordinate (C1) at ($(S)!0.45!(C)$);
+  \\coordinate (D) at (intersection of A--B and A1--B1);
+  \\coordinate (E) at (intersection of B--C and B1--C1);
+  \\coordinate (F) at (intersection of C--A and C1--A1);
+  \\draw[dashed] (S) -- (A) (S) -- (B) (S) -- (C);
+  \\draw[thick, blue] (A) -- (B) -- (C) -- cycle;
+  \\draw[thick, orange] (A1) -- (B1) -- (C1) -- cycle;
+  \\draw[very thick, red] (D) -- (F);
+  \\foreach \\p/\\pos in {S/above, A/left, B/below, C/right, A1/left, B1/below, C1/right, D/below, E/below, F/below}
+    \\fill (\\p) circle (1.4pt) node[\\pos] {$\\p$};
+\\end{tikzpicture}`
+  },
+
+  {
+    id: "tikz-g11-pyramid-mef-intersection",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "Hình chóp S.ABCD & Giao tuyến của mặt phẳng (MEF)",
+    topic: "Hình học không gian - Điểm, Đường thẳng và Mặt phẳng",
+    desc: "Kéo dài các cặp cạnh đối ở đáy: E = AB ∩ CD, F = AD ∩ BC. Điểm M ∈ SA. Mặt phẳng (MEF) cắt đáy theo đường thẳng EF và cắt các mặt bên của hình chóp theo các giao tuyến xác định.",
+    formula: "E = AB \\cap CD, \\ F = AD \\cap BC \\implies (MEF) \\cap (ABCD) = EF",
+    svg: `<svg viewBox="0 0 350 250" class="w-full h-auto max-h-56 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- S(150,30), A(75,160), B(125,195), C(210,195), D(185,160) -->
+      <!-- E = AB ∩ CD at (275,225); F = AD ∩ BC at (265,160) -->
+      <!-- Hidden base edges -->
+      <line x1="75" y1="160" x2="185" y2="160" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5 3"/>
+      <line x1="185" y1="160" x2="210" y2="195" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5 3"/>
+      <line x1="150" y1="30" x2="185" y2="160" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5 3"/>
+      <!-- Extended AB, CD to E -->
+      <line x1="125" y1="195" x2="275" y2="225" stroke="#2563eb" stroke-width="1.8"/>
+      <line x1="185" y1="160" x2="275" y2="225" stroke="#2563eb" stroke-width="1.8" stroke-dasharray="4 2"/>
+      <!-- Extended AD, BC to F -->
+      <line x1="185" y1="160" x2="265" y2="160" stroke="#059669" stroke-width="1.8" stroke-dasharray="4 2"/>
+      <line x1="210" y1="195" x2="265" y2="160" stroke="#059669" stroke-width="1.8"/>
+      <!-- Line EF (Red solid) -->
+      <line x1="265" y1="160" x2="275" y2="225" stroke="#dc2626" stroke-width="2.8"/>
+      <!-- Point M(112,95) on SA -->
+      <line x1="112" y1="95" x2="275" y2="225" stroke="#dc2626" stroke-width="2" stroke-dasharray="4 2"/>
+      <line x1="112" y1="95" x2="265" y2="160" stroke="#dc2626" stroke-width="2" stroke-dasharray="4 2"/>
+      <!-- Visible edges -->
+      <line x1="150" y1="30" x2="75" y2="160" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="150" y1="30" x2="125" y2="195" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="150" y1="30" x2="210" y2="195" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="75" y1="160" x2="125" y2="195" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="125" y1="195" x2="210" y2="195" stroke="#1e293b" stroke-width="2.2"/>
+      <!-- Vertices -->
+      <circle cx="150" cy="30" r="3.5" fill="#1e293b"/><text x="150" y="18" font-size="13" font-weight="black" text-anchor="middle">S</text>
+      <circle cx="75" cy="160" r="3.5" fill="#1e293b"/><text x="60" y="165" font-size="12" font-weight="bold">A</text>
+      <circle cx="125" cy="195" r="3.5" fill="#1e293b"/><text x="115" y="212" font-size="12" font-weight="bold">B</text>
+      <circle cx="210" cy="195" r="3.5" fill="#1e293b"/><text x="205" y="212" font-size="12" font-weight="bold">C</text>
+      <circle cx="185" cy="160" r="3.5" fill="#64748b"/><text x="175" y="152" font-size="12" font-weight="bold" fill="#64748b">D</text>
+      <circle cx="112" cy="95" r="4" fill="#dc2626"/><text x="96" y="95" font-size="12" font-weight="black" fill="#dc2626">M</text>
+      <circle cx="275" cy="225" r="4" fill="#dc2626"/><text x="284" y="232" font-size="12" font-weight="black" fill="#dc2626">E</text>
+      <circle cx="265" cy="160" r="4" fill="#dc2626"/><text x="274" y="162" font-size="12" font-weight="black" fill="#dc2626">F</text>
+      <text x="282" y="195" font-size="11" font-weight="black" fill="#dc2626">EF</text>
+    </svg>`,
+    tikzCode: `% --- GIAO TUYẾN CỦA MẶT PHẲNG (MEF) VỚI HÌNH CHÓP S.ABCD ---
+\\begin{tikzpicture}[scale=1, line join=round]
+  \\coordinate (S) at (2,3.3);
+  \\coordinate (A) at (0,0);
+  \\coordinate (B) at (1.2,-0.9);
+  \\coordinate (C) at (3.2,-0.9);
+  \\coordinate (D) at (2.7,0);
+  \\coordinate (M) at ($(S)!0.5!(A)$);
+  \\coordinate (E) at (intersection of A--B and D--C);
+  \\coordinate (F) at (intersection of A--D and B--C);
+  \\draw[dashed] (A) -- (D) -- (C) (S) -- (D) (D) -- (F) (D) -- (E);
+  \\draw[thick] (S) -- (A) -- (B) -- (C) -- (S) -- (B);
+  \\draw (B) -- (E) (C) -- (F);
+  \\draw[very thick, red] (E) -- (F);
+  \\draw[dashed, red] (M) -- (E) (M) -- (F);
+  \\foreach \\p/\\pos in {S/above, A/left, B/below, C/below, D/above right, M/left, E/below right, F/right}
+    \\fill (\\p) circle (1.4pt) node[\\pos] {$\\p$};
+\\end{tikzpicture}`
+  },
+
+  {
+    id: "tikz-g11-pyramid-section-apmq",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "Hình chóp S.ABCD & Thiết diện APMQ (Hình thoi)",
+    topic: "Hình học không gian - Điểm, Đường thẳng và Mặt phẳng",
+    desc: "Mặt phẳng (α) đi qua AM và song song với BD cắt SB tại P và SD tại Q. Do AM cắt SO tại trọng tâm I của tam giác SAC nên SP/SB = SQ/SD = 2/3. Thiết diện APMQ thu được là hình thoi.",
+    formula: "\\dfrac{SP}{SB} = \\dfrac{SQ}{SD} = \\dfrac{2}{3} \\implies \\text{Thiết diện } APMQ \\text{ là hình thoi}",
+    svg: `<svg viewBox="0 0 340 240" class="w-full h-auto max-h-56 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- S(160,30), A(65,170), B(120,210), C(270,210), D(215,170); O(167.5,190) -->
+      <!-- M(215,120) on SC; I(165,137) = AM ∩ SO -->
+      <!-- P(133,150) on SB; Q(197,123) on SD; PQ // BD -->
+      <polygon points="65,170 133,150 215,120 197,123" fill="#fef08a" fill-opacity="0.65" stroke="#ca8a04" stroke-width="2"/>
+      <!-- Hidden base edges & diagonals -->
+      <line x1="65" y1="170" x2="215" y2="170" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5 3"/>
+      <line x1="215" y1="170" x2="270" y2="210" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5 3"/>
+      <line x1="160" y1="30" x2="215" y2="170" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5 3"/>
+      <line x1="120" y1="210" x2="215" y2="170" stroke="#64748b" stroke-width="1.8" stroke-dasharray="4 2"/>
+      <!-- SO and AM lines -->
+      <line x1="160" y1="30" x2="167.5" y2="190" stroke="#475569" stroke-width="1.6" stroke-dasharray="4 2"/>
+      <line x1="65" y1="170" x2="215" y2="120" stroke="#2563eb" stroke-width="2" stroke-dasharray="4 2"/>
+      <!-- Section edges AP, PM, MQ, QA -->
+      <line x1="65" y1="170" x2="133" y2="150" stroke="#dc2626" stroke-width="2.6"/>
+      <line x1="133" y1="150" x2="215" y2="120" stroke="#dc2626" stroke-width="2.6"/>
+      <line x1="215" y1="120" x2="197" y2="123" stroke="#dc2626" stroke-width="2.6"/>
+      <line x1="65" y1="170" x2="197" y2="123" stroke="#ca8a04" stroke-width="2.2" stroke-dasharray="4 2"/>
+      <!-- Visible pyramid edges -->
+      <line x1="160" y1="30" x2="65" y2="170" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="160" y1="30" x2="120" y2="210" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="160" y1="30" x2="270" y2="210" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="65" y1="170" x2="120" y2="210" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="120" y1="210" x2="270" y2="210" stroke="#1e293b" stroke-width="2.2"/>
+      <!-- Vertices -->
+      <circle cx="160" cy="30" r="3.5" fill="#1e293b"/><text x="160" y="18" font-size="13" font-weight="black" text-anchor="middle">S</text>
+      <circle cx="65" cy="170" r="4" fill="#dc2626"/><text x="48" y="175" font-size="12" font-weight="black" fill="#dc2626">A</text>
+      <circle cx="120" cy="210" r="3.5" fill="#1e293b"/><text x="110" y="228" font-size="12" font-weight="bold">B</text>
+      <circle cx="270" cy="210" r="3.5" fill="#1e293b"/><text x="280" y="215" font-size="12" font-weight="bold">C</text>
+      <circle cx="215" cy="170" r="3.5" fill="#64748b"/><text x="224" y="168" font-size="12" font-weight="bold" fill="#64748b">D</text>
+      <circle cx="215" cy="120" r="4" fill="#dc2626"/><text x="226" y="118" font-size="11.5" font-weight="black" fill="#dc2626">M</text>
+      <circle cx="133" cy="150" r="4" fill="#dc2626"/><text x="120" y="148" font-size="11.5" font-weight="black" fill="#dc2626">P</text>
+      <circle cx="197" cy="123" r="4" fill="#dc2626"/><text x="204" y="132" font-size="11.5" font-weight="black" fill="#dc2626">Q</text>
+      <text x="160" y="168" font-size="11.5" font-weight="black" fill="#ca8a04" text-anchor="middle">Thiết diện APMQ (Hình thoi)</text>
+    </svg>`,
+    tikzCode: `% --- THIẾT DIỆN HÌNH THOI APMQ TRONG HÌNH CHÓP S.ABCD ---
+\\begin{tikzpicture}[scale=1, line join=round]
+  \\coordinate (S) at (2,3.3);
+  \\coordinate (A) at (0,0);
+  \\coordinate (B) at (1.2,-1);
+  \\coordinate (C) at (4.2,-1);
+  \\coordinate (D) at (3.2,0);
+  \\coordinate (O) at (2.1,-0.5);
+  \\coordinate (M) at ($(S)!0.5!(C)$);
+  \\coordinate (I) at ($(S)!0.66!(O)$);
+  \\coordinate (P) at ($(S)!0.66!(B)$);
+  \\coordinate (Q) at ($(S)!0.66!(D)$);
+  \\draw[dashed] (A) -- (D) -- (C) (S) -- (D) (B) -- (D) (A) -- (M) (S) -- (O) (A) -- (Q);
+  \\draw[thick] (S) -- (A) -- (B) -- (C) -- (S) -- (B);
+  \\draw[very thick, red] (A) -- (P) -- (M) -- (Q);
+  \\fill[yellow!30, opacity=0.5] (A) -- (P) -- (M) -- (Q) -- cycle;
+  \\foreach \\p/\\pos in {S/above, A/left, B/below, C/right, D/above right, M/right, P/below left, Q/above right}
     \\fill (\\p) circle (1.4pt) node[\\pos] {$\\p$};
 \\end{tikzpicture}`
   },
