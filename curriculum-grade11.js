@@ -1,4 +1,4 @@
-﻿// ==========================================================================
+// ==========================================================================
 // CƠ SỞ DỮ LIỆU BÀI HỌC VÀ BÀI TẬP RÈN LUYỆN TOÁN 11 CHUẨN GDPT 2018
 // CẤU TRÚC CHUẨN HÓA: 3 DẠNG TOÁN x 10 BÀI TẬP (4 BIẾT - 3 HIỂU - 3 VẬN DỤNG)
 // ==========================================================================
@@ -2982,20 +2982,24 @@ window.GRADE_11_KNOWLEDGE = {
   "g11-c4-l10": {
     lessonId: "g11-c4-l10",
     title: "Bài 10: Đường thẳng và mặt phẳng trong không gian",
-    theory: [
-      {
-        title: "1. Các tính chất thừa nhận của hình học không gian",
-        content: "- **Tính chất 1:** Có một và chỉ một mặt phẳng đi qua ba điểm không thẳng hàng.\n- **Tính chất 2:** Nếu một đường thẳng có hai điểm phân biệt thuộc một mặt phẳng thì mọi điểm của đường thẳng đều thuộc mặt phẳng đó ($d \\subset (P)$).\n- **Tính chất 3:** Tồn tại bốn điểm không cùng thuộc một mặt phẳng (tạo thành khối tứ diện).\n- **Tính chất 4:** Nếu hai mặt phẳng phân biệt có một điểm chung thì chúng có một đường thẳng chung duy nhất chứa tất cả các điểm chung của hai mặt phẳng đó (đường giao tuyến).\n- **Tính chất 5:** Trên mỗi mặt phẳng, các kết quả đã biết trong hình học phẳng đều đúng."
-      },
-      {
-        title: "2. Ba cách xác định một mặt phẳng",
-        content: "Một mặt phẳng hoàn toàn được xác định khi biết một trong các điều kiện sau:\n1. Ba điểm phân biệt không thẳng hàng: Kí hiệu là $(ABC)$.\n2. Một điểm và một đường thẳng không đi qua điểm đó: Kí hiệu là $(A, d)$ hoặc $(d, A)$.\n3. Hai đường thẳng cắt nhau: Kí hiệu là $(a, b)$."
-      },
-      {
-        title: "3. Hình chóp, tứ diện và phương pháp tìm giao tuyến, giao điểm",
-        content: "- **Khối tứ diện $ABCD$:** Gồm 4 đỉnh $A, B, C, D$, 4 mặt là 4 tam giác $(ABC), (ABD), (ACD), (BCD)$, 6 cạnh và 3 cặp cạnh chéo nhau ($AB$ và $CD$, $AC$ và $BD$, $AD$ và $BC$).\n- **Hình chóp $S.A_1A_2...A_n$:** Đỉnh $S$, đáy là đa giác $A_1A_2...A_n$. Các mặt bên là các tam giác.\n- **Tìm giao tuyến của hai mặt phẳng $(P)$ và $(Q)$:** Tìm 2 điểm chung phân biệt $A, B$. Đường thẳng nối $AB$ chính là giao tuyến $(P) \\cap (Q) = AB$.\n- **Tìm giao điểm của đường thẳng $d$ và mặt phẳng $(P)$:** Chọn mặt phẳng phụ $(Q) \\supset d$. Tìm giao tuyến $a = (P) \\cap (Q)$. Trong $(Q)$, cho $d$ cắt $a$ tại điểm $M$. Khi đó $M = d \\cap (P)$."
-      }
-    ],
+    summary: "Hệ thống kiến thức trọng tâm Bài 10: Đường thẳng và mặt phẳng trong không gian chuẩn GDPT 2018 (Thi ĐGNL & Tốt nghiệp THPT).",
+    theory: {
+      summary: "Hệ thống kiến thức trọng tâm Bài 10: Đường thẳng và mặt phẳng trong không gian chuẩn GDPT 2018 (Thi ĐGNL & Tốt nghiệp THPT).",
+      sections: [
+        {
+          title: "1. Các tính chất thừa nhận và cách xác định mặt phẳng",
+          content: "- **Các tính chất thừa nhận:**\n  + Có một và chỉ một mặt phẳng đi qua ba điểm không thẳng hàng.\n  + Nếu một đường thẳng có hai điểm phân biệt thuộc mặt phẳng thì mọi điểm của nó đều thuộc mặt phẳng đó ($d \\subset (P)$).\n  + Tồn tại bốn điểm không cùng thuộc một mặt phẳng (tạo thành khối tứ diện).\n  + Nếu hai mặt phẳng phân biệt có một điểm chung thì chúng có một đường thẳng chung duy nhất đi qua điểm đó (đường giao tuyến).\n- **Ba cách cơ bản xác định một mặt phẳng:**\n  1. Ba điểm phân biệt không thẳng hàng $(ABC)$.\n  2. Một điểm và một đường thẳng không đi qua điểm đó $(A, d)$.\n  3. Hai đường thẳng cắt nhau $(a, b)$."
+        },
+        {
+          title: "2. Tìm giao tuyến của hai mặt phẳng",
+          content: "- **Quy tắc cốt lõi:** Muốn tìm giao tuyến của hai mặt phẳng $(P)$ và $(Q)$, ta cần tìm **hai điểm chung phân biệt** $A$ và $B$ của chúng. Đường thẳng $AB$ chính là giao tuyến cần tìm: $(P) \\cap (Q) = AB$.\n- **Kỹ thuật tìm điểm chung thứ hai:**\n  + Điểm thứ nhất thường là đỉnh chung sẵn có (ví dụ đỉnh $S$ trong hình chóp $S.ABCD$).\n  + Điểm thứ hai: Tìm hai đường thẳng lần lượt nằm trong hai mặt phẳng và cùng nằm trong một mặt phẳng thứ ba (thường là mặt phẳng đáy) rồi kéo dài cho chúng cắt nhau."
+        },
+        {
+          title: "3. Tìm giao điểm của đường thẳng và mặt phẳng & Thiết diện của hình chóp",
+          content: "- **Phương pháp tìm giao điểm $M = d \\cap (P)$:**\n  + **Trực tiếp:** Nếu trong $(P)$ có sẵn đường thẳng $a$ cắt $d$ tại $M$, thì $M = d \\cap (P)$.\n  + **Dùng mặt phẳng phụ:** Chọn mặt phẳng phụ $(Q) \\supset d$. Tìm giao tuyến $a = (P) \\cap (Q)$. Trong $(Q)$, gọi $M = d \\cap a$. Khi đó $M = d \\cap (P)$.\n- **Xác định thiết diện:** Tìm các đoạn giao tuyến của mặt phẳng cắt với các mặt của hình chóp/tứ diện để ghép lại thành một đa giác phẳng khép kín."
+        }
+      ]
+    },
     topics: [
       {
         id: "g11-c4-l10-dang1",

@@ -2244,6 +2244,20 @@ window.LESSON_THEORY_DB = {
       "content": "- **Tập xác định:** $D = \\mathbb{R} \\setminus \\left\\{-\\dfrac{q}{p}\\right\\}$.\n- **Đường tiệm cận:** Có $1$ tiệm cận đứng $x = -\\dfrac{q}{p}$ và $1$ tiệm cận xiên $y = mx + n$ (tìm bằng cách chia đa thức tử cho mẫu).\n- **Tâm đối xứng:** Là giao điểm $I$ của đường tiệm cận đứng và đường tiệm cận xiên.\n- **Mẹo tính nhanh giá trị cực trị:** Nếu $x_0$ là điểm cực trị của $y = \\dfrac{u(x)}{v(x)}$ thì giá trị cực trị bằng $y(x_0) = \\dfrac{u'(x_0)}{v'(x_0)}$."
     }
   ],
+  "g12-c1-l5": [
+    {
+      "title": "1. Bài toán chuyển động, vận tốc và gia tốc tức thời",
+      "content": "- Cho phương trình quãng đường chuyển động của một vật theo thời gian $s = s(t)$ với $t \\ge 0$.\n- **Vận tốc tức thời** tại thời điểm $t$: $v(t) = s'(t)$.\n- **Gia tốc tức thời** tại thời điểm $t$: $a(t) = v'(t) = s''(t)$.\n- **Thời điểm vật dừng lại hoặc đổi chiều:** Giải phương trình $v(t) = 0$.\n- **Vận tốc lớn nhất / nhỏ nhất:** Khảo sát hàm số $v(t)$ bằng cách giải $v'(t) = a(t) = 0$."
+    },
+    {
+      "title": "2. Bài toán tối ưu hóa hình học, diện tích và thể tích",
+      "content": "- **Bước 1 (Mô hình hóa):** Gọi một kích thước hình học là biến số $x$ (kèm điều kiện xác định $x \\in (a; b)$).\n- **Bước 2 (Thiết lập hàm số):** Biểu diễn đại lượng cần tối ưu (thể tích $V(x)$, diện tích toàn phần $S_{tp}(x)$, chi phí làm máng, thùng lon...) theo biến $x$.\n- **Bước 3 (Tìm cực trị):** Tính đạo hàm $f'(x) = 0$, lập bảng biến thiên trên miền xác định và kết luận giá trị tối ưu $\\max / \\min$."
+    },
+    {
+      "title": "3. Bài toán tối ưu hóa kinh tế, chi phí và lợi nhuận",
+      "content": "- **Hàm doanh thu:** $R(x) = x \\cdot p(x)$ (với $x$ là số lượng sản phẩm, $p(x)$ là đơn giá bán).\n- **Hàm lợi nhuận:** $L(x) = R(x) - C(x)$ (với $C(x)$ là tổng chi phí sản xuất).\n- **Tối ưu hóa lợi nhuận:** Giải phương trình $L'(x) = 0 \\iff R'(x) = C'(x)$ (Doanh thu biên bằng Chi phí biên) để tìm quy mô sản xuất và mức giá đem lại lợi nhuận cao nhất."
+    }
+  ],
   "g12-c2-l7": [
     {
       "title": "1. Hệ trục tọa độ Oxyz & Tọa độ của điểm và vectơ",
