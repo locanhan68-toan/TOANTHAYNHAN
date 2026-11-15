@@ -1,4 +1,4 @@
-// ==========================================================================
+﻿// ==========================================================================
 // CƠ SỞ DỮ LIỆU BÀI HỌC VÀ BÀI TẬP RÈN LUYỆN TOÁN 11 CHUẨN GDPT 2018
 // CẤU TRÚC CHUẨN HÓA: 3 DẠNG TOÁN x 10 BÀI TẬP (4 BIẾT - 3 HIỂU - 3 VẬN DỤNG)
 // ==========================================================================
@@ -2989,14 +2989,12 @@ window.GRADE_11_KNOWLEDGE = {
       description: "Nắm vững các tiên đề lập mặt phẳng (qua 3 điểm không thẳng hàng, qua điểm và đường thẳng, qua 2 đường thẳng cắt nhau) và quan hệ liên thuộc.",
       examples: [
         {
-          title: "Ví dụ minh họa 1 (Thông hiểu)",
-          question: "Cho 4 điểm $A, B, C, D$ không đồng phẳng. Có thể tạo được bao nhiêu mặt phẳng phân biệt đi qua 3 trong số 4 điểm đã cho?",
+          title: "Ví dụ minh họa 1 (Thông hiểu)",`r`n          diagramId: "tikz-g11-4points-tetra",`r`n          question: "Cho 4 điểm $A, B, C, D$ không đồng phẳng. Có thể tạo được bao nhiêu mặt phẳng phân biệt đi qua 3 trong số 4 điểm đã cho?",
           shortAnswer: "4 mặt phẳng: (ABC), (ABD), (ACD), (BCD)",
           solution: "Theo tính chất thừa nhận (tiên đề): Cứ 3 điểm không thẳng hàng xác định duy nhất một mặt phẳng.\n- Vì 4 điểm $A, B, C, D$ không đồng phẳng nên trong 4 điểm đó không có 3 điểm nào thẳng hàng.\n- Số mặt phẳng phân biệt tạo được bằng số cách chọn 3 điểm từ 4 điểm đã cho, tức là số tổ hợp chập 3 của 4 phần tử:\n$$C_4^3 = \\dfrac{4!}{3!(4-3)!} = 4$$\n- Bốn mặt phẳng đó là bốn mặt của khối tứ diện $ABCD$: $(ABC), (ABD), (ACD), (BCD)$."
         },
         {
-          title: "Ví dụ minh họa 2 (Vận dụng)",
-          question: "Cho hình chóp $S.ABCD$ đáy là hình bình hành. Lấy điểm $M$ trên cạnh $SA$ ($M$ không trùng $S, A$) và điểm $N$ trên cạnh $SB$ ($N$ không trùng $S, B$) sao cho $MN$ không song song với $AB$. Gọi $I$ là giao điểm của $MN$ và $AB$. Chứng minh điểm $I$ là điểm chung của đường thẳng $MN$ và mặt phẳng $(ABCD)$.",
+          title: "Ví dụ minh họa 2 (Vận dụng)",`r`n          diagramId: "tikz-g11-line-plane-intersection",`r`n          question: "Cho hình chóp $S.ABCD$ đáy là hình bình hành. Lấy điểm $M$ trên cạnh $SA$ ($M$ không trùng $S, A$) và điểm $N$ trên cạnh $SB$ ($N$ không trùng $S, B$) sao cho $MN$ không song song với $AB$. Gọi $I$ là giao điểm của $MN$ và $AB$. Chứng minh điểm $I$ là điểm chung của đường thẳng $MN$ và mặt phẳng $(ABCD)$.",
           shortAnswer: "$I = MN \\cap AB \\implies I = MN \\cap (ABCD)$",
           solution: "1. Trong mặt phẳng $(SAB)$:\n- Ta có $M \\in SA \\subset (SAB)$ và $N \\in SB \\subset (SAB)$ nên đường thẳng $MN \\subset (SAB)$.\n- Cạnh đáy $AB \\subset (SAB)$.\n- Vì hai đường thẳng $MN$ và $AB$ cùng nằm trong mặt phẳng $(SAB)$ và không song song với nhau, nên chúng cắt nhau tại điểm $I$.\n\n2. Chứng minh $I$ là điểm chung của $MN$ và mặt phẳng $(ABCD)$:\n- Do $I = MN \\cap AB$, suy ra $I \\in MN$.\n- Mặt khác $I \\in AB$ mà $AB \\subset (ABCD)$ nên $I \\in (ABCD)$.\n- Vậy điểm $I$ vừa thuộc đường thẳng $MN$, vừa thuộc mặt phẳng đáy $(ABCD)$, tức là $I = MN \\cap (ABCD)$."
         }
@@ -3028,6 +3026,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d1-ex4",
+          diagramId: "tikz-g11-pyramid-structure",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Hình chóp tứ giác $S.ABCD$ có bao nhiêu mặt và bao nhiêu cạnh?",
@@ -3036,6 +3035,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d1-ex5",
+          diagramId: "tikz-g11-4points-tetra",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho 4 điểm $A, B, C, D$ không đồng phẳng. Có thể tạo được bao nhiêu mặt phẳng phân biệt đi qua 3 trong số 4 điểm đã cho?",
@@ -3044,6 +3044,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d1-ex6",
+          diagramId: "tikz-g11-pyramid-point-o",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là tứ giác lồi. Gọi $O$ là giao điểm của hai đường chéo $AC$ và $BD$. Điểm $O$ thuộc những mặt phẳng nào trong các mặt: $(SAC), (SBD), (SAB), (SCD)$?",
@@ -3052,6 +3053,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d1-ex7",
+          diagramId: "tikz-g11-line-on-face-tetra",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho tứ diện $ABCD$. Lấy điểm $M$ trên cạnh $AB$ và điểm $N$ trên cạnh $AC$. Đường thẳng $MN$ nằm trong mặt phẳng nào của tứ diện?",
@@ -3060,6 +3062,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d1-ex8",
+          diagramId: "tikz-g11-line-plane-intersection",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho hình chóp $S.ABCD$ đáy là hình bình hành. Lấy điểm $M$ trên cạnh $SA$ ($M$ không trùng $S, A$) và điểm $N$ trên cạnh $SB$ ($N$ không trùng $S, B$) sao cho $MN$ không song song với $AB$. Gọi $I$ là giao điểm của $MN$ và $AB$. Chứng minh điểm $I$ là điểm chung của đường thẳng $MN$ và mặt phẳng $(ABCD)$.",
@@ -3068,6 +3071,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d1-ex9",
+          diagramId: "tikz-g11-skew-lines-pq",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho tứ diện $ABCD$. Lấy điểm $P$ trên cạnh $AB$, $Q$ trên cạnh $CD$. Chứng minh hai đường thẳng $PQ$ và $BC$ không bao giờ cắt nhau và không song song (hai đường thẳng chéo nhau).",
@@ -3090,14 +3094,12 @@ window.GRADE_11_KNOWLEDGE = {
       description: "Phương pháp tìm hai điểm chung phân biệt để xác định đường giao tuyến giữa hai mặt phẳng trong hình chóp và tứ diện.",
       examples: [
         {
-          title: "Ví dụ minh họa 1 (Thông hiểu)",
-          question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành. Gọi $O$ là giao điểm của hai đường chéo $AC$ và $BD$. Tìm giao tuyến của hai mặt phẳng $(SAC)$ và $(SBD)$.",
+          title: "Ví dụ minh họa 1 (Thông hiểu)",`r`n          diagramId: "tikz-g11-pyramid-intersection",`r`n          question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành. Gọi $O$ là giao điểm của hai đường chéo $AC$ và $BD$. Tìm giao tuyến của hai mặt phẳng $(SAC)$ và $(SBD)$.",
           shortAnswer: "Giao tuyến $SO = (SAC) \\cap (SBD)$",
           solution: "1. Điểm chung thứ nhất:\n- Đỉnh $S$ thuộc cả hai mặt phẳng $(SAC)$ và $(SBD)$, do đó $S \\in (SAC) \\cap (SBD)$.\n\n2. Điểm chung thứ hai:\n- Trong mặt phẳng đáy $(ABCD)$, gọi $O = AC \\cap BD$.\n- Vì $O \\in AC \\subset (SAC)$ nên $O \\in (SAC)$.\n- Vì $O \\in BD \\subset (SBD)$ nên $O \\in (SBD)$.\n- Suy ra $O \\in (SAC) \\cap (SBD)$.\n\n3. Kết luận: Hai mặt phẳng $(SAC)$ và $(SBD)$ có hai điểm chung phân biệt là $S$ và $O$, do đó giao tuyến là đường thẳng $SO$:\n$$(SAC) \\cap (SBD) = SO$$"
         },
         {
-          title: "Ví dụ minh họa 2 (Vận dụng)",
-          question: "Cho tứ diện $ABCD$. Lấy điểm $M$ trên cạnh $AB$, $N$ trên cạnh $AC$ sao cho $MN$ không song song với $BC$. Tìm giao tuyến của mặt phẳng $(DMN)$ với mặt phẳng $(BCD)$.",
+          title: "Ví dụ minh họa 2 (Vận dụng)",`r`n          diagramId: "tikz-g11-tetra-intersection-de",`r`n          question: "Cho tứ diện $ABCD$. Lấy điểm $M$ trên cạnh $AB$, $N$ trên cạnh $AC$ sao cho $MN$ không song song với $BC$. Tìm giao tuyến của mặt phẳng $(DMN)$ với mặt phẳng $(BCD)$.",
           shortAnswer: "Đường thẳng nối $D$ và $E = MN \\cap BC$",
           solution: "1. Điểm chung thứ nhất: Điểm $D$ hiển nhiên thuộc cả hai mặt phẳng $(DMN)$ và $(BCD)$.\n2. Điểm chung thứ hai:\n- Trong mặt phẳng $(ABC)$, do $MN$ không song song $BC$ nên $MN$ cắt $BC$ kéo dài tại $E$.\n- Vì $E \\in MN \\subset (DMN)$ nên $E \\in (DMN)$.\n- Vì $E \\in BC \\subset (BCD)$ nên $E \\in (BCD)$.\n- Suy ra $E$ là điểm chung thứ hai.\n3. Kết luận: Giao tuyến cần tìm là đường thẳng $DE$."
         }
@@ -3113,6 +3115,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d2-ex2",
+          diagramId: "tikz-g11-pyramid-edge-sb",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Cho hình chóp $S.ABCD$. Giao tuyến của mặt bên $(SAB)$ và mặt bên $(SBC)$ là đường thẳng nào?",
@@ -3121,6 +3124,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d2-ex3",
+          diagramId: "tikz-g11-pyramid-edge-cd",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$. Giao tuyến của mặt phẳng $(SCD)$ và mặt đáy $(ABCD)$ là đường thẳng nào?",
@@ -3137,6 +3141,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d2-ex5",
+          diagramId: "tikz-g11-pyramid-intersection",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành tâm $O$. Tìm giao tuyến của hai mặt phẳng $(SAC)$ và $(SBD)$.",
@@ -3145,6 +3150,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d2-ex6",
+          diagramId: "tikz-g11-tetra-intersection-de",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho tứ diện $ABCD$. Lấy điểm $M$ trên cạnh $AB$ và điểm $N$ trên cạnh $AC$ sao cho $MN$ cắt $BC$ tại $E$. Tìm giao tuyến của mặt phẳng $(DMN)$ và mặt phẳng $(BCD)$.",
@@ -3153,6 +3159,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d2-ex7",
+          diagramId: "tikz-g11-pyramid-trapezoid-sk",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình thang (hai đáy $AB$ và $CD$ không song song, $AD$ cắt $BC$ tại $K$). Tìm giao tuyến của hai mặt phẳng $(SAD)$ và $(SBC)$.",
@@ -3161,6 +3168,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d2-ex8",
+          diagramId: "tikz-g11-pyramid-intersection-me",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho hình chóp $S.ABCD$ có đáy là tứ giác lồi, các cạnh đối $AB$ và $CD$ cắt nhau tại $E$, $AD$ và $BC$ cắt nhau tại $F$. Lấy điểm $M$ trên cạnh $SC$. Tìm giao tuyến của mặt phẳng $(ABM)$ và mặt phẳng $(SCD)$.",
@@ -3169,6 +3177,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d2-ex9",
+          diagramId: "tikz-g11-tetra-intersections-ip-nj",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho tứ diện $ABCD$. Trên các cạnh $AB, AC, BD$ lần lượt lấy các điểm $M, N, P$ sao cho $MN$ cắt $BC$ tại $I$, $MP$ cắt $AD$ tại $J$. Tìm giao tuyến của mặt phẳng $(MNP)$ với mặt phẳng đáy $(BCD)$ và mặt phẳng $(ACD)$.",
@@ -3177,6 +3186,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d2-ex10",
+          diagramId: "tikz-g11-pyramid-intersection-bi",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho hình chóp $S.ABCD$ đáy $ABCD$ có $AC$ cắt $BD$ tại $O$, $AB$ cắt $CD$ tại $E$. Gọi $M$ là trung điểm của $SC$. Tìm giao tuyến của mặt phẳng $(ABM)$ với mặt phẳng $(SBD)$.",
@@ -3191,14 +3201,12 @@ window.GRADE_11_KNOWLEDGE = {
       description: "Kỹ thuật chọn mặt phẳng phụ tìm giao điểm $d \\cap (P)$ và xác định đa giác thiết diện cắt khối không gian.",
       examples: [
         {
-          title: "Ví dụ minh họa 1 (Thông hiểu)",
-          question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình thang ($AB \\parallel CD$). Gọi $M$ là trung điểm của $SC$. Tìm giao điểm của đường thẳng $SD$ với mặt phẳng $(ABM)$.",
+          title: "Ví dụ minh họa 1 (Thông hiểu)",`r`n          diagramId: "tikz-g11-pyramid-sd-intersection-n",`r`n          question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình thang ($AB \\parallel CD$). Gọi $M$ là trung điểm của $SC$. Tìm giao điểm của đường thẳng $SD$ với mặt phẳng $(ABM)$.",
           shortAnswer: "Điểm $N = SD \\cap (ABM)$ (với $N = SD \\cap AM$)",
           solution: "1. Chọn mặt phẳng phụ chứa đường thẳng $SD$:\n- Chọn mặt phẳng chéo $(SCD)$ (hoặc $(SBD)$).\n2. Tìm giao tuyến của mặt phẳng phụ $(SCD)$ và $(ABM)$:\n- Ta có $M \\in SC \\subset (SCD)$ và $M \\in (ABM) \\Rightarrow M$ là điểm chung.\n- Trong đáy $ABCD$, gọi $E = AB \\cap CD$ (khi $AB$ và $CD$ không song song, hoặc nếu hình thang đáy lớn đáy bé cắt nhau tại $E$).\n- Khi đó $ME$ là giao tuyến của $(ABM)$ và $(SCD)$.\n3. Tìm giao điểm:\n- Trong mặt phẳng $(SCD)$, đường thẳng $ME$ cắt cạnh $SD$ tại $N$.\n- Vì $N \\in ME \\subset (ABM)$ và $N \\in SD$ nên $N = SD \\cap (ABM)$."
         },
         {
-          title: "Ví dụ minh họa 2 (Vận dụng)",
-          question: "Cho hình chóp $S.ABCD$ đáy $ABCD$ là hình bình hành. Gọi $M, N$ lần lượt là trung điểm của $SB, SC$. Lấy điểm $P$ trên cạnh $SA$ sao cho $SP = 2PA$. Tìm thiết diện của hình chóp cắt bởi mặt phẳng $(MNP)$.",
+          title: "Ví dụ minh họa 2 (Vận dụng)",`r`n          diagramId: "tikz-g11-pyramid-section-mnqp",`r`n          question: "Cho hình chóp $S.ABCD$ đáy $ABCD$ là hình bình hành. Gọi $M, N$ lần lượt là trung điểm của $SB, SC$. Lấy điểm $P$ trên cạnh $SA$ sao cho $SP = 2PA$. Tìm thiết diện của hình chóp cắt bởi mặt phẳng $(MNP)$.",
           shortAnswer: "Tứ giác $MNQP$ (hình thang)",
           solution: "1. Tìm các đoạn giao tuyến trên từng mặt:\n- Trên mặt $(SBC)$: giao tuyến là đoạn $MN$. Vì $M, N$ là trung điểm $SB, SC$ nên $MN \\parallel BC$.\n- Trên mặt $(SAB)$: giao tuyến là đoạn $PM$.\n2. Tìm giao tuyến với các mặt còn lại:\n- Mặt phẳng $(MNP)$ chứa $MN \\parallel BC \\parallel AD$, nên giao tuyến của $(MNP)$ với $(SAD)$ đi qua điểm chung $P$ và song song với $AD$.\n- Từ $P$, kẻ đường thẳng song song với $AD$ cắt $SD$ tại $Q$. Khi đó $PQ \\subset (MNP)$ và $PQ \\parallel MN$.\n- Trên mặt $(SCD)$: nối $N$ với $Q$ được giao tuyến $NQ$.\n3. Kết luận: Thiết diện cắt hình chóp bởi mặt phẳng $(MNP)$ là tứ giác $MNQP$ (là một hình thang vì $MN \\parallel PQ$)."
         }
@@ -3230,6 +3238,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d3-ex4",
+          diagramId: "tikz-g11-tetra-dm-intersection-m",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Cho tứ diện $ABCD$. Điểm $M$ thuộc cạnh $AB$. Giao điểm của đường thẳng $DM$ với mặt phẳng $(ABC)$ là điểm nào?",
@@ -3238,6 +3247,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d3-ex5",
+          diagramId: "tikz-g11-pyramid-am-so-i",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho hình chóp $S.ABCD$ đáy hình bình hành tâm $O$. Lấy điểm $M$ trên cạnh $SC$. Tìm giao điểm của đường thẳng $AM$ với mặt phẳng $(SBD)$.",
@@ -3246,6 +3256,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d3-ex6",
+          diagramId: "tikz-g11-tetra-section-mnp",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho tứ diện $ABCD$. Lấy các điểm $M \\in AB, N \\in AC, P \\in AD$ sao cho các điểm này không trùng với các đỉnh. Thiết diện của tứ diện cắt bởi mặt phẳng $(MNP)$ là hình gì?",
@@ -3254,6 +3265,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d3-ex7",
+          diagramId: "tikz-g11-pyramid-section-abmn",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho hình chóp $S.ABCD$ đáy hình bình hành. Gọi $M$ là trung điểm của $SC$. Mặt phẳng $(ABM)$ cắt cạnh $SD$ tại điểm $N$. Tứ giác $ABMN$ là thiết diện của hình chóp. Hỏi $N$ được xác định như thế nào?",
@@ -3262,6 +3274,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d3-ex8",
+          diagramId: "tikz-g11-tetra-dm-intersection-k",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho tứ diện $ABCD$. Gọi $G$ là trọng tâm tam giác $BCD$. Lấy điểm $M$ trên đoạn thẳng $AG$ sao cho $AM = 2MG$. Tìm giao điểm của đường thẳng $DM$ với mặt phẳng $(ABC)$.",
@@ -3270,6 +3283,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d3-ex9",
+          diagramId: "tikz-g11-pyramid-section-mnqp",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho hình chóp $S.ABCD$ đáy $ABCD$ là hình bình hành. Gọi $M, N$ lần lượt là trung điểm của $SB, SC$. Lấy điểm $P$ trên cạnh $SA$ sao cho $SP = 2PA$. Tìm thiết diện của hình chóp cắt bởi mặt phẳng $(MNP)$.",
@@ -3278,6 +3292,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l10-d3-ex10",
+          diagramId: "tikz-g11-tetra-midsegment-parallelogram",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho tứ diện đều $ABCD$ có tất cả các cạnh bằng $a$. Mặt phẳng $(P)$ đi qua trung điểm của 4 cạnh $AB, BC, CD, DA$. Chứng minh thiết diện tạo bởi $(P)$ với tứ diện là một hình vuông và tính diện tích thiết diện theo $a$.",
