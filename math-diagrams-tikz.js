@@ -3560,7 +3560,517 @@ window.MATH_TIKZ_LIBRARY = [
   \\draw[dashed, red] (3.8,0) node[below] {$b$} -- (3.8, 2.01);
   \\node at (2.4, 1.2) [indigo!80!black] {$S = \\int_a^b f(x)dx$};
 \\end{tikzpicture}`
-  }
+  },
+
+    // --- 1. LÝ THUYẾT 1: CÁC TÍNH CHẤT THỪA NHẬN & XÁC ĐỊNH MẶT PHẲNG ---
+  {
+    id: "tikz-g11-l10-theory-axioms",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "Ba điểm không thẳng hàng & Bốn điểm không đồng phẳng (Tứ diện)",
+    topic: "Hình học không gian - Lý thuyết trọng tâm",
+    desc: "Ba điểm phân biệt không thẳng hàng A, B, C xác định duy nhất một mặt phẳng (ABC). Điểm S nằm ngoài mặt phẳng (ABC) cùng 3 điểm A, B, C tạo thành 4 điểm không đồng phẳng và xác định khối tứ diện S.ABC.",
+    formula: "A, B, C \\text{ không thẳng hàng } \\implies \\exists! (ABC); \\quad S \\notin (ABC) \\implies S.ABC \\text{ là tứ diện}",
+    svg: `<svg viewBox="0 0 340 220" class="w-full h-auto max-h-52 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="g11-ax-grad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#818cf8" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#4f46e5" stop-opacity="0.08"/>
+        </radialGradient>
+      </defs>
+      <!-- Base plane (ABC) rendered as a subtle parallelogram backdrop -->
+      <polygon points="30,175 140,135 320,135 210,175" fill="url(#g11-ax-grad)" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3 3"/>
+      <text x="290" y="155" font-size="11" font-weight="bold" fill="#6366f1">(ABC)</text>
+      <!-- Hidden base edge AC -->
+      <line x1="80" y1="170" x2="260" y2="145" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="4 3"/>
+      <!-- Visible base edges AB, BC -->
+      <line x1="80" y1="170" x2="160" y2="195" stroke="#334155" stroke-width="2"/>
+      <line x1="160" y1="195" x2="260" y2="145" stroke="#334155" stroke-width="2"/>
+      <!-- Edges connecting S to A, B, C -->
+      <line x1="170" y1="35" x2="80" y2="170" stroke="#334155" stroke-width="2"/>
+      <line x1="170" y1="35" x2="160" y2="195" stroke="#334155" stroke-width="2"/>
+      <line x1="170" y1="35" x2="260" y2="145" stroke="#334155" stroke-width="2"/>
+      <!-- Points S, A, B, C -->
+      <circle cx="170" cy="35" r="4.5" fill="#ef4444"/>
+      <text x="170" y="24" font-size="13" font-weight="bold" fill="#dc2626" text-anchor="middle">S ∉ (ABC)</text>
+      <circle cx="80" cy="170" r="4" fill="#2563eb"/>
+      <text x="64" y="174" font-size="12" font-weight="bold" fill="#1e40af">A</text>
+      <circle cx="160" cy="195" r="4" fill="#2563eb"/>
+      <text x="160" y="212" font-size="12" font-weight="bold" fill="#1e40af" text-anchor="middle">B</text>
+      <circle cx="260" cy="145" r="4" fill="#2563eb"/>
+      <text x="272" y="148" font-size="12" font-weight="bold" fill="#1e40af">C</text>
+      <text x="180" y="105" font-size="11" font-weight="bold" fill="#475569">4 điểm không đồng phẳng</text>
+    </svg>`,
+    tikzCode: `% --- LÝ THUYẾT: BA ĐIỂM XÁC ĐỊNH MẶT PHẲNG & TỨ DIỆN ---
+\\begin{tikzpicture}[scale=1.1, line join=round, line cap=round]
+  \\coordinate (A) at (0, 0);
+  \\coordinate (B) at (1.8, -0.6);
+  \\coordinate (C) at (4.2, 0.4);
+  \\coordinate (S) at (2.0, 3.2);
+  % Vẽ đáy
+  \\draw[dashed, thick, black!60] (A) -- (C);
+  \\draw[thick] (A) -- (B) -- (C);
+  % Vẽ cạnh bên
+  \\draw[thick] (S) -- (A);
+  \\draw[thick] (S) -- (B);
+  \\draw[thick] (S) -- (C);
+  % Đỉnh
+  \\foreach \\p/\\pos in {S/above, A/left, B/below, C/right}
+    \\filldraw[fill=blue!70, draw=black] (\\p) circle (1.8pt) node[\\pos] {$\\p$};
+\\end{tikzpicture}`
+  },
+
+  // --- 2. LÝ THUYẾT 2: PHƯƠNG PHÁP TÌM GIAO TUYẾN HAI MẶT PHẲNG ---
+  {
+    id: "tikz-g11-l10-theory-intersection",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "Phương pháp tìm giao tuyến của hai mặt phẳng (P) ∩ (Q) = d = AB",
+    topic: "Hình học không gian - Lý thuyết trọng tâm",
+    desc: "Để tìm đường giao tuyến giữa hai mặt phẳng (P) và (Q), ta xác định hai điểm chung phân biệt A và B. Khi đó đường thẳng nối AB chính là giao tuyến duy nhất: (P) ∩ (Q) = AB.",
+    formula: "A \\in (P) \\cap (Q), \\ B \\in (P) \\cap (Q) \\ (A \\neq B) \\implies (P) \\cap (Q) = AB",
+    svg: `<svg viewBox="0 0 340 200" class="w-full h-auto max-h-52 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Plane P (blue tint) -->
+      <polygon points="20,130 180,30 310,60 150,160" fill="#3b82f6" fill-opacity="0.12" stroke="#2563eb" stroke-width="1.8"/>
+      <text x="35" y="125" font-size="13" font-weight="bold" fill="#1d4ed8">(P)</text>
+      <!-- Plane Q (emerald tint) intersecting P -->
+      <polygon points="70,185 180,30 260,35 150,190" fill="#10b981" fill-opacity="0.12" stroke="#059669" stroke-width="1.8"/>
+      <text x="80" y="180" font-size="13" font-weight="bold" fill="#047857">(Q)</text>
+      <!-- Common intersection line d = AB -->
+      <line x1="180" y1="30" x2="150" y2="160" stroke="#ef4444" stroke-width="2.6"/>
+      <!-- Common points A and B -->
+      <circle cx="170" cy="73" r="4.5" fill="#dc2626"/>
+      <text x="185" y="76" font-size="12" font-weight="bold" fill="#dc2626">A (điểm chung 1)</text>
+      <circle cx="157" cy="130" r="4.5" fill="#dc2626"/>
+      <text x="172" y="133" font-size="12" font-weight="bold" fill="#dc2626">B (điểm chung 2)</text>
+      <text x="175" y="24" font-size="12" font-weight="extrabold" fill="#b91c1c">Giao tuyến d = AB</text>
+    </svg>`,
+    tikzCode: `% --- LÝ THUYẾT: GIAO TUYẾN HAI MẶT PHẲNG CẮT NHAU ---
+\\begin{tikzpicture}[scale=1.2, line join=round]
+  % Mặt phẳng P
+  \\draw[thick, fill=blue!10] (0,2) -- (3,3.5) -- (5,2) -- (2,0.5) -- cycle;
+  \\node[blue!80!black] at (0.5, 2.2) {$(P)$};
+  % Mặt phẳng Q
+  \\draw[thick, fill=green!10, fill opacity=0.7] (1.5, -0.2) -- (3,3.5) -- (4,3.2) -- (2.5,-0.5) -- cycle;
+  \\node[green!60!black] at (1.8, -0.2) {$(Q)$};
+  % Giao tuyến d = AB
+  \\draw[very thick, red] (3, 3.5) -- (2.25, 0.88) node[midway, right] {$d = AB$};
+  \\filldraw[red] (2.7, 2.4) circle (1.5pt) node[left] {$A$};
+  \\filldraw[red] (2.4, 1.4) circle (1.5pt) node[left] {$B$};
+\\end{tikzpicture}`
+  },
+
+  // --- 3. LÝ THUYẾT 3: TÌM GIAO ĐIỂM ĐƯỜNG THẲNG VÀ MẶT PHẲNG & THIẾT DIỆN ---
+  {
+    id: "tikz-g11-l10-theory-secant",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "Phương pháp tìm giao điểm d ∩ (P) = M qua mặt phẳng phụ (Q)",
+    topic: "Hình học không gian - Lý thuyết trọng tâm",
+    desc: "Muốn tìm giao điểm của d và (P), ta chọn mặt phẳng phụ (Q) chứa d. Tìm giao tuyến a = (P) ∩ (Q). Trong (Q), đường thẳng d cắt giao tuyến a tại điểm M. Khi đó M = d ∩ (P).",
+    formula: "(Q) \\supset d, \\ a = (P) \\cap (Q), \\ M = d \\cap a \\implies M = d \\cap (P)",
+    svg: `<svg viewBox="0 0 340 210" class="w-full h-auto max-h-52 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Main Plane P -->
+      <polygon points="30,160 130,70 320,70 220,160" fill="#f8fafc" stroke="#334155" stroke-width="1.8"/>
+      <text x="45" y="150" font-size="13" font-weight="bold" fill="#0f172a">(P)</text>
+      <!-- Auxiliary Plane Q containing d -->
+      <polygon points="110,195 200,20 270,30 180,205" fill="#a855f7" fill-opacity="0.12" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <text x="215" y="28" font-size="12" font-weight="bold" fill="#7e22ce">Mp phụ (Q) ⊃ d</text>
+      <!-- Intersection line a = (P) ∩ (Q) -->
+      <line x1="135" y1="140" x2="235" y2="85" stroke="#059669" stroke-width="2"/>
+      <text x="240" y="90" font-size="11" font-weight="bold" fill="#047857">a = (P) ∩ (Q)</text>
+      <!-- Line d penetrating plane P at M -->
+      <line x1="140" y1="35" x2="185" y2="112" stroke="#2563eb" stroke-width="2.2"/>
+      <line x1="185" y1="112" x2="198" y2="135" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="3 3"/>
+      <line x1="198" y1="135" x2="225" y2="185" stroke="#2563eb" stroke-width="2.2"/>
+      <text x="125" y="38" font-size="12" font-weight="bold" fill="#1d4ed8">d</text>
+      <!-- Piercing Point M = d ∩ (P) -->
+      <circle cx="185" cy="112" r="5" fill="#ef4444"/>
+      <text x="195" y="117" font-size="13" font-weight="extrabold" fill="#dc2626">M = d ∩ (P)</text>
+    </svg>`,
+    tikzCode: `% --- LÝ THUYẾT: TÌM GIAO ĐIỂM D VÀ (P) QUA MẶT PHẲNG PHỤ (Q) ---
+\\begin{tikzpicture}[scale=1.1, line join=round]
+  % Mặt phẳng (P)
+  \\draw[thick] (0,0) -- (4,0) -- (5.5,2) -- (1.5,2) -- cycle;
+  \\node at (0.5, 0.4) {$(P)$};
+  % Giao tuyến a
+  \\draw[thick, green!60!black] (1.8, 1.2) -- (4.2, 0.8) node[right] {$a$};
+  % Đường thẳng d cắt a tại M
+  \\coordinate (M) at (3.0, 1.0);
+  \\draw[thick, blue] (2.2, 2.5) node[above] {$d$} -- (M);
+  \\draw[thick, blue, dashed] (M) -- (3.3, 0.4);
+  \\draw[thick, blue] (3.3, 0.4) -- (3.6, -0.2);
+  % Điểm giao M
+  \\filldraw[red] (M) circle (2pt) node[above right] {$M = d \\cap (P)$};
+\\end{tikzpicture}`
+  },
+
+  // --- 4. BÀI TẬP DẠNG 1 BÀI 1: KIỀNG 3 CHÂN ĐỨNG VỮNG TRÊN MẶT ĐẤT ---
+  {
+    id: "tikz-g11-tripod-3points",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "Mô hình chiếc kiềng 3 chân và mặt phẳng đất",
+    topic: "Hình học không gian - Dạng 1",
+    desc: "Ba điểm không thẳng hàng luôn xác định duy nhất một mặt phẳng, giúp chiếc kiềng 3 chân hay giá đỡ máy ảnh luôn đứng vững trên mọi bề mặt gồ ghề mà không bị khập khiễng.",
+    formula: "\\text{Cứ } 3 \\text{ điểm không thẳng hàng xác định duy nhất } 1 \\text{ mặt phẳng}",
+    svg: `<svg viewBox="0 0 320 200" class="w-full h-auto max-h-52 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Ground plane -->
+      <ellipse cx="160" cy="165" rx="130" ry="25" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 2"/>
+      <text x="260" y="165" font-size="11" font-weight="bold" fill="#64748b">Mặt đất</text>
+      <!-- Tripod legs from apex T -->
+      <line x1="160" y1="40" x2="90" y2="160" stroke="#1e293b" stroke-width="2.5"/>
+      <line x1="160" y1="40" x2="160" y2="175" stroke="#1e293b" stroke-width="2.5"/>
+      <line x1="160" y1="40" x2="230" y2="155" stroke="#1e293b" stroke-width="2.5"/>
+      <!-- Triangle joining 3 feet A, B, C on ground -->
+      <polygon points="90,160 160,175 230,155" fill="#3b82f6" fill-opacity="0.15" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <!-- Apex T and feet A, B, C -->
+      <circle cx="160" cy="40" r="4.5" fill="#6366f1"/>
+      <text x="160" y="28" font-size="12" font-weight="bold" fill="#4338ca" text-anchor="middle">Đỉnh kiềng (T)</text>
+      <circle cx="90" cy="160" r="4.5" fill="#ef4444"/>
+      <text x="75" y="164" font-size="11" font-weight="bold" fill="#dc2626">A</text>
+      <circle cx="160" cy="175" r="4.5" fill="#ef4444"/>
+      <text x="160" y="192" font-size="11" font-weight="bold" fill="#dc2626" text-anchor="middle">B</text>
+      <circle cx="230" cy="155" r="4.5" fill="#ef4444"/>
+      <text x="242" y="158" font-size="11" font-weight="bold" fill="#dc2626">C</text>
+      <text x="160" y="125" font-size="11" font-weight="bold" fill="#2563eb" text-anchor="middle">Mặt phẳng (ABC) duy nhất</text>
+    </svg>`,
+    tikzCode: `% --- DẠNG 1 BÀI 1: KIỀNG 3 CHÂN ĐỨNG VỮNG TRÊN MẶT ĐẤT ---
+\\begin{tikzpicture}[scale=1.1, line join=round]
+  \\coordinate (T) at (2, 3);
+  \\coordinate (A) at (0.5, 0.3);
+  \\coordinate (B) at (2, -0.2);
+  \\coordinate (C) at (3.5, 0.4);
+  \\draw[dashed, fill=blue!10] (A) -- (B) -- (C) -- cycle;
+  \\draw[very thick] (T) -- (A);
+  \\draw[very thick] (T) -- (B);
+  \\draw[very thick] (T) -- (C);
+  \\filldraw[red] (A) circle (2pt) node[left] {$A$};
+  \\filldraw[red] (B) circle (2pt) node[below] {$B$};
+  \\filldraw[red] (C) circle (2pt) node[right] {$C$};
+  \\filldraw[blue] (T) circle (2pt) node[above] {$T$};
+\\end{tikzpicture}`
+  },
+
+  // --- 5. BÀI TẬP DẠNG 1 BÀI 3: MẶT PHẲNG XÁC ĐỊNH BỞI ĐIỂM A VÀ ĐƯỜNG THẲNG d ---
+  {
+    id: "tikz-g11-point-line-plane",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "Mặt phẳng xác định bởi điểm A và đường thẳng d không qua A",
+    topic: "Hình học không gian - Dạng 1",
+    desc: "Một điểm A nằm ngoài đường thẳng d cùng với d xác định duy nhất một mặt phẳng (A, d).",
+    formula: "A \\notin d \\implies \\exists! (P) = (A, d)",
+    svg: `<svg viewBox="0 0 320 190" class="w-full h-auto max-h-52 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Plane (A, d) -->
+      <polygon points="30,150 110,40 300,40 220,150" fill="#eff6ff" stroke="#2563eb" stroke-width="1.8"/>
+      <text x="45" y="140" font-size="12" font-weight="bold" fill="#1e40af">Mp (A, d)</text>
+      <!-- Line d lying in the plane -->
+      <line x1="70" y1="125" x2="260" y2="85" stroke="#334155" stroke-width="2.4"/>
+      <text x="268" y="88" font-size="13" font-weight="bold" fill="#0f172a">d</text>
+      <!-- Point A on the plane but outside d -->
+      <circle cx="160" cy="65" r="4.5" fill="#ef4444"/>
+      <text x="160" y="54" font-size="13" font-weight="extrabold" fill="#dc2626" text-anchor="middle">A ∉ d</text>
+      <!-- Points B and C on d -->
+      <circle cx="120" cy="114" r="3.5" fill="#2563eb"/>
+      <text x="115" y="132" font-size="11" font-weight="bold" fill="#1d4ed8">B</text>
+      <circle cx="210" cy="95" r="3.5" fill="#2563eb"/>
+      <text x="205" y="113" font-size="11" font-weight="bold" fill="#1d4ed8">C</text>
+      <line x1="160" y1="65" x2="120" y2="114" stroke="#94a3b8" stroke-dasharray="3 3"/>
+      <line x1="160" y1="65" x2="210" y2="95" stroke="#94a3b8" stroke-dasharray="3 3"/>
+    </svg>`,
+    tikzCode: `% --- DẠNG 1 BÀI 3: MẶT PHẲNG QUA ĐIỂM VÀ ĐƯỜNG THẲNG ---
+\\begin{tikzpicture}[scale=1.1, line join=round]
+  \\draw[thick, fill=blue!5] (0,0) -- (4,0) -- (5.5,2) -- (1.5,2) -- cycle;
+  \\node at (0.6, 0.4) {$(A, d)$};
+  \\draw[thick] (1, 0.8) -- (4.5, 0.5) node[right] {$d$};
+  \\filldraw[red] (2.8, 1.6) circle (2pt) node[above] {$A \\notin d$};
+\\end{tikzpicture}`
+  },
+
+  // --- 6. BÀI TẬP DẠNG 1 BÀI 4: HÌNH CHÓP S.ABCD & ĐIỂM O, E ---
+  {
+    id: "tikz-g11-pyramid-point-o-e",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "Hình chóp S.ABCD và các điểm O, E thuộc mặt phẳng",
+    topic: "Hình học không gian - Dạng 1",
+    desc: "Trong hình chóp S.ABCD, O = AC ∩ BD và E = AB ∩ CD. Điểm O thuộc (SAC), (SBD), (ABCD) và điểm E thuộc (SAB), (SCD), (ABCD).",
+    formula: "O = AC \\cap BD \\in (SAC) \\cap (SBD); \\quad E = AB \\cap CD \\in (SAB) \\cap (SCD)",
+    svg: `<svg viewBox="0 0 350 220" class="w-full h-auto max-h-52 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Apex S -->
+      <circle cx="150" cy="25" r="4.5" fill="#ef4444"/>
+      <text x="150" y="16" font-size="12" font-weight="bold" fill="#dc2626" text-anchor="middle">S</text>
+      <!-- Base vertices A, B, C, D -->
+      <!-- Hidden base edges AD, CD -->
+      <line x1="60" y1="140" x2="190" y2="125" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="4 3"/>
+      <line x1="190" y1="125" x2="250" y2="175" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="4 3"/>
+      <!-- Visible base edges AB, BC -->
+      <line x1="60" y1="140" x2="110" y2="185" stroke="#334155" stroke-width="2"/>
+      <line x1="110" y1="185" x2="250" y2="175" stroke="#334155" stroke-width="2"/>
+      <!-- Lateral edges SA, SB, SC, SD -->
+      <line x1="150" y1="25" x2="60" y2="140" stroke="#334155" stroke-width="2"/>
+      <line x1="150" y1="25" x2="110" y2="185" stroke="#334155" stroke-width="2"/>
+      <line x1="150" y1="25" x2="250" y2="175" stroke="#334155" stroke-width="2"/>
+      <line x1="150" y1="25" x2="190" y2="125" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="4 3"/>
+      <!-- Diagonals AC and BD meeting at O -->
+      <line x1="60" y1="140" x2="250" y2="175" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <line x1="110" y1="185" x2="190" y2="125" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <circle cx="155" cy="157" r="4" fill="#2563eb"/>
+      <text x="145" y="165" font-size="11" font-weight="bold" fill="#1e40af">O</text>
+      <!-- Extended edges AB and DC meeting at E -->
+      <line x1="110" y1="185" x2="310" y2="200" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <line x1="250" y1="175" x2="310" y2="200" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <circle cx="310" cy="200" r="4" fill="#d97706"/>
+      <text x="320" y="205" font-size="11" font-weight="bold" fill="#b45309">E</text>
+      <!-- Labels -->
+      <text x="46" y="145" font-size="11" font-weight="bold">A</text>
+      <text x="105" y="200" font-size="11" font-weight="bold">B</text>
+      <text x="258" y="180" font-size="11" font-weight="bold">C</text>
+      <text x="195" y="122" font-size="11" font-weight="bold">D</text>
+    </svg>`,
+    tikzCode: `% --- DẠNG 1 BÀI 4: HÌNH CHÓP S.ABCD & ĐIỂM O, E ---
+\\begin{tikzpicture}[scale=1.1, line join=round]
+  \\coordinate (A) at (0, 0);
+  \\coordinate (B) at (1.5, -1);
+  \\coordinate (C) at (4.5, -0.8);
+  \\coordinate (D) at (3.5, 0.5);
+  \\coordinate (S) at (2.2, 3);
+  \\coordinate (O) at (intersection of A--C and B--D);
+  \\coordinate (E) at (intersection of A--B and D--C);
+  \\draw[dashed] (A) -- (D) -- (C) (A) -- (C) (B) -- (D) (S) -- (D);
+  \\draw (S) -- (A) -- (B) -- (C) -- (S) -- (B);
+  \\draw[dashed, orange] (B) -- (E) (C) -- (E);
+  \\filldraw[red] (S) circle (1.5pt) node[above] {$S$};
+  \\filldraw[blue] (O) circle (1.5pt) node[below] {$O$};
+  \\filldraw[orange] (E) circle (1.5pt) node[right] {$E$};
+\\end{tikzpicture}`
+  },
+
+  // --- 7. BÀI TẬP DẠNG 1 BÀI 6: 5 ĐIỂM KHÔNG ĐỒNG PHẲNG TẠO 10 MẶT PHẲNG ---
+  {
+    id: "tikz-g11-5points-space",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "5 điểm không đồng phẳng tạo C(5,3) = 10 mặt phẳng",
+    topic: "Hình học không gian - Dạng 1",
+    desc: "Trong không gian, cứ 3 điểm không thẳng hàng xác định một mặt phẳng. Với 5 điểm không có 4 điểm nào đồng phẳng, số mặt phẳng tạo thành là C(5,3) = 10 mặt phẳng.",
+    formula: "C_5^3 = \\dfrac{5!}{3!2!} = 10 \\text{ mặt phẳng}",
+    svg: `<svg viewBox="0 0 320 200" class="w-full h-auto max-h-52 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- 5 points forming a double-tetrahedron / bipyramid wireframe -->
+      <polygon points="160,25 60,110 160,165 260,110" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.2"/>
+      <line x1="160" y1="25" x2="160" y2="165" stroke="#cbd5e1" stroke-dasharray="3 3"/>
+      <line x1="60" y1="110" x2="260" y2="110" stroke="#cbd5e1" stroke-dasharray="3 3"/>
+      <line x1="160" y1="190" x2="60" y2="110" stroke="#334155" stroke-width="1.8"/>
+      <line x1="160" y1="190" x2="160" y2="165" stroke="#334155" stroke-width="1.8"/>
+      <line x1="160" y1="190" x2="260" y2="110" stroke="#334155" stroke-width="1.8"/>
+      <line x1="160" y1="25" x2="60" y2="110" stroke="#334155" stroke-width="1.8"/>
+      <line x1="160" y1="25" x2="260" y2="110" stroke="#334155" stroke-width="1.8"/>
+      <!-- Points A, B, C, D, E -->
+      <circle cx="160" cy="25" r="4.5" fill="#ef4444"/>
+      <text x="160" y="16" font-size="11" font-weight="bold" fill="#dc2626" text-anchor="middle">A</text>
+      <circle cx="60" cy="110" r="4" fill="#2563eb"/>
+      <text x="45" y="114" font-size="11" font-weight="bold" fill="#1e40af">B</text>
+      <circle cx="160" cy="165" r="4" fill="#2563eb"/>
+      <text x="148" y="160" font-size="11" font-weight="bold" fill="#1e40af">C</text>
+      <circle cx="260" cy="110" r="4" fill="#2563eb"/>
+      <text x="272" y="114" font-size="11" font-weight="bold" fill="#1e40af">D</text>
+      <circle cx="160" cy="190" r="4.5" fill="#10b981"/>
+      <text x="160" y="206" font-size="11" font-weight="bold" fill="#047857" text-anchor="middle">E</text>
+      <text x="220" y="55" font-size="11" font-weight="bold" fill="#4f46e5">C₅³ = 10 mp</text>
+    </svg>`,
+    tikzCode: `% --- DẠNG 1 BÀI 6: 5 ĐIỂM KHÔNG ĐỒNG PHẲNG TẠO 10 MP ---
+\\begin{tikzpicture}[scale=1.1, line join=round]
+  \\coordinate (A) at (0, 2.2);
+  \\coordinate (B) at (-1.8, 0.2);
+  \\coordinate (C) at (0, -0.6);
+  \\coordinate (D) at (1.8, 0.2);
+  \\coordinate (E) at (0, -2.0);
+  \\draw[dashed] (B) -- (D) (A) -- (C);
+  \\draw (A) -- (B) -- (E) -- (D) -- (A) -- (C) -- (E);
+  \\draw (B) -- (C) -- (D);
+  \\foreach \\p/\\pos in {A/above, B/left, C/below right, D/right, E/below}
+    \\filldraw[fill=blue!60] (\\p) circle (2pt) node[\\pos] {$\\p$};
+\\end{tikzpicture}`
+  },
+
+  // --- 8. BÀI TẬP DẠNG 1 BÀI 10: n ĐIỂM KHÔNG ĐỒNG PHẲNG TẠO C(n,3) MẶT PHẲNG ---
+  {
+    id: "tikz-g11-n-points-space",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "n điểm không đồng phẳng tạo C(n,3) mặt phẳng",
+    topic: "Hình học không gian - Dạng 1",
+    desc: "Với n điểm phân biệt trong không gian (n ≥ 4) trong đó không có 4 điểm nào đồng phẳng, số mặt phẳng phân biệt được tạo thành là C(n,3) = n(n-1)(n-2)/6.",
+    formula: "N = C_n^3 = \\dfrac{n(n-1)(n-2)}{6} \\text{ mặt phẳng}",
+    svg: `<svg viewBox="0 0 320 200" class="w-full h-auto max-h-52 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Cluster of points in 3D perspective forming planes -->
+      <polygon points="60,60 260,40 210,160 80,170" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3 3"/>
+      <!-- Connecting triangles showing selection of 3 points -->
+      <polygon points="100,55 160,115 220,70" fill="#6366f1" fill-opacity="0.18" stroke="#4f46e5" stroke-width="1.8"/>
+      <polygon points="160,115 110,165 210,150" fill="#10b981" fill-opacity="0.15" stroke="#059669" stroke-width="1.8"/>
+      <!-- Points P1 to P8 -->
+      <circle cx="100" cy="55" r="4" fill="#ef4444"/><text x="88" y="50" font-size="10" font-weight="bold">A₁</text>
+      <circle cx="220" cy="70" r="4" fill="#ef4444"/><text x="228" y="68" font-size="10" font-weight="bold">A₂</text>
+      <circle cx="160" cy="115" r="4.5" fill="#2563eb"/><text x="168" y="118" font-size="11" font-weight="bold" fill="#1e40af">A₃</text>
+      <circle cx="110" cy="165" r="4" fill="#10b981"/><text x="96" y="172" font-size="10" font-weight="bold">A₄</text>
+      <circle cx="210" cy="150" r="4" fill="#10b981"/><text x="218" y="156" font-size="10" font-weight="bold">A₅</text>
+      <circle cx="60" cy="100" r="3.5" fill="#64748b"/><text x="46" y="104" font-size="10">A₆</text>
+      <circle cx="260" cy="120" r="3.5" fill="#64748b"/><text x="268" y="124" font-size="10">A₇</text>
+      <text x="160" y="32" font-size="12" font-weight="extrabold" fill="#4338ca" text-anchor="middle">Tổng số mp = C_n^3</text>
+    </svg>`,
+    tikzCode: `% --- DẠNG 1 BÀI 10: n ĐIỂM TẠO C(n,3) MP ---
+\\begin{tikzpicture}[scale=1]
+  \\node at (2, 2.5) {$\\displaystyle N = C_n^3 = \\frac{n(n-1)(n-2)}{6}$};
+\\end{tikzpicture}`
+  },
+
+  // --- 9. BÀI TẬP DẠNG 2 BÀI 2: TỨ DIỆN ABCD, (ADM) ∩ (BCD) = DH ---
+  {
+    id: "tikz-g11-tetra-adm-bcd-dh",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "Tứ diện ABCD: Giao tuyến (ADM) ∩ (BCD) = DH",
+    topic: "Hình học không gian - Dạng 2",
+    desc: "Trong tứ diện ABCD, điểm M ∈ △ABC, gọi H = AM ∩ BC. Giao tuyến của mặt phẳng (ADM) và mặt phẳng đáy (BCD) là đường thẳng DH.",
+    formula: "(ADM) \\cap (BCD) = DH \\quad (H = AM \\cap BC)",
+    svg: `<svg viewBox="0 0 320 210" class="w-full h-auto max-h-52 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Tetrahedron A.BCD with apex A at top -->
+      <!-- Base BCD -->
+      <line x1="60" y1="160" x2="260" y2="150" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="4 3"/>
+      <line x1="60" y1="160" x2="140" y2="195" stroke="#334155" stroke-width="2"/>
+      <line x1="140" y1="195" x2="260" y2="150" stroke="#334155" stroke-width="2"/>
+      <!-- Lateral edges AB, AC, AD -->
+      <line x1="150" y1="30" x2="60" y2="160" stroke="#334155" stroke-width="2"/>
+      <line x1="150" y1="30" x2="140" y2="195" stroke="#334155" stroke-width="2"/>
+      <line x1="150" y1="30" x2="260" y2="150" stroke="#334155" stroke-width="2"/>
+      <!-- Median/ray AM cutting BC at H -->
+      <line x1="150" y1="30" x2="105" y2="180" stroke="#2563eb" stroke-width="1.6"/>
+      <!-- Intersection DH in plane (BCD) -->
+      <line x1="260" y1="150" x2="105" y2="180" stroke="#ef4444" stroke-width="2.4"/>
+      <!-- Point M on AM -->
+      <circle cx="128" cy="105" r="4" fill="#3b82f6"/>
+      <text x="138" y="108" font-size="11" font-weight="bold" fill="#1d4ed8">M</text>
+      <!-- Point H = AM ∩ BC -->
+      <circle cx="105" cy="180" r="4.5" fill="#ef4444"/>
+      <text x="95" y="196" font-size="11" font-weight="bold" fill="#dc2626">H</text>
+      <!-- Vertices A, B, C, D -->
+      <circle cx="150" cy="30" r="4.5" fill="#334155"/><text x="150" y="20" font-size="12" font-weight="bold" text-anchor="middle">A</text>
+      <circle cx="60" cy="160" r="4" fill="#334155"/><text x="46" y="164" font-size="11" font-weight="bold">B</text>
+      <circle cx="140" cy="195" r="4" fill="#334155"/><text x="140" y="210" font-size="11" font-weight="bold" text-anchor="middle">C</text>
+      <circle cx="260" cy="150" r="4" fill="#334155"/><text x="270" y="154" font-size="11" font-weight="bold">D</text>
+      <text x="200" y="180" font-size="11" font-weight="extrabold" fill="#b91c1c">Giao tuyến DH</text>
+    </svg>`,
+    tikzCode: `% --- DẠNG 2 BÀI 2: TỨ DIỆN ABCD, (ADM) ∩ (BCD) = DH ---
+\\begin{tikzpicture}[scale=1.1, line join=round]
+  \\coordinate (A) at (1.5, 3);
+  \\coordinate (B) at (0, 0.5);
+  \\coordinate (C) at (1.2, -0.6);
+  \\coordinate (D) at (3.5, 0.2);
+  \\coordinate (H) at ($(B)!0.6!(C)$);
+  \\coordinate (M) at ($(A)!0.55!(H)$);
+  \\draw[dashed] (B) -- (D) (D) -- (H);
+  \\draw (A) -- (B) -- (C) -- (D) -- (A) -- (C);
+  \\draw[blue] (A) -- (H);
+  \\draw[very thick, red] (D) -- (H);
+  \\filldraw[red] (H) circle (1.5pt) node[below] {$H$};
+  \\filldraw[blue] (M) circle (1.5pt) node[left] {$M$};
+\\end{tikzpicture}`
+  },
+
+  // --- 10. BÀI TẬP DẠNG 2 BÀI 10: TỨ DIỆN ABCD, 3 ĐIỂM I, K, L THẲNG HÀNG ---
+  {
+    id: "tikz-g11-tetra-4points-ikl",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "Tứ diện ABCD: Ba điểm giao tuyến I, K, L thẳng hàng",
+    topic: "Hình học không gian - Dạng 2",
+    desc: "Trong tứ diện ABCD, 4 điểm M, N, P, Q trên 4 cạnh. Các giao điểm I = MN ∩ PQ, K = MP ∩ NQ, L = MQ ∩ NP cùng thuộc giao tuyến của hai mặt phẳng nên thẳng hàng.",
+    formula: "I, K, L \\in (MNPQ) \\cap (ABCD) \\implies I, K, L \\text{ thẳng hàng}",
+    svg: `<svg viewBox="0 0 340 210" class="w-full h-auto max-h-52 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Wireframe of tetrahedron ABCD -->
+      <line x1="60" y1="150" x2="260" y2="135" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <line x1="60" y1="150" x2="140" y2="185" stroke="#334155" stroke-width="1.8"/>
+      <line x1="140" y1="185" x2="260" y2="135" stroke="#334155" stroke-width="1.8"/>
+      <line x1="160" y1="25" x2="60" y2="150" stroke="#334155" stroke-width="1.8"/>
+      <line x1="160" y1="25" x2="140" y2="185" stroke="#334155" stroke-width="1.8"/>
+      <line x1="160" y1="25" x2="260" y2="135" stroke="#334155" stroke-width="1.8"/>
+      <!-- Quadrilateral MNPQ on faces -->
+      <polygon points="105,95 148,110 215,75 190,140" fill="#6366f1" fill-opacity="0.15" stroke="#4f46e5" stroke-width="1.5"/>
+      <!-- Collinear line of I, K, L -->
+      <line x1="40" y1="205" x2="310" y2="165" stroke="#ef4444" stroke-width="2.2" stroke-dasharray="4 2"/>
+      <circle cx="75" cy="200" r="4" fill="#dc2626"/><text x="75" y="215" font-size="11" font-weight="bold" fill="#dc2626">I</text>
+      <circle cx="170" cy="186" r="4" fill="#dc2626"/><text x="170" y="202" font-size="11" font-weight="bold" fill="#dc2626">K</text>
+      <circle cx="265" cy="172" r="4" fill="#dc2626"/><text x="265" y="188" font-size="11" font-weight="bold" fill="#dc2626">L</text>
+      <text x="220" y="205" font-size="11" font-weight="extrabold" fill="#b91c1c">I, K, L thẳng hàng</text>
+    </svg>`,
+    tikzCode: `% --- DẠNG 2 BÀI 10: TỨ DIỆN ABCD, I, K, L THẲNG HÀNG ---
+\\begin{tikzpicture}[scale=1]
+  \\node at (2, 2) {I, K, L thẳng hàng trên giao tuyến};
+\\end{tikzpicture}`
+  },
+
+  // --- 11. BÀI TẬP DẠNG 3 BÀI 2: HÌNH CHÓP S.ABCD, THIẾT DIỆN TỨ GIÁC A'B'C'D' ---
+  {
+    id: "tikz-g11-pyramid-section-a-b-c-d",
+    grade: 11,
+    chapterId: "g11-c4",
+    lessonId: "g11-c4-l10",
+    title: "Hình chóp S.ABCD: Thiết diện tứ giác A'B'C'D' cắt qua 4 cạnh bên",
+    topic: "Hình học không gian - Dạng 3",
+    desc: "Mặt phẳng (α) cắt 4 cạnh bên SA, SB, SC, SD của hình chóp tứ giác lần lượt tại A', B', C', D'. Thiết diện tạo thành là tứ giác phẳng A'B'C'D'.",
+    formula: "\\text{Thiết diện} = A'B'C'D' = (\\alpha) \\cap S.ABCD",
+    svg: `<svg viewBox="0 0 340 220" class="w-full h-auto max-h-52 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Base ABCD -->
+      <line x1="50" y1="150" x2="200" y2="135" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="4 3"/>
+      <line x1="200" y1="135" x2="270" y2="180" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="4 3"/>
+      <line x1="50" y1="150" x2="110" y2="195" stroke="#334155" stroke-width="2"/>
+      <line x1="110" y1="195" x2="270" y2="180" stroke="#334155" stroke-width="2"/>
+      <!-- Lateral edges SA, SB, SC, SD -->
+      <line x1="160" y1="25" x2="50" y2="150" stroke="#334155" stroke-width="2"/>
+      <line x1="160" y1="25" x2="110" y2="195" stroke="#334155" stroke-width="2"/>
+      <line x1="160" y1="25" x2="270" y2="180" stroke="#334155" stroke-width="2"/>
+      <line x1="160" y1="25" x2="200" y2="135" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="4 3"/>
+      <!-- Cross section A'B'C'D' (colored fill) -->
+      <polygon points="95,98 132,125 220,112 182,88" fill="#ec4899" fill-opacity="0.25" stroke="#db2777" stroke-width="2.2"/>
+      <!-- Vertices of cross section A', B', C', D' -->
+      <circle cx="95" cy="98" r="3.5" fill="#db2777"/><text x="82" y="96" font-size="11" font-weight="bold" fill="#be185d">A'</text>
+      <circle cx="132" cy="125" r="3.5" fill="#db2777"/><text x="122" y="140" font-size="11" font-weight="bold" fill="#be185d">B'</text>
+      <circle cx="220" cy="112" r="3.5" fill="#db2777"/><text x="228" y="115" font-size="11" font-weight="bold" fill="#be185d">C'</text>
+      <circle cx="182" cy="88" r="3.5" fill="#db2777"/><text x="185" y="82" font-size="11" font-weight="bold" fill="#be185d">D'</text>
+      <!-- Apex S -->
+      <circle cx="160" cy="25" r="4.5" fill="#ef4444"/>
+      <text x="160" y="16" font-size="12" font-weight="bold" fill="#dc2626" text-anchor="middle">S</text>
+      <text x="155" y="105" font-size="11" font-weight="extrabold" fill="#9d174d" text-anchor="middle">Thiết diện A'B'C'D'</text>
+    </svg>`,
+    tikzCode: `% --- DẠNG 3 BÀI 2: HÌNH CHÓP S.ABCD, THIẾT DIỆN A'B'C'D' ---
+\\begin{tikzpicture}[scale=1.1, line join=round]
+  \\coordinate (A) at (0,0);
+  \\coordinate (B) at (1.5,-1);
+  \\coordinate (C) at (4.5,-0.7);
+  \\coordinate (D) at (3.5,0.6);
+  \\coordinate (S) at (2.2,3.2);
+  % Thiết diện qua A', B', C', D'
+  \\coordinate (A1) at ($(S)!0.5!(A)$);
+  \\coordinate (B1) at ($(S)!0.55!(B)$);
+  \\coordinate (C1) at ($(S)!0.6!(C)$);
+  \\coordinate (D1) at ($(S)!0.52!(D)$);
+  \\draw[dashed] (A) -- (D) -- (C) (S) -- (D) (A1) -- (D1) -- (C1);
+  \\draw (S) -- (A) -- (B) -- (C) -- (S) -- (B);
+  \\draw[very thick, magenta, fill=magenta!20, fill opacity=0.5] (A1) -- (B1) -- (C1) -- (D1) -- cycle;
+\\end{tikzpicture}`
+  },
+
 ];
 
 // ==========================================================================

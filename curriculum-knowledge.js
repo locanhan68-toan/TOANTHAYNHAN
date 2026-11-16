@@ -1841,14 +1841,17 @@ window.LESSON_THEORY_DB = {
   "g11-c4-l10": [
     {
       "title": "1. Các tính chất thừa nhận & 4 cách xác định một mặt phẳng",
+      "diagramId": "tikz-g11-l10-theory-axioms",
       "content": "- **Tính chất thừa nhận:**\n  + Qua $2$ điểm phân biệt có duy nhất $1$ đường thẳng; qua $3$ điểm không thẳng hàng có duy nhất $1$ mặt phẳng.\n  + Nếu một đường thẳng có $2$ điểm phân biệt thuộc mặt phẳng $(P)$ thì mọi điểm của đường thẳng đều thuộc $(P)$ ($d \\subset (P)$).\n  + Nếu hai mặt phẳng phân biệt có $1$ điểm chung thì chúng có chung $1$ đường thẳng duy nhất đi qua điểm đó (**giao tuyến**).\n- **4 cách xác định một mặt phẳng:** (1) Qua $3$ điểm không thẳng hàng $(ABC)$; (2) Qua $1$ đường thẳng và $1$ điểm không thuộc nó $(A, d)$; (3) Qua $2$ đường thẳng cắt nhau $(a, b)$; (4) Qua $2$ đường thẳng song song."
     },
     {
       "title": "2. Phương pháp tìm giao tuyến của hai mặt phẳng (P) và (Q)",
+      "diagramId": "tikz-g11-l10-theory-intersection",
       "content": "- Để tìm giao tuyến $d = (P) \\cap (Q)$, ta tìm **hai điểm chung phân biệt** $A$ và $B$ cùng thuộc cả hai mặt phẳng:\n$$\\begin{cases} A \\in (P) \\text{ và } A \\in (Q) \\implies A \\in (P) \\cap (Q) \\\\ B \\in (P) \\text{ và } B \\in (Q) \\implies B \\in (P) \\cap (Q) \\end{cases} \\implies (P) \\cap (Q) = AB$$\n- **Mẹo tìm điểm chung thứ hai:** Tìm hai đường thẳng $a \\subset (P)$ và $b \\subset (Q)$ cùng nằm trong một mặt phẳng thứ ba $(R)$ và không song song; giao điểm $I = a \\cap b$ chính là điểm chung thứ hai."
     },
     {
       "title": "3. Tìm giao điểm của đường thẳng d với mặt phẳng (P) & Thiết diện",
+      "diagramId": "tikz-g11-l10-theory-secant",
       "content": "- **Cách tìm giao điểm $I = d \\cap (P)$:**\n  + **Trường hợp 1:** Trong $(P)$ có sẵn đường thẳng $a$ đồng phẳng và cắt $d$ tại $I \\implies I = d \\cap (P)$.\n  + **Trường hợp 2 (Mặt phẳng phụ):** Chọn mặt phẳng phụ $(Q) \\supset d$; tìm giao tuyến $\\Delta = (P) \\cap (Q)$; trong $(Q)$, gọi $I = d \\cap \\Delta \\implies I = d \\cap (P)$.\n- **Thiết diện:** Tìm các đoạn giao tuyến của mặt phẳng $(\\alpha)$ với các mặt của hình chóp khép kín thành một đa giác phẳng."
     }
   ],

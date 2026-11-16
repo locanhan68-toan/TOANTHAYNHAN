@@ -2988,14 +2988,17 @@ window.GRADE_11_KNOWLEDGE = {
       sections: [
         {
           title: "1. Các tính chất thừa nhận và cách xác định mặt phẳng",
+          diagramId: "tikz-g11-l10-theory-axioms",
           content: "- **Các tính chất thừa nhận:**\n  + Có một và chỉ một mặt phẳng đi qua ba điểm không thẳng hàng.\n  + Nếu một đường thẳng có hai điểm phân biệt thuộc mặt phẳng thì mọi điểm của nó đều thuộc mặt phẳng đó ($d \\subset (P)$).\n  + Tồn tại bốn điểm không cùng thuộc một mặt phẳng (tạo thành khối tứ diện).\n  + Nếu hai mặt phẳng phân biệt có một điểm chung thì chúng có một đường thẳng chung duy nhất đi qua điểm đó (đường giao tuyến).\n- **Ba cách cơ bản xác định một mặt phẳng:**\n  1. Ba điểm phân biệt không thẳng hàng $(ABC)$.\n  2. Một điểm và một đường thẳng không đi qua điểm đó $(A, d)$.\n  3. Hai đường thẳng cắt nhau $(a, b)$."
         },
         {
           title: "2. Tìm giao tuyến của hai mặt phẳng",
+          diagramId: "tikz-g11-l10-theory-intersection",
           content: "- **Quy tắc cốt lõi:** Muốn tìm giao tuyến của hai mặt phẳng $(P)$ và $(Q)$, ta cần tìm **hai điểm chung phân biệt** $A$ và $B$ của chúng. Đường thẳng $AB$ chính là giao tuyến cần tìm: $(P) \\cap (Q) = AB$.\n- **Kỹ thuật tìm điểm chung thứ hai:**\n  + Điểm thứ nhất thường là đỉnh chung sẵn có (ví dụ đỉnh $S$ trong hình chóp $S.ABCD$).\n  + Điểm thứ hai: Tìm hai đường thẳng lần lượt nằm trong hai mặt phẳng và cùng nằm trong một mặt phẳng thứ ba (thường là mặt phẳng đáy) rồi kéo dài cho chúng cắt nhau."
         },
         {
           title: "3. Tìm giao điểm của đường thẳng và mặt phẳng & Thiết diện của hình chóp",
+          diagramId: "tikz-g11-l10-theory-secant",
           content: "- **Phương pháp tìm giao điểm $M = d \\cap (P)$:**\n  + **Trực tiếp:** Nếu trong $(P)$ có sẵn đường thẳng $a$ cắt $d$ tại $M$, thì $M = d \\cap (P)$.\n  + **Dùng mặt phẳng phụ:** Chọn mặt phẳng phụ $(Q) \\supset d$. Tìm giao tuyến $a = (P) \\cap (Q)$. Trong $(Q)$, gọi $M = d \\cap a$. Khi đó $M = d \\cap (P)$.\n- **Xác định thiết diện:** Tìm các đoạn giao tuyến của mặt phẳng cắt với các mặt của hình chóp/tứ diện để ghép lại thành một đa giác phẳng khép kín."
         }
       ]
@@ -3026,7 +3029,7 @@ window.GRADE_11_KNOWLEDGE = {
             id: "g11-c4-l10-d1-ex1",
             level: "Nhận biết",
             levelClass: "bg-slate-100 text-slate-700",
-            diagramId: "tikz-g11-4points-tetra",
+            diagramId: "tikz-g11-tripod-3points",
             question: "Trong đời sống thực tế, giải thích vì sao một chiếc kiềng 3 chân hay giá đỡ máy quay ba chân luôn đứng vững trên mọi mặt đất (dù mấp mô), trong khi một chiếc ghế 4 chân lại rất dễ bị khập khiễng?",
             shortAnswer: "Ba điểm không thẳng hàng luôn xác định duy nhất một mặt phẳng",
             fullSolution: "Theo tính chất thừa nhận 1 của hình học không gian:\n- Ba điểm phân biệt không thẳng hàng luôn luôn xác định duy nhất một mặt phẳng. Do đó, 3 đầu chân của chiếc kiềng luôn cùng thuộc một mặt phẳng tiếp xúc với mặt đất, giúp kiềng luôn đứng vững mà không bị bập bênh.\n- Ngược lại, bốn đầu chân của chiếc ghế 4 chân là 4 điểm. Trong không gian, 4 điểm bất kì nói chung không đồng phẳng (trừ khi mặt sàn hoàn toàn phẳng), dẫn đến có ít nhất một chân không chạm đất và gây ra hiện tượng khập khiễng."
@@ -3044,7 +3047,7 @@ window.GRADE_11_KNOWLEDGE = {
             id: "g11-c4-l10-d1-ex3",
             level: "Nhận biết",
             levelClass: "bg-slate-100 text-slate-700",
-            diagramId: "tikz-g11-line-on-face-tetra",
+            diagramId: "tikz-g11-point-line-plane",
             question: "Trong không gian, cho đường thẳng $d$ và một điểm $A$ không thuộc $d$. Có bao nhiêu mặt phẳng đi qua điểm $A$ và chứa đường thẳng $d$? Nêu các cách cơ bản để xác định một mặt phẳng.",
             shortAnswer: "Duy nhất 1 mặt phẳng, kí hiệu là $(A, d)$",
             fullSolution: "Theo định lý xác định mặt phẳng: Qua một điểm và một đường thẳng không đi qua điểm đó luôn xác định duy nhất một mặt phẳng, kí hiệu là $(A, d)$ hoặc $(d, A)$.\nCác cách cơ bản để xác định một mặt phẳng gồm:\n1. Đi qua ba điểm phân biệt không thẳng hàng.\n2. Đi qua một điểm và một đường thẳng không chứa điểm đó.\n3. Đi qua hai đường thẳng cắt nhau (hoặc hai đường thẳng song song)."
@@ -3053,7 +3056,7 @@ window.GRADE_11_KNOWLEDGE = {
             id: "g11-c4-l10-d1-ex4",
             level: "Thông hiểu",
             levelClass: "bg-emerald-100 text-emerald-800",
-            diagramId: "tikz-g11-pyramid-point-o",
+            diagramId: "tikz-g11-pyramid-point-o-e",
             question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là tứ giác lồi với các cạnh đối không song song. Gọi $O = AC \\cap BD$ và $E = AB \\cap CD$. Điểm $O$ và điểm $E$ lần lượt thuộc những mặt phẳng nào trong các mặt: $(SAC), (SBD), (SAB), (SCD), (ABCD)$?",
             shortAnswer: "$O \\in (SAC), (SBD), (ABCD)$; $E \\in (SAB), (SCD), (ABCD)$",
             fullSolution: "Xét các quan hệ liên thuộc:\n1. Đối với điểm $O$:\n- Vì $O \\in AC \\subset (SAC)$ nên $O \\in (SAC)$.\n- Vì $O \\in BD \\subset (SBD)$ nên $O \\in (SBD)$.\n- Cả hai đường chéo đều nằm trong đáy nên $O \\in (ABCD)$.\n- $O$ không thuộc các cạnh $AB, CD$ nên không thuộc $(SAB), (SCD)$.\n2. Đối với điểm $E$:\n- Vì $E \\in AB \\subset (SAB)$ nên $E \\in (SAB)$.\n- Vì $E \\in CD \\subset (SCD)$ nên $E \\in (SCD)$.\n- Vì $AB, CD \\subset (ABCD)$ nên $E \\in (ABCD)$."
@@ -3071,7 +3074,7 @@ window.GRADE_11_KNOWLEDGE = {
             id: "g11-c4-l10-d1-ex6",
             level: "Thông hiểu",
             levelClass: "bg-emerald-100 text-emerald-800",
-            diagramId: "tikz-g11-4points-tetra",
+            diagramId: "tikz-g11-5points-space",
             question: "Trong không gian cho 5 điểm phân biệt $A, B, C, D, E$ trong đó không có 4 điểm nào cùng thuộc một mặt phẳng. Hỏi có thể xác định được bao nhiêu mặt phẳng phân biệt đi qua 3 trong số 5 điểm đã cho?",
             shortAnswer: "10 mặt phẳng phân biệt",
             fullSolution: "Do giả thiết không có 4 điểm nào đồng phẳng, nên trong 5 điểm đó không có 3 điểm nào thẳng hàng (vì nếu có 3 điểm thẳng hàng thì chúng cùng với 1 điểm thứ tư sẽ tạo thành 4 điểm đồng phẳng).\nDo đó, cứ mỗi cách chọn 3 điểm bất kì trong 5 điểm đều xác định duy nhất một mặt phẳng phân biệt.\nSố mặt phẳng tạo thành là số tổ hợp chập 3 của 5 phần tử:\n$$C_5^3 = \\dfrac{5!}{3!2!} = \\dfrac{5 \\times 4}{2} = 10 \\text{ mặt phẳng}.$$"
@@ -3107,7 +3110,7 @@ window.GRADE_11_KNOWLEDGE = {
             id: "g11-c4-l10-d1-ex10",
             level: "Nâng cao 9+",
             levelClass: "bg-purple-100 text-purple-700 font-bold",
-            diagramId: "tikz-g11-4points-tetra",
+            diagramId: "tikz-g11-n-points-space",
             question: "Trong không gian cho $n$ điểm phân biệt ($n \\ge 4$) sao cho không có 4 điểm nào đồng phẳng. Biết rằng số mặt phẳng xác định bởi 3 trong số $n$ điểm đã cho gấp 7 lần số điểm $n$. Tìm số điểm $n$ và tính số đường thẳng nối từng cặp điểm trong $n$ điểm đó.",
             shortAnswer: "$n = 8$ điểm; có tất cả 28 đường thẳng nối từng cặp điểm",
             fullSolution: "1. Tìm số điểm $n$:\n- Vì không có 4 điểm nào đồng phẳng nên không có 3 điểm nào thẳng hàng. Do đó mỗi bộ 3 điểm chọn từ $n$ điểm đều xác định duy nhất một mặt phẳng phân biệt.\n- Số mặt phẳng tạo thành là số tổ hợp chập 3 của $n$ phần tử:\n$$C_n^3 = \\dfrac{n(n-1)(n-2)}{3!} = \\dfrac{n(n-1)(n-2)}{6}$$\n- Theo giả thiết đề bài, số mặt phẳng gấp 7 lần số điểm $n$:\n$$\\dfrac{n(n-1)(n-2)}{6} = 7n$$\n- Vì $n \\ge 4$ nên $n \\ne 0$, chia cả hai vế cho $n$ ta được:\n$$(n-1)(n-2) = 42 \\iff n^2 - 3n + 2 = 42 \\iff n^2 - 3n - 40 = 0$$\n- Giải phương trình bậc hai: $(n-8)(n+5) = 0 \\implies n = 8$ (thỏa mãn $n \\ge 4$) hoặc $n = -5$ (loại).\n\n2. Tính số đường thẳng nối từng cặp điểm:\n- Cứ mỗi cặp 2 điểm trong số 8 điểm xác định duy nhất 1 đường thẳng phân biệt (vì không có 3 điểm thẳng hàng):\n$$C_8^2 = \\dfrac{8 \\times 7}{2} = 28 \\text{ đường thẳng.}$$"
@@ -3148,7 +3151,7 @@ window.GRADE_11_KNOWLEDGE = {
             id: "g11-c4-l10-d2-ex2",
             level: "Nhận biết",
             levelClass: "bg-slate-100 text-slate-700",
-            diagramId: "tikz-g11-tetra-intersection-de",
+            diagramId: "tikz-g11-tetra-adm-bcd-dh",
             question: "Cho tứ diện $ABCD$. Điểm $M$ thuộc miền trong của tam giác $ABC$. Gọi $H = AM \\cap BC$. Giao tuyến của mặt phẳng $(ADM)$ và mặt phẳng $(BCD)$ là đường thẳng nào?",
             shortAnswer: "Đường thẳng $DH$",
             fullSolution: "1. Điểm chung thứ nhất: Đỉnh $D$ hiển nhiên thuộc cả hai mặt phẳng $(ADM)$ và $(BCD)$.\n2. Điểm chung thứ hai:\n- Trong mặt phẳng $(ABC)$, tia $AM$ cắt cạnh đối diện $BC$ tại điểm $H$.\n- Ta có $H \\in AM \\subset (ADM) \\implies H \\in (ADM)$.\n- Mặt khác $H \\in BC \\subset (BCD) \\implies H \\in (BCD)$.\n- Do đó điểm $H$ là điểm chung thứ hai.\n3. Kết luận: Giao tuyến của $(ADM)$ và $(BCD)$ là đường thẳng $DH$."
@@ -3220,7 +3223,7 @@ window.GRADE_11_KNOWLEDGE = {
             id: "g11-c4-l10-d2-ex10",
             level: "Nâng cao 9+",
             levelClass: "bg-purple-100 text-purple-700 font-bold",
-            diagramId: "tikz-g11-tetra-intersections-ip-nj",
+            diagramId: "tikz-g11-tetra-4points-ikl",
             question: "Cho tứ diện $ABCD$. Lấy các điểm $M \\in AB, N \\in AC, P \\in BD, Q \\in CD$ sao cho $MN$ không song song $BC$ ($MN \\cap BC = K$), $PQ$ không song song $BC$ ($PQ \\cap BC = L$). Giả sử đường thẳng $MQ$ cắt $NP$ tại điểm $I$. Chứng minh rằng ba điểm $I, K, L$ cùng thuộc một đường thẳng (thẳng hàng) khi và chỉ khi $K \\equiv L$.",
             shortAnswer: "Ba điểm $I, K, L$ đồng phẳng và nằm trên giao tuyến của $(MNPQ)$ với $(BCD)$",
             fullSolution: "1. Vị trí các điểm trên mặt phẳng đáy $(BCD)$:\n- $K = MN \\cap BC \\implies K \\in BC \\subset (BCD)$ và $K \\in MN \\subset (MNPQ)$.\n- $L = PQ \\cap BC \\implies L \\in BC \\subset (BCD)$ và $L \\in PQ \\subset (MNPQ)$.\n2. Khi $K \\equiv L$:\n- Bốn điểm $M, N, P, Q$ đồng phẳng khi và chỉ khi hai đường thẳng $MN$ và $PQ$ cùng cắt đường thẳng $BC$ tại duy nhất một điểm chung $K \\equiv L$.\n- Khi đó mặt phẳng $(MNPQ)$ xác định, hai đường thẳng chéo $MQ$ và $NP$ cắt nhau tại điểm $I$.\n- Khi đó giao tuyến của mặt phẳng $(MNPQ)$ và mặt phẳng đáy $(BCD)$ chính là đường thẳng nối điểm $I$ và điểm chung $K$."
@@ -3261,7 +3264,7 @@ window.GRADE_11_KNOWLEDGE = {
             id: "g11-c4-l10-d3-ex2",
             level: "Nhận biết",
             levelClass: "bg-slate-100 text-slate-700",
-            diagramId: "tikz-g11-pyramid-section-mnqp",
+            diagramId: "tikz-g11-pyramid-section-a-b-c-d",
             question: "Một mặt phẳng $(\\alpha)$ cắt các cạnh bên $SA, SB, SC, SD$ của hình chóp tứ giác $S.ABCD$ lần lượt tại $A', B', C', D'$. Thiết diện của hình chóp cắt bởi $(\\alpha)$ là hình gì và thiết diện của hình chóp tứ giác có tối đa bao nhiêu cạnh?",
             shortAnswer: "Thiết diện là tứ giác $A'B'C'D'$; thiết diện hình chóp tứ giác có tối đa 5 cạnh",
             fullSolution: "1. Hình dạng thiết diện:\n- Mặt phẳng $(\\alpha)$ cắt 4 mặt bên $(SAB), (SBC), (SCD), (SDA)$ theo 4 đoạn giao tuyến liên tiếp $A'B', B'C', C'D', D'A'$. Do đó thiết diện thu được là một tứ giác $A'B'C'D'$.\n2. Số cạnh tối đa của thiết diện:\n- Một hình chóp tứ giác có tổng cộng 5 mặt (4 mặt bên và 1 mặt đáy).\n- Mặt phẳng thiết diện cắt mỗi mặt của hình chóp theo tối đa một đoạn thẳng, do đó thiết diện của hình chóp tứ giác có tối đa 5 cạnh (ngũ giác)."

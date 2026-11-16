@@ -1520,12 +1520,43 @@ function renderTheory() {
     </div>
     ${spatialTheoryBanner}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      ${theory.sections.map(sec => `
-        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-300 transition">
-          <h4 class="font-bold text-slate-800 text-sm mb-2 text-blue-700">${sec.title}</h4>
-          <div class="text-xs sm:text-sm text-slate-600 whitespace-pre-line leading-relaxed">${formatMathMarkdown(sec.content)}</div>
-        </div>
-      `).join('')}
+      ${theory.sections.map((sec, secIdx) => {
+        let secDiag = null;
+        if (sec.diagramId && window.MATH_TIKZ_LIBRARY) {
+          secDiag = window.MATH_TIKZ_LIBRARY.find(d => d.id === sec.diagramId);
+        }
+        if (!secDiag && curLesson.lessonId === 'g11-c4-l10' && window.MATH_TIKZ_LIBRARY) {
+          const l10TheoryIds = [
+            'tikz-g11-l10-theory-axioms',
+            'tikz-g11-l10-theory-intersection',
+            'tikz-g11-l10-theory-secant'
+          ];
+          secDiag = window.MATH_TIKZ_LIBRARY.find(d => d.id === l10TheoryIds[secIdx]);
+        }
+
+        const secDiagHtml = secDiag ? `
+          <div class="mt-3 p-2.5 bg-white rounded-xl border border-indigo-100 shadow-2xs">
+            <div class="w-full flex items-center justify-center p-1 bg-slate-50/60 rounded-lg border border-slate-100">
+              ${secDiag.svg}
+            </div>
+            <div class="mt-2 text-center">
+              <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700 font-mono">
+                $${secDiag.formula}$
+              </span>
+            </div>
+          </div>
+        ` : '';
+
+        return `
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-300 transition flex flex-col justify-between">
+            <div>
+              <h4 class="font-bold text-slate-800 text-sm mb-2 text-blue-700">${sec.title}</h4>
+              <div class="text-xs sm:text-sm text-slate-600 whitespace-pre-line leading-relaxed">${formatMathMarkdown(sec.content)}</div>
+            </div>
+            ${secDiagHtml}
+          </div>
+        `;
+      }).join('')}
     </div>
   `;
 }
