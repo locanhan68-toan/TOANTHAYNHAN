@@ -1730,23 +1730,38 @@ function renderExamples() {
   const chId = curLesson.chapterId;
   const lId = curLesson.lessonId;
 
-  container.innerHTML = examplesToRender.map(ex => {
+  container.innerHTML = examplesToRender.map((ex, eIdx) => {
+    const exDisplayIdx = ex.displayIdx || `${eIdx + 1}`;
+    const exampleId = ex.id || `example-${gId || 'g'}-${chId || 'c'}-${lId || 'l'}-${String(exDisplayIdx).replace(/[^a-zA-Z0-9]/g, '_')}`;
+    const escapedId = String(exampleId).replace(/[^a-zA-Z0-9_-]/g, '_');
+    const exampleTitle = ex.title || `Ví dụ ${exDisplayIdx}`;
+    const badgeHtml = getFeedbackBadgeHtml(escapedId);
     const spatialHtml = (typeof window.getSpatialIllustrationHtml === 'function')
       ? window.getSpatialIllustrationHtml(ex.question, gId, chId, lId, { isExample: true, diagramId: ex.diagramId, exId: ex.id })
       : '';
     return `
     <div class="p-4 rounded-xl border border-emerald-200 bg-emerald-50/40 flex flex-col justify-between hover:shadow-sm transition">
       <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-xs font-bold text-emerald-800 uppercase px-2 py-0.5 bg-emerald-100 rounded">${ex.title}</span>
-          <span class="text-[11px] text-emerald-700 font-medium">Ví dụ ${ex.displayIdx}</span>
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-emerald-800 uppercase px-2 py-0.5 bg-emerald-100 rounded">${exampleTitle}</span>
+            ${badgeHtml}
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-[11px] text-emerald-700 font-medium">Ví dụ ${exDisplayIdx}</span>
+            <button type="button" onclick="toggleExerciseFeedback('${escapedId}', '${exampleTitle.replace(/'/g, "\\'")}')" class="text-xs font-semibold px-2 py-0.5 bg-white hover:bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-md flex items-center gap-1 transition shadow-xs" title="Đánh giá ví dụ Đúng hay Sai">
+              <i data-lucide="message-square-plus" class="w-3 h-3 text-emerald-600"></i>
+              <span>Phản hồi</span>
+            </button>
+          </div>
         </div>
         <div class="text-sm font-semibold text-slate-800 math-content mb-3 leading-relaxed">
           ${formatMathMarkdown(ex.question)}
         </div>
         ${spatialHtml}
+        ${renderFeedbackBoxHtml(escapedId, exampleTitle)}
       </div>
-      <div class="pt-3 border-t border-emerald-200/60 text-xs sm:text-sm text-slate-700 math-content bg-white p-3 rounded-lg shadow-xs whitespace-pre-line leading-relaxed">
+      <div class="mt-3 pt-3 border-t border-emerald-200/60 text-xs sm:text-sm text-slate-700 math-content bg-white p-3 rounded-lg shadow-xs whitespace-pre-line leading-relaxed">
         <span class="font-bold text-emerald-700 block mb-1">💡 Lời giải chi tiết:</span>
         ${formatMathMarkdown(ex.solution)}
       </div>
@@ -1786,8 +1801,10 @@ function renderExercises() {
     const shortAns = ex.shortAnswer || ex.answer || "Xem hướng dẫn giải.";
     const fullSol = ex.fullSolution || ex.solution || "Đang cập nhật lời giải chi tiết.";
     const exTitle = ex.title || `Bài ${exIndex + 1}`;
-    const escapedId = String(ex.id).replace(/[^a-zA-Z0-9_-]/g, '_');
     const curLesson = MATH_DATA.currentLesson || {};
+    const defaultId = `ex-${curLesson.gradeId || 'g'}-${curLesson.chapterId || 'c'}-${curLesson.lessonId || 'l'}-${exIndex + 1}`;
+    const escapedId = String(ex.id || defaultId).replace(/[^a-zA-Z0-9_-]/g, '_');
+    const badgeHtml = getFeedbackBadgeHtml(escapedId);
     const spatialHtml = (typeof window.getSpatialIllustrationHtml === 'function')
       ? window.getSpatialIllustrationHtml(ex.question, curLesson.gradeId, curLesson.chapterId, curLesson.lessonId, { isExercise: true, exIndex: exIndex, diagramId: ex.diagramId, exId: ex.id })
       : '';
@@ -1795,10 +1812,11 @@ function renderExercises() {
     return `
       <div class="p-4 rounded-xl border border-slate-200 bg-white hover:border-slate-300 transition space-y-2.5">
         <div class="flex flex-wrap items-center justify-between gap-2">
-          <div class="flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2">
             <span class="text-xs font-bold px-2.5 py-0.5 rounded-full ${badgeColor}">
               ${exTitle} (${ex.level || 'Rèn luyện'})
             </span>
+            ${badgeHtml}
           </div>
           
           <div class="flex items-center gap-2">
@@ -1810,6 +1828,11 @@ function renderExercises() {
               <i data-lucide="${currentRole === 'guest' ? 'lock' : 'file-text'}" class="w-3.5 h-3.5"></i>
               <span>${currentRole === 'guest' ? 'Mở khóa lời giải' : 'Xem lời giải chi tiết'}</span>
             </button>
+
+            <button type="button" onclick="toggleExerciseFeedback('${escapedId}', '${exTitle.replace(/'/g, "\\'")}')" class="text-xs font-semibold px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 rounded-lg flex items-center gap-1 transition shadow-xs" title="Đánh giá bài toán Đúng hay Sai">
+              <i data-lucide="message-square-plus" class="w-3.5 h-3.5 text-amber-600"></i>
+              <span>Phản hồi</span>
+            </button>
           </div>
         </div>
 
@@ -1817,6 +1840,7 @@ function renderExercises() {
           ${formatMathMarkdown(ex.question)}
         </div>
         ${spatialHtml}
+        ${renderFeedbackBoxHtml(escapedId, exTitle)}
 
         <div id="answer-box-${escapedId}" class="hidden p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs sm:text-sm text-slate-700 math-content">
           <span class="font-bold text-slate-800">Đáp án:</span> ${formatMathMarkdown(shortAns)}
@@ -1834,7 +1858,17 @@ function renderExercises() {
 
   if (currentLessonTopicTab === 'all') {
     const totalExCount = topics.reduce((sum, t) => sum + (t.exercises ? t.exercises.length : 0), 0);
-    if (headingEl) headingEl.innerText = "Tất cả 30 Bài tập rèn luyện (Đầy đủ 3 Dạng):";
+    if (headingEl) {
+      headingEl.innerHTML = `
+        <div class="flex items-center gap-2">
+          <span>Tất cả 30 Bài tập rèn luyện (Đầy đủ 3 Dạng):</span>
+          <button type="button" onclick="openAllFeedbacksModal()" class="text-xs font-semibold px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg flex items-center gap-1 transition" title="Xem danh sách các bài toán đã phản hồi">
+            <i data-lucide="list-checks" class="w-3.5 h-3.5"></i>
+            <span>Lịch sử phản hồi</span>
+          </button>
+        </div>
+      `;
+    }
     if (totalPill) totalPill.innerText = `${totalExCount} Bài toán`;
 
     container.innerHTML = topics.map((t, tIdx) => {
@@ -1859,7 +1893,17 @@ function renderExercises() {
   } else {
     const activeTopic = topics[currentLessonTopicTab] || topics[0];
     const exList = activeTopic.exercises || [];
-    if (headingEl) headingEl.innerText = `10 Bài tập rèn luyện ${getTopicDisplayName(activeTopic, currentLessonTopicTab)}:`;
+    if (headingEl) {
+      headingEl.innerHTML = `
+        <div class="flex items-center gap-2">
+          <span>10 Bài tập rèn luyện ${getTopicDisplayName(activeTopic, currentLessonTopicTab)}:</span>
+          <button type="button" onclick="openAllFeedbacksModal()" class="text-xs font-semibold px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg flex items-center gap-1 transition" title="Xem danh sách các bài toán đã phản hồi">
+            <i data-lucide="list-checks" class="w-3.5 h-3.5"></i>
+            <span>Lịch sử phản hồi</span>
+          </button>
+        </div>
+      `;
+    }
     if (totalPill) totalPill.innerText = `${exList.length} Bài toán`;
 
     container.innerHTML = exList.map((ex, exIdx) => renderSingleExerciseHtml(ex, exIdx)).join('');
@@ -1880,6 +1924,418 @@ function toggleFullSolution(id) {
   const box = document.getElementById(`solution-box-${id}`);
   if (box) box.classList.toggle('hidden');
   refreshIconsAndMath();
+}
+
+// ==========================================
+// HỆ THỐNG PHẢN HỒI BÀI TOÁN (ĐÚNG / SAI)
+// ==========================================
+window._feedbackRatings = window._feedbackRatings || {};
+
+function getAllExerciseFeedbacks() {
+  try {
+    const raw = localStorage.getItem('math_exercise_feedbacks');
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function getExerciseFeedback(id) {
+  const all = getAllExerciseFeedbacks();
+  return all[id] || null;
+}
+
+function saveExerciseFeedback(id, feedbackData) {
+  try {
+    const all = getAllExerciseFeedbacks();
+    all[id] = feedbackData;
+    localStorage.setItem('math_exercise_feedbacks', JSON.stringify(all));
+  } catch (e) {
+    console.error('Error saving feedback:', e);
+  }
+}
+
+function getFeedbackBadgeHtml(id) {
+  const existing = getExerciseFeedback(id);
+  if (!existing || !existing.rating) {
+    return `<span id="feedback-badge-${id}" class="hidden"></span>`;
+  }
+  if (existing.rating === 'correct') {
+    return `
+      <span id="feedback-badge-${id}" class="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300" title="Bài toán đã được đánh giá: Đúng chuẩn">
+        <i data-lucide="check-circle-2" class="w-3 h-3 text-emerald-600"></i>
+        <span>Đúng chuẩn</span>
+      </span>
+    `;
+  } else {
+    return `
+      <span id="feedback-badge-${id}" class="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-300" title="Bài toán đã được báo có sai sót">
+        <i data-lucide="alert-circle" class="w-3 h-3 text-rose-600"></i>
+        <span>Đã báo lỗi</span>
+      </span>
+    `;
+  }
+}
+
+function renderFeedbackBoxHtml(id, title) {
+  const existing = getExerciseFeedback(id);
+  const isCorrect = existing && existing.rating === 'correct';
+  const isIncorrect = existing && existing.rating === 'incorrect';
+  const issues = (existing && Array.isArray(existing.issues)) ? existing.issues : [];
+  const noteText = (existing && existing.note) ? existing.note : '';
+
+  return `
+    <div id="feedback-box-${id}" class="hidden mt-3 p-3.5 sm:p-4 rounded-xl border border-indigo-200 bg-indigo-50/50 shadow-xs space-y-3 transition-all duration-200 text-left">
+      <div class="flex items-center justify-between border-b border-indigo-100 pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="p-1.5 bg-indigo-600 text-white rounded-lg flex items-center justify-center shadow-xs">
+            <i data-lucide="message-square-plus" class="w-4 h-4"></i>
+          </span>
+          <div>
+            <h6 class="text-xs sm:text-sm font-bold text-indigo-950">Phản hồi bài toán: <span class="text-indigo-700">${title}</span></h6>
+            <p class="text-[11px] text-slate-500">Đánh giá bài toán Đúng hay Sai sót để ban chuyên môn rà soát hoàn thiện</p>
+          </div>
+        </div>
+        <button type="button" onclick="toggleExerciseFeedback('${id}')" class="text-slate-400 hover:text-slate-600 hover:bg-indigo-100/60 p-1 rounded-lg transition" title="Đóng">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- ĐÁNH GIÁ ĐÚNG HAY SAI -->
+      <div>
+        <div class="text-xs font-bold text-slate-700 mb-2 flex items-center gap-1.5">
+          <span>1. Bạn đánh giá bài toán này như thế nào?</span>
+          <span class="text-rose-500 font-bold">*</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <button type="button" id="feedback-btn-correct-${id}" onclick="selectFeedbackRating('${id}', 'correct')" 
+            class="feedback-rating-btn p-3 rounded-xl border-2 ${isCorrect ? 'border-emerald-500 bg-emerald-50 text-emerald-800' : 'border-slate-200 hover:border-emerald-400 bg-white text-slate-700'} flex items-center justify-center gap-2 font-bold text-xs sm:text-sm transition shadow-2xs">
+            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+            <span>🟢 Bài toán Đúng & Chuẩn</span>
+          </button>
+
+          <button type="button" id="feedback-btn-incorrect-${id}" onclick="selectFeedbackRating('${id}', 'incorrect')" 
+            class="feedback-rating-btn p-3 rounded-xl border-2 ${isIncorrect ? 'border-rose-500 bg-rose-50 text-rose-800' : 'border-slate-200 hover:border-rose-400 bg-white text-slate-700'} flex items-center justify-center gap-2 font-bold text-xs sm:text-sm transition shadow-2xs">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600"></i>
+            <span>🔴 Có sai sót / Cần sửa</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- DANH MỤC VẤN ĐỀ NẾU CÓ SAI SÓT -->
+      <div id="feedback-issues-section-${id}" class="${isIncorrect ? '' : 'hidden'} space-y-2 pt-2 border-t border-indigo-100">
+        <div class="text-xs font-bold text-slate-700 flex items-center justify-between">
+          <span>2. Vấn đề cụ thể bạn phát hiện được:</span>
+          <span class="text-[11px] text-slate-400 font-normal">Có thể chọn nhiều mục</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+          <label class="flex items-center gap-2.5 p-2 rounded-lg bg-white border border-slate-200 hover:border-indigo-300 cursor-pointer transition">
+            <input type="checkbox" name="feedback-issue-${id}" value="de_bai" ${issues.includes('de_bai') ? 'checked' : ''} class="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500">
+            <span class="text-slate-700 font-medium">Lỗi đề bài / Giả thiết chưa chuẩn</span>
+          </label>
+          <label class="flex items-center gap-2.5 p-2 rounded-lg bg-white border border-slate-200 hover:border-indigo-300 cursor-pointer transition">
+            <input type="checkbox" name="feedback-issue-${id}" value="dap_an" ${issues.includes('dap_an') ? 'checked' : ''} class="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500">
+            <span class="text-slate-700 font-medium">Sai đáp số hoặc lời giải chi tiết</span>
+          </label>
+          <label class="flex items-center gap-2.5 p-2 rounded-lg bg-white border border-slate-200 hover:border-indigo-300 cursor-pointer transition">
+            <input type="checkbox" name="feedback-issue-${id}" value="hinh_ve" ${issues.includes('hinh_ve') ? 'checked' : ''} class="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500">
+            <span class="text-slate-700 font-medium">Hình vẽ minh họa chưa khớp đề</span>
+          </label>
+          <label class="flex items-center gap-2.5 p-2 rounded-lg bg-white border border-slate-200 hover:border-indigo-300 cursor-pointer transition">
+            <input type="checkbox" name="feedback-issue-${id}" value="cong_thuc" ${issues.includes('cong_thuc') ? 'checked' : ''} class="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500">
+            <span class="text-slate-700 font-medium">Lỗi hiển thị công thức / Chính tả</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- GHI CHÚ CHI TIẾT -->
+      <div class="space-y-1.5">
+        <label class="text-xs font-bold text-slate-700 flex items-center justify-between">
+          <span>Ý kiến đóng góp / Chi tiết chỗ cần sửa:</span>
+          <span class="text-[11px] text-slate-400 font-normal">Tùy chọn</span>
+        </label>
+        <textarea id="feedback-note-${id}" rows="2" 
+          class="w-full text-xs sm:text-sm p-2.5 rounded-lg border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-slate-400 text-slate-800" 
+          placeholder="Nhập nhận xét cụ thể để giúp hoàn thiện bài toán (ví dụ: cần ghi rõ điều kiện, hình vẽ đổi điểm M...)...">${noteText}</textarea>
+      </div>
+
+      <!-- NÚT GỬI VÀ HỦY -->
+      <div class="flex items-center justify-between pt-1 border-t border-indigo-100">
+        <div id="feedback-status-msg-${id}" class="text-[11px] text-slate-500 italic">
+          ${existing ? `Đã lưu phản hồi lúc ${new Date(existing.timestamp).toLocaleTimeString('vi-VN')} ${new Date(existing.timestamp).toLocaleDateString('vi-VN')}` : ''}
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="toggleExerciseFeedback('${id}')" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-600 border border-slate-200 transition">
+            Đóng
+          </button>
+          <button type="button" onclick="submitExerciseFeedback('${id}', '${title.replace(/'/g, "\\'")}')" class="text-xs font-bold px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-1.5 shadow-sm transition">
+            <i data-lucide="send" class="w-3.5 h-3.5"></i>
+            <span>Gửi phản hồi</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function toggleExerciseFeedback(id, title) {
+  const box = document.getElementById(`feedback-box-${id}`);
+  if (!box) return;
+  const isHidden = box.classList.contains('hidden');
+  if (isHidden) {
+    box.classList.remove('hidden');
+    const existing = getExerciseFeedback(id);
+    if (existing && existing.rating) {
+      window._feedbackRatings[id] = existing.rating;
+    }
+  } else {
+    box.classList.add('hidden');
+  }
+  refreshIconsAndMath();
+}
+
+function selectFeedbackRating(id, rating) {
+  window._feedbackRatings[id] = rating;
+  const btnCorrect = document.getElementById(`feedback-btn-correct-${id}`);
+  const btnIncorrect = document.getElementById(`feedback-btn-incorrect-${id}`);
+  const issuesSection = document.getElementById(`feedback-issues-section-${id}`);
+
+  if (rating === 'correct') {
+    if (btnCorrect) {
+      btnCorrect.className = "feedback-rating-btn p-3 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-800 flex items-center justify-center gap-2 font-bold text-xs sm:text-sm transition shadow-2xs";
+    }
+    if (btnIncorrect) {
+      btnIncorrect.className = "feedback-rating-btn p-3 rounded-xl border-2 border-slate-200 hover:border-rose-400 bg-white text-slate-700 flex items-center justify-center gap-2 font-bold text-xs sm:text-sm transition shadow-2xs";
+    }
+    if (issuesSection) issuesSection.classList.add('hidden');
+  } else {
+    if (btnCorrect) {
+      btnCorrect.className = "feedback-rating-btn p-3 rounded-xl border-2 border-slate-200 hover:border-emerald-400 bg-white text-slate-700 flex items-center justify-center gap-2 font-bold text-xs sm:text-sm transition shadow-2xs";
+    }
+    if (btnIncorrect) {
+      btnIncorrect.className = "feedback-rating-btn p-3 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-800 flex items-center justify-center gap-2 font-bold text-xs sm:text-sm transition shadow-2xs";
+    }
+    if (issuesSection) issuesSection.classList.remove('hidden');
+  }
+  refreshIconsAndMath();
+}
+
+function updateFeedbackBadgeInDom(id, rating) {
+  const badge = document.getElementById(`feedback-badge-${id}`);
+  if (!badge) return;
+
+  badge.classList.remove('hidden');
+  if (rating === 'correct') {
+    badge.className = "inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300";
+    badge.title = "Bài toán đã được đánh giá: Đúng chuẩn";
+    badge.innerHTML = `<i data-lucide="check-circle-2" class="w-3 h-3 text-emerald-600"></i> <span>Đúng chuẩn</span>`;
+  } else {
+    badge.className = "inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-300";
+    badge.title = "Bài toán đã được báo có sai sót";
+    badge.innerHTML = `<i data-lucide="alert-circle" class="w-3 h-3 text-rose-600"></i> <span>Đã báo lỗi</span>`;
+  }
+}
+
+function submitExerciseFeedback(id, title) {
+  const currentRating = window._feedbackRatings && window._feedbackRatings[id];
+  const existing = getExerciseFeedback(id);
+  const rating = currentRating || (existing ? existing.rating : null);
+
+  if (!rating) {
+    alert("Vui lòng chọn đánh giá: 🟢 Bài toán Đúng & Chuẩn hoặc 🔴 Có sai sót / Cần sửa!");
+    return;
+  }
+
+  const issueCheckboxes = document.querySelectorAll(`input[name="feedback-issue-${id}"]:checked`);
+  const issues = Array.from(issueCheckboxes).map(cb => cb.value);
+  const noteEl = document.getElementById(`feedback-note-${id}`);
+  const note = noteEl ? noteEl.value.trim() : '';
+
+  const curLesson = (window.MATH_DATA && window.MATH_DATA.currentLesson) || {};
+  const feedbackData = {
+    id: id,
+    title: title,
+    rating: rating,
+    issues: issues,
+    note: note,
+    timestamp: new Date().toISOString(),
+    lessonTitle: curLesson.lessonTitle || '',
+    gradeId: curLesson.gradeId || '',
+    chapterId: curLesson.chapterId || '',
+    lessonId: curLesson.lessonId || ''
+  };
+
+  saveExerciseFeedback(id, feedbackData);
+  updateFeedbackBadgeInDom(id, rating);
+
+  if (rating === 'correct') {
+    showFeedbackToast(`✅ Đã ghi nhận phản hồi: "${title}" là bài toán Đúng & Chuẩn!`, 'success');
+  } else {
+    showFeedbackToast(`📝 Đã ghi nhận báo lỗi cho "${title}". Ban chuyên môn sẽ rà soát và hoàn thiện!`, 'warning');
+  }
+
+  const statusMsgEl = document.getElementById(`feedback-status-msg-${id}`);
+  if (statusMsgEl) {
+    statusMsgEl.innerText = `Đã lưu phản hồi lúc ${new Date().toLocaleTimeString('vi-VN')} hôm nay`;
+  }
+
+  setTimeout(() => {
+    const box = document.getElementById(`feedback-box-${id}`);
+    if (box) box.classList.add('hidden');
+  }, 400);
+
+  refreshIconsAndMath();
+}
+
+function showFeedbackToast(msg, type = 'success') {
+  let toast = document.getElementById('exercise-feedback-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'exercise-feedback-toast';
+    document.body.appendChild(toast);
+  }
+
+  if (type === 'success') {
+    toast.className = 'fixed bottom-6 right-6 z-50 px-4 py-3 rounded-2xl shadow-xl border border-emerald-300 bg-emerald-950/95 text-white flex items-center gap-3 transition-all duration-300 transform translate-y-0 opacity-100 pointer-events-auto text-xs sm:text-sm font-semibold max-w-md backdrop-blur-md';
+  } else {
+    toast.className = 'fixed bottom-6 right-6 z-50 px-4 py-3 rounded-2xl shadow-xl border border-amber-300 bg-slate-950/95 text-amber-200 flex items-center gap-3 transition-all duration-300 transform translate-y-0 opacity-100 pointer-events-auto text-xs sm:text-sm font-semibold max-w-md backdrop-blur-md';
+  }
+
+  toast.innerHTML = `
+    <div class="p-1.5 rounded-full ${type === 'success' ? 'bg-emerald-600 text-white' : 'bg-amber-600 text-white'} flex items-center justify-center shrink-0">
+      <i data-lucide="${type === 'success' ? 'check' : 'alert-triangle'}" class="w-4 h-4"></i>
+    </div>
+    <div class="leading-snug">${msg}</div>
+  `;
+
+  if (window.lucide) window.lucide.createIcons();
+
+  clearTimeout(window._feedbackToastTimer);
+  window._feedbackToastTimer = setTimeout(() => {
+    toast.className = 'fixed bottom-6 right-6 z-50 px-4 py-3 rounded-2xl shadow-xl border flex items-center gap-3 transition-all duration-300 transform translate-y-8 opacity-0 pointer-events-none text-xs sm:text-sm font-semibold max-w-md';
+  }, 3500);
+}
+
+// Bảng thống kê toàn bộ phản hồi dành cho Giáo viên / Học sinh
+function openAllFeedbacksModal() {
+  const allFeedbacks = getAllExerciseFeedbacks();
+  const list = Object.values(allFeedbacks);
+  
+  let modal = document.getElementById('all-feedbacks-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'all-feedbacks-modal';
+    document.body.appendChild(modal);
+  }
+
+  modal.className = 'fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4';
+  
+  const correctCount = list.filter(f => f.rating === 'correct').length;
+  const incorrectCount = list.filter(f => f.rating === 'incorrect').length;
+
+  modal.innerHTML = `
+    <div class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl border border-slate-200 max-h-[90vh] flex flex-col overflow-hidden">
+      <!-- HEADER -->
+      <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div class="flex items-center gap-2.5">
+          <span class="p-2 bg-indigo-600 text-white rounded-xl shadow-xs">
+            <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+          </span>
+          <div>
+            <h3 class="font-bold text-slate-900 text-base sm:text-lg">Danh Sách Phản Hồi Bài Toán</h3>
+            <p class="text-xs text-slate-500">Tổng hợp ý kiến đánh giá & báo lỗi từ người học và giáo viên</p>
+          </div>
+        </div>
+        <button onclick="document.getElementById('all-feedbacks-modal').remove()" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-200 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- SUMMARY CARDS -->
+      <div class="grid grid-cols-3 gap-3 p-4 bg-indigo-50/40 border-b border-slate-100 text-center">
+        <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs">
+          <div class="text-xl sm:text-2xl font-black text-slate-800">${list.length}</div>
+          <div class="text-[11px] font-bold text-slate-500 uppercase mt-0.5">Tổng phản hồi</div>
+        </div>
+        <div class="p-3 bg-white rounded-xl border border-emerald-200 shadow-2xs">
+          <div class="text-xl sm:text-2xl font-black text-emerald-600">${correctCount}</div>
+          <div class="text-[11px] font-bold text-emerald-700 uppercase mt-0.5">Bài đúng chuẩn 🟢</div>
+        </div>
+        <div class="p-3 bg-white rounded-xl border border-rose-200 shadow-2xs">
+          <div class="text-xl sm:text-2xl font-black text-rose-600">${incorrectCount}</div>
+          <div class="text-[11px] font-bold text-rose-700 uppercase mt-0.5">Bài báo lỗi 🔴</div>
+        </div>
+      </div>
+
+      <!-- LIST CONTENT -->
+      <div class="flex-1 overflow-y-auto p-4 space-y-3">
+        ${list.length === 0 ? `
+          <div class="text-center py-12 text-slate-400 text-sm">
+            <i data-lucide="inbox" class="w-10 h-10 mx-auto mb-2 opacity-50"></i>
+            Chưa có phản hồi nào được gửi. Hãy bấm nút "Phản hồi" ở từng bài toán để đánh giá.
+          </div>
+        ` : list.map((f, idx) => {
+          const isCorr = f.rating === 'correct';
+          const issueLabels = {
+            de_bai: 'Lỗi đề bài',
+            dap_an: 'Sai đáp số/lời giải',
+            hinh_ve: 'Hình vẽ chưa khớp',
+            cong_thuc: 'Lỗi công thức/chính tả'
+          };
+          const issueListStr = (f.issues && f.issues.length) 
+            ? f.issues.map(iss => `<span class="px-2 py-0.5 rounded bg-rose-100 text-rose-800 font-semibold text-[10px]">${issueLabels[iss] || iss}</span>`).join(' ')
+            : '';
+
+          return `
+            <div class="p-3.5 rounded-xl border ${isCorr ? 'border-emerald-200 bg-emerald-50/30' : 'border-rose-200 bg-rose-50/30'} space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-900 text-xs sm:text-sm">${f.title}</span>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${isCorr ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                    ${isCorr ? '🟢 Đúng chuẩn' : '🔴 Báo lỗi'}
+                  </span>
+                </div>
+                <span class="text-[11px] text-slate-400 font-mono">${new Date(f.timestamp).toLocaleString('vi-VN')}</span>
+              </div>
+              
+              ${f.lessonTitle ? `<div class="text-[11px] text-slate-500 font-medium">Thuộc: ${f.lessonTitle}</div>` : ''}
+
+              ${issueListStr ? `<div class="flex flex-wrap gap-1.5 pt-1">${issueListStr}</div>` : ''}
+
+              ${f.note ? `
+                <div class="p-2.5 rounded-lg bg-white border border-slate-200 text-xs text-slate-700 italic">
+                  "${f.note}"
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }).join('')}
+      </div>
+
+      <!-- FOOTER -->
+      <div class="p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
+        <button onclick="clearAllFeedbacks()" class="text-xs text-rose-600 hover:text-rose-700 font-semibold px-3 py-1.5 rounded-lg hover:bg-rose-50 transition border border-rose-200">
+          Xóa toàn bộ phản hồi
+        </button>
+        <button onclick="document.getElementById('all-feedbacks-modal').remove()" class="text-xs font-bold px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white transition">
+          Đóng
+        </button>
+      </div>
+    </div>
+  `;
+
+  if (window.lucide) window.lucide.createIcons();
+}
+
+function clearAllFeedbacks() {
+  if (confirm("Thầy/Cô có chắc chắn muốn xóa tất cả lịch sử phản hồi đã lưu?")) {
+    localStorage.removeItem('math_exercise_feedbacks');
+    window._feedbackRatings = {};
+    openAllFeedbacksModal();
+    if (typeof renderExercises === 'function') renderExercises();
+    if (typeof renderExamples === 'function') renderExamples();
+    showFeedbackToast("Đã dọn sạch lịch sử phản hồi bài toán!", "warning");
+  }
 }
 
 // ==========================================
