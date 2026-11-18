@@ -1858,14 +1858,17 @@ window.LESSON_THEORY_DB = {
   "g11-c4-l11": [
     {
       "title": "1. Vị trí tương đối của hai đường thẳng trong không gian",
+      "diagramId": "tikz-g11-l11-theory-positions",
       "content": "- Cho hai đường thẳng $a$ và $b$ trong không gian, có **4 vị trí tương đối**:\n  + **Cùng nằm trong một mặt phẳng (Đồng phẳng):**\n    1. **Cắt nhau:** Có đúng $1$ điểm chung ($a \\cap b = \\{I\\}$).\n    2. **Song song ($a \\parallel b$):** Cùng nằm trong một mặt phẳng và không có điểm chung.\n    3. **Trùng nhau ($a \\equiv b$):** Có từ $2$ điểm chung phân biệt trở lên.\n  + **Không cùng nằm trong bất kỳ mặt phẳng nào:**\n    4. **Chéo nhau:** $a$ và $b$ không đồng phẳng (và không có điểm chung)."
     },
     {
       "title": "2. Tính chất cơ bản về hai đường thẳng song song",
+      "diagramId": "tikz-g11-l11-theory-transitive",
       "content": "- **Định lí 1:** Trong không gian, qua một điểm nằm ngoài một đường thẳng, có một và chỉ một đường thẳng song song với đường thẳng đó.\n- **Định lí 2 (Bắc cầu):** Hai đường thẳng phân biệt cùng song song với một đường thẳng thứ ba thì song song với nhau:\n$$\\begin{cases} a \\parallel c \\\\ b \\parallel c \\end{cases} \\implies a \\parallel b$$"
     },
     {
       "title": "3. Định lí về giao tuyến của ba mặt phẳng (Tìm giao tuyến song song)",
+      "diagramId": "tikz-g11-l11-theory-parallel-intersections",
       "content": "- **Định lí:** Nếu ba mặt phẳng đôi một cắt nhau theo ba giao tuyến phân biệt thì ba giao tuyến ấy hoặc **đồng quy** hoặc **đôi một song song**.\n- **Hệ quả tìm giao tuyến song song:** Nếu hai mặt phẳng phân biệt $(P)$ và $(Q)$ lần lượt chứa hai đường thẳng song song $a$ và $b$ ($a \\parallel b$) thì giao tuyến $d = (P) \\cap (Q)$ (nếu có) sẽ **song song với cả $a$ và $b$** (hoặc trùng với một trong hai đường đó):\n$$\\begin{cases} a \\subset (P), \\ b \\subset (Q) \\\\ a \\parallel b \\\\ (P) \\cap (Q) = d \\end{cases} \\implies d \\parallel a \\parallel b$$"
     }
   ],

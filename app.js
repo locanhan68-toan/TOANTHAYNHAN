@@ -1533,6 +1533,14 @@ function renderTheory() {
           ];
           secDiag = window.MATH_TIKZ_LIBRARY.find(d => d.id === l10TheoryIds[secIdx]);
         }
+        if (!secDiag && curLesson.lessonId === 'g11-c4-l11' && window.MATH_TIKZ_LIBRARY) {
+          const l11TheoryIds = [
+            'tikz-g11-l11-theory-positions',
+            'tikz-g11-l11-theory-transitive',
+            'tikz-g11-l11-theory-parallel-intersections'
+          ];
+          secDiag = window.MATH_TIKZ_LIBRARY.find(d => d.id === l11TheoryIds[secIdx]);
+        }
 
         const secDiagHtml = secDiag ? `
           <div class="mt-3 p-2.5 bg-white rounded-xl border border-indigo-100 shadow-2xs">

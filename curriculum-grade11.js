@@ -3356,14 +3356,17 @@ window.GRADE_11_KNOWLEDGE = {
       sections: [
         {
           title: "1. Vị trí tương đối của hai đường thẳng trong không gian",
+          diagramId: "tikz-g11-l11-theory-positions",
           content: "- **Trường hợp 1 (Đồng phẳng):**\n  + Cắt nhau: Có đúng 1 điểm chung.\n  + Song song: Cùng thuộc một mặt phẳng và không có điểm chung.\n  + Trùng nhau: Có vô số điểm chung.\n- **Trường hợp 2 (Không đồng phẳng):**\n  + Chéo nhau: Không cùng nằm trong bất kì mặt phẳng nào."
         },
         {
           title: "2. Tính chất cơ bản về hai đường thẳng song song",
+          diagramId: "tikz-g11-l11-theory-transitive",
           content: "- **Định lý 1:** Trong không gian, qua một điểm nằm ngoài một đường thẳng có một và chỉ một đường thẳng song song với đường thẳng đó.\n- **Định lý 2 (Bắc cầu):** Hai đường thẳng phân biệt cùng song song với một đường thẳng thứ ba thì song song với nhau:\n$$a \\parallel c \\text{ và } b \\parallel c \\implies a \\parallel b$$"
         },
         {
           title: "3. Định lý giao tuyến của ba mặt phẳng & Giao tuyến song song",
+          diagramId: "tikz-g11-l11-theory-parallel-intersections",
           content: "- **Định lý ba giao tuyến:** Nếu ba mặt phẳng đôi một cắt nhau theo ba giao tuyến phân biệt thì ba giao tuyến đó hoặc đồng quy hoặc đôi một song song.\n- **Hệ quả tìm giao tuyến song song:** Nếu hai mặt phẳng phân biệt lần lượt chứa hai đường thẳng song song thì giao tuyến của chúng (nếu có) song song với hai đường thẳng đó (hoặc trùng với một trong hai đường):\n$$\\begin{cases} a \\subset (P), \\ b \\subset (Q) \\\\ a \\parallel b \\\\ (P) \\cap (Q) = d \\end{cases} \\implies d \\parallel a \\parallel b$$"
         }
       ]
@@ -3376,12 +3379,14 @@ window.GRADE_11_KNOWLEDGE = {
       examples: [
         {
           title: "Ví dụ minh họa 1 (Thông hiểu)",
+          diagramId: "tikz-g11-l11-d1-tetra-ab-cd",
           question: "Cho tứ diện $ABCD$. Chứng minh rằng hai đường thẳng $AB$ và $CD$ chéo nhau. Tứ diện $ABCD$ có tất cả bao nhiêu cặp cạnh chéo nhau?",
           shortAnswer: "3 cặp cạnh chéo nhau: (AB, CD), (AC, BD), (AD, BC)",
           solution: "1. Giả sử $AB$ và $CD$ không chéo nhau, tức là $AB$ và $CD$ cùng thuộc một mặt phẳng $(P)$.\n- Khi đó cả 4 điểm $A, B, C, D$ đều thuộc $(P)$, mâu thuẫn với giả thiết $ABCD$ là tứ diện (4 điểm không đồng phẳng).\n- Do đó hai đường thẳng $AB$ và $CD$ chéo nhau.\n2. Tứ diện $ABCD$ có 6 cạnh đôi một tạo thành 3 cặp cạnh đối diện không có đỉnh chung: $(AB, CD)$, $(AC, BD)$, $(AD, BC)$. Cả 3 cặp cạnh đối này đều là các cặp đường thẳng chéo nhau."
         },
         {
           title: "Ví dụ minh họa 2 (Vận dụng)",
+          diagramId: "tikz-g11-l11-d1-pyramid-sa-cd",
           question: "Cho hình chóp $S.ABCD$ có đáy là hình bình hành. Xác định vị trí tương đối giữa hai đường thẳng $SA$ và $CD$.",
           shortAnswer: "Hai đường thẳng $SA$ và $CD$ chéo nhau",
           solution: "1. Giả sử $SA$ và $CD$ đồng phẳng, tức là cùng thuộc mặt phẳng $(\\alpha)$.\n- Khi đó $S, A, C, D \\in (\\alpha)$. Vì $ABCD$ là hình bình hành nên điểm $B$ cũng phải thuộc mặt phẳng $(ACD) = (\\alpha)$.\n- Suy ra tất cả các đỉnh của hình chóp đều thuộc $(\\alpha)$, mâu thuẫn với định nghĩa hình chóp.\n2. Lập luận ngắn gọn theo định lý:\n- Ta có $CD \\subset (ABCD)$ và đường thẳng $SA$ cắt mặt phẳng đáy $(ABCD)$ tại điểm $A$.\n- Vì $A \\notin CD$ nên đường thẳng $SA$ và đường thẳng $CD$ chéo nhau."
@@ -3392,6 +3397,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d1-ex1",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
+          diagramId: "tikz-g11-l11-d1-skew-def",
           question: "Thế nào là hai đường thẳng chéo nhau trong không gian?",
           shortAnswer: "Là hai đường thẳng không cùng thuộc bất kì mặt phẳng nào",
           fullSolution: "Hai đường thẳng được gọi là chéo nhau nếu chúng không cùng nằm trong một mặt phẳng (không đồng phẳng)."
@@ -3400,6 +3406,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d1-ex2",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
+          diagramId: "tikz-g11-l11-d1-parallel-def",
           question: "Hai đường thẳng song song trong không gian là hai đường thẳng thoả mãn những điều kiện gì?",
           shortAnswer: "Cùng nằm trong một mặt phẳng và không có điểm chung",
           fullSolution: "Hai đường thẳng gọi là song song nếu chúng cùng thuộc một mặt phẳng và không có điểm chung."
@@ -3408,6 +3415,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d1-ex3",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
+          diagramId: "tikz-g11-l11-d1-tetra-ab-cd",
           question: "Trong tứ diện $ABCD$, cặp cạnh đối $AB$ và $CD$ có vị trí tương đối như thế nào?",
           shortAnswer: "Chéo nhau",
           fullSolution: "Bốn điểm $A, B, C, D$ không đồng phẳng nên hai đường thẳng $AB$ và $CD$ không cùng thuộc mặt phẳng nào, do đó chúng chéo nhau."
@@ -3416,6 +3424,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d1-ex4",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
+          diagramId: "tikz-g11-l11-d1-transitive-abc",
           question: "Trong không gian, cho ba đường thẳng phân biệt $a, b, c$. Nếu $a \\parallel b$ và $b \\parallel c$ thì kết luận gì về vị trí của $a$ và $c$?",
           shortAnswer: "$a \\parallel c$",
           fullSolution: "Theo tính chất bắc cầu của quan hệ song song: Hai đường thẳng phân biệt cùng song song với đường thẳng thứ ba thì song song với nhau."
@@ -3424,6 +3433,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d1-ex5",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
+          diagramId: "tikz-g11-l11-d1-pyramid-sa-cd",
           question: "Cho hình chóp $S.ABCD$ có đáy là hình bình hành. Xác định vị trí tương đối giữa hai đường thẳng $SA$ và $CD$.",
           shortAnswer: "Chéo nhau",
           fullSolution: "Giả sử $SA$ và $CD$ đồng phẳng, khi đó 4 điểm $S, A, C, D$ cùng thuộc một mặt phẳng, suy ra $S \\in (ABCD)$, mâu thuẫn với định nghĩa hình chóp. Do đó $SA$ và $CD$ không đồng phẳng, tức là chéo nhau."
@@ -3432,6 +3442,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d1-ex6",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
+          diagramId: "tikz-g11-l11-d1-tetra-3pairs",
           question: "Tứ diện $ABCD$ có tất cả bao nhiêu cặp cạnh chéo nhau?",
           shortAnswer: "3 cặp cạnh chéo nhau",
           fullSolution: "Tứ diện có 6 cạnh: $AB, CD$; $AC, BD$; $AD, BC$. Cứ mỗi cặp cạnh đối diện tạo thành một cặp đường thẳng chéo nhau. Do đó có đúng 3 cặp cạnh chéo nhau: $(AB, CD), (AC, BD), (AD, BC)$."
@@ -3440,6 +3451,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d1-ex7",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
+          diagramId: "tikz-g11-l11-d1-prism-aa-bc",
           question: "Cho hình lăng trụ tam giác $ABC.A'B'C'$. Xác định vị trí tương đối giữa hai đường thẳng $AA'$ và $BC$.",
           shortAnswer: "Chéo nhau",
           fullSolution: "Đường thẳng $AA'$ nằm trong mặt bên $(ABB'A')$, còn $BC$ cắt mặt này tại $B \\notin AA'$. Vì vậy $AA'$ và $BC$ không đồng phẳng, tức là chéo nhau."
@@ -3448,6 +3460,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d1-ex8",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
+          diagramId: "tikz-g11-l11-d1-tetra-mn-bc",
           question: "Cho tứ diện $ABCD$. Gọi $M, N$ lần lượt là trung điểm của $AB$ và $CD$. Chứng minh đường thẳng $MN$ chéo nhau với đường thẳng $BC$.",
           shortAnswer: "$MN$ và $BC$ chéo nhau",
           fullSolution: "Giả sử $MN$ và $BC$ đồng phẳng, khi đó $M, N, B, C$ cùng thuộc một mặt phẳng $(\\alpha)$.\nVì $B, M \\in (\\alpha)$ nên $A \\in (\\alpha)$ (do $M \\in AB$).\nVì $C, N \\in (\\alpha)$ nên $D \\in (\\alpha)$ (do $N \\in CD$).\nSuy ra cả 4 đỉnh $A, B, C, D$ cùng thuộc mặt phẳng $(\\alpha)$, vô lý vì $ABCD$ là tứ diện.\nVậy $MN$ và $BC$ chéo nhau."
@@ -3456,6 +3469,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d1-ex9",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
+          diagramId: "tikz-g11-l11-d1-pyramid-cm-bd",
           question: "Cho hình chóp $S.ABCD$ đáy hình bình hành. Lấy điểm $M$ trên cạnh $SA$ ($M \\ne S, A$). Xác định vị trí tương đối giữa đường thẳng $CM$ và đường chéo đáy $BD$.",
           shortAnswer: "Chéo nhau",
           fullSolution: "Đường chéo $BD$ nằm trong mặt phẳng đáy $(ABCD)$.\nĐường thẳng $CM$ cắt mặt phẳng đáy $(ABCD)$ tại duy nhất điểm $C$.\nVì điểm $C$ không thuộc đường thẳng $BD$ (do $ABCD$ là hình bình hành nên $C \\notin BD$), suy ra đường thẳng $CM$ không cắt $BD$ và không song song với $BD$.\nVậy $CM$ và $BD$ là hai đường thẳng chéo nhau."
@@ -3464,6 +3478,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d1-ex10",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
+          diagramId: "tikz-g11-l11-d1-4parallel-lines",
           question: "Trong không gian cho 4 đường thẳng phân biệt đôi một song song. Hỏi 4 đường thẳng này xác định tối đa bao nhiêu mặt phẳng phân biệt chứa từng cặp đường thẳng?",
           shortAnswer: "6 mặt phẳng",
           fullSolution: "Cứ 2 đường thẳng song song phân biệt thì xác định duy nhất 1 mặt phẳng.\nSố mặt phẳng tối đa tạo thành từ từng cặp đường thẳng trong 4 đường thẳng song song là số tổ hợp chập 2 của 4:\n$C_4^2 = \\dfrac{4 \\times 3}{2} = 6$ mặt phẳng (khi không có 3 đường thẳng nào cùng thuộc một mặt phẳng)."
@@ -3477,12 +3492,14 @@ window.GRADE_11_KNOWLEDGE = {
       examples: [
         {
           title: "Ví dụ minh họa 1 (Thông hiểu)",
+          diagramId: "tikz-g11-l11-d2-tetra-pqrs",
           question: "Cho tứ diện $ABCD$. Gọi $P, Q, R, S$ lần lượt là trung điểm của các cạnh $AB, BC, CD, DA$. Chứng minh rằng tứ giác $PQRS$ là hình bình hành.",
           shortAnswer: "Tứ giác $PQRS$ là hình bình hành",
           solution: "1. Trong tam giác $ABC$:\n- $P$ là trung điểm $AB$, $Q$ là trung điểm $BC$ nên $PQ$ là đường trung bình của $\\triangle ABC$.\n- Suy ra $PQ \\parallel AC$ và $PQ = \\dfrac{1}{2}AC$.\n2. Trong tam giác $ADC$:\n- $S$ là trung điểm $AD$, $R$ là trung điểm $CD$ nên $SR$ là đường trung bình của $\\triangle ADC$.\n- Suy ra $SR \\parallel AC$ và $SR = \\dfrac{1}{2}AC$.\n3. Kết luận:\n- Ta có $PQ \\parallel SR$ (cùng song song với $AC$) và $PQ = SR = \\dfrac{1}{2}AC$.\n- Tứ giác $PQRS$ có một cặp cạnh đối song song và bằng nhau nên $PQRS$ là hình bình hành."
         },
         {
           title: "Ví dụ minh họa 2 (Vận dụng)",
+          diagramId: "tikz-g11-l11-d2-pyramid-mn-parallel-cd",
           question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành. Gọi $M, N$ lần lượt là trung điểm của $SA$ và $SB$. Chứng minh rằng $MN \\parallel CD$.",
           shortAnswer: "$MN \\parallel CD$",
           solution: "1. Trong tam giác $SAB$:\n- $M, N$ lần lượt là trung điểm của $SA, SB$ nên $MN$ là đường trung bình của $\\triangle SAB$.\n- Suy ra $MN \\parallel AB$.\n2. Vì $ABCD$ là hình bình hành nên cạnh đối $AB \\parallel CD$.\n3. Theo định lý ba đường thẳng song song (tính chất bắc cầu):\n$$\\begin{cases} MN \\parallel AB \\\\ CD \\parallel AB \\end{cases} \\implies MN \\parallel CD$$"
@@ -3493,6 +3510,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d2-ex1",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
+          diagramId: "tikz-g11-l11-d2-midsegment-mn-bc",
           question: "Trong tam giác $ABC$, nếu $M, N$ lần lượt là trung điểm của $AB$ và $AC$, thì đoạn thẳng $MN$ có quan hệ gì với cạnh $BC$?",
           shortAnswer: "$MN \\parallel BC$ và $MN = \\dfrac{1}{2}BC$",
           fullSolution: "Theo tính chất đường trung bình của tam giác trong hình học: $MN \\parallel BC$ và $MN = \\dfrac{1}{2}BC$."
@@ -3501,6 +3519,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d2-ex2",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
+          diagramId: "tikz-g11-l11-d2-three-planes",
           question: "Nêu định lý về giao tuyến của ba mặt phẳng (định lí ba đường giao tuyến).",
           shortAnswer: "Nếu ba mặt phẳng đôi một cắt nhau theo ba giao tuyến phân biệt thì ba giao tuyến đó hoặc đồng quy hoặc đôi một song song",
           fullSolution: "Định lý: Nếu ba mặt phẳng đôi một cắt nhau theo ba giao tuyến phân biệt: $(P) \\cap (Q) = a, (Q) \\cap (R) = b, (R) \\cap (P) = c$, thì ba đường thẳng $a, b, c$ hoặc đồng quy tại một điểm hoặc đôi một song song."
@@ -3509,6 +3528,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d2-ex3",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
+          diagramId: "tikz-g11-l11-d2-parallelogram-plane",
           question: "Cho hình bình hành $ABCD$. Cặp cạnh đối diện nào song song với nhau?",
           shortAnswer: "$AB \\parallel CD$ và $AD \\parallel BC$",
           fullSolution: "Theo định nghĩa hình bình hành: các cặp cạnh đối diện song song và bằng nhau: $AB \\parallel CD$ và $AD \\parallel BC$."
@@ -3517,6 +3537,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d2-ex4",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
+          diagramId: "tikz-g11-l11-d1-transitive-abc",
           question: "Trong không gian, nếu $a \\parallel b$ và $c \\parallel b$ (với $a, b, c$ phân biệt) thì quan hệ giữa $a$ và $c$ là gì?",
           shortAnswer: "$a \\parallel c$",
           fullSolution: "Theo tính chất bắc cầu của hai đường thẳng song song: $a \\parallel c$."
@@ -3525,6 +3546,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d2-ex5",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
+          diagramId: "tikz-g11-l11-d2-midsegment-mn-bc",
           question: "Cho tứ diện $ABCD$. Gọi $M, N$ lần lượt là trung điểm của $AB$ và $AC$. Chứng minh $MN \\parallel BC$.",
           shortAnswer: "$MN \\parallel BC$ (đường trung bình $\\triangle ABC$)",
           fullSolution: "Xét tam giác $ABC$ có $M$ là trung điểm $AB$, $N$ là trung điểm $AC$.\nSuy ra $MN$ là đường trung bình của tam giác $ABC$.\nDo đó $MN \\parallel BC$."
@@ -3533,6 +3555,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d2-ex6",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
+          diagramId: "tikz-g11-l11-d2-pyramid-mn-parallel-cd",
           question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành. Gọi $M, N$ lần lượt là trung điểm của $SA$ và $SB$. Chứng minh $MN \\parallel CD$.",
           shortAnswer: "$MN \\parallel CD$",
           fullSolution: "Trong tam giác $SAB$, $MN$ là đường trung bình nên $MN \\parallel AB$.\nVì $ABCD$ là hình bình hành nên $AB \\parallel CD$.\nTừ đó suy ra $MN \\parallel CD$ (cùng song song với $AB$)."
@@ -3541,6 +3564,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d2-ex7",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
+          diagramId: "tikz-g11-l11-d2-tetra-pqrs",
           question: "Cho tứ diện $ABCD$. Gọi $P, Q, R, S$ lần lượt là trung điểm của $AB, BC, CD, DA$. Chứng minh tứ giác $PQRS$ là hình bình hành.",
           shortAnswer: "$PQRS$ là hình bình hành",
           fullSolution: "- Trong $\\triangle ABC$: $PQ$ là đường trung bình $\\Rightarrow PQ \\parallel AC$ và $PQ = \\dfrac{1}{2}AC$.\n- Trong $\\triangle ADC$: $SR$ là đường trung bình $\\Rightarrow SR \\parallel AC$ và $SR = \\dfrac{1}{2}AC$.\nSuy ra $PQ \\parallel SR$ và $PQ = SR$.\nVậy tứ giác $PQRS$ có một cặp cạnh đối song song và bằng nhau nên là hình bình hành."
@@ -3549,6 +3573,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d2-ex8",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
+          diagramId: "tikz-g11-l11-d2-pyramid-centroids-g1g2",
           question: "Cho hình chóp $S.ABCD$ đáy hình bình hành. Gọi $G_1, G_2$ lần lượt là trọng tâm của hai tam giác $SAB$ và $SAD$. Chứng minh $G_1G_2 \\parallel BD$.",
           shortAnswer: "$G_1G_2 \\parallel BD$",
           fullSolution: "Gọi $M, N$ lần lượt là trung điểm của $AB$ và $AD$.\nTrong tam giác $SAB$, $G_1$ là trọng tâm $\\Rightarrow \\dfrac{SG_1}{SM} = \\dfrac{2}{3}$.\nTrong tam giác $SAD$, $G_2$ là trọng tâm $\\Rightarrow \\dfrac{SG_2}{SN} = \\dfrac{2}{3}$.\nXét tam giác $SMN$, theo định lý Thalès đảo: $\\dfrac{SG_1}{SM} = \\dfrac{SG_2}{SN} = \\dfrac{2}{3} \\Rightarrow G_1G_2 \\parallel MN$.\nTrong tam giác $ABD$, $MN$ là đường trung bình nối trung điểm $AB$ và $AD$ nên $MN \\parallel BD$.\nTừ đó suy ra $G_1G_2 \\parallel BD$."
@@ -3557,6 +3582,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d2-ex9",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
+          diagramId: "tikz-g11-l11-d2-two-parallelograms-o1o2",
           question: "Cho hai hình bình hành $ABCD$ và $ABEF$ không cùng nằm trong một mặt phẳng. Gọi $O_1, O_2$ lần lượt là tâm của hai hình bình hành này. Chứng minh $O_1O_2 \\parallel CE$ và $O_1O_2 \\parallel DF$.",
           shortAnswer: "$O_1O_2 \\parallel CE$ và $O_1O_2 \\parallel DF$",
           fullSolution: "Xét tam giác $ACE$:\nVì $ABCD$ là hình bình hành tâm $O_1$ nên $O_1$ là trung điểm đường chéo $AC$.\nVì $ABEF$ là hình bình hành tâm $O_2$ nên $O_2$ là trung điểm đường chéo $AE$.\nDo đó đoạn thẳng $O_1O_2$ là đường trung bình của tam giác $ACE$.\nSuy ra $O_1O_2 \\parallel CE$ và $O_1O_2 = \\dfrac{1}{2}CE$.\nChứng minh tương tự trong tam giác $BDF$: $O_1$ là trung điểm $BD$, $O_2$ là trung điểm $BF$, suy ra $O_1O_2$ là đường trung bình $\\triangle BDF \\Rightarrow O_1O_2 \\parallel DF$."
@@ -3565,6 +3591,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d2-ex10",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
+          diagramId: "tikz-g11-l11-d2-tetra-thales-mn-pq",
           question: "Cho tứ diện $ABCD$. Lấy $M \\in AB, N \\in AC$ sao cho $\\dfrac{AM}{AB} = \\dfrac{AN}{AC} = \\dfrac{1}{3}$. Lấy $P \\in BD, Q \\in CD$ sao cho $\\dfrac{DP}{DB} = \\dfrac{DQ}{DC} = \\dfrac{2}{3}$. Chứng minh $MN \\parallel PQ$ và tính tỉ số $\\dfrac{MN}{PQ}$.",
           shortAnswer: "$MN \\parallel PQ$ và $\\dfrac{MN}{PQ} = \\dfrac{1}{2}$",
           fullSolution: "Trong $\\triangle ABC$: $\\dfrac{AM}{AB} = \\dfrac{AN}{AC} = \\dfrac{1}{3} \\Rightarrow MN \\parallel BC$ và $MN = \\dfrac{1}{3}BC$.\nTrong $\\triangle DBC$: $\\dfrac{DP}{DB} = \\dfrac{DQ}{DC} = \\dfrac{2}{3} \\Rightarrow PQ \\parallel BC$ và $PQ = \\dfrac{2}{3}BC$.\nVì $MN$ và $PQ$ cùng song song với $BC$, suy ra $MN \\parallel PQ$.\nTỉ số: $\\dfrac{MN}{PQ} = \\dfrac{\\frac{1}{3}BC}{\\frac{2}{3}BC} = \\dfrac{1}{2}$."
@@ -3578,12 +3605,14 @@ window.GRADE_11_KNOWLEDGE = {
       examples: [
         {
           title: "Ví dụ minh họa 1 (Thông hiểu)",
+          diagramId: "tikz-g11-l11-d3-pyramid-intersection-s-ab-cd",
           question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành. Tìm giao tuyến của hai mặt phẳng $(SAB)$ và $(SCD)$.",
           shortAnswer: "Đường thẳng $d$ đi qua $S$ và song song với $AB, CD$",
           solution: "1. Điểm chung: Điểm $S$ là điểm chung của hai mặt phẳng $(SAB)$ và $(SCD)$, tức là $S \\in (SAB) \\cap (SCD)$.\n2. Đường thẳng song song:\n- Ta có $AB \\subset (SAB)$ và $CD \\subset (SCD)$.\n- Vì $ABCD$ là hình bình hành nên $AB \\parallel CD$.\n3. Theo định lý giao tuyến song song:\n- Hai mặt phẳng $(SAB)$ và $(SCD)$ lần lượt chứa hai đường thẳng song song $AB$ và $CD$ nên giao tuyến của chúng là đường thẳng $d$ đi qua điểm chung $S$ và song song với $AB, CD$:\n$$(SAB) \\cap (SCD) = d \\quad (d \\parallel AB \\parallel CD)$$"
         },
         {
           title: "Ví dụ minh họa 2 (Vận dụng)",
+          diagramId: "tikz-g11-l11-d3-tetra-section-mnpq",
           question: "Cho tứ diện $ABCD$. Gọi $M$ là một điểm thuộc cạnh $AB$ ($M \\ne A, B$). Mặt phẳng $(\\alpha)$ đi qua $M$ và song song với hai cạnh đối $BC$ và $AD$. Tìm thiết diện của tứ diện cắt bởi mặt phẳng $(\\alpha)$.",
           shortAnswer: "Thiết diện là hình bình hành $MNPQ$",
           solution: "1. Xác định các đoạn giao tuyến:\n- Mặt phẳng $(\\alpha) \\parallel BC$ và chứa $M \\in (ABC)$ nên giao tuyến của $(\\alpha)$ với $(ABC)$ là đường thẳng qua $M$ song song với $BC$, cắt $AC$ tại $N$ ($MN \\parallel BC$).\n- Mặt phẳng $(\\alpha) \\parallel AD$ và chứa $N \\in (ACD)$ nên giao tuyến với $(ACD)$ là đường thẳng qua $N$ song song với $AD$, cắt $CD$ tại $P$ ($NP \\parallel AD$).\n- Mặt phẳng $(\\alpha) \\parallel BC$ và chứa $P \\in (BCD)$ nên giao tuyến với $(BCD)$ là đường thẳng qua $P$ song song với $BC$, cắt $BD$ tại $Q$ ($PQ \\parallel BC$).\n- Nối $Q$ với $M$, ta có $MQ$ là giao tuyến trên mặt $(ABD)$ và $MQ \\parallel AD$.\n2. Kết luận hình dạng thiết diện:\n- Tứ giác $MNPQ$ có $MN \\parallel PQ$ (cùng $\\parallel BC$) và $NP \\parallel MQ$ (cùng $\\parallel AD$).\n- Vậy thiết diện là hình bình hành $MNPQ$."
@@ -3594,6 +3623,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d3-ex1",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
+          diagramId: "tikz-g11-l11-d3-theorem-parallel-intersection",
           question: "Phát biểu định lý về giao tuyến của hai mặt phẳng chứa hai đường thẳng song song.",
           shortAnswer: "Nếu hai mặt phẳng chứa hai đường thẳng song song thì giao tuyến của chúng (nếu có) song song với hai đường thẳng đó hoặc trùng với một trong hai đường thẳng đó",
           fullSolution: "Định lý: Nếu hai mặt phẳng phân biệt $(P)$ và $(Q)$ lần lượt chứa hai đường thẳng song song $a$ và $b$ ($a \\subset (P), b \\subset (Q), a \\parallel b$), thì giao tuyến $d$ của $(P)$ và $(Q)$ (nếu có) sẽ song song với $a$ và $b$ (hoặc trùng với một trong hai)."
@@ -3602,6 +3632,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d3-ex2",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
+          diagramId: "tikz-g11-l11-d3-pyramid-intersection-s-ab-cd",
           question: "Cho hình chóp $S.ABCD$ đáy hình bình hành. Giao tuyến của hai mặt phẳng $(SAB)$ và $(SCD)$ đi qua điểm nào và song song với đường thẳng nào?",
           shortAnswer: "Đi qua điểm $S$ và song song với $AB, CD$",
           fullSolution: "Hai mặt phẳng $(SAB)$ và $(SCD)$ có điểm chung $S$ và lần lượt chứa hai đường thẳng song song $AB$ và $CD$. Do đó giao tuyến là đường thẳng $d$ đi qua $S$ và song song với $AB$ (và $CD$)."
@@ -3610,6 +3641,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d3-ex3",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
+          diagramId: "tikz-g11-l11-d3-tetra-section-mnpq",
           question: "Thiết diện của tứ diện cắt bởi mặt phẳng song song với hai cạnh đối của tứ diện là hình gì?",
           shortAnswer: "Hình bình hành",
           fullSolution: "Mặt phẳng song song với hai cạnh đối của tứ diện sẽ cắt 4 mặt của tứ diện theo 4 đoạn thẳng đôi một song song với hai cạnh đối đó, do đó thiết diện thu được luôn là một hình bình hành."
@@ -3618,6 +3650,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d3-ex4",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
+          diagramId: "tikz-g11-l11-d3-pyramid-intersection-s-ad-bc",
           question: "Cho hình chóp $S.ABCD$ đáy hình bình hành. Giao tuyến của hai mặt phẳng $(SAD)$ và $(SBC)$ là đường thẳng như thế nào?",
           shortAnswer: "Đường thẳng qua $S$ và song song với $AD, BC$",
           fullSolution: "Vì $AD \\parallel BC$, $AD \\subset (SAD), BC \\subset (SBC)$ và hai mặt phẳng có chung đỉnh $S$, nên giao tuyến là đường thẳng qua $S$ song song với $AD$ và $BC$."
@@ -3626,6 +3659,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d3-ex5",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
+          diagramId: "tikz-g11-l11-d3-pyramid-trapezoid-intersection-s",
           question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình thang ($AB \\parallel CD, AB > CD$). Tìm giao tuyến của hai mặt phẳng $(SAB)$ và $(SCD)$.",
           shortAnswer: "Đường thẳng $d$ qua $S$ và song song với $AB, CD$",
           fullSolution: "Ta có $S \\in (SAB) \\cap (SCD)$.\nLại có $AB \\subset (SAB), CD \\subset (SCD)$ và $AB \\parallel CD$.\nTheo định lý giao tuyến song song, giao tuyến của $(SAB)$ và $(SCD)$ là đường thẳng $d$ đi qua $S$ và $d \\parallel AB \\parallel CD$."
@@ -3634,6 +3668,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d3-ex6",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
+          diagramId: "tikz-g11-l11-d3-tetra-mn-parallel-bc",
           question: "Cho tứ diện $ABCD$. Gọi $M$ là điểm thuộc cạnh $AB$. Mặt phẳng $(\\alpha)$ đi qua $M$ và song song với $BC$ và $AD$. Tìm giao tuyến của $(\\alpha)$ với mặt phẳng $(ABC)$.",
           shortAnswer: "Đường thẳng qua $M$ song song với $BC$",
           fullSolution: "Mặt phẳng $(\\alpha)$ chứa điểm $M$ và song song với $BC$.\nMặt phẳng $(ABC)$ chứa $BC$ và điểm $M$.\nDo đó giao tuyến $(\\alpha) \\cap (ABC)$ là đường thẳng đi qua $M$ và song song với $BC$, cắt $AC$ tại $N$."
@@ -3642,6 +3677,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d3-ex7",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
+          diagramId: "tikz-g11-l11-d3-tetra-section-mnpq",
           question: "Tiếp tục bài toán trên: Tìm thiết diện của tứ diện $ABCD$ cắt bởi mặt phẳng $(\\alpha)$ qua $M$ song song với $BC$ và $AD$.",
           shortAnswer: "Hình bình hành $MNPQ$",
           fullSolution: "- Qua $M \\in AB$ kẻ $MN \\parallel BC$ ($N \\in AC$).\n- Qua $N$ kẻ $NP \\parallel AD$ ($P \\in CD$).\n- Qua $P$ kẻ $PQ \\parallel BC$ ($Q \\in BD$).\n- Nối $QM$: ta có $QM \\parallel AD$.\nThiết diện là tứ giác $MNPQ$ có $MN \\parallel PQ \\parallel BC$ và $NP \\parallel MQ \\parallel AD$, nên $MNPQ$ là hình bình hành."
@@ -3650,6 +3686,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d3-ex8",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
+          diagramId: "tikz-g11-l11-d3-pyramid-triangle-section-mpq",
           question: "Cho hình chóp $S.ABCD$ đáy là hình bình hành. Gọi $M$ là trung điểm cạnh $SC$. Mặt phẳng $(\\alpha)$ đi qua $M$ và song song với $BD$ và $SA$. Tìm thiết diện của hình chóp cắt bởi mặt phẳng $(\\alpha)$.",
           shortAnswer: "Tam giác $MPQ$",
           fullSolution: "- Trong $(SAC)$: qua $M$ kẻ đường thẳng song song $SA$ cắt $AC$ tại $O'$ (với $O'$ là trung điểm $OC$).\n- Trong đáy $(ABCD)$: qua $O'$ kẻ đường thẳng song song với $BD$ cắt $BC$ tại $P$ và cắt $CD$ tại $Q$.\n- Trong $(SBC)$: nối $MP$ là đoạn giao tuyến.\n- Trong $(SCD)$: nối $MQ$ là đoạn giao tuyến.\nThiết diện thu được là tam giác $MPQ$."
@@ -3658,6 +3695,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d3-ex9",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
+          diagramId: "tikz-g11-l11-d3-tetra-regular-rectangle-section",
           question: "Cho tứ diện đều $ABCD$ có cạnh bằng $a$. Mặt phẳng $(\\alpha)$ song song với $AB$ và $CD$, cắt cạnh $AC$ tại $M$ với $AM = x$ ($0 < x < a$). Chứng minh thiết diện tạo bởi $(\\alpha)$ với tứ diện là hình chữ nhật và tính diện tích thiết diện theo $a$ và $x$.",
           shortAnswer: "Hình chữ nhật có diện tích $S = x(a - x)$",
           fullSolution: "Mặt phẳng $(\\alpha)$ cắt các mặt theo 4 đoạn giao tuyến song song với $AB$ và $CD$.\nCắt $AC$ tại $M$ ($AM = x$).\n- Trên $(ABC)$: $MN \\parallel AB \\Rightarrow \\dfrac{MN}{AB} = \\dfrac{CM}{CA} = \\dfrac{a-x}{a} \\Rightarrow MN = a - x$.\n- Trên $(ACD)$: $MQ \\parallel CD \\Rightarrow \\dfrac{MQ}{CD} = \\dfrac{AM}{AC} = \\dfrac{x}{a} \\Rightarrow MQ = x$.\nThiết diện là hình bình hành $MNPQ$ có kích thước hai cạnh kề là $a-x$ và $x$.\nVì tứ diện đều nên $AB \\perp CD$, suy ra $MN \\perp MQ$ (do $MN \\parallel AB, MQ \\parallel CD$).\nVậy thiết diện $MNPQ$ là hình chữ nhật.\nDiện tích thiết diện: $S = MN \\times MQ = (a - x)x = ax - x^2$."
@@ -3666,6 +3704,7 @@ window.GRADE_11_KNOWLEDGE = {
           id: "g11-c4-l11-d3-ex10",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
+          diagramId: "tikz-g11-l11-d3-tetra-regular-rectangle-section",
           question: "Từ bài toán trên, tìm vị trí điểm $M$ trên cạnh $AC$ để diện tích thiết diện hình chữ nhật đạt giá trị lớn nhất, và tính giá trị lớn nhất đó theo $a$.",
           shortAnswer: "$M$ là trung điểm $AC$ ($x = \\dfrac{a}{2}$); $S_{\\max} = \\dfrac{a^2}{4}$",
           fullSolution: "Diện tích thiết diện là $S(x) = ax - x^2$ với $0 < x < a$.\nTam thức bậc hai $S(x) = -\\left(x - \\dfrac{a}{2}\\right)^2 + \\dfrac{a^2}{4}$.\nVì $-\\left(x - \\dfrac{a}{2}\\right)^2 \\le 0$, suy ra $S(x) \\le \\dfrac{a^2}{4}$.\nDấu bằng xảy ra khi và chỉ khi $x = \\dfrac{a}{2}$, tức là $M$ là trung điểm của cạnh $AC$.\nVậy diện tích thiết diện lớn nhất là $S_{\\max} = \\dfrac{a^2}{4}$."
@@ -3675,7 +3714,8 @@ window.GRADE_11_KNOWLEDGE = {
   ]
   },
 
-  "g11-c4-l12": {
+
+    "g11-c4-l12": {
     lessonId: "g11-c4-l12",
     title: "Bài 12: Đường thẳng và mặt phẳng song song",
     summary: "Hệ thống kiến thức trọng tâm Bài 12: Đường thẳng và mặt phẳng song song chuẩn GDPT 2018 (Thi ĐGNL & Tốt nghiệp THPT).",
