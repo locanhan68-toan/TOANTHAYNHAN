@@ -1839,7 +1839,6 @@ function renderExercises() {
         <div class="text-sm font-medium text-slate-800 math-content leading-relaxed">
           ${formatMathMarkdown(ex.question)}
         </div>
-        ${spatialHtml}
         ${renderFeedbackBoxHtml(escapedId, exTitle)}
 
         <div id="answer-box-${escapedId}" class="hidden p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs sm:text-sm text-slate-700 math-content">
@@ -1847,10 +1846,13 @@ function renderExercises() {
         </div>
 
         <div id="solution-box-${escapedId}" class="hidden p-3.5 bg-blue-50/70 border border-blue-200 rounded-xl text-xs sm:text-sm text-slate-800 math-content whitespace-pre-line leading-relaxed">
-          <div class="font-bold text-blue-800 mb-1 flex items-center gap-1.5">
+          <div class="font-bold text-blue-800 mb-2 flex items-center gap-1.5">
             <i data-lucide="sparkles" class="w-4 h-4 text-blue-600"></i> Hướng dẫn giải chi tiết:
           </div>
-          ${formatMathMarkdown(fullSol)}
+          ${spatialHtml ? `<div class="my-2.5 not-prose">${spatialHtml}</div>` : ''}
+          <div class="leading-relaxed">
+            ${formatMathMarkdown(fullSol)}
+          </div>
         </div>
       </div>
     `;
