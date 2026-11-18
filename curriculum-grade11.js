@@ -1,4 +1,4 @@
-// ==========================================================================
+﻿// ==========================================================================
 // CƠ SỞ DỮ LIỆU BÀI HỌC VÀ BÀI TẬP RÈN LUYỆN TOÁN 11 CHUẨN GDPT 2018
 // CẤU TRÚC CHUẨN HÓA: 3 DẠNG TOÁN x 10 BÀI TẬP (4 BIẾT - 3 HIỂU - 3 VẬN DỤNG)
 // ==========================================================================
@@ -3124,6 +3124,7 @@ window.GRADE_11_KNOWLEDGE = {
         examples: [
           {
             title: "Ví dụ minh họa 1 (Thông hiểu)",
+          diagramId: "tikz-g11-l12-d1-ex-om-sad",
             diagramId: "tikz-g11-pyramid-intersection",
             question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành. Gọi $O$ là giao điểm của hai đường chéo $AC$ và $BD$. Tìm giao tuyến của hai mặt phẳng $(SAC)$ và $(SBD)$.",
             shortAnswer: "Giao tuyến $SO = (SAC) \\cap (SBD)$",
@@ -3612,6 +3613,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           title: "Ví dụ minh họa 2 (Vận dụng)",
+          diagramId: "tikz-g11-l12-d2-ex-tetra-rectangle-section",
           diagramId: "tikz-g11-l11-d3-tetra-section-mnpq",
           question: "Cho tứ diện $ABCD$. Gọi $M$ là một điểm thuộc cạnh $AB$ ($M \\ne A, B$). Mặt phẳng $(\\alpha)$ đi qua $M$ và song song với hai cạnh đối $BC$ và $AD$. Tìm thiết diện của tứ diện cắt bởi mặt phẳng $(\\alpha)$.",
           shortAnswer: "Thiết diện là hình bình hành $MNPQ$",
@@ -3724,14 +3726,17 @@ window.GRADE_11_KNOWLEDGE = {
       sections: [
         {
           title: "1. Vị trí tương đối của đường thẳng d và mặt phẳng (P)",
+          diagramId: "tikz-g11-l12-theory-positions",
           content: "- **d cắt (P):** d và (P) có duy nhất 1 điểm chung ($d \\cap (P) = \\{M\\}$).\n- **d song song với (P):** d và (P) không có điểm chung nào ($d \\parallel (P) \\iff d \\cap (P) = \\emptyset$).\n- **d nằm trong (P):** Mọi điểm thuộc d đều thuộc (P) ($d \\subset (P)$)."
         },
         {
           title: "2. Dấu hiệu nhận biết đường thẳng song song với mặt phẳng",
+          diagramId: "tikz-g11-l12-theory-criteria",
           content: "- **Định lý 1 (Phương pháp chứng minh $d \\parallel (P)$):** Nếu đường thẳng d không nằm trong mặt phẳng (P) và song song với một đường thẳng a nằm trong (P) thì d song song với (P):\n$$\\begin{cases} d \\not\\subset (P) \\\\ d \\parallel a \\\\ a \\subset (P) \\end{cases} \\implies d \\parallel (P)$$"
         },
         {
           title: "3. Tính chất & Định lý giao tuyến liên quan đường song song",
+          diagramId: "tikz-g11-l12-theory-property",
           content: "- **Định lý 2:** Cho đường thẳng $d \\parallel (P)$. Nếu mặt phẳng (Q) chứa d và cắt (P) theo giao tuyến a thì $a \\parallel d$:\n$$\\begin{cases} d \\parallel (P) \\\\ d \\subset (Q) \\\\ (P) \\cap (Q) = a \\end{cases} \\implies a \\parallel d$$\n- **Hệ quả:** Hai mặt phẳng phân biệt cùng song song với một đường thẳng thì giao tuyến của chúng (nếu có) cũng song song với đường thẳng đó."
         }
       ]
@@ -3744,12 +3749,14 @@ window.GRADE_11_KNOWLEDGE = {
       examples: [
         {
           title: "Ví dụ minh họa 1 (Thông hiểu)",
+          diagramId: "tikz-g11-l12-d1-ex-om-sad",
           question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành tâm $O$. Gọi $M$ là trung điểm của cạnh $SC$. Chứng minh đường thẳng $OM$ song song với mặt phẳng $(SAD)$.",
           shortAnswer: "$OM \\parallel (SAD)$",
           solution: "1. Trong tam giác $SAC$:\n- $O$ là trung điểm đường chéo đáy $AC$ (do $ABCD$ là hình bình hành).\n- $M$ là trung điểm của cạnh bên $SC$.\n- Suy ra $OM$ là đường trung bình của tam giác $SAC$, do đó $OM \\parallel SA$.\n2. Chứng minh $OM \\parallel (SAD)$:\n- Ta có $SA \\subset (SAD)$.\n- Đường thẳng $OM$ không nằm trong mặt phẳng $(SAD)$ (vì $O$ nằm trên $BD, M \\in SC$).\n- Theo dấu hiệu nhận biết:\n$$\\begin{cases} OM \\not\\subset (SAD) \\\\ OM \\parallel SA \\\\ SA \\subset (SAD) \\end{cases} \\implies OM \\parallel (SAD)$$"
         },
         {
           title: "Ví dụ minh họa 2 (Vận dụng)",
+          diagramId: "tikz-g11-l12-d1-ex-tetra-mn-bcd",
           question: "Cho tứ diện $ABCD$. Gọi $M, N$ lần lượt là trung điểm của hai cạnh $AB$ và $AC$. Chứng minh đường thẳng $MN$ song song với mặt phẳng $(BCD)$.",
           shortAnswer: "$MN \\parallel (BCD)$",
           solution: "1. Trong tam giác $ABC$, vì $M, N$ lần lượt là trung điểm của $AB, AC$ nên $MN$ là đường trung bình của tam giác $ABC$.\n- Suy ra $MN \\parallel BC$.\n2. Xét vị trí tương đối với mặt phẳng đáy $(BCD)$:\n- Cạnh $BC \\subset (BCD)$.\n- Đường thẳng $MN \\not\\subset (BCD)$ (vì $M \\in AB$ ngoài $(BCD)$).\n- Vậy $MN \\parallel (BCD)$."
@@ -3758,6 +3765,7 @@ window.GRADE_11_KNOWLEDGE = {
       exercises: [
         {
           id: "g11-c4-l12-d1-ex1",
+          diagramId: "tikz-g11-l12-d1-ex1",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Nêu dấu hiệu nhận biết một đường thẳng song song với một mặt phẳng.",
@@ -3766,6 +3774,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d1-ex2",
+          diagramId: "tikz-g11-l12-d1-ex2",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Nêu các vị trí tương đối giữa đường thẳng $d$ và mặt phẳng $(P)$.",
@@ -3774,6 +3783,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d1-ex3",
+          diagramId: "tikz-g11-l12-d1-ex3",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Cho hình chóp $S.ABCD$ có đáy là hình bình hành. Đường thẳng $AB$ song song với mặt phẳng nào trong các mặt: $(SCD), (SBC), (SAD)$?",
@@ -3782,6 +3792,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d1-ex4",
+          diagramId: "tikz-g11-l12-d1-ex4",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Cho tứ diện $ABCD$. Gọi $M, N$ là trung điểm của $AB$ và $AC$. Đường thẳng $MN$ song song với mặt phẳng nào của tứ diện?",
@@ -3790,6 +3801,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d1-ex5",
+          diagramId: "tikz-g11-l12-d1-ex5",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho hình chóp $S.ABCD$ có đáy là hình bình hành tâm $O$. Gọi $M$ là trung điểm của cạnh $SC$. Chứng minh đường thẳng $OM$ song song với mặt phẳng $(SAD)$.",
@@ -3798,6 +3810,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d1-ex6",
+          diagramId: "tikz-g11-l12-d1-ex6",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho tứ diện $ABCD$. Gọi $G$ là trọng tâm của tam giác $ABD$, $M$ là điểm trên cạnh $BC$ sao cho $BM = 2MC$. Chứng minh đường thẳng $MG$ song song với mặt phẳng $(ACD)$.",
@@ -3806,6 +3819,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d1-ex7",
+          diagramId: "tikz-g11-l12-d1-ex7",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho hai hình bình hành $ABCD$ và $ABEF$ không cùng nằm trong một mặt phẳng. Chứng minh đường thẳng $CD$ song song với mặt phẳng $(ABEF)$.",
@@ -3814,6 +3828,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d1-ex8",
+          diagramId: "tikz-g11-l12-d1-ex8",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình thang với đáy lớn $AB = 2CD$. Gọi $M$ là trung điểm của cạnh $SA$. Chứng minh đường thẳng $SD$ song song với mặt phẳng $(MBC)$.",
@@ -3822,6 +3837,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d1-ex9",
+          diagramId: "tikz-g11-l12-d1-ex9",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho hình chóp $S.ABCD$ đáy hình bình hành tâm $O$. Gọi $M, N$ lần lượt là trọng tâm các tam giác $SAB$ và $SCD$. Chứng minh đường thẳng $MN$ song song với mặt phẳng đáy $(ABCD)$.",
@@ -3830,6 +3846,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d1-ex10",
+          diagramId: "tikz-g11-l12-d1-ex10",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho tứ diện $ABCD$. Lấy $M \\in AB, N \\in AC, P \\in AD$ sao cho $\\dfrac{AM}{AB} = \\dfrac{AN}{AC} = \\dfrac{AP}{AD} = \\dfrac{1}{3}$. Gọi $I$ là điểm bất kì trên đoạn $MN$. Chứng minh đường thẳng $PI$ luôn song song với mặt phẳng $(BCD)$.",
@@ -3845,12 +3862,14 @@ window.GRADE_11_KNOWLEDGE = {
       examples: [
         {
           title: "Ví dụ minh họa 1 (Thông hiểu)",
+          diagramId: "tikz-g11-l12-d2-ex-pyramid-section-mnpq",
           question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành. Gọi $M$ là một điểm thuộc cạnh $SB$ ($M \\ne S, B$). Mặt phẳng $(\\alpha)$ đi qua $M$ và song song với $AB$ và $SC$. Tìm thiết diện của hình chóp cắt bởi mặt phẳng $(\\alpha)$.",
           shortAnswer: "Thiết diện là hình thang $MNPQ$",
           solution: "1. Giao tuyến với các mặt chứa đường thẳng song song:\n- Mặt phẳng $(\\alpha) \\parallel AB$ và chứa $M \\in (SAB)$ nên giao tuyến với $(SAB)$ là đoạn $MN \\parallel AB$ ($N \\in SA$).\n- Mặt phẳng $(\\alpha) \\parallel SC$ và chứa $M \\in (SBC)$ nên giao tuyến với $(SBC)$ là đoạn $MP \\parallel SC$ ($P \\in BC$).\n- Mặt phẳng $(\\alpha) \\parallel AB \\parallel CD$ và chứa $P \\in (ABCD)$ nên giao tuyến với $(ABCD)$ là đoạn $PQ \\parallel CD$ ($Q \\in AD$).\n- Nối $Q$ với $N$, ta có đoạn giao tuyến trên mặt $(SAD)$ là $NQ$ (song song với $SC$).\n2. Kết luận: Thiết diện cắt hình chóp là tứ giác $MNPQ$, có $MN \\parallel PQ$ nên $MNPQ$ là hình thang."
         },
         {
           title: "Ví dụ minh họa 2 (Vận dụng)",
+          diagramId: "tikz-g11-l12-d2-ex-tetra-rectangle-section",
           question: "Cho tứ diện đều $ABCD$ có cạnh bằng $a$. Mặt phẳng $(\\alpha)$ song song với $AB$ và $CD$, cắt cạnh $AC$ tại $M$ với $AM = x$ ($0 < x < a$). Chứng minh thiết diện tạo bởi $(\\alpha)$ với tứ diện là hình chữ nhật và tính diện tích thiết diện theo $a$ và $x$.",
           shortAnswer: "Hình chữ nhật có diện tích $S = x(a - x)$",
           solution: "1. Xác định thiết diện:\n- Mặt phẳng $(\\alpha)$ cắt 4 mặt của tứ diện theo 4 đoạn giao tuyến lần lượt song song với $AB$ và $CD$, tạo thành hình bình hành $MNPQ$.\n- Độ dài các cạnh: $MN = a - x$ và $MQ = x$.\n2. Chứng minh là hình chữ nhật:\n- Do tứ diện đều nên hai cạnh đối $AB \\perp CD$.\n- Vì $MN \\parallel AB$ và $MQ \\parallel CD$ nên $MN \\perp MQ$.\n- Hình bình hành có 1 góc vuông nên $MNPQ$ là hình chữ nhật.\n3. Diện tích thiết diện:\n$$S = MN \\cdot MQ = (a - x)x = ax - x^2$$"
@@ -3859,6 +3878,7 @@ window.GRADE_11_KNOWLEDGE = {
       exercises: [
         {
           id: "g11-c4-l12-d2-ex1",
+          diagramId: "tikz-g11-l12-d2-ex1",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Phát biểu định lý về giao tuyến của một mặt phẳng với một mặt phẳng chứa đường thẳng song song với mặt phẳng thứ nhất.",
@@ -3867,6 +3887,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d2-ex2",
+          diagramId: "tikz-g11-l12-d2-ex2",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Nếu hai mặt phẳng phân biệt cùng song song với một đường thẳng thì giao tuyến của chúng (nếu có) có tính chất gì?",
@@ -3875,6 +3896,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d2-ex3",
+          diagramId: "tikz-g11-l12-d2-ex3",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Qua một điểm $M$ cho trước không thuộc $(P)$, có bao nhiêu đường thẳng song song với mặt phẳng $(P)$?",
@@ -3883,6 +3905,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d2-ex4",
+          diagramId: "tikz-g11-l12-d2-ex4",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Cho hình chóp tứ giác $S.ABCD$. Thiết diện cắt bởi mặt phẳng song song với một cạnh đáy sẽ có ít nhất một cặp cạnh đối như thế nào?",
@@ -3891,6 +3914,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d2-ex5",
+          diagramId: "tikz-g11-l12-d2-ex5",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho hình chóp $S.ABCD$ có đáy là hình bình hành. Mặt phẳng $(\\alpha)$ đi qua điểm $M$ trên cạnh $AB$ và song song với cạnh $SA$. Giao tuyến của $(\\alpha)$ với mặt bên $(SAB)$ là đường thẳng nào?",
@@ -3899,6 +3923,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d2-ex6",
+          diagramId: "tikz-g11-l12-d2-ex6",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho tứ diện $ABCD$. Mặt phẳng $(\\alpha)$ đi qua điểm $M$ trên cạnh $AB$ và song song với $CD$. Xác định các đoạn giao tuyến của $(\\alpha)$ với các mặt $(ABC)$ và $(ABD)$.",
@@ -3907,6 +3932,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d2-ex7",
+          diagramId: "tikz-g11-l12-d2-ex7",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho hình chóp $S.ABCD$ đáy hình thang đáy lớn $AB$, đáy nhỏ $CD$. Mặt phẳng $(\\alpha)$ qua điểm $M$ trên $SD$ và song song với $AB$. Tìm giao tuyến của $(\\alpha)$ với mặt $(SAB)$.",
@@ -3915,6 +3941,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d2-ex8",
+          diagramId: "tikz-g11-l12-d2-ex8",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho hình chóp $S.ABCD$ đáy hình bình hành diện tích $S_0$. Gọi $M$ là trung điểm của cạnh $SA$. Mặt phẳng $(\\alpha)$ đi qua $M$ và song song với $AB$ và $SC$. Xác định thiết diện của hình chóp cắt bởi $(\\alpha)$ và cho biết thiết diện là hình gì.",
@@ -3923,6 +3950,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d2-ex9",
+          diagramId: "tikz-g11-l12-d2-ex9",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho tứ diện $ABCD$ có $AB \\perp CD$, $AB = 6\\text{ cm}, CD = 8\\text{ cm}$. Mặt phẳng $(\\alpha)$ song song với cả $AB$ và $CD$, cắt cạnh $AC$ tại $M$ với $AM = x\\text{ cm}$ ($AC = 10\\text{ cm}, 0 < x < 10$). Tính chu vi của thiết diện tạo bởi $(\\alpha)$ với tứ diện.",
@@ -3931,6 +3959,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d2-ex10",
+          diagramId: "tikz-g11-l12-d2-ex10",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Trong bài toán trên, khi $AB = CD = a$, chứng minh chu vi của thiết diện hình chữ nhật luôn không đổi và bằng $2a$ khi $M$ di động trên cạnh $AC$.",
@@ -3946,12 +3975,14 @@ window.GRADE_11_KNOWLEDGE = {
       examples: [
         {
           title: "Ví dụ minh họa 1 (Thông hiểu)",
+          diagramId: "tikz-g11-l12-d3-ex-ceiling-floor",
           question: "Trong một phòng học hình hộp chữ nhật, mép giao giữa trần nhà và bức tường bên song song với mặt phẳng nào?",
           shortAnswer: "Mặt sàn phòng học",
           solution: "Mép giao giữa trần nhà và bức tường bên là một đường thẳng $d$ nằm trên trần nhà $(P)$. Vì trần nhà $(P)$ song song với mặt sàn $(Q)$ nên đường thẳng $d$ song song với mặt phẳng sàn nhà $(Q)$."
         },
         {
           title: "Ví dụ minh họa 2 (Vận dụng)",
+          diagramId: "tikz-g11-l12-d3-ex-roof-ridge-ground",
           question: "Một thanh xà gồ đặt ngang trên đỉnh một mái nhà hình chóp có hai bức tường hồi song song. Chứng minh thanh xà gồ song song với mặt đất.",
           shortAnswer: "Thanh xà gồ song song với mặt phẳng sàn",
           solution: "Thanh xà gồ là giao tuyến của hai mái dốc. Hai mái dốc cắt hai bức tường hồi song song theo các giao tuyến song song với xà gồ. Do các đường gióng của tường đều song song với mặt sàn nên theo tính chất bắc cầu, thanh xà gồ song song với mặt phẳng nền nhà."
@@ -3960,6 +3991,7 @@ window.GRADE_11_KNOWLEDGE = {
       exercises: [
         {
           id: "g11-c4-l12-d3-ex1",
+          diagramId: "tikz-g11-l12-d3-ex1",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Trong một phòng học hình hộp chữ nhật, mép giao giữa trần nhà và bức tường bên song song với mặt phẳng nào?",
@@ -3968,6 +4000,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d3-ex2",
+          diagramId: "tikz-g11-l12-d3-ex2",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Thanh xà gồ đặt ngang trên đỉnh mái nhà có song song với mặt sàn nhà nằm ngang hay không?",
@@ -3976,6 +4009,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d3-ex3",
+          diagramId: "tikz-g11-l12-d3-ex3",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Ray trượt thẳng đứng định hướng thang máy di chuyển có vị trí tương đối thế nào với các mặt sàn tầng nằm ngang?",
@@ -3984,6 +4018,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d3-ex4",
+          diagramId: "tikz-g11-l12-d3-ex4",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Tay vịn của một cầu thang thẳng có song song với đường dốc bản thang bê tông bên dưới không?",
@@ -3992,6 +4027,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d3-ex5",
+          diagramId: "tikz-g11-l12-d3-ex5",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Một người thợ xây dùng ống ti-ô nước để lấy thăng bằng hai đầu của một thanh đòn ngang. Khi mực nước ở hai đầu ống bằng nhau, thanh đòn ngang có song song với mặt nước tĩnh (mặt phẳng nằm ngang chuẩn) không?",
@@ -4000,6 +4036,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d3-ex6",
+          diagramId: "tikz-g11-l12-d3-ex6",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Một cánh cửa gỗ hình chữ nhật quay quanh bản lề thẳng đứng. Khi cánh cửa mở ra ở một góc bất kì (khác $0^\\circ$ và $180^\\circ$), mép trên của cánh cửa có luôn song song với mặt sàn nhà phẳng không?",
@@ -4008,6 +4045,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d3-ex7",
+          diagramId: "tikz-g11-l12-d3-ex7",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Tấm pin năng lượng mặt trời hình chữ nhật được lắp nghiêng trên mái nhà. Mép dưới của tấm pin tựa ngang sát mái nhà. Chứng minh mép trên của tấm pin cũng song song với mặt phẳng mái nhà.",
@@ -4016,6 +4054,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d3-ex8",
+          diagramId: "tikz-g11-l12-d3-ex8",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Một khung lều dã ngoại có dạng hình chóp tứ giác đều $S.ABCD$. Để gia cố lều, người ta hàn một thanh giằng thép $EF$ nối trung điểm của cạnh bên $SA$ và $SB$. Biết cạnh đáy của lều là $2.4\\text{ m}$. Tính chiều dài thanh giằng $EF$ và chứng minh thanh giằng luôn song song với nền đất phẳng $(ABCD)$.",
@@ -4024,6 +4063,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d3-ex9",
+          diagramId: "tikz-g11-l12-d3-ex9",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Một mái nhà kiểu lăng trụ tam giác $ABC.A'B'C'$ có hai đầu hồi là hai tam giác cân $ABC$ và $A'B'C'$ bằng nhau ($AB = AC = 5\\text{ m}, BC = 6\\text{ m}$). Người ta lắp thêm xà gồ phụ $MN$ nối trung điểm $AB$ và $AC$. Tính độ dài $MN$ và khoảng cách tỉ lệ từ $MN$ đến mặt phẳng nóc nhà chứa thanh xà nóc $AA'$.",
@@ -4032,6 +4072,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l12-d3-ex10",
+          diagramId: "tikz-g11-l12-d3-ex10",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Một mái che sân khấu hình chóp cụt tứ giác có khung viền đáy trên và khung viền đáy dưới song song với nhau. Một sợi cáp treo đèn chiếu sáng nối điểm $M$ trên cạnh bên thứ nhất và điểm $N$ trên cạnh bên đối diện sao cho $MN$ chia hai cạnh bên theo cùng tỉ số $\\dfrac{1}{3}$. Chứng minh sợi cáp treo đèn $MN$ luôn song song với mặt phẳng sàn sân khấu.",
@@ -4052,14 +4093,17 @@ window.GRADE_11_KNOWLEDGE = {
       sections: [
         {
           title: "1. Định nghĩa & Dấu hiệu nhận biết hai mặt phẳng song song",
+          diagramId: "tikz-g11-l13-theory-criteria",
           content: "- **Định nghĩa:** Hai mặt phẳng $(P)$ và $(Q)$ gọi là song song nếu chúng không có điểm chung nào ($ (P) \\parallel (Q) \\iff (P) \\cap (Q) = \\emptyset $).\n- **Định lý 1 (Dấu hiệu nhận biết):** Nếu mặt phẳng $(P)$ chứa hai đường thẳng cắt nhau $a, b$ và hai đường thẳng này cùng song song với mặt phẳng $(Q)$ thì $(P) \\parallel (Q)$:\n$$\\begin{cases} a, b \\subset (P), \\ a \\cap b = \\{I\\} \\\\ a \\parallel (Q), \\ b \\parallel (Q) \\end{cases} \\implies (P) \\parallel (Q)$$"
         },
         {
           title: "2. Tính chất của hai mặt phẳng song song",
+          diagramId: "tikz-g11-l13-theory-intersections",
           content: "- **Tính chất 1:** Qua một điểm nằm ngoài một mặt phẳng cho trước có một và chỉ một mặt phẳng song song với mặt phẳng đã cho.\n- **Tính chất 2:** Hai mặt phẳng phân biệt cùng song song với một mặt phẳng thứ ba thì song song với nhau.\n- **Tính chất 3:** Nếu hai mặt phẳng song song bị cắt bởi một mặt phẳng thứ ba thì hai giao tuyến tạo thành song song với nhau:\n$$\\begin{cases} (P) \\parallel (Q) \\\\ (R) \\cap (P) = a \\\\ (R) \\cap (Q) = b \\end{cases} \\implies a \\parallel b$$"
         },
         {
           title: "3. Định lý Thalès trong không gian & Hình lăng trụ",
+          diagramId: "tikz-g11-l13-theory-thales-prism",
           content: "- **Định lý Thalès không gian:** Ba mặt phẳng đôi một song song chắn trên hai cát tuyến bất kì các đoạn thẳng tương ứng tỉ lệ:\n$$\\frac{AB}{A'B'} = \\frac{BC}{B'C'} = \\frac{AC}{A'C'}$$\n- **Hình lăng trụ và hình hộp:** Hai đáy là các đa giác bằng nhau và nằm trên hai mặt phẳng song song; các cạnh bên song song và bằng nhau; các mặt bên là các hình bình hành."
         }
       ]
@@ -4072,12 +4116,14 @@ window.GRADE_11_KNOWLEDGE = {
       examples: [
         {
           title: "Ví dụ minh họa 1 (Thông hiểu)",
+          diagramId: "tikz-g11-l13-d1-ex-mnp-abcd",
           question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành. Gọi $M, N, P$ lần lượt là trung điểm của các cạnh bên $SA, SB, SC$. Chứng minh mặt phẳng $(MNP)$ song song với mặt phẳng đáy $(ABCD)$.",
           shortAnswer: "$(MNP) \\parallel (ABCD)$",
           solution: "1. Trong tam giác $SAB$:\n- $M, N$ là trung điểm $SA, SB \\implies MN$ là đường trung bình của $\\triangle SAB$.\n- Suy ra $MN \\parallel AB$. Mà $AB \\subset (ABCD)$ nên $MN \\parallel (ABCD)$.\n2. Trong tam giác $SBC$:\n- $N, P$ là trung điểm $SB, SC \\implies NP$ là đường trung bình của $\\triangle SBC$.\n- Suy ra $NP \\parallel BC$. Mà $BC \\subset (ABCD)$ nên $NP \\parallel (ABCD)$.\n3. Kết luận:\n- Hai đường thẳng $MN$ và $NP$ cắt nhau tại điểm $N$ và cùng nằm trong mặt phẳng $(MNP)$.\n- Cả $MN$ và $NP$ cùng song song với mặt phẳng đáy $(ABCD)$.\n- Do đó theo định lý nhận biết: $(MNP) \\parallel (ABCD)$."
         },
         {
           title: "Ví dụ minh họa 2 (Vận dụng)",
+          diagramId: "tikz-g11-l13-d1-ex-box-bda-bdc",
           question: "Cho hình hộp $ABCD.A'B'C'D'$. Chứng minh mặt phẳng $(BDA')$ song song với mặt phẳng $(B'D'C)$.",
           shortAnswer: "$(BDA') \\parallel (B'D'C)$",
           solution: "1. Xét tứ giác $BDD'B'$: Có $BB' \\parallel DD'$ và $BB' = DD'$ nên $BDD'B'$ là hình bình hành $\\implies BD \\parallel B'D'$.\n- Vì $B'D' \\subset (B'D'C)$ nên $BD \\parallel (B'D'C)$.\n2. Xét tứ giác $A'BCD'$: Có $A'B \\parallel D'C$ và $A'B = D'C$ nên $A'BCD'$ là hình bình hành $\\implies BA' \\parallel CD'$.\n- Vì $CD' \\subset (B'D'C)$ nên $BA' \\parallel (B'D'C)$.\n3. Hai đường thẳng cắt nhau $BD$ và $BA'$ trong mặt phẳng $(BDA')$ cùng song song với mặt phẳng $(B'D'C)$, do đó $(BDA') \\parallel (B'D'C)$."
@@ -4086,6 +4132,7 @@ window.GRADE_11_KNOWLEDGE = {
       exercises: [
         {
           id: "g11-c4-l13-d1-ex1",
+          diagramId: "tikz-g11-l13-d1-ex1",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Nêu dấu hiệu nhận biết hai mặt phẳng song song.",
@@ -4094,6 +4141,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d1-ex2",
+          diagramId: "tikz-g11-l13-d1-ex2",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Qua một điểm nằm ngoài một mặt phẳng cho trước, có bao nhiêu mặt phẳng song song với mặt phẳng đó?",
@@ -4102,6 +4150,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d1-ex3",
+          diagramId: "tikz-g11-l13-d1-ex3",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Hai mặt phẳng phân biệt cùng song song với một mặt phẳng thứ ba thì có quan hệ gì với nhau?",
@@ -4110,6 +4159,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d1-ex4",
+          diagramId: "tikz-g11-l13-d1-ex4",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Trong hình lăng trụ tam giác $ABC.A'B'C'$, hai mặt phẳng đáy $(ABC)$ và $(A'B'C')$ có quan hệ gì?",
@@ -4118,6 +4168,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d1-ex5",
+          diagramId: "tikz-g11-l13-d1-ex5",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho hình chóp $S.ABCD$ có đáy là hình bình hành. Gọi $M, N, P$ lần lượt là trung điểm của các cạnh $SA, SB, SC$. Chứng minh mặt phẳng $(MNP)$ song song với mặt phẳng đáy $(ABCD)$.",
@@ -4126,6 +4177,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d1-ex6",
+          diagramId: "tikz-g11-l13-d1-ex6",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho tứ diện $ABCD$. Gọi $G_1, G_2, G_3$ lần lượt là trọng tâm của ba tam giác $ABC, ACD, ADB$. Chứng minh mặt phẳng $(G_1G_2G_3)$ song song với mặt phẳng đáy $(BCD)$.",
@@ -4134,6 +4186,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d1-ex7",
+          diagramId: "tikz-g11-l13-d1-ex7",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho hình hộp $ABCD.A'B'C'D'$. Chứng minh mặt phẳng $(BDA')$ song song với mặt phẳng $(B'D'C)$.",
@@ -4142,6 +4195,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d1-ex8",
+          diagramId: "tikz-g11-l13-d1-ex8",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho hai hình bình hành $ABCD$ và $ABEF$ nằm trong hai mặt phẳng khác nhau. Lấy $M \\in AC, N \\in BF$ sao cho $\\dfrac{AM}{AC} = \\dfrac{BN}{BF} = \\dfrac{1}{3}$. Chứng minh đường thẳng $MN$ song song với mặt phẳng $(CDEF)$.",
@@ -4150,6 +4204,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d1-ex9",
+          diagramId: "tikz-g11-l13-d1-ex9",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho hình chóp $S.ABCD$ có đáy là hình bình hành tâm $O$. Gọi $M$ là trung điểm cạnh $SA$. Mặt phẳng $(\\alpha)$ đi qua $M$ và song song với mặt phẳng $(SBC)$. Tìm thiết diện của hình chóp cắt bởi mặt phẳng $(\\alpha)$ và xác định hình dạng thiết diện.",
@@ -4158,6 +4213,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d1-ex10",
+          diagramId: "tikz-g11-l13-d1-ex10",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho tứ diện $ABCD$. Mặt phẳng $(P)$ cắt các cạnh $AB, AC, AD$ lần lượt tại $B', C', D'$ sao cho $\\dfrac{AB'}{AB} = \\dfrac{AC'}{AC} = \\dfrac{AD'}{AD} = k$ ($0 < k < 1$). Chứng minh $(B'C'D') \\parallel (BCD)$ và tính tỉ số diện tích $\\dfrac{S_{\\triangle B'C'D'}}{S_{\\triangle BCD}}$ theo $k$.",
@@ -4173,12 +4229,14 @@ window.GRADE_11_KNOWLEDGE = {
       examples: [
         {
           title: "Ví dụ minh họa 1 (Thông hiểu)",
+          diagramId: "tikz-g11-l13-d2-ex-thales-space",
           question: "Ba mặt phẳng song song $(\\alpha), (\\beta), (\\gamma)$ cắt đường thẳng $d_1$ tại $A, B, C$ và cắt đường thẳng $d_2$ tại $A', B', C'$. Biết $AB = 6\\text{ cm}, BC = 9\\text{ cm}$ và $A'B' = 8\\text{ cm}$. Tính độ dài đoạn thẳng $B'C'$.",
           shortAnswer: "$B'C' = 12\\text{ cm}$",
           solution: "Theo định lý Thalès trong không gian, ba mặt phẳng song song chắn trên hai cát tuyến $d_1, d_2$ các đoạn thẳng tương ứng tỉ lệ:\n$$\\dfrac{AB}{A'B'} = \\dfrac{BC}{B'C'}$$\nThay số: $\\dfrac{6}{8} = \\dfrac{9}{B'C'} \\implies B'C' = \\dfrac{8 \\times 9}{6} = 12\\text{ cm}$."
         },
         {
           title: "Ví dụ minh họa 2 (Vận dụng)",
+          diagramId: "tikz-g11-l13-d2-ex-pyramid-square-section",
           question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình vuông cạnh $a$. Mặt phẳng $(\\alpha)$ song song với đáy cắt cạnh $SA$ tại $M$ sao cho $SM = 2MA$. Tính diện tích thiết diện của hình chóp cắt bởi mặt phẳng $(\\alpha)$ theo $a$.",
           shortAnswer: "Diện tích $S = \\dfrac{4}{9}a^2$",
           solution: "1. Xác định thiết diện:\n- Mặt phẳng $(\\alpha) \\parallel (ABCD)$ nên cắt các mặt bên $(SAB), (SBC), (SCD), (SDA)$ theo các đoạn giao tuyến lần lượt song song với các cạnh đáy $AB, BC, CD, DA$.\n- Thiết diện là hình vuông $MNPQ$ đồng dạng với đáy $ABCD$.\n2. Tính tỉ số và diện tích:\n- Vì $SM = 2MA \\implies SA = SM + MA = 3MA \\implies \\dfrac{SM}{SA} = \\dfrac{2}{3}$.\n- Tỉ số đồng dạng của thiết diện với đáy là $k = \\dfrac{SM}{SA} = \\dfrac{2}{3}$.\n- Tỉ số diện tích bằng bình phương tỉ số đồng dạng:\n$$\\dfrac{S_{MNPQ}}{S_{ABCD}} = k^2 = \\left(\\dfrac{2}{3}\\right)^2 = \\dfrac{4}{9}$$\n- Vì đáy là hình vuông cạnh $a$ nên $S_{ABCD} = a^2$. Vậy diện tích thiết diện là $S = \\dfrac{4}{9}a^2$."
@@ -4187,6 +4245,7 @@ window.GRADE_11_KNOWLEDGE = {
       exercises: [
         {
           id: "g11-c4-l13-d2-ex1",
+          diagramId: "tikz-g11-l13-d2-ex1",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Phát biểu định lý Thalès trong không gian.",
@@ -4195,6 +4254,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d2-ex2",
+          diagramId: "tikz-g11-l13-d2-ex2",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Nếu một mặt phẳng $(\\gamma)$ cắt hai mặt phẳng song song $(\\alpha)$ và $(\\beta)$ theo hai giao tuyến $a$ và $b$, thì quan hệ giữa $a$ và $b$ là gì?",
@@ -4203,6 +4263,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d2-ex3",
+          diagramId: "tikz-g11-l13-d2-ex3",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Hai mặt phẳng song song chắn trên hai đường thẳng song song các đoạn thẳng như thế nào?",
@@ -4211,6 +4272,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d2-ex4",
+          diagramId: "tikz-g11-l13-d2-ex4",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Đoạn thẳng nối hai điểm bất kì thuộc hai mặt phẳng song song có độ dài ngắn nhất khi nào?",
@@ -4219,6 +4281,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d2-ex5",
+          diagramId: "tikz-g11-l13-d2-ex5",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Ba mặt phẳng song song $(\\alpha), (\\beta), (\\gamma)$ cắt đường thẳng $d_1$ tại $A, B, C$ và cắt đường thẳng $d_2$ tại $A', B', C'$. Biết $AB = 6\\text{ cm}, BC = 9\\text{ cm}$ và $A'B' = 8\\text{ cm}$. Tính độ dài đoạn thẳng $B'C'$.",
@@ -4227,6 +4290,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d2-ex6",
+          diagramId: "tikz-g11-l13-d2-ex6",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho hình chóp $S.ABCD$ có đáy là hình vuông cạnh $a$. Mặt phẳng $(\\alpha)$ song song với đáy cắt cạnh $SA$ tại $M$ sao cho $SM = 2MA$. Tính diện tích thiết diện của hình chóp cắt bởi mặt phẳng $(\\alpha)$ theo $a$.",
@@ -4235,6 +4299,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d2-ex7",
+          diagramId: "tikz-g11-l13-d2-ex7",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho tứ diện $ABCD$. Mặt phẳng $(P)$ song song với mặt phẳng $(ABC)$ cắt các cạnh $DA, DB, DC$ lần lượt tại $A', B', C'$. Biết $DA' = \\dfrac{1}{2}A'A$. Tính tỉ số $\\dfrac{A'B'}{AB}$.",
@@ -4243,6 +4308,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d2-ex8",
+          diagramId: "tikz-g11-l13-d2-ex8",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho hình chóp $S.ABCD$ đáy hình bình hành tâm $O$. Mặt phẳng $(P)$ đi qua $O$ và song song với mặt phẳng $(SAB)$. Tìm thiết diện của hình chóp cắt bởi mặt phẳng $(P)$ và chứng minh thiết diện là hình thang cân hoặc tính các tỉ số cạnh.",
@@ -4251,6 +4317,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d2-ex9",
+          diagramId: "tikz-g11-l13-d2-ex9",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho ba mặt phẳng song song $(\\alpha) \\parallel (\\beta) \\parallel (\\gamma)$. Đường thẳng $d_1$ cắt chúng tại $A, B, C$; đường thẳng $d_2$ cắt chúng tại $A', B', C'$. Biết rằng $\\dfrac{AB}{BC} = \\dfrac{3}{5}$ và độ dài toàn phần $A'C' = 24\\text{ cm}$. Tính độ dài các đoạn thẳng $A'B'$ và $B'C'$.",
@@ -4259,6 +4326,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d2-ex10",
+          diagramId: "tikz-g11-l13-d2-ex10",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Cho hình chóp cụt tứ giác đều có đáy lớn là hình vuông cạnh $a$ và đáy nhỏ là hình vuông cạnh $b$ ($a > b$). Mặt phẳng $(\\alpha)$ song song với hai mặt đáy và chia đôi các cạnh bên (đi qua trung điểm các cạnh bên). Chứng minh thiết diện là hình vuông và tính độ dài cạnh thiết diện theo $a$ và $b$.",
@@ -4274,12 +4342,14 @@ window.GRADE_11_KNOWLEDGE = {
       examples: [
         {
           title: "Ví dụ minh họa 1 (Thông hiểu)",
+          diagramId: "tikz-g11-l13-d3-ex-prism-lateral-parallelograms",
           question: "Cho hình lăng trụ tam giác $ABC.A'B'C'$. Chứng minh các mặt bên $ABB'A', BCC'B', CAA'C'$ là các hình bình hành.",
           shortAnswer: "Các mặt bên đều là hình bình hành",
           solution: "Theo định nghĩa và tính chất của hình lăng trụ:\n- Các cạnh bên $AA', BB', CC'$ đôi một song song và bằng nhau.\n- Tứ giác $ABB'A'$ có $AA' \\parallel BB'$ và $AA' = BB'$ nên $ABB'A'$ là hình bình hành.\n- Tương tự, các tứ giác $BCC'B'$ và $CAA'C'$ cũng có một cặp cạnh đối song song và bằng nhau nên đều là hình bình hành."
         },
         {
           title: "Ví dụ minh họa 2 (Vận dụng)",
+          diagramId: "tikz-g11-l13-d3-ex-water-tank-truncated-pyramid",
           question: "Một bồn chứa nước có dạng hình chóp cụt tứ giác đều với cạnh đáy lớn bằng $2\\text{ m}$, cạnh đáy nhỏ bằng $1\\text{ m}$. Tính tỉ số diện tích giữa đáy nhỏ và đáy lớn của bồn chứa.",
           shortAnswer: "Tỉ số diện tích là $\\dfrac{1}{4}$",
           solution: "Đáy lớn là hình vuông cạnh $a = 2\\text{ m} \\implies S_1 = 2^2 = 4\\text{ m}^2$.\nĐáy nhỏ là hình vuông cạnh $b = 1\\text{ m} \\implies S_2 = 1^2 = 1\\text{ m}^2$.\nTỉ số diện tích giữa đáy nhỏ và đáy lớn là:\n$$\\dfrac{S_2}{S_1} = \\dfrac{1}{4}$$"
@@ -4288,6 +4358,7 @@ window.GRADE_11_KNOWLEDGE = {
       exercises: [
         {
           id: "g11-c4-l13-d3-ex1",
+          diagramId: "tikz-g11-l13-d3-ex1",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Định nghĩa hình lăng trụ.",
@@ -4296,6 +4367,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d3-ex2",
+          diagramId: "tikz-g11-l13-d3-ex2",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Hình hộp là hình lăng trụ có đặc điểm đáy như thế nào?",
@@ -4304,6 +4376,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d3-ex3",
+          diagramId: "tikz-g11-l13-d3-ex3",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Bốn đường chéo của một hình hộp có tính chất gì?",
@@ -4312,6 +4385,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d3-ex4",
+          diagramId: "tikz-g11-l13-d3-ex4",
           level: "Nhận biết",
           levelClass: "bg-slate-100 text-slate-700",
           question: "Hình chóp cụt được tạo thành bằng cách nào?",
@@ -4320,6 +4394,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d3-ex5",
+          diagramId: "tikz-g11-l13-d3-ex5",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho hình hộp chữ nhật $ABCD.A'B'C'D'$. Chỉ ra mặt phẳng song song với mặt phẳng $(ABB'A')$.",
@@ -4328,6 +4403,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d3-ex6",
+          diagramId: "tikz-g11-l13-d3-ex6",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Một hình lăng trụ lục giác có bao nhiêu mặt, bao nhiêu đỉnh và bao nhiêu cạnh?",
@@ -4336,6 +4412,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d3-ex7",
+          diagramId: "tikz-g11-l13-d3-ex7",
           level: "Thông hiểu",
           levelClass: "bg-emerald-100 text-emerald-800",
           question: "Cho hình lăng trụ tam giác $ABC.A'B'C'$. Gọi $M, N$ lần lượt là trung điểm của $AA'$ và $BB'$. Chứng minh đường thẳng $MN$ song song với mặt đáy $(A'B'C')$.",
@@ -4344,6 +4421,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d3-ex8",
+          diagramId: "tikz-g11-l13-d3-ex8",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Một toà nhà chung cư có các sàn tầng là các mặt phẳng song song cách đều nhau $3.3\\text{ m}$. Một đường dốc thoát hiểm thẳng nối từ tầng 1 lên sàn tầng 4 có tổng chiều dài là $24\\text{ m}$. Hỏi chiều dài của đoạn đường dốc từ tầng 1 lên tầng 2 là bao nhiêu mét?",
@@ -4352,6 +4430,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d3-ex9",
+          diagramId: "tikz-g11-l13-d3-ex9",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Một bể chứa nước bê tông dạng hình chóp cụt tứ giác đều có đáy lớn là hình vuông cạnh $3\\text{ m}$, đáy nhỏ là hình vuông cạnh $1.8\\text{ m}$. Để tăng khả năng chịu lực nứt, kỹ sư bố trí một vành đai thép giằng bao quanh chu vi tại vị trí chính giữa chiều cao của bể (song song với hai đáy). Tính tổng chiều dài thanh thép làm vành đai giằng đó.",
@@ -4360,6 +4439,7 @@ window.GRADE_11_KNOWLEDGE = {
         },
         {
           id: "g11-c4-l13-d3-ex10",
+          diagramId: "tikz-g11-l13-d3-ex10",
           level: "Vận dụng",
           levelClass: "bg-blue-100 text-blue-800 font-bold",
           question: "Một khối gỗ hình hộp chữ nhật có kích thước $a \\times b \\times c$. Người ta cắt khối gỗ bởi mặt phẳng $(P)$ đi qua trung điểm một cạnh bên và song song với hai mặt đáy. Tính tỉ số thể tích giữa hai khối gỗ thu được sau khi cắt.",

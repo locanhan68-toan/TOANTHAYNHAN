@@ -1,4 +1,4 @@
-// ==========================================================================
+﻿// ==========================================================================
 // CƠ SỞ DỮ LIỆU KIẾN THỨC NÂNG CAO TẤT CẢ CÁC CHƯƠNG (LỚP 6 ĐẾN LỚP 12)
 // CHUẨN GDPT 2018 - BỘ GIÁO DỤC VÀ ĐÀO TẠO
 // HỆ THỐNG 3 DẠNG TOÁN TRỌNG TÂM - 10 BÀI TOÁN Ở MỖI DẠNG (30 BÀI/BÀI HỌC)
@@ -1875,28 +1875,34 @@ window.LESSON_THEORY_DB = {
   "g11-c4-l12": [
     {
       "title": "1. Ba vị trí tương đối của đường thẳng d và mặt phẳng (P)",
+      "diagramId": "tikz-g11-l12-theory-positions",
       "content": "1. **$d$ nằm trong $(P)$ ($d \\subset (P)$):** Có từ $2$ điểm chung trở lên.\n2. **$d$ cắt $(P)$ ($d \\cap (P) = \\{A\\}$):** Có duy nhất $1$ điểm chung $A$.\n3. **$d$ song song với $(P)$ ($d \\parallel (P)$):** Không có điểm chung nào ($d \\cap (P) = \\varnothing$)."
     },
     {
       "title": "2. Định lí dấu hiệu nhận biết đường thẳng song song với mặt phẳng",
+      "diagramId": "tikz-g11-l12-theory-criteria",
       "content": "- **Định lí 1 (Phương pháp chứng minh $d \\parallel (P)$):** Nếu đường thẳng $d$ không nằm trong mặt phẳng $(P)$ và $d$ song song với một đường thẳng $a$ nằm trong $(P)$ thì $d$ song song với $(P)$:\n$$\\begin{cases} d \\not\\subset (P) \\\\ d \\parallel a \\\\ a \\subset (P) \\end{cases} \\implies d \\parallel (P)$$"
     },
     {
       "title": "3. Tính chất của đường thẳng song song với mặt phẳng",
+      "diagramId": "tikz-g11-l12-theory-property",
       "content": "- **Định lí 2:** Cho đường thẳng $d \\parallel (P)$. Nếu mặt phẳng $(Q)$ chứa $d$ và cắt $(P)$ theo giao tuyến $a$ thì giao tuyến $a$ song song với $d$:\n$$\\begin{cases} d \\parallel (P) \\\\ d \\subset (Q) \\\\ (P) \\cap (Q) = a \\end{cases} \\implies a \\parallel d$$\n- **Hệ quả:** Nếu hai mặt phẳng phân biệt cùng song song với một đường thẳng $d$ thì giao tuyến của chúng (nếu có) cũng song song với $d$."
     }
   ],
   "g11-c4-l13": [
     {
       "title": "1. Định nghĩa và Dấu hiệu nhận biết hai mặt phẳng song song",
+      "diagramId": "tikz-g11-l13-theory-criteria",
       "content": "- **Định nghĩa:** Hai mặt phẳng $(P)$ và $(Q)$ gọi là **song song** ($ (P) \\parallel (Q) $) nếu chúng không có điểm chung.\n- **Định lí dấu hiệu nhận biết:** Nếu mặt phẳng $(P)$ chứa **hai đường thẳng cắt nhau** $a, b$ và hai đường thẳng này **cùng song song** với mặt phẳng $(Q)$ thì $(P) \\parallel (Q)$:\n$$\\begin{cases} a, b \\subset (P), \\ a \\cap b = \\{I\\} \\\\ a \\parallel (Q), \\ b \\parallel (Q) \\end{cases} \\implies (P) \\parallel (Q)$$"
     },
     {
       "title": "2. Tính chất của hai mặt phẳng song song",
+      "diagramId": "tikz-g11-l13-theory-intersections",
       "content": "- Qua một điểm nằm ngoài một mặt phẳng cho trước, có một và chỉ một mặt phẳng song song với mặt phẳng đã cho.\n- Nếu $(P) \\parallel (Q)$ thì mọi đường thẳng nằm trong $(P)$ đều song song với $(Q)$.\n- **Định lí giao tuyến:** Cho hai mặt phẳng song song $(P) \\parallel (Q)$. Nếu mặt phẳng $(R)$ cắt $(P)$ và $(Q)$ theo hai giao tuyến $a$ và $b$ thì **$a \\parallel b$**."
     },
     {
       "title": "3. Định lí Thalès trong không gian & Hình lăng trụ, Hình hộp",
+      "diagramId": "tikz-g11-l13-theory-thales-prism",
       "content": "- **Định lí Thalès:** Ba mặt phẳng đôi một song song chắn trên hai cát tuyến bất kỳ những đoạn thẳng **tương ứng tỉ lệ**.\n- **Hình lăng trụ:** Có hai đáy là hai đa giác nằm trên hai mặt phẳng song song, các cạnh bên song song và bằng nhau, các mặt bên là các hình bình hành.\n- **Hình hộp:** Là hình lăng trụ có đáy là hình bình hành ($4$ đường chéo cắt nhau tại trung điểm của mỗi đường).\n- **Hình chóp cụt:** Phần hình chóp nằm giữa đáy và một thiết diện song song với đáy (các mặt bên là hình thang)."
     }
   ],
