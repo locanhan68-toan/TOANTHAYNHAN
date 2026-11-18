@@ -1,4 +1,4 @@
-// TRẠNG THÁI ỨNG DỤNG
+﻿// TRẠNG THÁI ỨNG DỤNG
 let isAppViewOpen = false; // false = Landing Page; true = Phòng học trực tuyến
 let currentRole = 'guest'; // 'guest' | 'student' | 'teacher'
 let currentTab = 'arena'; // 'arena' | 'review' | 'lesson' | 'assessment' | 'dashboard'
@@ -770,6 +770,9 @@ function switchRole(role) {
   }
 
   renderExercises();
+  if (typeof renderAssessment === 'function') {
+    renderAssessment();
+  }
   refreshIconsAndMath();
 }
 
@@ -787,6 +790,9 @@ function switchTab(tabId) {
     if (view && btn) {
       if (t === tabId) {
         view.classList.remove('hidden');
+        if (t === 'assessment' && typeof renderAssessment === 'function') {
+          renderAssessment();
+        }
         if (t === 'arena') {
           btn.className = "px-3 py-1.5 text-xs sm:text-sm font-bold rounded-lg bg-red-50 text-red-700 border border-red-200 flex items-center gap-1.5 whitespace-nowrap shrink-0";
         } else if (t === 'review') {
@@ -1618,6 +1624,9 @@ function switchLessonTopicTab(targetTab) {
   renderTopicMethod();
   renderExamples();
   renderExercises();
+  if (typeof renderAssessment === 'function') {
+    renderAssessment();
+  }
   refreshIconsAndMath();
 }
 
@@ -2341,177 +2350,698 @@ function clearAllFeedbacks() {
 }
 
 // ==========================================
-// 6. CHẨN ĐOÁN LỖI SAI & CHẤM TỰ LUẬN
+// 6. CHẨN ĐOÁN LỖI SAI & CHẤM TỰ LUẬN (15 CÂU CHUẨN MA TRẬN GDPT 2018)
+// Cấu trúc: 5 Trắc nghiệm + 3 Đúng/Sai (12 ý) + 4 Trả lời ngắn + 3 Tự luận
 // ==========================================
-function selectOption(questionId, selectedKey) {
-  const qData = MATH_DATA.currentLesson.assessment.find(q => q.id === questionId);
-  if (!qData) return;
 
-  const card = document.getElementById(`card-${questionId}`);
-  const feedbackBox = document.getElementById(`feedback-${questionId}`);
-  const optionButtons = card.querySelectorAll('.option-btn');
+window.diagnosticState = window.diagnosticState || {
+  activeEssayIdx: 0,
+  tfChoices: {},       // { [tfId]: { a: true/false, b: ... } }
+  tfChecked: {},       // { [tfId]: true/false }
+  saResults: {},       // { [saId]: { checked: bool, isCorrect: bool, userVal: string } }
+  mcSelections: {},    // { [mcId]: key }
+  essayInputs: {},     // { [essayId]: string }
+  essayResults: {}     // { [essayId]: { type: 'ai'|'manual', score: number, html: string } }
+};
 
-  optionButtons.forEach(btn => {
-    btn.className = "option-btn text-left p-3.5 border rounded-xl hover:bg-slate-50 transition border-slate-200";
-  });
+let currentManualEssayId = null;
 
-  const selectedOpt = qData.options.find(o => o.key === selectedKey);
-  const correctOpt = qData.options.find(o => o.isCorrect);
+function renderAssessment() {
+  const container = document.getElementById('assessment-dynamic-container');
+  if (!container) return;
 
-  feedbackBox.classList.remove('hidden');
+  const curLesson = MATH_DATA.currentLesson || {};
+  const gradeId = curLesson.gradeId || 11;
+  const chId = curLesson.chapterId || 'c4';
+  const lId = curLesson.lessonId || 'g11-c4-l10';
 
-  if (selectedOpt.isCorrect) {
-    feedbackBox.className = "mt-4 p-4 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-900";
-    feedbackBox.innerHTML = `
-      <div class="flex items-start gap-2.5">
-        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"></i>
-        <div>
-          <h5 class="font-bold text-sm text-emerald-800">Tuyệt vời! Bạn đã chọn đúng (Đáp án ${selectedKey})</h5>
-          <p class="text-xs sm:text-sm mt-1">${selectedOpt.errorMsg}</p>
+  const data = (typeof window.getDiagnosticAssessment === 'function')
+    ? window.getDiagnosticAssessment(gradeId, chId, lId)
+    : null;
+
+  if (!data) {
+    container.innerHTML = `
+      <div class="p-8 bg-white rounded-2xl border border-slate-200 text-center text-slate-500 space-y-3">
+        <i data-lucide="info" class="w-8 h-8 text-blue-500 mx-auto"></i>
+        <div class="font-bold text-slate-700">Đang chuẩn bị bộ câu hỏi đánh giá chẩn đoán cho bài học này...</div>
+      </div>
+    `;
+    refreshIconsAndMath();
+    return;
+  }
+
+  // 1. PHẦN I: 5 CÂU TRẮC NGHIỆM
+  const mcHtml = (data.multipleChoice || []).map((mc, idx) => {
+    const selectedKey = window.diagnosticState.mcSelections[mc.id];
+    const isAnswered = !!selectedKey;
+    const selectedOpt = isAnswered ? mc.options.find(o => o.key === selectedKey) : null;
+    const correctOpt = mc.options.find(o => o.isCorrect);
+
+    let feedbackHtml = '';
+    if (isAnswered && selectedOpt) {
+      if (selectedOpt.isCorrect) {
+        feedbackHtml = `
+          <div class="mt-4 p-4 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-900">
+            <div class="flex items-start gap-2.5">
+              <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"></i>
+              <div>
+                <h5 class="font-bold text-sm text-emerald-800">Tuyệt vời! Bạn đã chọn đúng (Đáp án ${selectedKey})</h5>
+                <p class="text-xs sm:text-sm mt-1 leading-relaxed">${selectedOpt.errorMsg || 'Phân tích chuẩn xác theo kiến thức bài học.'}</p>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        feedbackHtml = `
+          <div class="mt-4 p-4 rounded-xl border border-red-200 bg-red-50 text-red-900 space-y-3">
+            <div class="flex items-start gap-2.5">
+              <i data-lucide="alert-triangle" class="w-5 h-5 text-red-600 shrink-0 mt-0.5"></i>
+              <div>
+                <h5 class="font-bold text-sm text-red-800">Cảnh báo lỗi sai: Em đã chọn sai (Đáp án ${selectedKey})</h5>
+                <p class="text-xs sm:text-sm mt-1 font-medium text-red-700 leading-relaxed">${selectedOpt.errorMsg}</p>
+                <p class="text-xs text-slate-700 mt-1 font-semibold">Đáp án đúng phải là: <span class="text-emerald-700 font-bold">${correctOpt ? correctOpt.key : ''}</span></p>
+              </div>
+            </div>
+
+            ${mc.remedialProblem ? `
+              <div class="bg-white p-3.5 rounded-xl border border-red-200 shadow-xs mt-2">
+                <div class="flex items-center gap-1.5 text-xs font-bold text-amber-700 uppercase mb-1">
+                  <i data-lucide="refresh-cw" class="w-4 h-4 text-amber-600"></i> ${mc.remedialProblem.title || 'Bài tập khắc phục lỗ hổng'}
+                </div>
+                <div class="text-xs sm:text-sm font-medium text-slate-800 math-content mb-2 leading-relaxed">
+                  ${formatMathMarkdown(mc.remedialProblem.question)}
+                </div>
+                <div class="text-xs text-slate-700 bg-amber-50/70 p-2.5 rounded-lg border border-amber-200 leading-relaxed">
+                  <div class="font-semibold text-amber-900 mb-0.5">💡 Mẹo ghi nhớ:</div>
+                  ${formatMathMarkdown(mc.remedialProblem.tip)}
+                  <div class="mt-1.5 pt-1.5 border-t border-amber-200/60 font-bold text-emerald-800">
+                    Đáp án kiểm tra lại: ${formatMathMarkdown(mc.remedialProblem.correctAnswer)}
+                  </div>
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }
+    }
+
+    const optionsButtons = mc.options.map(opt => {
+      let btnClass = "option-btn text-left p-3.5 border rounded-xl hover:bg-slate-50 transition border-slate-200 flex items-start gap-2.5 text-xs sm:text-sm";
+      if (selectedKey === opt.key) {
+        if (opt.isCorrect) {
+          btnClass = "option-btn text-left p-3.5 border-2 rounded-xl bg-emerald-50 border-emerald-500 text-emerald-900 font-semibold flex items-start gap-2.5 text-xs sm:text-sm shadow-xs";
+        } else {
+          btnClass = "option-btn text-left p-3.5 border-2 rounded-xl bg-red-50 border-red-500 text-red-900 font-semibold flex items-start gap-2.5 text-xs sm:text-sm shadow-xs";
+        }
+      } else if (isAnswered && opt.isCorrect) {
+        btnClass = "option-btn text-left p-3.5 border-2 rounded-xl bg-emerald-50/60 border-emerald-400 text-emerald-800 flex items-start gap-2.5 text-xs sm:text-sm";
+      }
+
+      return `
+        <button type="button" onclick="selectDiagnosticMC('${mc.id}', '${opt.key}')" class="${btnClass}">
+          <span class="font-bold shrink-0 w-6 h-6 rounded-full flex items-center justify-center ${selectedKey === opt.key ? (opt.isCorrect ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white') : 'bg-slate-100 text-slate-600'} text-xs">${opt.key}</span>
+          <div class="math-content flex-1 pt-0.5 leading-relaxed">${formatMathMarkdown(opt.text)}</div>
+        </button>
+      `;
+    }).join('');
+
+    return `
+      <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs" id="card-${mc.id}">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded-lg">${mc.number || `Câu ${idx + 1}`} (${mc.level || 'Nhận biết'})</span>
+            <span class="text-xs text-slate-500 font-medium hidden sm:inline">Trắc nghiệm chọn 1 đáp án</span>
+          </div>
+          <span class="text-xs font-semibold px-2 py-0.5 bg-amber-50 text-amber-700 border border-amber-200 rounded-md">Chẩn đoán bẫy sai lầm</span>
+        </div>
+        <div class="math-content font-medium text-slate-800 mb-4 text-sm sm:text-base leading-relaxed">
+          ${formatMathMarkdown(mc.question)}
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="options-${mc.id}">
+          ${optionsButtons}
+        </div>
+        <div id="feedback-${mc.id}">
+          ${feedbackHtml}
         </div>
       </div>
     `;
-  } else {
-    feedbackBox.className = "mt-4 p-4 rounded-xl border border-red-200 bg-red-50 text-red-900";
-    feedbackBox.innerHTML = `
-      <div class="space-y-3">
-        <div class="flex items-start gap-2.5">
-          <i data-lucide="alert-triangle" class="w-5 h-5 text-red-600 shrink-0 mt-0.5"></i>
-          <div>
-            <h5 class="font-bold text-sm text-red-800">Cảnh báo lỗi sai: Em đã chọn sai (Đáp án ${selectedKey})</h5>
-            <p class="text-xs sm:text-sm mt-1 font-medium text-red-700">${selectedOpt.errorMsg}</p>
-            <p class="text-xs text-slate-600 mt-1">Đáp án đúng phải là: <strong>${correctOpt.key}</strong></p>
+  }).join('');
+
+  // 2. PHẦN II: 3 CÂU ĐÚNG / SAI
+  const tfHtml = (data.trueFalse || []).map((tf, tfIdx) => {
+    const isChecked = !!window.diagnosticState.tfChecked[tf.id];
+    const userChoices = window.diagnosticState.tfChoices[tf.id] || {};
+
+    let correctCount = 0;
+    (tf.items || []).forEach(item => {
+      const choice = userChoices[item.key];
+      if (choice !== undefined && choice === item.isCorrect) {
+        correctCount++;
+      }
+    });
+
+    let scoreAwarded = 0;
+    if (correctCount === 1) scoreAwarded = 0.1;
+    else if (correctCount === 2) scoreAwarded = 0.25;
+    else if (correctCount === 3) scoreAwarded = 0.5;
+    else if (correctCount === 4) scoreAwarded = 1.0;
+
+    const itemsHtml = (tf.items || []).map(item => {
+      const choice = userChoices[item.key];
+      const isRight = choice !== undefined && choice === item.isCorrect;
+
+      let rowHighlight = '';
+      if (isChecked) {
+        rowHighlight = isRight ? 'bg-emerald-50/60 border-emerald-200' : 'bg-red-50/60 border-red-200';
+      }
+
+      return `
+        <div class="p-3 sm:p-3.5 rounded-xl border border-slate-200 transition ${rowHighlight} space-y-2">
+          <div class="flex flex-wrap sm:flex-nowrap items-start justify-between gap-3">
+            <div class="flex items-start gap-2 text-xs sm:text-sm font-medium text-slate-800 math-content flex-1 leading-relaxed">
+              <span class="font-bold text-blue-700">${item.key})</span>
+              <div class="flex-1">${formatMathMarkdown(item.text)}</div>
+            </div>
+            
+            <div class="flex items-center gap-1.5 shrink-0 self-end sm:self-center">
+              <button type="button" onclick="setDiagnosticTF('${tf.id}', '${item.key}', true)" 
+                class="px-3 py-1.5 text-xs font-bold rounded-lg border transition ${choice === true ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs' : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-300'}">
+                Đúng
+              </button>
+              <button type="button" onclick="setDiagnosticTF('${tf.id}', '${item.key}', false)" 
+                class="px-3 py-1.5 text-xs font-bold rounded-lg border transition ${choice === false ? 'bg-red-600 text-white border-red-600 shadow-xs' : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-300'}">
+                Sai
+              </button>
+            </div>
+          </div>
+
+          ${isChecked ? `
+            <div class="pt-2 border-t ${isRight ? 'border-emerald-200 text-emerald-900' : 'border-red-200 text-red-900'} text-xs leading-relaxed">
+              <span class="font-bold ${isRight ? 'text-emerald-700' : 'text-red-700'}">
+                ${isRight ? '✓ Chuẩn xác:' : '✗ Sai sót:'} (Ý này ${item.isCorrect ? 'ĐÚNG' : 'SAI'})
+              </span>
+              <span class="ml-1 text-slate-700">${item.explanation}</span>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }).join('');
+
+    return `
+      <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4" id="card-${tf.id}">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 bg-purple-100 text-purple-800 text-xs font-bold rounded-lg">${tf.number || `Câu ${tfIdx + 6}`} (Đúng / Sai)</span>
+            <span class="text-xs text-slate-500 font-medium">Chuẩn đề thi tốt nghiệp GDPT 2018</span>
+          </div>
+          <span class="text-xs font-semibold px-2 py-0.5 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-md">Thang 4 ý: 1.0 điểm</span>
+        </div>
+
+        <div class="math-content font-medium text-slate-800 text-sm sm:text-base leading-relaxed bg-slate-50/80 p-3.5 rounded-xl border border-slate-200">
+          ${formatMathMarkdown(tf.scenario)}
+        </div>
+
+        <div class="space-y-2.5">
+          ${itemsHtml}
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+          <button type="button" onclick="checkDiagnosticTF('${tf.id}')" 
+            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold rounded-xl flex items-center gap-2 transition shadow-xs">
+            <i data-lucide="check-square" class="w-4 h-4"></i> Kiểm tra & Chấm điểm Bộ GD&ĐT
+          </button>
+          ${isChecked ? `
+            <div class="flex items-center gap-2 text-xs sm:text-sm">
+              <span class="text-slate-600 font-medium">Đúng: <strong>${correctCount}/4</strong> ý</span>
+              <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 font-bold rounded-lg">+${scoreAwarded.toFixed(2)} điểm</span>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // 3. PHẦN III: 4 CÂU TRẢ LỜI NGẮN
+  const saHtml = (data.shortAnswer || []).map((sa, saIdx) => {
+    const res = window.diagnosticState.saResults[sa.id] || {};
+    const isChecked = !!res.checked;
+    const isCorrect = !!res.isCorrect;
+    const userVal = res.userVal || '';
+
+    return `
+      <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-3.5" id="card-${sa.id}">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-lg">${sa.number || `Câu ${saIdx + 9}`} (Trả lời ngắn)</span>
+            <span class="text-xs text-slate-500 font-medium">Điền số hoặc kết quả tính toán</span>
+          </div>
+          <span class="text-xs font-semibold px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-md">0.5 điểm</span>
+        </div>
+
+        <div class="math-content font-medium text-slate-800 text-sm sm:text-base leading-relaxed">
+          ${formatMathMarkdown(sa.question)}
+        </div>
+
+        <div class="flex flex-wrap sm:flex-nowrap items-center gap-3">
+          <div class="relative flex-1 min-w-[200px]">
+            <input type="text" id="sa-input-${sa.id}" value="${userVal}" 
+              placeholder="Nhập đáp số (ví dụ: 10, 1/2, 4)..." 
+              class="w-full px-3.5 py-2.5 text-sm border rounded-xl focus:ring-2 focus:ring-blue-500 font-mono ${isChecked ? (isCorrect ? 'border-emerald-500 bg-emerald-50/30' : 'border-red-500 bg-red-50/30') : 'border-slate-300'}" />
+          </div>
+          <button type="button" onclick="checkDiagnosticSA('${sa.id}')" 
+            class="px-4 py-2.5 bg-slate-800 hover:bg-slate-900 text-white text-xs sm:text-sm font-bold rounded-xl flex items-center gap-1.5 transition shadow-xs shrink-0">
+            <i data-lucide="send" class="w-4 h-4"></i> Kiểm tra đáp số
+          </button>
+        </div>
+
+        ${isChecked ? `
+          <div class="p-4 rounded-xl border ${isCorrect ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'} space-y-2 text-xs sm:text-sm">
+            <div class="flex items-center gap-2 font-bold ${isCorrect ? 'text-emerald-800' : 'text-amber-800'}">
+              <i data-lucide="${isCorrect ? 'check-circle' : 'alert-circle'}" class="w-5 h-5 shrink-0"></i>
+              <span>${isCorrect ? 'Đáp số chính xác! (+0.5 điểm)' : 'Chưa chính xác! Cùng xem hướng dẫn chi tiết:'}</span>
+            </div>
+            <div class="text-slate-800 leading-relaxed math-content">
+              <strong>Đáp số chuẩn:</strong> <span class="font-bold text-blue-700">${formatMathMarkdown(sa.correctAnswer)}</span>
+            </div>
+            <div class="text-slate-700 leading-relaxed math-content">
+              <strong>Giải thích chi tiết:</strong> ${formatMathMarkdown(sa.explanation)}
+            </div>
+            ${sa.tip ? `
+              <div class="pt-2 border-t border-amber-200/60 text-xs text-amber-900 font-medium">
+                💡 <strong>Mẹo tính nhanh:</strong> ${formatMathMarkdown(sa.tip)}
+              </div>
+            ` : ''}
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }).join('');
+
+  // 4. PHẦN IV: 3 CÂU TỰ LUẬN
+  const essays = data.essay || [];
+  let curEssayIdx = window.diagnosticState.activeEssayIdx || 0;
+  if (curEssayIdx >= essays.length) curEssayIdx = 0;
+  const curEssay = essays[curEssayIdx] || null;
+
+  const essayTabsHtml = essays.map((es, eIdx) => {
+    const isActive = eIdx === curEssayIdx;
+    return `
+      <button type="button" onclick="switchDiagnosticEssayTab(${eIdx})" 
+        class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 shrink-0 ${isActive ? 'bg-purple-600 text-white shadow-sm' : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'}">
+        <i data-lucide="file-text" class="w-4 h-4"></i>
+        <span>${es.number ? es.number.replace(/\(.*?\)/, '').trim() : `Tự luận ${eIdx + 1}`}</span>
+      </button>
+    `;
+  }).join('');
+
+  let essayCardHtml = '';
+  if (curEssay) {
+    const essayText = window.diagnosticState.essayInputs[curEssay.id] || '';
+    const essayResult = window.diagnosticState.essayResults[curEssay.id] || null;
+
+    essayCardHtml = `
+      <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4" id="card-${curEssay.id}">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 bg-purple-100 text-purple-800 text-xs font-bold rounded-lg flex items-center gap-1">
+              <i data-lucide="file-edit" class="w-3.5 h-3.5"></i> ${curEssay.number || 'Tự luận'}
+            </span>
+            <span class="text-sm font-bold text-slate-800">${curEssay.title || ''}</span>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-1 bg-purple-50 text-purple-700 border border-purple-200 rounded-lg">
+            Thang điểm: ${curEssay.maxPoints ? curEssay.maxPoints.toFixed(1) : '10.0'}
+          </span>
+        </div>
+
+        <div class="math-content font-medium text-slate-800 text-sm sm:text-base leading-relaxed bg-slate-50/70 p-4 rounded-xl border border-slate-200 whitespace-pre-line">
+          ${formatMathMarkdown(curEssay.question)}
+        </div>
+
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-bold text-slate-700 uppercase">Khung nhập bài giải của học sinh:</label>
+            <span class="text-xs text-slate-400">Gõ lời giải hoặc bấm chụp ảnh bài làm</span>
+          </div>
+
+          <textarea id="diagnostic-essay-input" rows="7" 
+            oninput="window.diagnosticState.essayInputs['${curEssay.id}'] = this.value"
+            class="w-full p-3.5 text-xs sm:text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-purple-500 font-mono leading-relaxed"
+            placeholder="Nhập bài giải tự luận từng bước hoặc bấm 'Chụp ảnh bài làm (Mobile)' bên dưới...">${essayText}</textarea>
+
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="simulatePhotoUploadForEssay('${curEssay.id}')" 
+                class="px-3.5 py-2 text-xs font-semibold border border-slate-300 rounded-xl hover:bg-slate-50 flex items-center gap-1.5 text-slate-700 shadow-2xs transition">
+                <i data-lucide="camera" class="w-4 h-4 text-blue-600"></i> Chụp ảnh bài làm (Mobile)
+              </button>
+              <span id="diagnostic-photo-status" class="text-xs text-slate-500 hidden">
+                Đã đính kèm ảnh: <code>bai_lam_${curEssay.id}.jpg</code>
+              </span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="gradeEssayAuto('${curEssay.id}')" 
+                class="px-4 py-2 text-xs sm:text-sm font-bold bg-purple-600 text-white rounded-xl hover:bg-purple-700 flex items-center gap-1.5 shadow-xs transition">
+                <i data-lucide="cpu" class="w-4 h-4"></i> 🤖 Chấm Tự Động (AI)
+              </button>
+              <button type="button" onclick="openManualGradeModal('${curEssay.id}')" 
+                class="px-4 py-2 text-xs sm:text-sm font-bold bg-amber-500 text-white rounded-xl hover:bg-amber-600 flex items-center gap-1.5 shadow-xs transition">
+                <i data-lucide="user-check" class="w-4 h-4"></i> ✍️ Thầy Chấm Thủ Công
+              </button>
+            </div>
           </div>
         </div>
 
-        <div class="bg-white p-3.5 rounded-xl border border-red-200 shadow-sm mt-3">
-          <div class="flex items-center gap-1.5 text-xs font-bold text-amber-700 uppercase mb-1">
-            <i data-lucide="refresh-cw" class="w-4 h-4 text-amber-600"></i> ${qData.remedialProblem.title}
-          </div>
-          <div class="text-xs sm:text-sm font-medium text-slate-800 math-content mb-2">
-            ${qData.remedialProblem.question}
-          </div>
-          <div class="text-xs text-slate-600 bg-amber-50/70 p-2 rounded-lg border border-amber-200">
-            <strong>Mẹo khắc phục:</strong> ${qData.remedialProblem.tip}
-            <div class="mt-1 font-bold text-slate-800">Đáp án kiểm tra lại: ${qData.remedialProblem.correctAnswer}</div>
-          </div>
+        <div id="diagnostic-essay-result" class="${essayResult ? '' : 'hidden'}">
+          ${essayResult ? essayResult.html : ''}
         </div>
       </div>
     `;
   }
 
+  // Ghép toàn bộ giao diện 15 câu
+  container.innerHTML = `
+    <!-- BANNER TIÊU ĐỀ -->
+    <div class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-2xl p-6 sm:p-8 shadow-lg">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
+        <span class="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-semibold">
+          Hệ Thống Đánh Giá Chẩn Đoán & Chấm Điểm Chuẩn Ma Trận GDPT 2018
+        </span>
+        <span class="px-3 py-1 bg-emerald-500/40 border border-emerald-300/30 text-white text-xs font-bold rounded-lg">
+          15 Câu Toàn Diện (10.0 Điểm)
+        </span>
+      </div>
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">${data.title}</h2>
+      <p class="mt-2 text-emerald-100 text-xs sm:text-sm leading-relaxed">${data.summary || data.chapterTitle || ''}</p>
+      
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-5 pt-4 border-t border-white/20 text-xs">
+        <div class="bg-white/10 rounded-xl p-2.5 backdrop-blur-xs">
+          <span class="block text-emerald-200 text-[11px] font-medium">Phần I: Trắc nghiệm</span>
+          <span class="font-bold text-white text-sm">5 Câu (3.0đ)</span>
+        </div>
+        <div class="bg-white/10 rounded-xl p-2.5 backdrop-blur-xs">
+          <span class="block text-emerald-200 text-[11px] font-medium">Phần II: Đúng / Sai</span>
+          <span class="font-bold text-white text-sm">3 Câu - 12 ý (3.0đ)</span>
+        </div>
+        <div class="bg-white/10 rounded-xl p-2.5 backdrop-blur-xs">
+          <span class="block text-emerald-200 text-[11px] font-medium">Phần III: Trả lời ngắn</span>
+          <span class="font-bold text-white text-sm">4 Câu (2.0đ)</span>
+        </div>
+        <div class="bg-white/10 rounded-xl p-2.5 backdrop-blur-xs">
+          <span class="block text-emerald-200 text-[11px] font-medium">Phần IV: Tự luận</span>
+          <span class="font-bold text-white text-sm">3 Câu (2.0đ)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHẦN I: 5 CÂU TRẮC NGHIỆM -->
+    <div class="space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-2">
+        <div>
+          <h3 class="text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs font-bold">I</span>
+            Phần I: 5 Câu Trắc Nghiệm Chẩn Đoán Lỗi Sai (Chọn 1 đáp án)
+          </h3>
+          <p class="text-xs text-slate-500 mt-0.5">Chọn sai hệ thống lập tức chẩn đoán lỗ hổng và đẩy bài tập khắc phục kèm mẹo nhớ.</p>
+        </div>
+        <span class="text-xs font-bold px-2.5 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg">3.0 Điểm</span>
+      </div>
+      <div class="space-y-5">
+        ${mcHtml}
+      </div>
+    </div>
+
+    <!-- PHẦN II: 3 CÂU ĐÚNG / SAI -->
+    <div class="space-y-4 pt-4">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-2">
+        <div>
+          <h3 class="text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-purple-600 text-white flex items-center justify-center text-xs font-bold">II</span>
+            Phần II: 3 Câu Đúng / Sai (Định dạng đề thi mới GDPT 2018 - 12 Lệnh hỏi)
+          </h3>
+          <p class="text-xs text-slate-500 mt-0.5">Thang điểm Bộ GD&ĐT: Đúng 1 ý: 0.1đ | 2 ý: 0.25đ | 3 ý: 0.5đ | 4 ý: 1.0đ.</p>
+        </div>
+        <span class="text-xs font-bold px-2.5 py-1 bg-purple-50 text-purple-700 border border-purple-200 rounded-lg">3.0 Điểm</span>
+      </div>
+      <div class="space-y-5">
+        ${tfHtml}
+      </div>
+    </div>
+
+    <!-- PHẦN III: 4 CÂU TRẢ LỜI NGẮN -->
+    <div class="space-y-4 pt-4">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-2">
+        <div>
+          <h3 class="text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-amber-600 text-white flex items-center justify-center text-xs font-bold">III</span>
+            Phần III: 4 Câu Hỏi Trả Lời Ngắn (Điền kết quả tính toán)
+          </h3>
+          <p class="text-xs text-slate-500 mt-0.5">Điền số hoặc đáp số chuẩn vào ô trống. Tự động kiểm tra và hướng dẫn chi tiết.</p>
+        </div>
+        <span class="text-xs font-bold px-2.5 py-1 bg-amber-50 text-amber-700 border border-amber-200 rounded-lg">2.0 Điểm</span>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        ${saHtml}
+      </div>
+    </div>
+
+    <!-- PHẦN IV: 3 CÂU TỰ LUẬN -->
+    <div class="space-y-4 pt-4">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-2">
+        <div>
+          <h3 class="text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-xs font-bold">IV</span>
+            Phần IV: 3 Câu Hỏi Tự Luận Năng Lực Toán Học (AI Auto-Grading & Thầy Chấm)
+          </h3>
+          <p class="text-xs text-slate-500 mt-0.5">Học sinh gõ lời giải hoặc bấm chụp ảnh bài làm để đối chiếu 4 tiêu chí chuẩn.</p>
+        </div>
+        <span class="text-xs font-bold px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg">2.0 Điểm</span>
+      </div>
+
+      <div class="flex items-center gap-2 overflow-x-auto pb-1">
+        ${essayTabsHtml}
+      </div>
+
+      ${essayCardHtml}
+    </div>
+  `;
+
   refreshIconsAndMath();
 }
 
-function simulatePhotoUpload() {
-  document.getElementById('photo-status').classList.remove('hidden');
-  document.getElementById('essay-input').value = 
-`Lời giải của học sinh:
-1. Xét phương trình x^2 - 2(m+1)x + m^2 + 2 = 0
-Delta' = (m+1)^2 - 1*(m^2+2) = m^2 + 2m + 1 - m^2 - 2 = 2m - 1
-Để phương trình có 2 nghiệm x1, x2 thì Delta' >= 0 <=> 2m - 1 >= 0 <=> m >= 1/2.
-2. Theo định lý Vi-et ta có:
-x1 + x2 = 2(m+1)
-x1 * x2 = m^2 + 2
-3. Biểu thức đề bài: x1^2 + x2^2 - 3x1x2 = 1
-<=> (x1+x2)^2 - 5x1x2 = 1
-<=> [2(m+1)]^2 - 5(m^2+2) = 1
-<=> 4(m^2+2m+1) - 5m^2 - 10 = 1
-<=> -m^2 + 8m - 6 = 1 <=> m^2 - 8m + 7 = 0
-<=> (m-1)(m-7) = 0 <=> m = 1 hoặc m = 7
-4. Đối chiếu điều kiện m >= 1/2, ta thấy cả m = 1 và m = 7 đều thỏa mãn.
-Vậy m in {1; 7}.`;
+function selectDiagnosticMC(mcId, selectedKey) {
+  window.diagnosticState.mcSelections[mcId] = selectedKey;
+  renderAssessment();
+}
+
+function setDiagnosticTF(tfId, itemKey, userChoice) {
+  if (!window.diagnosticState.tfChoices[tfId]) {
+    window.diagnosticState.tfChoices[tfId] = {};
+  }
+  window.diagnosticState.tfChoices[tfId][itemKey] = userChoice;
+  renderAssessment();
+}
+
+function checkDiagnosticTF(tfId) {
+  window.diagnosticState.tfChecked[tfId] = true;
+  renderAssessment();
+}
+
+function checkDiagnosticSA(saId) {
+  const inputEl = document.getElementById(`sa-input-${saId}`);
+  const val = inputEl ? inputEl.value.trim() : '';
+
+  const curLesson = MATH_DATA.currentLesson || {};
+  const data = (typeof window.getDiagnosticAssessment === 'function')
+    ? window.getDiagnosticAssessment(curLesson.gradeId || 11, curLesson.chapterId || 'c4', curLesson.lessonId || 'g11-c4-l10')
+    : null;
+  const sa = (data && data.shortAnswer) ? data.shortAnswer.find(s => s.id === saId) : null;
+  if (!sa) return;
+
+  const normalize = (s) => (s || '').toLowerCase().replace(/\s+/g, '').replace(/,/g, '.');
+  const normVal = normalize(val);
+  const accepted = (sa.acceptedAnswers || [sa.correctAnswer]).map(normalize);
+
+  const isCorrect = accepted.includes(normVal) || (sa.correctAnswer && normVal === normalize(sa.correctAnswer));
+
+  window.diagnosticState.saResults[saId] = {
+    checked: true,
+    isCorrect: isCorrect,
+    userVal: val
+  };
+
+  renderAssessment();
+}
+
+function switchDiagnosticEssayTab(idx) {
+  window.diagnosticState.activeEssayIdx = idx;
+  renderAssessment();
+}
+
+function simulatePhotoUploadForEssay(essayId) {
+  const curLesson = MATH_DATA.currentLesson || {};
+  const data = (typeof window.getDiagnosticAssessment === 'function')
+    ? window.getDiagnosticAssessment(curLesson.gradeId || 11, curLesson.chapterId || 'c4', curLesson.lessonId || 'g11-c4-l10')
+    : null;
+  const essay = (data && data.essay) ? data.essay.find(e => e.id === essayId) : null;
+  const sampleSolution = essay ? essay.sampleSolution : `Lời giải chi tiết chuẩn bài làm học sinh.`;
+
+  const inputEl = document.getElementById('diagnostic-essay-input') || document.getElementById('essay-input');
+  if (inputEl) {
+    inputEl.value = sampleSolution;
+  }
+  window.diagnosticState.essayInputs[essayId] = sampleSolution;
+
+  const photoStatus = document.getElementById('diagnostic-photo-status') || document.getElementById('photo-status');
+  if (photoStatus) {
+    photoStatus.classList.remove('hidden');
+    photoStatus.innerHTML = `Đã đính kèm ảnh: <code>bai_lam_${essayId}.jpg</code>`;
+  }
   refreshIconsAndMath();
 }
 
-function gradeEssayAuto() {
-  const resultBox = document.getElementById('essay-result');
-  const essayText = document.getElementById('essay-input').value.trim();
+function gradeEssayAuto(essayId) {
+  const curLesson = MATH_DATA.currentLesson || {};
+  const data = (typeof window.getDiagnosticAssessment === 'function')
+    ? window.getDiagnosticAssessment(curLesson.gradeId || 11, curLesson.chapterId || 'c4', curLesson.lessonId || 'g11-c4-l10')
+    : null;
+  const essay = (data && data.essay) ? data.essay.find(e => e.id === essayId) : null;
+  if (!essay) return;
+
+  const inputEl = document.getElementById('diagnostic-essay-input') || document.getElementById('essay-input');
+  const essayText = inputEl ? inputEl.value.trim() : '';
 
   if (!essayText) {
     alert("Vui lòng nhập lời giải hoặc bấm 'Chụp ảnh bài làm' trước khi chấm!");
     return;
   }
 
-  resultBox.classList.remove('hidden');
-  resultBox.className = "mt-6 p-5 rounded-2xl border border-purple-200 bg-purple-50/70 text-slate-800 space-y-4";
-  
-  resultBox.innerHTML = `
-    <div class="flex items-center justify-between border-b border-purple-200 pb-3">
-      <div class="flex items-center gap-2">
-        <div class="p-2 bg-purple-600 text-white rounded-lg"><i data-lucide="bot" class="w-5 h-5"></i></div>
-        <div>
-          <h4 class="font-bold text-base text-purple-900">Kết Quả Chấm Tự Động (AI Auto-Grading)</h4>
-          <p class="text-xs text-purple-700">Đã đối chiếu với 4 tiêu chí bài giải chuẩn của Thầy</p>
+  const criteria = essay.criteria || [
+    { id: 'c1', step: 'Bước 1', desc: 'Thiết lập giả thiết và định vị hình vẽ', points: 2.5 },
+    { id: 'c2', step: 'Bước 2', desc: 'Chứng minh điểm chung thứ nhất và thứ hai', points: 2.5 },
+    { id: 'c3', step: 'Bước 3', desc: 'Suy ra giao tuyến hoặc thiết diện chuẩn xác', points: 2.5 },
+    { id: 'c4', step: 'Bước 4', desc: 'Tính tỉ số hoặc kết luận bài toán', points: 2.5 }
+  ];
+
+  const totalPoints = criteria.reduce((sum, c) => sum + c.points, 0);
+
+  const criteriaHtml = criteria.map(c => `
+    <div class="flex items-center justify-between p-3 bg-white rounded-xl border border-purple-100 shadow-2xs">
+      <span class="flex items-center gap-2 text-emerald-800 font-medium text-xs sm:text-sm">
+        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+        <span><strong>${c.step}:</strong> ${c.desc}</span>
+      </span>
+      <span class="font-bold text-slate-800 text-xs sm:text-sm shrink-0 ml-2">${c.points.toFixed(1)} / ${c.points.toFixed(1)} đ</span>
+    </div>
+  `).join('');
+
+  const resultHtml = `
+    <div class="mt-6 p-5 sm:p-6 rounded-2xl border border-purple-200 bg-purple-50/70 text-slate-800 space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-purple-200 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 bg-purple-600 text-white rounded-xl shadow-xs"><i data-lucide="bot" class="w-5 h-5"></i></div>
+          <div>
+            <h4 class="font-bold text-base text-purple-900">Kết Quả Chấm Tự Động (AI Auto-Grading)</h4>
+            <p class="text-xs text-purple-700">Đã đối chiếu với 4 tiêu chí bài giải chuẩn của Thầy</p>
+          </div>
+        </div>
+        <div class="text-right">
+          <span class="text-2xl sm:text-3xl font-black text-purple-700">${totalPoints.toFixed(1)}</span>
+          <span class="text-xs text-slate-500 font-bold">/ ${totalPoints.toFixed(1)} điểm</span>
         </div>
       </div>
-      <div class="text-right">
-        <span class="text-2xl font-black text-purple-700">10.0</span>
-        <span class="text-xs text-slate-500">/ 10.0</span>
-      </div>
-    </div>
 
-    <div class="space-y-2 text-xs sm:text-sm">
-      <div class="flex items-center justify-between p-2.5 bg-white rounded-lg border border-purple-100">
-        <span class="flex items-center gap-1.5 text-emerald-700 font-medium"><i data-lucide="check" class="w-4 h-4"></i> Tiêu chí 1: Tính đúng $\\Delta' = 2m-1 \\ge 0 \\implies m \\ge 1/2$</span>
-        <span class="font-bold text-slate-700">2.5 / 2.5 đ</span>
+      <div class="space-y-2">
+        ${criteriaHtml}
       </div>
-      <div class="flex items-center justify-between p-2.5 bg-white rounded-lg border border-purple-100">
-        <span class="flex items-center gap-1.5 text-emerald-700 font-medium"><i data-lucide="check" class="w-4 h-4"></i> Tiêu chí 2: Áp dụng đúng Vi-ét ($S=2(m+1), P=m^2+2$)</span>
-        <span class="font-bold text-slate-700">2.0 / 2.0 đ</span>
-      </div>
-      <div class="flex items-center justify-between p-2.5 bg-white rounded-lg border border-purple-100">
-        <span class="flex items-center gap-1.5 text-emerald-700 font-medium"><i data-lucide="check" class="w-4 h-4"></i> Tiêu chí 3: Biến đổi về $(x_1+x_2)^2 - 5x_1x_2 = 1$</span>
-        <span class="font-bold text-slate-700">2.5 / 2.5 đ</span>
-      </div>
-      <div class="flex items-center justify-between p-2.5 bg-white rounded-lg border border-purple-100">
-        <span class="flex items-center gap-1.5 text-emerald-700 font-medium"><i data-lucide="check" class="w-4 h-4"></i> Tiêu chí 4: Tìm đúng $m=1, m=7$, kết luận và đối chiếu ĐK</span>
-        <span class="font-bold text-slate-700">3.0 / 3.0 đ</span>
+
+      <div class="p-3.5 bg-white rounded-xl border border-purple-200 text-xs sm:text-sm text-slate-800 leading-relaxed">
+        <strong class="text-purple-900 block mb-1">🤖 Nhận xét tự động của AI:</strong>
+        Bài làm trình bày rất rõ ràng, bám sát các bước lập luận hình học không gian. Các giao điểm và giao tuyến đều được chứng minh bằng quan hệ liên thuộc và đồng phẳng tường minh. Xuất sắc!
       </div>
     </div>
   `;
 
+  window.diagnosticState.essayResults[essayId] = {
+    type: 'ai',
+    score: totalPoints,
+    html: resultHtml
+  };
+
+  const resultBox = document.getElementById('diagnostic-essay-result') || document.getElementById('essay-result');
+  if (resultBox) {
+    resultBox.classList.remove('hidden');
+    resultBox.innerHTML = resultHtml;
+  }
   refreshIconsAndMath();
 }
 
-function openManualGradeModal() {
-  document.getElementById('modal-manual-grade').classList.remove('hidden');
+function openManualGradeModal(essayId) {
+  currentManualEssayId = essayId;
+  const modal = document.getElementById('modal-manual-grade');
+  if (modal) modal.classList.remove('hidden');
 }
 
 function closeManualGradeModal() {
-  document.getElementById('modal-manual-grade').classList.add('hidden');
+  const modal = document.getElementById('modal-manual-grade');
+  if (modal) modal.classList.add('hidden');
 }
 
 function saveManualGrade() {
-  const score = document.getElementById('manual-score-input').value;
-  const feedback = document.getElementById('manual-feedback-input').value;
+  const scoreInput = document.getElementById('manual-score-input');
+  const feedbackInput = document.getElementById('manual-feedback-input');
+  const score = scoreInput ? scoreInput.value : '9.5';
+  const feedback = feedbackInput ? feedbackInput.value : '';
+
   closeManualGradeModal();
 
-  const resultBox = document.getElementById('essay-result');
-  resultBox.classList.remove('hidden');
-  resultBox.className = "mt-6 p-5 rounded-2xl border border-amber-200 bg-amber-50/70 text-slate-800 space-y-4";
-  
-  resultBox.innerHTML = `
-    <div class="flex items-center justify-between border-b border-amber-200 pb-3">
-      <div class="flex items-center gap-2">
-        <div class="p-2 bg-amber-500 text-white rounded-lg"><i data-lucide="pen-tool" class="w-5 h-5"></i></div>
-        <div>
-          <h4 class="font-bold text-base text-amber-900">Thầy Đã Chấm Điểm & Nhận Xét Thủ Công</h4>
-          <p class="text-xs text-amber-700">Đã cập nhật vào sổ học bạ & gửi tin nhắn Zalo thông báo</p>
+  const essayId = currentManualEssayId || 'es1';
+
+  const resultHtml = `
+    <div class="mt-6 p-5 sm:p-6 rounded-2xl border border-amber-200 bg-amber-50/70 text-slate-800 space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-amber-200 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 bg-amber-500 text-white rounded-xl shadow-xs"><i data-lucide="pen-tool" class="w-5 h-5"></i></div>
+          <div>
+            <h4 class="font-bold text-base text-amber-900">Thầy Đã Chấm Điểm & Nhận Xét Thủ Công</h4>
+            <p class="text-xs text-amber-700">Đã cập nhật vào sổ học bạ & gửi thông báo cho học sinh</p>
+          </div>
+        </div>
+        <div class="text-right">
+          <span class="text-2xl sm:text-3xl font-black text-amber-700">${parseFloat(score).toFixed(1)}</span>
+          <span class="text-xs text-slate-500 font-bold">/ 10.0 điểm</span>
         </div>
       </div>
-      <div class="text-right">
-        <span class="text-2xl font-black text-amber-700">${score}</span>
-        <span class="text-xs text-slate-500">/ 10.0</span>
+      <div class="p-3.5 bg-white rounded-xl border border-amber-200 text-xs sm:text-sm text-slate-800 leading-relaxed">
+        <strong class="text-amber-800 block mb-1">✍️ Lời phê của Thầy:</strong>
+        ${feedback || "Bài làm lập luận chặt chẽ, hình vẽ và các bước chứng minh chuẩn xác. Cố gắng phát huy em nhé!"}
       </div>
-    </div>
-    <div class="p-3.5 bg-white rounded-xl border border-amber-200 text-xs sm:text-sm text-slate-800">
-      <strong class="text-amber-800 block mb-1">✍️ Lời phê của Thầy:</strong>
-      ${feedback || "Bài làm rất tốt, lập luận sắc bén và trình bày đẹp mắt. Cố gắng phát huy em nhé!"}
     </div>
   `;
 
+  window.diagnosticState.essayResults[essayId] = {
+    type: 'manual',
+    score: parseFloat(score),
+    html: resultHtml
+  };
+
+  const resultBox = document.getElementById('diagnostic-essay-result') || document.getElementById('essay-result');
+  if (resultBox) {
+    resultBox.classList.remove('hidden');
+    resultBox.innerHTML = resultHtml;
+  }
   refreshIconsAndMath();
+}
+
+// Hàm tương thích ngược
+function selectOption(qId, key) {
+  selectDiagnosticMC(qId, key);
+}
+
+function simulatePhotoUpload() {
+  const essays = (MATH_DATA.currentLesson && MATH_DATA.currentLesson.assessment && MATH_DATA.currentLesson.assessment.essay) || [];
+  const essayId = essays[0] ? essays[0].id : 'es1';
+  simulatePhotoUploadForEssay(essayId);
 }
 
 // ==========================================
@@ -4988,6 +5518,9 @@ function loadNavSelectedLesson() {
   renderLessonDiagram();
   renderExamples();
   renderExercises();
+  if (typeof renderAssessment === 'function') {
+    renderAssessment();
+  }
   refreshIconsAndMath();
 }
 
