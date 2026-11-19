@@ -1362,48 +1362,61 @@ window.MATH_TIKZ_LIBRARY = [
     topic: "Hình học không gian - Điểm, Đường thẳng và Mặt phẳng",
     desc: "Trong mặt phẳng (ABC), đường thẳng MN cắt cạnh đáy BC kéo dài tại điểm E. Điểm D và E là hai điểm chung của mặt phẳng (DMN) và mặt phẳng đáy (BCD), suy ra giao tuyến là đường thẳng DE.",
     formula: "E = MN \\cap BC \\implies (DMN) \\cap (BCD) = DE",
-    svg: `<svg viewBox="0 0 350 255" class="w-full h-auto max-h-56 mx-auto" xmlns="http://www.w3.org/2000/svg">
-      <!-- Mặt phẳng (DMN) tô bóng mờ nhẹ vàng nhạt -->
-      <polygon points="265,160 105,96 154,163" fill="#fef08a" fill-opacity="0.38"/>
-      <!-- Mặt phẳng đáy (BCD) mở rộng tới E tô màu xanh ngọc nhạt -->
-      <polygon points="50,180 155,215 204,231 265,160" fill="#f0fdf4" fill-opacity="0.35"/>
-      <!-- Cạnh khuất của tứ diện: BD (nét đứt xám) -->
-      <line x1="50" y1="180" x2="265" y2="160" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5 3"/>
-      <!-- Các cạnh nhìn thấy của tứ diện ABCD: nét liền đậm rõ nét -->
-      <line x1="150" y1="28" x2="50" y2="180" stroke="#1e293b" stroke-width="2.2"/>
-      <line x1="150" y1="28" x2="155" y2="215" stroke="#1e293b" stroke-width="2.2"/>
-      <line x1="150" y1="28" x2="265" y2="160" stroke="#1e293b" stroke-width="2.2"/>
-      <line x1="50" y1="180" x2="155" y2="215" stroke="#1e293b" stroke-width="2.2"/>
-      <line x1="155" y1="215" x2="265" y2="160" stroke="#1e293b" stroke-width="2.2"/>
-      <!-- Đường thẳng MN trong mặt (ABC): nét liền đỏ -->
-      <line x1="105" y1="96" x2="154" y2="163" stroke="#dc2626" stroke-width="2.6"/>
-      <!-- Kéo dài MN qua N tới E: nét đứt đỏ thẳng tắp 100% -->
-      <line x1="154" y1="163" x2="204" y2="231" stroke="#dc2626" stroke-width="2" stroke-dasharray="4 2"/>
-      <!-- Kéo dài cạnh đáy BC qua C tới E: nét đứt xanh dương thẳng tắp 100% -->
-      <line x1="155" y1="215" x2="204" y2="231" stroke="#2563eb" stroke-width="2" stroke-dasharray="4 2"/>
-      <!-- GIAO TUYẾN DE: Nối D(265,160) với E(204,231) - nét liền đỏ nổi bật nhất -->
-      <line x1="265" y1="160" x2="204" y2="231" stroke="#dc2626" stroke-width="3"/>
+    svg: `<svg viewBox="0 0 380 295" class="w-full h-auto max-h-60 mx-auto" xmlns="http://www.w3.org/2000/svg">
+      <!-- Mặt phẳng đáy (BCD) mở rộng tới E: đa giác B-C-E-D tô màu xanh ngọc nhạt -->
+      <polygon points="50,180 148,214 344,282 260,155" fill="#f0fdf4" fill-opacity="0.38"/>
+      <!-- Mặt bên (ABC) tô nền nhẹ -->
+      <polygon points="140,24 50,180 148,214" fill="#eff6ff" fill-opacity="0.45"/>
+      <!-- Mặt bên (ACD) tô nền nhẹ -->
+      <polygon points="140,24 148,214 260,155" fill="#f8fafc" fill-opacity="0.45"/>
+      <!-- Mặt phẳng (DMN) mở rộng (D-M-E) tô màu vàng nhạt -->
+      <polygon points="260,155 99.5,94.2 344,282" fill="#fef08a" fill-opacity="0.32"/>
+
+      <!-- Cạnh khuất của tứ diện: BD (nét đứt xám chuẩn quy tắc hình học không gian) -->
+      <line x1="50" y1="180" x2="260" y2="155" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5 3"/>
+
+      <!-- Các cạnh nhìn thấy của tứ diện ABCD: nét liền rõ nét -->
+      <line x1="140" y1="24" x2="50" y2="180" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="140" y1="24" x2="148" y2="214" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="140" y1="24" x2="260" y2="155" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="50" y1="180" x2="148" y2="214" stroke="#1e293b" stroke-width="2.2"/>
+      <line x1="148" y1="214" x2="260" y2="155" stroke="#1e293b" stroke-width="2.2"/>
+
+      <!-- Kéo dài cạnh đáy BC qua C tới E: đường thẳng B-C-E thẳng hàng 100% -->
+      <line x1="148" y1="214" x2="344" y2="282" stroke="#2563eb" stroke-width="2" stroke-dasharray="5 3"/>
+
+      <!-- Đường thẳng MN trong mặt (ABC): đoạn MN nét liền đỏ -->
+      <line x1="99.5" y1="94.2" x2="144.4" y2="128.7" stroke="#dc2626" stroke-width="2.5"/>
+      <!-- Kéo dài MN qua N tới E: đường thẳng M-N-E thẳng hàng 100% -->
+      <line x1="144.4" y1="128.7" x2="344" y2="282" stroke="#dc2626" stroke-width="2" stroke-dasharray="5 3"/>
+
+      <!-- GIAO TUYẾN DE: Nối D(260,155) với E(344,282) trong mặt phẳng đáy (BCD) - Nét đỏ đậm nổi bật nhất -->
+      <line x1="260" y1="155" x2="344" y2="282" stroke="#dc2626" stroke-width="3"/>
+
       <!-- Điểm A, B, C, D của tứ diện -->
-      <circle cx="150" cy="28" r="3.5" fill="#1e293b"/><text x="150" y="16" font-size="13" font-weight="black" text-anchor="middle" fill="#0f172a">A</text>
-      <circle cx="50" cy="180" r="3.5" fill="#1e293b"/><text x="36" y="186" font-size="12" font-weight="bold" fill="#0f172a">B</text>
-      <circle cx="155" cy="215" r="3.5" fill="#1e293b"/><text x="145" y="233" font-size="12" font-weight="bold" fill="#0f172a">C</text>
-      <circle cx="265" cy="160" r="4" fill="#dc2626"/><text x="276" y="160" font-size="12" font-weight="black" fill="#dc2626">D</text>
+      <circle cx="140" cy="24" r="3.5" fill="#1e293b"/><text x="140" y="13" font-size="13" font-weight="black" text-anchor="middle" fill="#0f172a">A</text>
+      <circle cx="50" cy="180" r="3.5" fill="#1e293b"/><text x="34" y="185" font-size="12" font-weight="bold" fill="#0f172a">B</text>
+      <circle cx="148" cy="214" r="3.5" fill="#1e293b"/><text x="136" y="233" font-size="12" font-weight="bold" fill="#0f172a">C</text>
+      <circle cx="260" cy="155" r="4" fill="#dc2626"/><text x="272" y="153" font-size="13" font-weight="black" fill="#dc2626">D</text>
+
       <!-- Điểm M trên AB, N trên AC -->
-      <circle cx="105" cy="96" r="3.5" fill="#dc2626"/><text x="88" y="96" font-size="11.5" font-weight="bold" fill="#dc2626">M</text>
-      <circle cx="154" cy="163" r="3.5" fill="#dc2626"/><text x="165" y="165" font-size="11.5" font-weight="bold" fill="#dc2626">N</text>
+      <circle cx="99.5" cy="94.2" r="3.5" fill="#dc2626"/><text x="83" y="93" font-size="11.5" font-weight="bold" fill="#dc2626">M</text>
+      <circle cx="144.4" cy="128.7" r="3.5" fill="#dc2626"/><text x="156" y="131" font-size="11.5" font-weight="bold" fill="#dc2626">N</text>
+
       <!-- Giao điểm E = MN ∩ BC kéo dài -->
-      <circle cx="204" cy="231" r="4.5" fill="#dc2626"/><text x="214" y="247" font-size="13" font-weight="black" fill="#dc2626">E</text>
-      <!-- Nhãn giao tuyến DE bố trí rõ ràng, không bị đè chữ -->
-      <text x="245" y="206" font-size="11" font-weight="black" fill="#dc2626">Giao tuyến DE</text>
+      <circle cx="344" cy="282" r="4.5" fill="#dc2626"/><text x="355" y="292" font-size="13" font-weight="black" fill="#dc2626">E</text>
+
+      <!-- Nhãn giao tuyến DE bố trí thông thoáng, rõ ràng -->
+      <text x="310" y="212" font-size="12" font-weight="black" fill="#dc2626">Giao tuyến DE</text>
     </svg>`,
     tikzCode: `% --- GIAO TUYẾN (DMN) VÀ (BCD) LÀ DE TRONG TỨ DIỆN ABCD ---
-\\begin{tikzpicture}[scale=1, line join=round]
-  \\coordinate (A) at (1.8, 3.4);
+\\begin{tikzpicture}[scale=1.1, line join=round]
+  \\coordinate (A) at (2, 3.8);
   \\coordinate (B) at (0, 0);
-  \\coordinate (C) at (1.9, -0.6);
+  \\coordinate (C) at (1.8, -0.6);
   \\coordinate (D) at (3.8, 0.4);
   \\coordinate (M) at ($(A)!0.45!(B)$);
-  \\coordinate (N) at ($(A)!0.72!(C)$);
+  \\coordinate (N) at ($(A)!0.55!(C)$);
   \\coordinate (E) at (intersection of M--N and B--C);
   % Mặt đáy và cạnh khuất
   \\draw[dashed] (B) -- (D);
@@ -1413,11 +1426,11 @@ window.MATH_TIKZ_LIBRARY = [
   \\draw[dashed, red] (N) -- (E);
   \\draw[dashed, blue] (C) -- (E);
   % Giao tuyến DE trong mặt đáy (BCD)
-  \\draw[very thick, red] (D) -- (E) node[midway, right=2pt] {$DE$};
+  \\draw[very thick, red] (D) -- (E) node[midway, right=3pt] {$DE$};
   % Các điểm mút
-  \\filldraw[red] (E) circle (1.5pt) node[below right] {$E$};
+  \\filldraw[red] (E) circle (1.8pt) node[below right] {$E$};
   \\foreach \\p/\\pos in {A/above, B/left, C/below, D/right, M/left, N/right}
-    \\fill (\\p) circle (1.4pt) node[\\pos] {$\\p$};
+    \\fill (\\p) circle (1.5pt) node[\\pos] {$\\p$};
 \\end{tikzpicture}`
   },
 
