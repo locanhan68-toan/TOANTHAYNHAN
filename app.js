@@ -4648,10 +4648,10 @@ function applyPresetStructure(preset) {
   const p4 = document.getElementById('part4-points');
 
   if (preset === 'gdpt2018') {
-    // Chuẩn Bộ GD&ĐT 2018: 12 TN (3đ) + 4 Đ/S (4đ) + 6 TLN (2đ) + 1 TL (1đ) = 10đ
+    // Chuẩn Bộ GD&ĐT 2018: 12 TN (3đ) + 4 Đ/S (4đ) + 4 TLN (2đ) + 1 TL (1đ) = 10đ
     if (q1) q1.value = 12; if (p1) p1.value = 3.0;
     if (q2) q2.value = 4;  if (p2) p2.value = 4.0;
-    if (q3) q3.value = 6;  if (p3) p3.value = 2.0;
+    if (q3) q3.value = 4;  if (p3) p3.value = 2.0;
     if (q4) q4.value = 1;  if (p4) p4.value = 1.0;
   } else if (preset === 'mix7030') {
     // 70% Trắc nghiệm + 30% Tự luận
@@ -4785,7 +4785,7 @@ function executeGenerateFromMatrix() {
     const p1_up = parseFloat(document.getElementById('part1-points')?.value || 3.0);
     const q2_up = parseInt(document.getElementById('part2-questions')?.value || 4);
     const p2_up = parseFloat(document.getElementById('part2-points')?.value || 4.0);
-    const q3_up = parseInt(document.getElementById('part3-questions')?.value || 6);
+    const q3_up = parseInt(document.getElementById('part3-questions')?.value || 4);
     const p3_up = parseFloat(document.getElementById('part3-points')?.value || 2.0);
     const q4_up = parseInt(document.getElementById('part4-questions')?.value || 1);
     const p4_up = parseFloat(document.getElementById('part4-points')?.value || 1.0);
@@ -4977,7 +4977,7 @@ function setManualPresetStructure(preset) {
     if (p1) p1.value = 3.0;
     if (q2) q2.value = 4;
     if (p2) p2.value = 4.0;
-    if (q3) q3.value = 6;
+    if (q3) q3.value = 4;
     if (p3) p3.value = 2.0;
     if (q4) q4.value = 1;
     if (p4) p4.value = 1.0;
@@ -5121,27 +5121,27 @@ function generateInternetExamQuickly() {
     scope: scopeVal,
     scopeText: scopeSummary,
     title: newTitle,
-    badge: `Ma Trận Chuẩn Bộ (23 câu - 10.0đ)`,
+    badge: `Ma Trận Chuẩn Bộ (21 câu - 10.0đ)`,
     badgeColor: type === 'midterm' ? "bg-emerald-600" : type === 'finalterm' ? "bg-indigo-600" : "bg-purple-600",
     authorType: "matrix",
     sourceBadge: "🌐 Nguồn: Trên mạng (Sở GD&ĐT & Trường Chuyên)",
     summary: `Đề thi tự sinh tự động từ ngân hàng đề trên mạng theo đúng ma trận mặc định chuẩn Bộ GD&ĐT 2018. ${scopeSummary}. Thời gian: ${duration} phút.`,
     duration: `${duration} phút`,
-    examCount: `23 câu (10.0đ)`,
+    examCount: `21 câu (10.0đ)`,
     format4Part: true,
-    questions: pickQuestionsFromSourceBank(grade, scopeVal, 12, 4, 6, 1, 3.0, 4.0, 2.0, 1.0),
+    questions: pickQuestionsFromSourceBank(grade, scopeVal, 12, 4, 4, 1, 3.0, 4.0, 2.0, 1.0),
     partsConfig: {
       part1: { name: "Phần I: Trắc nghiệm nhiều lựa chọn", count: 12, points: 3.0 },
       part2: { name: "Phần II: Đúng / Sai", count: 4, points: 4.0 },
-      part3: { name: "Phần III: Trả lời ngắn", count: 6, points: 2.0 },
+      part3: { name: "Phần III: Trả lời ngắn", count: 4, points: 2.0 },
       part4: { name: "Phần IV: Tự luận", count: 1, points: 1.0 }
     },
     topics: [
       `Phạm vi đề thi: ${baseTitle} (${scopeSummary})`,
-      `Phần I (Trắc nghiệm): 12 câu (3.0đ) - Nhận biết & Thông hiểu`,
-      `Phần II (Đúng / Sai): 4 câu (4.0đ) - Phân tích logic và vận dụng`,
-      `Phần III (Trả lời ngắn): 6 câu (2.0đ) - Tính toán kết quả chính xác`,
-      `Phần IV (Tự luận): 1 bài (1.0đ) - Bài toán thực tế tối ưu hóa & vận dụng cao`
+      `Phần I (Trắc nghiệm): 12 câu (3.0đ) - Mỗi câu 0.25đ`,
+      `Phần II (Đúng / Sai): 4 câu (4.0đ) - Mỗi câu 1.0đ`,
+      `Phần III (Trả lời ngắn): 4 câu (2.0đ) - Mỗi câu 0.5đ`,
+      `Phần IV (Tự luận): 1 bài (1.0đ) - Mỗi câu 1.0đ`
     ]
   };
 
@@ -5256,15 +5256,21 @@ function openExamViewerModal(examId, category) {
 
   // Chuẩn hóa ngân hàng câu hỏi an toàn tuyệt đối
   let sampleBank = exam.questions;
-  if (!sampleBank || (!Array.isArray(sampleBank.part1_mcq) && !Array.isArray(sampleBank.part2_trueFalse) && !Array.isArray(sampleBank.part3_shortAnswer) && !Array.isArray(sampleBank.part4_essay))) {
-    const q1 = exam.partsConfig?.part1?.count ?? 12;
-    const p1 = exam.partsConfig?.part1?.points ?? 3.0;
-    const q2 = exam.partsConfig?.part2?.count ?? 4;
-    const p2 = exam.partsConfig?.part2?.points ?? 4.0;
-    const q3 = exam.partsConfig?.part3?.count ?? 6;
-    const p3 = exam.partsConfig?.part3?.points ?? 2.0;
-    const q4 = exam.partsConfig?.part4?.count ?? 1;
-    const p4 = exam.partsConfig?.part4?.points ?? 1.0;
+  const q1 = exam.partsConfig?.part1?.count ?? 12;
+  const p1 = exam.partsConfig?.part1?.points ?? 3.0;
+  const q2 = exam.partsConfig?.part2?.count ?? 4;
+  const p2 = exam.partsConfig?.part2?.points ?? 4.0;
+  const q3 = exam.partsConfig?.part3?.count ?? 4;
+  const p3 = exam.partsConfig?.part3?.points ?? 2.0;
+  const q4 = exam.partsConfig?.part4?.count ?? 1;
+  const p4 = exam.partsConfig?.part4?.points ?? 1.0;
+
+  const currentQ1 = sampleBank ? (sampleBank.part1_mcq || sampleBank.part1 || []).length : 0;
+  const currentQ2 = sampleBank ? (sampleBank.part2_trueFalse || sampleBank.part2_tf || sampleBank.part2 || []).length : 0;
+  const currentQ3 = sampleBank ? (sampleBank.part3_shortAnswer || sampleBank.part3_sa || sampleBank.part3 || []).length : 0;
+  const currentQ4 = sampleBank ? (sampleBank.part4_essay || sampleBank.part4 || []).length : 0;
+
+  if (!sampleBank || currentQ1 !== q1 || currentQ2 !== q2 || currentQ3 !== q3 || currentQ4 !== q4) {
     sampleBank = pickQuestionsFromSourceBank(exam.grade, exam.scope, q1, q2, q3, q4, p1, p2, p3, p4);
     exam.questions = sampleBank;
   }
@@ -5276,7 +5282,7 @@ function openExamViewerModal(examId, category) {
 
   const p1Total = exam.partsConfig?.part1?.points !== undefined ? exam.partsConfig.part1.points : Math.round(rawP1.reduce((s, q) => s + (q.points || 0.25), 0) * 100) / 100;
   const p2Total = exam.partsConfig?.part2?.points !== undefined ? exam.partsConfig.part2.points : Math.round(rawP2.reduce((s, q) => s + (q.points || 1.0), 0) * 100) / 100;
-  const p3Total = exam.partsConfig?.part3?.points !== undefined ? exam.partsConfig.part3.points : Math.round(rawP3.reduce((s, q) => s + (q.points || 0.33), 0) * 100) / 100;
+  const p3Total = exam.partsConfig?.part3?.points !== undefined ? exam.partsConfig.part3.points : Math.round(rawP3.reduce((s, q) => s + (q.points || 0.5), 0) * 100) / 100;
   const p4Total = exam.partsConfig?.part4?.points !== undefined ? exam.partsConfig.part4.points : Math.round(rawP4.reduce((s, q) => s + (q.points || 1.0), 0) * 100) / 100;
 
   const totalQuestions = rawP1.length + rawP2.length + rawP3.length + rawP4.length;
@@ -5314,7 +5320,7 @@ function openExamViewerModal(examId, category) {
     question: q.question || '',
     correctAnswer: String(q.correctAnswer !== undefined ? q.correctAnswer : (q.answer !== undefined ? q.answer : '')).trim(),
     hint: q.hint || q.solution || q.explanation || 'Áp dụng công thức và tính toán cẩn thận.',
-    points: q.points !== undefined ? q.points : (rawP3.length > 0 ? Math.round((p3Total / rawP3.length) * 100) / 100 : 0.33),
+    points: q.points !== undefined ? q.points : (rawP3.length > 0 ? Math.round((p3Total / rawP3.length) * 100) / 100 : 0.5),
     source: q.source || 'Ngân hàng đề Sở GD&ĐT'
   }));
 
@@ -5323,10 +5329,6 @@ function openExamViewerModal(examId, category) {
     question: q.question || '',
     solution: q.solution || (Array.isArray(q.criteria) ? q.criteria.join('\n') : 'Lời giải chi tiết và barem điểm theo từng bước.'),
     points: q.points !== undefined ? q.points : (rawP4.length > 0 ? Math.round((p4Total / rawP4.length) * 100) / 100 : 1.0),
-    source: q.source || 'Đề thi thử tốt nghiệp THPT'
-  }));
-    solution: q.solution || (Array.isArray(q.criteria) ? q.criteria.join('\n') : 'Lời giải chi tiết và barem điểm theo từng bước.'),
-    points: q.points || 1.0,
     source: q.source || 'Đề thi thử tốt nghiệp THPT'
   }));
 
@@ -6954,7 +6956,7 @@ function pickQuestionsFromSourceBank(grade, scopeKey, q1Count, q2Count, q3Count,
   // Trích xuất chính xác số câu mong muốn (giữ nguyên 0 nếu giáo viên đặt 0)
   const target1 = (q1Count !== undefined && q1Count !== null && !isNaN(parseInt(q1Count))) ? Math.max(0, parseInt(q1Count)) : 12;
   const target2 = (q2Count !== undefined && q2Count !== null && !isNaN(parseInt(q2Count))) ? Math.max(0, parseInt(q2Count)) : 4;
-  const target3 = (q3Count !== undefined && q3Count !== null && !isNaN(parseInt(q3Count))) ? Math.max(0, parseInt(q3Count)) : 6;
+  const target3 = (q3Count !== undefined && q3Count !== null && !isNaN(parseInt(q3Count))) ? Math.max(0, parseInt(q3Count)) : 4;
   const target4 = (q4Count !== undefined && q4Count !== null && !isNaN(parseInt(q4Count))) ? Math.max(0, parseInt(q4Count)) : 1;
 
   const revBank = (typeof REVIEW_SOURCE_BANK !== 'undefined' && REVIEW_SOURCE_BANK[g]) 
@@ -7090,7 +7092,7 @@ function pickQuestionsFromSourceBank(grade, scopeKey, q1Count, q2Count, q3Count,
     // Tính điểm chia đều nếu có tổng điểm
     const perPoint = (totalPartPoints !== undefined && totalPartPoints > 0)
       ? Math.round((totalPartPoints / targetCount) * 100) / 100
-      : (partKey === 'mcq' ? 0.25 : partKey === 'tf' ? 1.0 : partKey === 'sa' ? 0.33 : 1.0);
+      : (partKey === 'mcq' ? 0.25 : partKey === 'tf' ? 1.0 : partKey === 'sa' ? 0.5 : 1.0);
 
     return selected.map((q, idx) => {
       q.points = perPoint;
@@ -7291,7 +7293,7 @@ function executeSourceIngestion(event) {
 
   // Nếu không phải JSON hợp lệ, lấy từ nguồn mẫu tương ứng
   if (!parsedQuestions) {
-    parsedQuestions = pickQuestionsFromSourceBank(grade, scope, 12, 4, 6, 1);
+    parsedQuestions = pickQuestionsFromSourceBank(grade, scope, 12, 4, 4, 1);
   }
 
   // Lưu vào MATH_DATA.reviewSourceBank
@@ -7316,7 +7318,7 @@ function executeSourceIngestion(event) {
     sourceBadge: badge,
     summary: `Bộ đề thi & tài liệu được nạp vào hệ thống nguồn ôn tập. ${scopeText}. Nguồn: ${badge}.`,
     duration: "90 phút",
-    examCount: "23 câu (10.0đ)",
+    examCount: "21 câu (10.0đ)",
     format4Part: true,
     questions: parsedQuestions,
     solution: solution,
