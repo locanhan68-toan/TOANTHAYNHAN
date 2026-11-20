@@ -3879,7 +3879,7 @@ function renderClasses() {
           <p class="text-xs text-slate-500 mt-0.5">Mã nhóm: <strong class="font-mono text-indigo-700 font-bold bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">${c.code}</strong> • Sĩ số: <strong>${c.students ? c.students.length : 0} học sinh</strong> ${c.description ? `• <span class="italic text-slate-400">${c.description}</span>` : ''}</p>
         </div>
         <div class="flex items-center gap-2">
-          <button onclick="deleteClass('${c.id}', '${c.name.replace(/'/g, "\\'")}')" 
+          <button onclick="deleteClass('${c.id}', '${c.name.split(\"'\").join(\"\\\\'\")}')" 
             title="Xóa lớp học này"
             class="px-2.5 py-1 text-xs text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition border border-red-200 flex items-center gap-1 font-semibold">
             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Xóa lớp
@@ -4781,6 +4781,17 @@ function executeGenerateFromMatrix() {
       ? `Khớp ma trận file: "${uploadedMatrixData.name}"`
       : `Khớp tỉ lệ ma trận: ${nb}% NB - ${th}% TH - ${vd}% VD - ${vdc}% VDC`;
 
+    const q1_up = parseInt(document.getElementById('part1-questions')?.value || 12);
+    const p1_up = parseFloat(document.getElementById('part1-points')?.value || 3.0);
+    const q2_up = parseInt(document.getElementById('part2-questions')?.value || 4);
+    const p2_up = parseFloat(document.getElementById('part2-points')?.value || 4.0);
+    const q3_up = parseInt(document.getElementById('part3-questions')?.value || 6);
+    const p3_up = parseFloat(document.getElementById('part3-points')?.value || 2.0);
+    const q4_up = parseInt(document.getElementById('part4-questions')?.value || 1);
+    const p4_up = parseFloat(document.getElementById('part4-points')?.value || 1.0);
+    const totalQuestions_up = q1_up + q2_up + q3_up + q4_up;
+    const totalPoints_up = Math.round((p1_up + p2_up + p3_up + p4_up) * 10) / 10;
+
     const newExamId = 'gen_upload_' + Date.now();
     const newTitle = `Đề ${baseTitle} - ${cfg.gradeName} [Ma Trận Đưa Lên]`;
 
@@ -4796,9 +4807,15 @@ function executeGenerateFromMatrix() {
       sourceBadge: sourceBadge,
       summary: `Đề được AI bốc tự động khớp 100% Ma trận Thầy đưa lên. ${matrixDesc}. ${scopeSummary}. Nguồn: ${sourceLabel}. Thời gian: ${duration} phút.`,
       duration: `${duration} phút`,
-      examCount: `28 câu (Thang 10.0đ)`,
+      examCount: `${totalQuestions_up} câu (${totalPoints_up}đ)`,
       format4Part: true,
-      questions: pickQuestionsFromSourceBank(grade, scopeKey, 12, 4, 6, 1),
+      questions: pickQuestionsFromSourceBank(grade, scopeKey, q1_up, q2_up, q3_up, q4_up, p1_up, p2_up, p3_up, p4_up),
+      partsConfig: {
+        part1: { name: "Phần I: Trắc nghiệm nhiều lựa chọn", count: q1_up, points: p1_up },
+        part2: { name: "Phần II: Đúng / Sai", count: q2_up, points: p2_up },
+        part3: { name: "Phần III: Trả lời ngắn", count: q3_up, points: p3_up },
+        part4: { name: "Phần IV: Tự luận", count: q4_up, points: p4_up }
+      },
       topics: [
         `Phạm vi đề thi: ${baseTitle} (${scopeSummary})`,
         `Cấu trúc ma trận đưa lên: ${matrixDesc}`,
@@ -4881,7 +4898,7 @@ function executeGenerateFromMatrix() {
     duration: `${duration} phút`,
     examCount: `${totalQuestions} câu (${totalPoints}đ)`,
     format4Part: true,
-    questions: pickQuestionsFromSourceBank(grade, scopeKey, q1, q2, q3, q4),
+    questions: pickQuestionsFromSourceBank(grade, scopeKey, q1, q2, q3, q4, p1, p2, p3, p4),
     partsConfig: {
       part1: { name: "Phần I: Trắc nghiệm nhiều lựa chọn", count: q1, points: p1 },
       part2: { name: "Phần II: Đúng / Sai", count: q2, points: p2 },
@@ -5112,7 +5129,7 @@ function generateInternetExamQuickly() {
     duration: `${duration} phút`,
     examCount: `23 câu (10.0đ)`,
     format4Part: true,
-    questions: pickQuestionsFromSourceBank(grade, scopeKey, q1, q2, q3, q4),
+    questions: pickQuestionsFromSourceBank(grade, scopeVal, 12, 4, 6, 1, 3.0, 4.0, 2.0, 1.0),
     partsConfig: {
       part1: { name: "Phần I: Trắc nghiệm nhiều lựa chọn", count: 12, points: 3.0 },
       part2: { name: "Phần II: Đúng / Sai", count: 4, points: 4.0 },
@@ -5238,15 +5255,18 @@ function openExamViewerModal(examId, category) {
   viewerCountdownInterval = setInterval(updateTimerText, 1000);
 
   // Chuẩn hóa ngân hàng câu hỏi an toàn tuyệt đối
-  let sampleBank = exam.questions || {};
-  if (!sampleBank.part1_mcq && typeof REVIEW_SOURCE_BANK !== 'undefined' && REVIEW_SOURCE_BANK[exam.grade] && REVIEW_SOURCE_BANK[exam.grade][exam.scope]) {
-    sampleBank = REVIEW_SOURCE_BANK[exam.grade][exam.scope];
-  } else if (!sampleBank.part1_mcq && MATH_DATA.reviewSourceBank && MATH_DATA.reviewSourceBank[exam.grade] && MATH_DATA.reviewSourceBank[exam.grade][exam.scope]) {
-    sampleBank = MATH_DATA.reviewSourceBank[exam.grade][exam.scope];
-  } else if (!sampleBank.part1_mcq && MATH_DATA.grade4PartBank && MATH_DATA.grade4PartBank[exam.grade]) {
-    sampleBank = MATH_DATA.grade4PartBank[exam.grade];
-  } else if (!sampleBank.part1_mcq) {
-    sampleBank = MATH_DATA.sample4PartQuestions || {};
+  let sampleBank = exam.questions;
+  if (!sampleBank || (!Array.isArray(sampleBank.part1_mcq) && !Array.isArray(sampleBank.part2_trueFalse) && !Array.isArray(sampleBank.part3_shortAnswer) && !Array.isArray(sampleBank.part4_essay))) {
+    const q1 = exam.partsConfig?.part1?.count ?? 12;
+    const p1 = exam.partsConfig?.part1?.points ?? 3.0;
+    const q2 = exam.partsConfig?.part2?.count ?? 4;
+    const p2 = exam.partsConfig?.part2?.points ?? 4.0;
+    const q3 = exam.partsConfig?.part3?.count ?? 6;
+    const p3 = exam.partsConfig?.part3?.points ?? 2.0;
+    const q4 = exam.partsConfig?.part4?.count ?? 1;
+    const p4 = exam.partsConfig?.part4?.points ?? 1.0;
+    sampleBank = pickQuestionsFromSourceBank(exam.grade, exam.scope, q1, q2, q3, q4, p1, p2, p3, p4);
+    exam.questions = sampleBank;
   }
 
   const rawP1 = sampleBank.part1_mcq || sampleBank.part1 || [];
@@ -5254,12 +5274,22 @@ function openExamViewerModal(examId, category) {
   const rawP3 = sampleBank.part3_shortAnswer || sampleBank.part3_sa || sampleBank.part3 || [];
   const rawP4 = sampleBank.part4_essay || sampleBank.part4 || [];
 
+  const p1Total = exam.partsConfig?.part1?.points !== undefined ? exam.partsConfig.part1.points : Math.round(rawP1.reduce((s, q) => s + (q.points || 0.25), 0) * 100) / 100;
+  const p2Total = exam.partsConfig?.part2?.points !== undefined ? exam.partsConfig.part2.points : Math.round(rawP2.reduce((s, q) => s + (q.points || 1.0), 0) * 100) / 100;
+  const p3Total = exam.partsConfig?.part3?.points !== undefined ? exam.partsConfig.part3.points : Math.round(rawP3.reduce((s, q) => s + (q.points || 0.33), 0) * 100) / 100;
+  const p4Total = exam.partsConfig?.part4?.points !== undefined ? exam.partsConfig.part4.points : Math.round(rawP4.reduce((s, q) => s + (q.points || 1.0), 0) * 100) / 100;
+
+  const totalQuestions = rawP1.length + rawP2.length + rawP3.length + rawP4.length;
+  const totalPoints = Math.round((p1Total + p2Total + p3Total + p4Total) * 10) / 10;
+
+  if (metaEl) metaEl.innerText = `Thời gian: ${exam.duration || '90 phút'} • Tổng số: ${totalQuestions} câu (${totalPoints}đ) • Thang điểm 10.0`;
+
   const mcqQuestions = rawP1.map((q, idx) => ({
     id: q.id || `mcq_${idx + 1}`,
     question: q.question || '',
     options: (q.options || []).map(opt => ({ key: opt.key, text: opt.text || opt.content || '' })),
     correct: q.correct || (q.options ? q.options[0]?.key : 'A'),
-    points: q.points || 0.25,
+    points: q.points !== undefined ? q.points : (rawP1.length > 0 ? Math.round((p1Total / rawP1.length) * 100) / 100 : 0.25),
     source: q.source || 'Ngân hàng đề thi chuẩn'
   }));
 
@@ -5268,7 +5298,7 @@ function openExamViewerModal(examId, category) {
     return {
       id: q.id || `tf_${idx + 1}`,
       question: q.question || q.intro || 'Xét tính Đúng / Sai của các khẳng định sau:',
-      points: q.points || 1.0,
+      points: q.points !== undefined ? q.points : (rawP2.length > 0 ? Math.round((p2Total / rawP2.length) * 100) / 100 : 1.0),
       source: q.source || 'Ngân hàng đề thi Chuyên',
       subItems: rawSubs.map(s => ({
         key: s.key,
@@ -5284,13 +5314,17 @@ function openExamViewerModal(examId, category) {
     question: q.question || '',
     correctAnswer: String(q.correctAnswer !== undefined ? q.correctAnswer : (q.answer !== undefined ? q.answer : '')).trim(),
     hint: q.hint || q.solution || q.explanation || 'Áp dụng công thức và tính toán cẩn thận.',
-    points: q.points || 0.5,
+    points: q.points !== undefined ? q.points : (rawP3.length > 0 ? Math.round((p3Total / rawP3.length) * 100) / 100 : 0.33),
     source: q.source || 'Ngân hàng đề Sở GD&ĐT'
   }));
 
   const essayQuestions = rawP4.map((q, idx) => ({
     id: q.id || `es_${idx + 1}`,
     question: q.question || '',
+    solution: q.solution || (Array.isArray(q.criteria) ? q.criteria.join('\n') : 'Lời giải chi tiết và barem điểm theo từng bước.'),
+    points: q.points !== undefined ? q.points : (rawP4.length > 0 ? Math.round((p4Total / rawP4.length) * 100) / 100 : 1.0),
+    source: q.source || 'Đề thi thử tốt nghiệp THPT'
+  }));
     solution: q.solution || (Array.isArray(q.criteria) ? q.criteria.join('\n') : 'Lời giải chi tiết và barem điểm theo từng bước.'),
     points: q.points || 1.0,
     source: q.source || 'Đề thi thử tốt nghiệp THPT'
@@ -5364,13 +5398,14 @@ function openExamViewerModal(examId, category) {
     ` : ''}
 
     <!-- PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN -->
+    ${mcqQuestions.length > 0 ? `
     <div class="p-5 bg-blue-50/40 rounded-2xl border border-blue-200 space-y-4">
       <div class="flex items-center justify-between border-b border-blue-200 pb-2">
         <h4 class="font-black text-blue-900 text-sm sm:text-base flex items-center gap-2">
           <span class="w-6 h-6 rounded-full bg-blue-600 text-white inline-flex items-center justify-center text-xs">I</span>
           PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN (Mỗi câu chọn 01 phương án đúng)
         </h4>
-        <span class="text-xs font-bold text-blue-700 bg-blue-100 px-2.5 py-0.5 rounded-full">3.0 Điểm (${mcqQuestions.length} câu)</span>
+        <span class="text-xs font-bold text-blue-700 bg-blue-100 px-2.5 py-0.5 rounded-full">${p1Total.toFixed(1)} Điểm (${mcqQuestions.length} câu)</span>
       </div>
 
       <div class="space-y-4">
@@ -5400,15 +5435,17 @@ function openExamViewerModal(examId, category) {
         `).join('')}
       </div>
     </div>
+    ` : ''}
 
     <!-- PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI -->
+    ${tfQuestions.length > 0 ? `
     <div class="p-5 bg-emerald-50/40 rounded-2xl border border-emerald-200 space-y-4">
       <div class="flex items-center justify-between border-b border-emerald-200 pb-2">
         <h4 class="font-black text-emerald-900 text-sm sm:text-base flex items-center gap-2">
           <span class="w-6 h-6 rounded-full bg-emerald-600 text-white inline-flex items-center justify-center text-xs">II</span>
           PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI (Thí sinh chọn Đúng hoặc Sai cho mỗi ý a, b, c, d)
         </h4>
-        <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">4.0 Điểm (${tfQuestions.length} câu)</span>
+        <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">${p2Total.toFixed(1)} Điểm (${tfQuestions.length} câu)</span>
       </div>
 
       <div class="space-y-4">
@@ -5452,15 +5489,17 @@ function openExamViewerModal(examId, category) {
         `).join('')}
       </div>
     </div>
+    ` : ''}
 
     <!-- PHẦN III: TRẢ LỜI NGẮN -->
+    ${saQuestions.length > 0 ? `
     <div class="p-5 bg-amber-50/40 rounded-2xl border border-amber-200 space-y-4">
       <div class="flex items-center justify-between border-b border-amber-200 pb-2">
         <h4 class="font-black text-amber-900 text-sm sm:text-base flex items-center gap-2">
           <span class="w-6 h-6 rounded-full bg-amber-600 text-white inline-flex items-center justify-center text-xs">III</span>
           PHẦN III: TRẮC NGHIỆM TRẢ LỜI NGẮN (Thí sinh điền đáp số hoặc kết quả số)
         </h4>
-        <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full">2.0 Điểm (${saQuestions.length} câu)</span>
+        <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full">${p3Total.toFixed(1)} Điểm (${saQuestions.length} câu)</span>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -5489,15 +5528,17 @@ function openExamViewerModal(examId, category) {
         `).join('')}
       </div>
     </div>
+    ` : ''}
 
     <!-- PHẦN IV: TỰ LUẬN -->
+    ${essayQuestions.length > 0 ? `
     <div class="p-5 bg-purple-50/40 rounded-2xl border border-purple-200 space-y-4">
       <div class="flex items-center justify-between border-b border-purple-200 pb-2">
         <h4 class="font-black text-purple-900 text-sm sm:text-base flex items-center gap-2">
           <span class="w-6 h-6 rounded-full bg-purple-600 text-white inline-flex items-center justify-center text-xs">IV</span>
           PHẦN IV: TỰ LUẬN (Trình bày chi tiết lời giải và kết luận)
         </h4>
-        <span class="text-xs font-bold text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-full">1.0 Điểm (${essayQuestions.length} bài)</span>
+        <span class="text-xs font-bold text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-full">${p4Total.toFixed(1)} Điểm (${essayQuestions.length} bài)</span>
       </div>
 
       ${essayQuestions.map((q, idx) => `
@@ -5526,6 +5567,12 @@ function openExamViewerModal(examId, category) {
 
           <div id="viewer-essay-sol-${q.id}" class="hidden p-3.5 bg-purple-50/80 rounded-xl border border-purple-200 text-xs text-slate-700 space-y-1.5 whitespace-pre-line math-content">
             <strong class="text-purple-900 block font-bold">💡 Barem Lời Giải Mẫu Của Thầy:</strong>
+            ${q.solution}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+    ` : ''}
             ${q.solution}
           </div>
         </div>
@@ -5694,15 +5741,15 @@ function submitExamViewer() {
       }
     });
 
-    let qScore = 0;
-    if (subCorrectCount === 1) qScore = 0.1;
-    else if (subCorrectCount === 2) qScore = 0.25;
-    else if (subCorrectCount === 3) qScore = 0.5;
+    let factor = 0;
+    if (subCorrectCount === 1) factor = 0.1;
+    else if (subCorrectCount === 2) factor = 0.25;
+    else if (subCorrectCount === 3) factor = 0.5;
     else if (subCorrectCount === 4) {
-      qScore = 1.0;
+      factor = 1.0;
       tfFullyCorrectCount++;
     }
-    tfScore += qScore;
+    tfScore += factor * (q.points || 1.0);
   });
 
   // 3. Chấm Phần III: Trả lời ngắn
@@ -5731,10 +5778,15 @@ function submitExamViewer() {
   // 4. Chấm Phần IV: Tự luận (Đánh giá hoàn thành bài giải)
   const essayInput = document.getElementById('viewer-essay-input');
   const essayText = essayInput ? essayInput.value.trim() : "";
-  if (essayText.length >= 20) {
-    essayScore = 1.0;
-  } else if (essayText.length > 0) {
-    essayScore = 0.5;
+  const essayMax = essay.reduce((sum, q) => sum + (q.points || 1.0), 0) || (essay.length > 0 ? 1.0 : 0.0);
+  if (essay.length > 0) {
+    if (essayText.length >= 20) {
+      essayScore = essayMax;
+    } else if (essayText.length > 0) {
+      essayScore = Math.round(essayMax * 0.5 * 100) / 100;
+    } else {
+      essayScore = 0.0;
+    }
   } else {
     essayScore = 0.0;
   }
@@ -5745,7 +5797,9 @@ function submitExamViewer() {
     if (solBox) solBox.classList.remove('hidden');
   });
 
-  const totalScore = Math.min(10.0, Math.round((mcqScore + tfScore + saScore + essayScore) * 100) / 100);
+  const rawScore = mcqScore + tfScore + saScore + essayScore;
+  const maxPossible = Math.round((mcq.reduce((s,q)=>s+q.points, 0) + tf.reduce((s,q)=>s+q.points, 0) + sa.reduce((s,q)=>s+q.points, 0) + essay.reduce((s,q)=>s+q.points, 0)) * 100) / 100 || 10.0;
+  const totalScore = Math.min(10.0, Math.round((rawScore / maxPossible * 10.0) * 100) / 100);
 
   // Đánh giá xếp loại
   let gradeBadge = "bg-emerald-600 text-white";
@@ -5896,6 +5950,7 @@ function executeManualUploadExam() {
     duration: `${duration} phút`,
     examCount: `${totalQ} câu (${totalP}đ)`,
     format4Part: true,
+    questions: pickQuestionsFromSourceBank(grade, category === 'midterm' ? 'mid1' : category === 'finalterm' ? 'fin1' : 'ch_1', q1, q2, q3, q4, p1, p2, p3, p4),
     youtubeUrl: youtubeUrl || null,
     teacherSolution: solution || null,
     partsConfig: {
@@ -6891,45 +6946,163 @@ function renderTikzLibraryGallery(gradeFilter) {
 
 // ==========================================
 // BỘ TRÍCH XUẤT CÂU HỎI TỪ NGÂN HÀNG NGUỒN ÔN TẬP ĐÃ NẠP
+// ĐẢM BẢO CHÍNH XÁC 100% SỐ CÂU HỎI THEO THIẾT LẬP CỦA GIÁO VIÊN
 // ==========================================
-function pickQuestionsFromSourceBank(grade, scopeKey, q1Count, q2Count, q3Count, q4Count) {
+function pickQuestionsFromSourceBank(grade, scopeKey, q1Count, q2Count, q3Count, q4Count, p1Points, p2Points, p3Points, p4Points) {
   const g = parseInt(grade) || 12;
-  const bank = (MATH_DATA.reviewSourceBank && MATH_DATA.reviewSourceBank[g]) 
-    ? MATH_DATA.reviewSourceBank[g] 
-    : (typeof REVIEW_SOURCE_BANK !== 'undefined' && REVIEW_SOURCE_BANK[g] ? REVIEW_SOURCE_BANK[g] : null);
 
-  let sourceObj = null;
-  if (bank && bank[scopeKey]) {
-    sourceObj = bank[scopeKey];
-  } else if (bank) {
-    const keys = Object.keys(bank);
-    if (keys.length > 0) sourceObj = bank[keys[0]];
+  // Trích xuất chính xác số câu mong muốn (giữ nguyên 0 nếu giáo viên đặt 0)
+  const target1 = (q1Count !== undefined && q1Count !== null && !isNaN(parseInt(q1Count))) ? Math.max(0, parseInt(q1Count)) : 12;
+  const target2 = (q2Count !== undefined && q2Count !== null && !isNaN(parseInt(q2Count))) ? Math.max(0, parseInt(q2Count)) : 4;
+  const target3 = (q3Count !== undefined && q3Count !== null && !isNaN(parseInt(q3Count))) ? Math.max(0, parseInt(q3Count)) : 6;
+  const target4 = (q4Count !== undefined && q4Count !== null && !isNaN(parseInt(q4Count))) ? Math.max(0, parseInt(q4Count)) : 1;
+
+  const revBank = (typeof REVIEW_SOURCE_BANK !== 'undefined' && REVIEW_SOURCE_BANK[g]) 
+    ? REVIEW_SOURCE_BANK[g] 
+    : (MATH_DATA.reviewSourceBank && MATH_DATA.reviewSourceBank[g] ? MATH_DATA.reviewSourceBank[g] : {});
+
+  const grade4Bank = (MATH_DATA.grade4PartBank && MATH_DATA.grade4PartBank[g]) ? MATH_DATA.grade4PartBank[g] : {};
+  const sampleBank = MATH_DATA.sample4PartQuestions || {};
+
+  // Tìm scope nguồn ưu tiên
+  let primaryScope = null;
+  if (revBank[scopeKey]) {
+    primaryScope = revBank[scopeKey];
+  } else if (Object.keys(revBank).length > 0) {
+    primaryScope = revBank[Object.keys(revBank)[0]];
   }
 
-  if (!sourceObj && MATH_DATA.grade4PartBank && MATH_DATA.grade4PartBank[g]) {
-    sourceObj = MATH_DATA.grade4PartBank[g];
-  }
-
-  if (!sourceObj) {
-    sourceObj = MATH_DATA.sample4PartQuestions || {};
+  function getRawList(obj, partKey) {
+    if (!obj) return [];
+    if (partKey === 'mcq') return obj.part1_mcq || obj.part1 || [];
+    if (partKey === 'tf') return obj.part2_trueFalse || obj.part2_tf || obj.part2 || [];
+    if (partKey === 'sa') return obj.part3_shortAnswer || obj.part3_sa || obj.part3 || [];
+    if (partKey === 'essay') return obj.part4_essay || obj.part4 || [];
+    return [];
   }
 
   const shuffle = arr => (Array.isArray(arr) ? [...arr].sort(() => Math.random() - 0.5) : []);
 
-  const rawP1 = sourceObj.part1_mcq || sourceObj.part1 || [];
-  const rawP2 = sourceObj.part2_trueFalse || sourceObj.part2_tf || sourceObj.part2 || [];
-  const rawP3 = sourceObj.part3_shortAnswer || sourceObj.part3_sa || sourceObj.part3 || [];
-  const rawP4 = sourceObj.part4_essay || sourceObj.part4 || [];
+  // Hàm thu thập câu hỏi đảm bảo đúng số lượng chỉ định targetCount
+  function gatherQuestions(targetCount, partKey, totalPartPoints) {
+    if (targetCount <= 0) return [];
 
-  const part1 = shuffle(rawP1).slice(0, q1Count || 12);
-  const part2 = shuffle(rawP2).slice(0, q2Count || 4);
-  const part3 = shuffle(rawP3).slice(0, q3Count || 6);
-  const part4 = shuffle(rawP4).slice(0, q4Count || 1);
+    let pool = [];
+    const seenSignatures = new Set();
 
-  const resP1 = part1.length ? part1 : rawP1;
-  const resP2 = part2.length ? part2 : rawP2;
-  const resP3 = part3.length ? part3 : rawP3;
-  const resP4 = part4.length ? part4 : rawP4;
+    function addQuestions(list) {
+      if (!Array.isArray(list)) return;
+      for (const q of list) {
+        if (!q) continue;
+        const sig = q.question ? q.question.trim().substring(0, 80) : (q.id || Math.random());
+        if (!seenSignatures.has(sig)) {
+          seenSignatures.add(sig);
+          pool.push(JSON.parse(JSON.stringify(q)));
+        }
+      }
+    }
+
+    // 1. Lấy từ scope chính
+    addQuestions(getRawList(primaryScope, partKey));
+
+    // 2. Nếu chưa đủ, lấy tiếp từ các chương/kỳ khác cùng khối lớp trong REVIEW_SOURCE_BANK
+    if (pool.length < targetCount) {
+      for (const k in revBank) {
+        if (k !== scopeKey) {
+          addQuestions(getRawList(revBank[k], partKey));
+          if (pool.length >= targetCount) break;
+        }
+      }
+    }
+
+    // 3. Nếu vẫn chưa đủ, lấy từ ngân hàng mẫu MATH_DATA.grade4PartBank của khối
+    if (pool.length < targetCount) {
+      addQuestions(getRawList(grade4Bank, partKey));
+    }
+
+    // 4. Nếu vẫn chưa đủ, lấy từ các khối lớp khác
+    if (pool.length < targetCount) {
+      for (const otherG of [12, 11, 10]) {
+        if (otherG !== g && MATH_DATA.grade4PartBank && MATH_DATA.grade4PartBank[otherG]) {
+          addQuestions(getRawList(MATH_DATA.grade4PartBank[otherG], partKey));
+          if (pool.length >= targetCount) break;
+        }
+      }
+    }
+
+    // 5. Nếu vẫn chưa đủ, lấy từ sampleBank chung
+    if (pool.length < targetCount) {
+      addQuestions(getRawList(sampleBank, partKey));
+    }
+
+    // 6. Trường hợp dự phòng nếu ngân hàng rỗng
+    if (pool.length === 0) {
+      if (partKey === 'mcq') {
+        pool.push({
+          id: `mcq_default_${Date.now()}`,
+          question: `Cho hàm số $y = f(x)$ xác định và liên tục trên $\\mathbb{R}$. Khẳng định nào sau đây đúng?`,
+          options: [{key:"A", text:"Hàm số có đồ thị liên tục trên $\\mathbb{R}$"}, {key:"B", text:"Hàm số không có giới hạn"}, {key:"C", text:"Hàm số luôn nghịch biến"}, {key:"D", text:"Hàm số không có cực trị"}],
+          correct: "A", points: 0.25, source: "🌐 Ngân hàng đề thi chuẩn Bộ GD&ĐT"
+        });
+      } else if (partKey === 'tf') {
+        pool.push({
+          id: `tf_default_${Date.now()}`,
+          question: `Xét tính Đúng / Sai của các mệnh đề sau:`,
+          points: 1.0, source: "🌐 Ngân hàng đề thi Chuyên",
+          subItems: [
+            { key: "a", text: "Tập xác định của hàm số đa thức là $\\mathbb{R}$.", isCorrect: true, explanation: "Đúng theo định nghĩa tập xác định." },
+            { key: "b", text: "Đạo hàm của hàm số hằng bằng 0.", isCorrect: true, explanation: "Đúng, $(C)' = 0$." },
+            { key: "c", text: "Nếu $f'(x) > 0$ trên $(a; b)$ thì hàm số đồng biến trên $(a; b)$.", isCorrect: true, explanation: "Đúng theo định lý đơn điệu." },
+            { key: "d", text: "Mọi hàm số liên tục đều có đạo hàm tại mọi điểm.", isCorrect: false, explanation: "Sai, hàm $y = |x|$ liên tục tại 0 nhưng không có đạo hàm tại 0." }
+          ]
+        });
+      } else if (partKey === 'sa') {
+        pool.push({
+          id: `sa_default_${Date.now()}`,
+          question: `Tính giá trị của biểu thức $P = \\log_2 16 + 2^0$.`,
+          correctAnswer: "5", hint: "$\\log_2 16 = 4, 2^0 = 1 \\implies P = 5$.", points: 0.5, source: "🌐 Ngân hàng đề thi chuẩn"
+        });
+      } else {
+        pool.push({
+          id: `es_default_${Date.now()}`,
+          question: `Giải phương trình và biện luận nghiệm: $x^2 - 4x + 4 = 0$.`,
+          points: 1.0, source: "🌐 Ngân hàng đề thi chuẩn",
+          solution: "Barem:\\n- Bước 1 (0.5đ): Biến đổi phương trình về dạng $(x-2)^2 = 0$.\\n- Bước 2 (0.5đ): Kết luận phương trình có nghiệm kép duy nhất $x = 2$."
+        });
+      }
+    }
+
+    // 7. Nhân bản biến thể với mã đề mới nếu số câu yêu cầu lớn hơn số câu trong ngân hàng
+    let variantIndex = 1;
+    const baseLen = pool.length;
+    while (pool.length < targetCount) {
+      const src = pool[(variantIndex - 1) % baseLen];
+      const clone = JSON.parse(JSON.stringify(src));
+      clone.id = `${src.id || partKey}_v${variantIndex}`;
+      clone._isVariant = true;
+      pool.push(clone);
+      variantIndex++;
+    }
+
+    // Trộn ngẫu nhiên và bốc đúng targetCount
+    const selected = shuffle(pool).slice(0, targetCount);
+
+    // Tính điểm chia đều nếu có tổng điểm
+    const perPoint = (totalPartPoints !== undefined && totalPartPoints > 0)
+      ? Math.round((totalPartPoints / targetCount) * 100) / 100
+      : (partKey === 'mcq' ? 0.25 : partKey === 'tf' ? 1.0 : partKey === 'sa' ? 0.33 : 1.0);
+
+    return selected.map((q, idx) => {
+      q.points = perPoint;
+      q._order = idx + 1;
+      return q;
+    });
+  }
+
+  const resP1 = gatherQuestions(target1, 'mcq', p1Points);
+  const resP2 = gatherQuestions(target2, 'tf', p2Points);
+  const resP3 = gatherQuestions(target3, 'sa', p3Points);
+  const resP4 = gatherQuestions(target4, 'essay', p4Points);
 
   return {
     part1_mcq: resP1,
