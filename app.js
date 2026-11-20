@@ -802,6 +802,7 @@ function switchTab(tabId) {
           btn.className = "px-3 py-1.5 text-xs sm:text-sm font-bold rounded-lg bg-red-50 text-red-700 border border-red-200 flex items-center gap-1.5 whitespace-nowrap shrink-0";
         } else if (t === 'review') {
           btn.className = "px-3 py-1.5 text-xs sm:text-sm font-bold rounded-lg bg-blue-50 text-blue-700 border border-blue-200 flex items-center gap-1.5 whitespace-nowrap shrink-0";
+          if (typeof renderReviewScopeSelector === 'function') renderReviewScopeSelector();
           if (typeof renderReviewContent === 'function') renderReviewContent();
         } else if (t === 'gifted') {
           btn.className = "px-3 py-1.5 text-xs sm:text-sm font-bold rounded-lg bg-amber-50 text-amber-800 border border-amber-300 flex items-center gap-1.5 whitespace-nowrap shrink-0";
@@ -1024,6 +1025,8 @@ const REVIEW_CURRICULUM_CONFIG = {
 
 
 
+let currentReviewScopeFilter = 'all';
+
 function setReviewGrade(grade) {
   currentReviewGrade = parseInt(grade) || 12;
   const grades = [12, 11, 10, 9, 8, 7, 6];
@@ -1040,13 +1043,21 @@ function setReviewGrade(grade) {
     }
   });
 
-  // Đồng bộ khối lớp vào modal nếu chuẩn bị mở
+  currentReviewScopeFilter = 'all';
+
+  // Đồng bộ khối lớp vào modal ma trận và modal giáo viên
   const matrixGradeEl = document.getElementById('matrix-grade');
   if (matrixGradeEl) {
     matrixGradeEl.value = currentReviewGrade;
     if (typeof onMatrixGradeOrTypeChange === 'function') onMatrixGradeOrTypeChange();
   }
+  const manualGradeEl = document.getElementById('manual-exam-grade');
+  if (manualGradeEl) {
+    manualGradeEl.value = currentReviewGrade;
+    if (typeof onManualGradeOrTypeChange === 'function') onManualGradeOrTypeChange();
+  }
 
+  renderReviewScopeSelector();
   renderReviewContent();
 }
 
@@ -1065,14 +1076,101 @@ function switchReviewSubTab(subTab) {
     }
   });
 
-  // Đồng bộ loại kỳ thi vào modal nếu chuẩn bị mở
+  currentReviewScopeFilter = 'all';
+
+  // Đồng bộ loại kỳ thi vào modal ma trận và modal giáo viên
   const matrixTypeEl = document.getElementById('matrix-exam-type');
   if (matrixTypeEl) {
     matrixTypeEl.value = subTab;
     if (typeof onMatrixGradeOrTypeChange === 'function') onMatrixGradeOrTypeChange();
   }
+  const manualCatEl = document.getElementById('manual-exam-category');
+  if (manualCatEl) {
+    manualCatEl.value = subTab;
+    if (typeof onManualGradeOrTypeChange === 'function') onManualGradeOrTypeChange();
+  }
 
+  renderReviewScopeSelector();
   renderReviewContent();
+}
+
+function setReviewScopeFilter(filter) {
+  currentReviewScopeFilter = filter;
+  renderReviewScopeSelector();
+  renderReviewContent();
+}
+
+function renderReviewScopeSelector() {
+  const container = document.getElementById('review-scope-selector-container');
+  if (!container) return;
+
+  const g = currentReviewGrade || 12;
+  const cfg = (typeof REVIEW_CURRICULUM_CONFIG !== 'undefined' && REVIEW_CURRICULUM_CONFIG[g]) 
+    ? REVIEW_CURRICULUM_CONFIG[g] 
+    : { gradeName: `Toán Lớp ${g}`, chapters: [], midterm: [], finalterm: [] };
+
+  if (currentReviewSubTab === 'midterm') {
+    const mid1 = cfg.midterm?.[0] || { name: "Ôn tập Giữa kỳ 1" };
+    const mid2 = cfg.midterm?.[1] || { name: "Ôn tập Giữa kỳ 2" };
+    container.innerHTML = `
+      <div class="text-xs font-black uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
+        <i data-lucide="target" class="w-4 h-4"></i>
+        <span>3. Chọn Kỳ Thi Giữa Kỳ:</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="setReviewScopeFilter('all')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 ${currentReviewScopeFilter === 'all' ? 'bg-amber-400 text-slate-950 font-black shadow-md ring-2 ring-amber-300' : 'bg-white/20 text-white hover:bg-white/30'}">
+          <i data-lucide="layers" class="w-4 h-4"></i> Tất cả Giữa kỳ
+        </button>
+        <button onclick="setReviewScopeFilter('mid1')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 ${currentReviewScopeFilter === 'mid1' ? 'bg-amber-400 text-slate-950 font-black shadow-md ring-2 ring-amber-300' : 'bg-white/20 text-white hover:bg-white/30'}">
+          <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> ${mid1.name}
+        </button>
+        <button onclick="setReviewScopeFilter('mid2')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 ${currentReviewScopeFilter === 'mid2' ? 'bg-amber-400 text-slate-950 font-black shadow-md ring-2 ring-amber-300' : 'bg-white/20 text-white hover:bg-white/30'}">
+          <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> ${mid2.name}
+        </button>
+      </div>
+    `;
+  } else if (currentReviewSubTab === 'finalterm') {
+    const fin1Cfg = cfg.finalterm?.[0] || { name: "Ôn tập Cuối kỳ 1", chaptersText: "Kỳ 1" };
+    const fin2Cfg = cfg.finalterm?.[1] || { name: "Ôn tập Cuối kỳ 2", chaptersText: "Kỳ 2" };
+
+    container.innerHTML = `
+      <div class="text-xs font-black uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
+        <i data-lucide="trophy" class="w-4 h-4"></i>
+        <span>3. Chọn Kỳ Thi Cuối Kỳ (Theo Quy Định Chương Chuẩn Sách):</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="setReviewScopeFilter('all')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 ${currentReviewScopeFilter === 'all' ? 'bg-amber-400 text-slate-950 font-black shadow-md ring-2 ring-amber-300' : 'bg-white/20 text-white hover:bg-white/30'}">
+          <i data-lucide="layers" class="w-4 h-4"></i> Tất cả Cuối kỳ
+        </button>
+        <button onclick="setReviewScopeFilter('fin1')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 ${currentReviewScopeFilter === 'fin1' ? 'bg-amber-400 text-slate-950 font-black shadow-md ring-2 ring-amber-300' : 'bg-white/20 text-white hover:bg-white/30'}">
+          <i data-lucide="bookmark" class="w-4 h-4 text-blue-300"></i> ${fin1Cfg.name} (${fin1Cfg.chaptersText})
+        </button>
+        <button onclick="setReviewScopeFilter('fin2')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 ${currentReviewScopeFilter === 'fin2' ? 'bg-amber-400 text-slate-950 font-black shadow-md ring-2 ring-amber-300' : 'bg-white/20 text-white hover:bg-white/30'}">
+          <i data-lucide="bookmark" class="w-4 h-4 text-purple-300"></i> ${fin2Cfg.name} (${fin2Cfg.chaptersText})
+        </button>
+      </div>
+    `;
+  } else if (currentReviewSubTab === 'chapter') {
+    const chapters = cfg.chapters || [];
+    container.innerHTML = `
+      <div class="text-xs font-black uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
+        <i data-lucide="book-open" class="w-4 h-4"></i>
+        <span>3. Chọn Chương Theo Sách (Đầy đủ tất cả ${chapters.length} chương trong sách):</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-2 max-h-36 overflow-y-auto pr-1">
+        <button onclick="setReviewScopeFilter('all')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${currentReviewScopeFilter === 'all' ? 'bg-amber-400 text-slate-950 font-black shadow-md ring-2 ring-amber-300' : 'bg-white/20 text-white hover:bg-white/30'}">
+          <i data-lucide="layers" class="w-3.5 h-3.5"></i> Tất cả ${chapters.length} chương theo sách
+        </button>
+        ${chapters.map(ch => `
+          <button onclick="setReviewScopeFilter('ch_${ch.id}')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${currentReviewScopeFilter === `ch_${ch.id}` ? 'bg-amber-400 text-slate-950 font-black shadow-md ring-2 ring-amber-300' : 'bg-white/20 text-white hover:bg-white/30'}" title="${ch.number}: ${ch.title}">
+            <i data-lucide="bookmark" class="w-3.5 h-3.5 text-amber-300"></i> ${ch.number}: ${ch.title}
+          </button>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 function renderReviewContent() {
   const container = document.getElementById('review-content-area');
@@ -1094,10 +1192,10 @@ function renderReviewContent() {
             ${item.sourceBadge ? `<span class="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 text-[10px] font-bold border border-indigo-100">${item.sourceBadge}</span>` : ''}
             ${item.scopeText ? `<span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 text-[10px] font-bold border border-amber-200">📌 ${item.scopeText}</span>` : ''}
           </div>
-          <span class="text-xs text-slate-400 font-medium">${item.sectionsCount || 'Đề chuẩn'} • ${item.questionsCount ? item.questionsCount + ' bài tập' : item.duration}</span>
+          <span class="text-xs text-slate-400 font-medium">${item.sectionsCount || 'Đề chuẩn'} • ${item.questionsCount ? item.questionsCount + ' bài tập' : (item.duration || '90 phút')}</span>
         </div>
         <h4 class="font-bold text-slate-900 text-base leading-snug">${item.title}</h4>
-        <p class="text-xs text-slate-600 leading-relaxed">${item.summary}</p>
+        <p class="text-xs text-slate-600 leading-relaxed">${item.summary || ''}</p>
         
         ${Array.isArray(item.topics) && item.topics.length ? `
           <div class="p-3 bg-slate-50 rounded-xl space-y-1.5 text-xs text-slate-700">
@@ -1116,7 +1214,7 @@ function renderReviewContent() {
     `;
   }
 
-  // 1. TAB ÔN TẬP CUỐI KỲ (PHÂN THÀNH KỲ 1 VÀ KỲ 2 VỚI CÁC CHƯƠNG QUY ĐỊNH)
+  // 1. TAB ÔN TẬP CUỐI KỲ (PHÂN THÀNH KỲ 1 VÀ KỲ 2 VỚI CÁC CHƯƠNG QUY ĐỊNH CHUẨN SÁCH)
   if (currentReviewSubTab === 'finalterm') {
     const allFinal = data.finaltermReviews || [];
     const gradeExams = allFinal.filter(item => item.grade === g);
@@ -1124,8 +1222,11 @@ function renderReviewContent() {
     const fin2Exams = gradeExams.filter(item => item.scope === 'fin2' || (item.title && (item.title.includes('Kỳ 2') || item.title.includes('Kỳ II'))));
     const otherExams = gradeExams.filter(item => !fin1Exams.includes(item) && !fin2Exams.includes(item));
 
-    const fin1Cfg = cfg.finalterm?.[0] || { name: "Ôn tập Cuối kỳ 1", scopeText: "Học kỳ 1" };
-    const fin2Cfg = cfg.finalterm?.[1] || { name: "Ôn tập Cuối kỳ 2", scopeText: "Học kỳ 2" };
+    const fin1Cfg = cfg.finalterm?.[0] || { name: "Ôn tập Cuối kỳ 1", chaptersText: "Học kỳ 1", scopeText: "Kiến thức Học kỳ 1" };
+    const fin2Cfg = cfg.finalterm?.[1] || { name: "Ôn tập Cuối kỳ 2", chaptersText: "Học kỳ 2", scopeText: "Kiến thức Học kỳ 2" };
+
+    const showFin1 = currentReviewScopeFilter === 'all' || currentReviewScopeFilter === 'fin1';
+    const showFin2 = currentReviewScopeFilter === 'all' || currentReviewScopeFilter === 'fin2';
 
     container.innerHTML = `
       <div class="space-y-8">
@@ -1142,66 +1243,74 @@ function renderReviewContent() {
             <p class="text-xs text-slate-500 mt-0.5">Phân định rõ phạm vi chương ôn tập Cuối Kỳ 1 và Cuối Kỳ 2 chuẩn sách giáo khoa</p>
           </div>
           
-          <button onclick="openMatrixGeneratorModal(${g}, 'finalterm', 'fin1')" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-sm">
+          <button onclick="openMatrixGeneratorModal(${g}, 'finalterm', currentReviewScopeFilter === 'fin2' ? 'fin2' : 'fin1')" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-sm">
             <i data-lucide="cpu" class="w-4 h-4 text-amber-300"></i> Tự Sinh Đề Cuối Kỳ Mới
           </button>
         </div>
 
-        <!-- PHẦN 1: ÔN TẬP CUỐI KỲ 1 -->
-        <div class="space-y-4">
-          <div class="p-4 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 rounded-2xl border border-blue-200 flex flex-wrap items-center justify-between gap-3">
-            <div class="space-y-1">
-              <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 bg-blue-600 text-white text-xs font-bold rounded-md">Học kỳ 1</span>
-                <h4 class="font-black text-slate-900 text-base">${fin1Cfg.name} - ${cfg.gradeName}</h4>
+        ${showFin1 ? `
+          <!-- PHẦN 1: ÔN TẬP CUỐI KỲ 1 -->
+          <div class="space-y-4">
+            <div class="p-4 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 rounded-2xl border-2 border-blue-200 flex flex-wrap items-center justify-between gap-3">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 bg-blue-600 text-white text-xs font-bold rounded-md">Học kỳ 1</span>
+                  <h4 class="font-black text-slate-900 text-base">${fin1Cfg.name} - ${cfg.gradeName}</h4>
+                </div>
+                <p class="text-xs text-blue-900 font-semibold">✨ Phạm vi kiến thức: <span class="text-indigo-700 font-bold">${fin1Cfg.scopeText}</span></p>
               </div>
-              <p class="text-xs text-blue-900 font-semibold">✨ Phạm vi kiến thức: <span class="text-indigo-700">${fin1Cfg.scopeText}</span></p>
-            </div>
-            <button onclick="openMatrixGeneratorModal(${g}, 'finalterm', 'fin1')" class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-xs">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i> Tự Sinh Đề Cuối Kỳ 1
-            </button>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            ${fin1Exams.length ? fin1Exams.map(ex => renderExamCard(ex, 'finalterm')).join('') : `
-              <div class="col-span-full p-6 bg-slate-50 border border-dashed border-slate-300 rounded-2xl text-center space-y-2">
-                <i data-lucide="file-question" class="w-8 h-8 text-slate-400 mx-auto"></i>
-                <p class="text-xs text-slate-600 font-medium">Chưa có đề Cuối kỳ 1 nào được tạo cho ${cfg.gradeName}.</p>
-                <button onclick="openMatrixGeneratorModal(${g}, 'finalterm', 'fin1')" class="px-3.5 py-1.5 bg-indigo-600 text-white font-bold text-xs rounded-xl shadow-xs inline-flex items-center gap-1.5">
-                  <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Bấm để tự sinh đề Cuối kỳ 1 ngay
+              <div class="flex items-center gap-2">
+                <button onclick="openMatrixGeneratorModal(${g}, 'finalterm', 'fin1')" class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-xs">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i> Tự Sinh Đề Cuối Kỳ 1
                 </button>
               </div>
-            `}
-          </div>
-        </div>
-
-        <!-- PHẦN 2: ÔN TẬP CUỐI KỲ 2 -->
-        <div class="space-y-4 pt-2">
-          <div class="p-4 bg-gradient-to-r from-rose-50 via-purple-50 to-indigo-50 rounded-2xl border border-rose-200 flex flex-wrap items-center justify-between gap-3">
-            <div class="space-y-1">
-              <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 bg-rose-600 text-white text-xs font-bold rounded-md">Học kỳ 2</span>
-                <h4 class="font-black text-slate-900 text-base">${fin2Cfg.name} - ${cfg.gradeName}</h4>
-              </div>
-              <p class="text-xs text-rose-950 font-semibold">✨ Phạm vi kiến thức: <span class="text-rose-700">${fin2Cfg.scopeText}</span></p>
             </div>
-            <button onclick="openMatrixGeneratorModal(${g}, 'finalterm', 'fin2')" class="px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-xs">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i> Tự Sinh Đề Cuối Kỳ 2
-            </button>
-          </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            ${fin2Exams.length ? fin2Exams.map(ex => renderExamCard(ex, 'finalterm')).join('') : (otherExams.length ? otherExams.map(ex => renderExamCard(ex, 'finalterm')).join('') : `
-              <div class="col-span-full p-6 bg-slate-50 border border-dashed border-slate-300 rounded-2xl text-center space-y-2">
-                <i data-lucide="file-question" class="w-8 h-8 text-slate-400 mx-auto"></i>
-                <p class="text-xs text-slate-600 font-medium">Chưa có đề Cuối kỳ 2 nào được tạo cho ${cfg.gradeName}.</p>
-                <button onclick="openMatrixGeneratorModal(${g}, 'finalterm', 'fin2')" class="px-3.5 py-1.5 bg-rose-600 text-white font-bold text-xs rounded-xl shadow-xs inline-flex items-center gap-1.5">
-                  <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Bấm để tự sinh đề Cuối kỳ 2 ngay
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              ${fin1Exams.length ? fin1Exams.map(ex => renderExamCard(ex, 'finalterm')).join('') : `
+                <div class="col-span-full p-6 bg-slate-50 border border-dashed border-slate-300 rounded-2xl text-center space-y-2">
+                  <i data-lucide="file-question" class="w-8 h-8 text-slate-400 mx-auto"></i>
+                  <p class="text-xs text-slate-600 font-medium">Chưa có đề Cuối kỳ 1 nào được tạo cho ${cfg.gradeName}.</p>
+                  <button onclick="openMatrixGeneratorModal(${g}, 'finalterm', 'fin1')" class="px-3.5 py-1.5 bg-indigo-600 text-white font-bold text-xs rounded-xl shadow-xs inline-flex items-center gap-1.5">
+                    <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Bấm để tự sinh đề Cuối kỳ 1 ngay
+                  </button>
+                </div>
+              `}
+            </div>
+          </div>
+        ` : ''}
+
+        ${showFin2 ? `
+          <!-- PHẦN 2: ÔN TẬP CUỐI KỲ 2 -->
+          <div class="space-y-4 pt-2">
+            <div class="p-4 bg-gradient-to-r from-rose-50 via-purple-50 to-indigo-50 rounded-2xl border-2 border-rose-200 flex flex-wrap items-center justify-between gap-3">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 bg-rose-600 text-white text-xs font-bold rounded-md">Học kỳ 2</span>
+                  <h4 class="font-black text-slate-900 text-base">${fin2Cfg.name} - ${cfg.gradeName}</h4>
+                </div>
+                <p class="text-xs text-rose-950 font-semibold">✨ Phạm vi kiến thức: <span class="text-rose-700 font-bold">${fin2Cfg.scopeText}</span></p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="openMatrixGeneratorModal(${g}, 'finalterm', 'fin2')" class="px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-xs">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i> Tự Sinh Đề Cuối Kỳ 2
                 </button>
               </div>
-            `)}
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              ${fin2Exams.length ? fin2Exams.map(ex => renderExamCard(ex, 'finalterm')).join('') : (otherExams.length ? otherExams.map(ex => renderExamCard(ex, 'finalterm')).join('') : `
+                <div class="col-span-full p-6 bg-slate-50 border border-dashed border-slate-300 rounded-2xl text-center space-y-2">
+                  <i data-lucide="file-question" class="w-8 h-8 text-slate-400 mx-auto"></i>
+                  <p class="text-xs text-slate-600 font-medium">Chưa có đề Cuối kỳ 2 nào được tạo cho ${cfg.gradeName}.</p>
+                  <button onclick="openMatrixGeneratorModal(${g}, 'finalterm', 'fin2')" class="px-3.5 py-1.5 bg-rose-600 text-white font-bold text-xs rounded-xl shadow-xs inline-flex items-center gap-1.5">
+                    <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Bấm để tự sinh đề Cuối kỳ 2 ngay
+                  </button>
+                </div>
+              `)}
+            </div>
           </div>
-        </div>
+        ` : ''}
 
       </div>
     `;
@@ -1216,6 +1325,9 @@ function renderReviewContent() {
 
     const mid1Cfg = cfg.midterm?.[0] || { name: "Ôn tập Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1" };
     const mid2Cfg = cfg.midterm?.[1] || { name: "Ôn tập Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2" };
+
+    const showMid1 = currentReviewScopeFilter === 'all' || currentReviewScopeFilter === 'mid1';
+    const showMid2 = currentReviewScopeFilter === 'all' || currentReviewScopeFilter === 'mid2';
 
     container.innerHTML = `
       <div class="space-y-8">
@@ -1232,66 +1344,70 @@ function renderReviewContent() {
             <p class="text-xs text-slate-500 mt-0.5">Hệ thống đề ôn tập chuẩn 4 dạng mới của Bộ GD&ĐT cho Giữa kỳ 1 và Giữa kỳ 2</p>
           </div>
           
-          <button onclick="openMatrixGeneratorModal(${g}, 'midterm', 'mid1')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-sm">
+          <button onclick="openMatrixGeneratorModal(${g}, 'midterm', currentReviewScopeFilter === 'mid2' ? 'mid2' : 'mid1')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-sm">
             <i data-lucide="cpu" class="w-4 h-4 text-amber-300"></i> Tự Sinh Đề Giữa Kỳ Mới
           </button>
         </div>
 
-        <!-- PHẦN 1: ÔN TẬP GIỮA KỲ 1 -->
-        <div class="space-y-4">
-          <div class="p-4 bg-gradient-to-r from-emerald-50 via-teal-50 to-green-50 rounded-2xl border border-emerald-200 flex flex-wrap items-center justify-between gap-3">
-            <div class="space-y-1">
-              <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 bg-emerald-600 text-white text-xs font-bold rounded-md">Giữa kỳ 1</span>
-                <h4 class="font-black text-slate-900 text-base">${mid1Cfg.name} - ${cfg.gradeName}</h4>
+        ${showMid1 ? `
+          <!-- PHẦN 1: ÔN TẬP GIỮA KỲ 1 -->
+          <div class="space-y-4">
+            <div class="p-4 bg-gradient-to-r from-emerald-50 via-teal-50 to-green-50 rounded-2xl border-2 border-emerald-200 flex flex-wrap items-center justify-between gap-3">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 bg-emerald-600 text-white text-xs font-bold rounded-md">Giữa kỳ 1</span>
+                  <h4 class="font-black text-slate-900 text-base">${mid1Cfg.name} - ${cfg.gradeName}</h4>
+                </div>
+                <p class="text-xs text-emerald-950 font-semibold">✨ Phạm vi kiến thức: <span class="text-emerald-700 font-bold">${mid1Cfg.scopeText}</span></p>
               </div>
-              <p class="text-xs text-emerald-950 font-semibold">✨ Phạm vi kiến thức: <span class="text-emerald-700">${mid1Cfg.scopeText}</span></p>
+              <button onclick="openMatrixGeneratorModal(${g}, 'midterm', 'mid1')" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-xs">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i> Tự Sinh Đề Giữa Kỳ 1
+              </button>
             </div>
-            <button onclick="openMatrixGeneratorModal(${g}, 'midterm', 'mid1')" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-xs">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i> Tự Sinh Đề Giữa Kỳ 1
-            </button>
-          </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            ${mid1Exams.length ? mid1Exams.map(ex => renderExamCard(ex, 'midterm')).join('') : `
-              <div class="col-span-full p-6 bg-slate-50 border border-dashed border-slate-300 rounded-2xl text-center space-y-2">
-                <i data-lucide="file-question" class="w-8 h-8 text-slate-400 mx-auto"></i>
-                <p class="text-xs text-slate-600 font-medium">Chưa có đề Giữa kỳ 1 nào cho ${cfg.gradeName}.</p>
-                <button onclick="openMatrixGeneratorModal(${g}, 'midterm', 'mid1')" class="px-3.5 py-1.5 bg-emerald-600 text-white font-bold text-xs rounded-xl shadow-xs inline-flex items-center gap-1.5">
-                  <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Bấm để tự sinh đề Giữa kỳ 1 ngay
-                </button>
-              </div>
-            `}
-          </div>
-        </div>
-
-        <!-- PHẦN 2: ÔN TẬP GIỮA KỲ 2 -->
-        <div class="space-y-4 pt-2">
-          <div class="p-4 bg-gradient-to-r from-amber-50 via-teal-50 to-emerald-50 rounded-2xl border border-amber-200 flex flex-wrap items-center justify-between gap-3">
-            <div class="space-y-1">
-              <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 bg-amber-600 text-white text-xs font-bold rounded-md">Giữa kỳ 2</span>
-                <h4 class="font-black text-slate-900 text-base">${mid2Cfg.name} - ${cfg.gradeName}</h4>
-              </div>
-              <p class="text-xs text-amber-950 font-semibold">✨ Phạm vi kiến thức: <span class="text-amber-700">${mid2Cfg.scopeText}</span></p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              ${mid1Exams.length ? mid1Exams.map(ex => renderExamCard(ex, 'midterm')).join('') : `
+                <div class="col-span-full p-6 bg-slate-50 border border-dashed border-slate-300 rounded-2xl text-center space-y-2">
+                  <i data-lucide="file-question" class="w-8 h-8 text-slate-400 mx-auto"></i>
+                  <p class="text-xs text-slate-600 font-medium">Chưa có đề Giữa kỳ 1 nào cho ${cfg.gradeName}.</p>
+                  <button onclick="openMatrixGeneratorModal(${g}, 'midterm', 'mid1')" class="px-3.5 py-1.5 bg-emerald-600 text-white font-bold text-xs rounded-xl shadow-xs inline-flex items-center gap-1.5">
+                    <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Bấm để tự sinh đề Giữa kỳ 1 ngay
+                  </button>
+                </div>
+              `}
             </div>
-            <button onclick="openMatrixGeneratorModal(${g}, 'midterm', 'mid2')" class="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-xs">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i> Tự Sinh Đề Giữa Kỳ 2
-            </button>
           </div>
+        ` : ''}
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            ${mid2Exams.length ? mid2Exams.map(ex => renderExamCard(ex, 'midterm')).join('') : (otherMidExams.length ? otherMidExams.map(ex => renderExamCard(ex, 'midterm')).join('') : `
-              <div class="col-span-full p-6 bg-slate-50 border border-dashed border-slate-300 rounded-2xl text-center space-y-2">
-                <i data-lucide="file-question" class="w-8 h-8 text-slate-400 mx-auto"></i>
-                <p class="text-xs text-slate-600 font-medium">Chưa có đề Giữa kỳ 2 nào cho ${cfg.gradeName}.</p>
-                <button onclick="openMatrixGeneratorModal(${g}, 'midterm', 'mid2')" class="px-3.5 py-1.5 bg-amber-600 text-white font-bold text-xs rounded-xl shadow-xs inline-flex items-center gap-1.5">
-                  <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Bấm để tự sinh đề Giữa kỳ 2 ngay
-                </button>
+        ${showMid2 ? `
+          <!-- PHẦN 2: ÔN TẬP GIỮA KỲ 2 -->
+          <div class="space-y-4 pt-2">
+            <div class="p-4 bg-gradient-to-r from-amber-50 via-teal-50 to-emerald-50 rounded-2xl border-2 border-amber-200 flex flex-wrap items-center justify-between gap-3">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 bg-amber-600 text-white text-xs font-bold rounded-md">Giữa kỳ 2</span>
+                  <h4 class="font-black text-slate-900 text-base">${mid2Cfg.name} - ${cfg.gradeName}</h4>
+                </div>
+                <p class="text-xs text-amber-950 font-semibold">✨ Phạm vi kiến thức: <span class="text-amber-700 font-bold">${mid2Cfg.scopeText}</span></p>
               </div>
-            `)}
+              <button onclick="openMatrixGeneratorModal(${g}, 'midterm', 'mid2')" class="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-xs">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i> Tự Sinh Đề Giữa Kỳ 2
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              ${mid2Exams.length ? mid2Exams.map(ex => renderExamCard(ex, 'midterm')).join('') : (otherMidExams.length ? otherMidExams.map(ex => renderExamCard(ex, 'midterm')).join('') : `
+                <div class="col-span-full p-6 bg-slate-50 border border-dashed border-slate-300 rounded-2xl text-center space-y-2">
+                  <i data-lucide="file-question" class="w-8 h-8 text-slate-400 mx-auto"></i>
+                  <p class="text-xs text-slate-600 font-medium">Chưa có đề Giữa kỳ 2 nào cho ${cfg.gradeName}.</p>
+                  <button onclick="openMatrixGeneratorModal(${g}, 'midterm', 'mid2')" class="px-3.5 py-1.5 bg-amber-600 text-white font-bold text-xs rounded-xl shadow-xs inline-flex items-center gap-1.5">
+                    <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Bấm để tự sinh đề Giữa kỳ 2 ngay
+                  </button>
+                </div>
+              `)}
+            </div>
           </div>
-        </div>
+        ` : ''}
 
       </div>
     `;
@@ -1301,6 +1417,12 @@ function renderReviewContent() {
     const allCh = data.chapterReviews || [];
     const gradeChExams = allCh.filter(item => item.grade === g);
     const chaptersList = cfg.chapters || [];
+
+    const isSpecificChapter = currentReviewScopeFilter && currentReviewScopeFilter.startsWith('ch_');
+    const specificChId = isSpecificChapter ? parseInt(currentReviewScopeFilter.replace('ch_', '')) : null;
+    const filteredChapters = isSpecificChapter 
+      ? chaptersList.filter(ch => ch.id === specificChId) 
+      : chaptersList;
 
     container.innerHTML = `
       <div class="space-y-6">
@@ -1317,17 +1439,17 @@ function renderReviewContent() {
             <p class="text-xs text-slate-500 mt-0.5">Đầy đủ tất cả ${chaptersList.length} chương theo sách giáo khoa của ${cfg.gradeName}</p>
           </div>
 
-          <button onclick="openMatrixGeneratorModal(${g}, 'chapter', 'ch_1')" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-sm">
+          <button onclick="openMatrixGeneratorModal(${g}, 'chapter', '${isSpecificChapter ? currentReviewScopeFilter : 'ch_1'}')" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-sm">
             <i data-lucide="cpu" class="w-4 h-4 text-amber-300"></i> Tự Sinh Đề Cuối Chương Mới
           </button>
         </div>
 
-        <!-- DANH SÁCH TẤT CẢ CÁC CHƯƠNG CỦA KHỐI LỚP THEO SÁCH -->
+        <!-- DANH SÁCH CÁC CHƯƠNG THEO SÁCH -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          ${chaptersList.map(ch => {
+          ${filteredChapters.map(ch => {
             const matchedExams = gradeChExams.filter(item => item.scope === `ch_${ch.id}` || (item.title && item.title.includes(ch.number)));
             return `
-              <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-3 hover:border-purple-400 hover:shadow-sm transition flex flex-col justify-between">
+              <div class="bg-white rounded-2xl p-5 border-2 ${currentReviewScopeFilter === `ch_${ch.id}` ? 'border-purple-500 ring-2 ring-purple-200' : 'border-slate-200'} shadow-xs space-y-3 hover:border-purple-400 hover:shadow-sm transition flex flex-col justify-between">
                 <div>
                   <div class="flex items-center justify-between mb-2">
                     <span class="px-2.5 py-0.5 bg-purple-100 text-purple-900 text-xs font-extrabold rounded-lg">${ch.number}</span>
@@ -1354,16 +1476,22 @@ function renderReviewContent() {
         </div>
 
         <!-- CÁC ĐỀ ĐÃ TẠO THEO CHƯƠNG -->
-        ${gradeChExams.length ? `
-          <div class="pt-4 space-y-4">
-            <h4 class="font-extrabold text-slate-800 text-sm flex items-center gap-2">
-              <i data-lucide="folder-check" class="w-4 h-4 text-purple-600"></i> Các đề ôn tập cuối chương đã tạo cho ${cfg.gradeName}:
-            </h4>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-              ${gradeChExams.map(ex => renderExamCard(ex, 'chapter')).join('')}
+        ${(() => {
+          const relevantExams = isSpecificChapter
+            ? gradeChExams.filter(item => item.scope === currentReviewScopeFilter || (item.title && item.title.includes(`Chương ${specificChId}`)))
+            : gradeChExams;
+          if (!relevantExams.length) return '';
+          return `
+            <div class="pt-4 space-y-4">
+              <h4 class="font-extrabold text-slate-800 text-sm flex items-center gap-2">
+                <i data-lucide="folder-check" class="w-4 h-4 text-purple-600"></i> Các đề ôn tập cuối chương đã có cho ${cfg.gradeName}:
+              </h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                ${relevantExams.map(ex => renderExamCard(ex, 'chapter')).join('')}
+              </div>
             </div>
-          </div>
-        ` : ''}
+          `;
+        })()}
 
       </div>
     `;
@@ -4611,6 +4739,10 @@ function openMatrixGeneratorModal(defaultGrade, defaultType, defaultScope, activ
 
   if (defaultType && typeEl) {
     typeEl.value = defaultType;
+  } else if (typeEl && currentReviewSubTab) {
+    typeEl.value = currentReviewSubTab;
+  } else if (typeEl) {
+    typeEl.value = 'midterm';
   }
 
   onMatrixGradeOrTypeChange(defaultScope);
@@ -4622,13 +4754,112 @@ function closeMatrixGeneratorModal() {
   document.getElementById('modal-matrix-generator').classList.add('hidden');
 }
 
-function openManualUploadModal() {
-  document.getElementById('modal-manual-upload-exam').classList.remove('hidden');
+function openManualUploadModal(defaultGrade, defaultCategory, defaultScope) {
+  const modal = document.getElementById('modal-manual-upload-exam');
+  if (!modal) return;
+  modal.classList.remove('hidden');
+
+  const gradeEl = document.getElementById('manual-exam-grade');
+  const catEl = document.getElementById('manual-exam-category');
+  if (defaultGrade && gradeEl) {
+    gradeEl.value = defaultGrade;
+  } else if (gradeEl && currentReviewGrade) {
+    gradeEl.value = currentReviewGrade;
+  }
+
+  if (defaultCategory && catEl) {
+    catEl.value = defaultCategory;
+  } else if (catEl && currentReviewSubTab) {
+    catEl.value = currentReviewSubTab;
+  }
+
+  onManualGradeOrTypeChange(defaultScope);
   updateManualLiveSummary();
 }
 
 function closeManualUploadModal() {
   document.getElementById('modal-manual-upload-exam').classList.add('hidden');
+}
+
+function onManualGradeOrTypeChange(targetScope) {
+  const gradeEl = document.getElementById('manual-exam-grade');
+  const typeEl = document.getElementById('manual-exam-category');
+  const scopeSelect = document.getElementById('manual-exam-scope');
+  const scopeLabelText = document.getElementById('manual-scope-label-text');
+  if (!gradeEl || !typeEl || !scopeSelect) return;
+
+  const grade = parseInt(gradeEl.value) || 12;
+  const type = typeEl.value; // 'midterm' | 'finalterm' | 'chapter'
+  const cfg = REVIEW_CURRICULUM_CONFIG[grade] || REVIEW_CURRICULUM_CONFIG[12];
+
+  scopeSelect.innerHTML = '';
+
+  if (type === 'midterm') {
+    if (scopeLabelText) scopeLabelText.innerText = "Kỳ thi giữa kỳ:";
+    cfg.midterm.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m.id;
+      opt.textContent = `${m.name}`;
+      if (targetScope && targetScope === m.id) opt.selected = true;
+      scopeSelect.appendChild(opt);
+    });
+  } else if (type === 'finalterm') {
+    if (scopeLabelText) scopeLabelText.innerText = "Kỳ thi cuối kỳ:";
+    cfg.finalterm.forEach(f => {
+      const opt = document.createElement('option');
+      opt.value = f.id;
+      const chNote = f.chaptersText ? ` (${f.chaptersText})` : '';
+      opt.textContent = `${f.name}${chNote}`;
+      if (targetScope && targetScope === f.id) opt.selected = true;
+      scopeSelect.appendChild(opt);
+    });
+  } else if (type === 'chapter') {
+    if (scopeLabelText) scopeLabelText.innerText = "Chọn chương ôn tập:";
+    cfg.chapters.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = `ch_${c.id}`;
+      opt.textContent = `${c.number}: ${c.title}`;
+      if (targetScope && (targetScope === `ch_${c.id}` || targetScope === c.id)) opt.selected = true;
+      scopeSelect.appendChild(opt);
+    });
+  }
+
+  onManualScopeChange();
+}
+
+function onManualScopeChange() {
+  const gradeEl = document.getElementById('manual-exam-grade');
+  const typeEl = document.getElementById('manual-exam-category');
+  const scopeSelect = document.getElementById('manual-exam-scope');
+  const bannerTitle = document.getElementById('manual-scope-banner-title');
+  const bannerTag = document.getElementById('manual-scope-banner-tag');
+  const bannerDesc = document.getElementById('manual-scope-banner-desc');
+  if (!gradeEl || !typeEl || !scopeSelect || !bannerTitle) return;
+
+  const grade = parseInt(gradeEl.value) || 12;
+  const type = typeEl.value;
+  const scopeVal = scopeSelect.value;
+  const cfg = REVIEW_CURRICULUM_CONFIG[grade] || REVIEW_CURRICULUM_CONFIG[12];
+
+  if (type === 'midterm') {
+    const item = cfg.midterm.find(m => m.id === scopeVal) || cfg.midterm[0];
+    bannerTitle.textContent = `${item.name} - ${cfg.gradeName}`;
+    if (bannerTag) bannerTag.textContent = "Giữa kỳ";
+    if (bannerDesc) bannerDesc.textContent = `✨ Phạm vi ôn tập: ${item.scopeText} chuẩn cấu trúc Bộ GD&ĐT`;
+  } else if (type === 'finalterm') {
+    const item = cfg.finalterm.find(f => f.id === scopeVal) || cfg.finalterm[0];
+    bannerTitle.textContent = `${item.name} - ${cfg.gradeName}`;
+    if (bannerTag) bannerTag.textContent = item.chapters ? `${item.chapters.length} Chương` : "Cuối kỳ";
+    if (bannerDesc) bannerDesc.textContent = `✨ Phạm vi ôn tập: ${item.scopeText}`;
+  } else if (type === 'chapter') {
+    const chId = parseInt(scopeVal.replace('ch_', '')) || 1;
+    const item = cfg.chapters.find(c => c.id === chId) || cfg.chapters[0];
+    bannerTitle.textContent = `Ôn Tập ${item.number} - ${cfg.gradeName}`;
+    if (bannerTag) bannerTag.textContent = "Theo chương";
+    if (bannerDesc) bannerDesc.textContent = `✨ Nội dung chương: ${item.title}`;
+  }
+
+  refreshIconsAndMath();
 }
 
 // Thay đổi thời gian nhanh
@@ -4761,7 +4992,7 @@ function executeGenerateFromMatrix() {
   const durationEl = document.getElementById('matrix-custom-duration');
 
   const grade = parseInt(gradeEl ? gradeEl.value : 12) || 12;
-  const type = typeEl ? typeEl.value : 'finalterm'; // 'midterm' | 'finalterm' | 'chapter'
+  const type = typeEl ? typeEl.value : 'midterm'; // 'midterm' | 'finalterm' | 'chapter'
   const scopeVal = scopeSelect ? scopeSelect.value : '';
   const duration = parseInt(durationEl ? durationEl.value : 90) || 90;
   const cfg = REVIEW_CURRICULUM_CONFIG[grade] || REVIEW_CURRICULUM_CONFIG[12];
@@ -6005,6 +6236,22 @@ function executeManualUploadExam() {
   const solution = document.getElementById('manual-exam-solution')?.value.trim();
   const youtubeUrl = document.getElementById('manual-exam-youtube')?.value.trim();
 
+  const scopeSelect = document.getElementById('manual-exam-scope');
+  const scopeVal = scopeSelect ? scopeSelect.value : (category === 'midterm' ? 'mid1' : category === 'finalterm' ? 'fin1' : 'ch_1');
+  const cfg = REVIEW_CURRICULUM_CONFIG[grade] || REVIEW_CURRICULUM_CONFIG[12];
+  let scopeSummary = "";
+  if (category === 'midterm') {
+    const item = cfg.midterm.find(m => m.id === scopeVal) || cfg.midterm[0];
+    scopeSummary = item ? item.scopeText : "Kiến thức nửa đầu học kỳ";
+  } else if (category === 'finalterm') {
+    const item = cfg.finalterm.find(f => f.id === scopeVal) || cfg.finalterm[0];
+    scopeSummary = item ? item.scopeText : "Kiến thức tổng hợp cuối kỳ";
+  } else if (category === 'chapter') {
+    const chId = parseInt(scopeVal.replace('ch_', '')) || 1;
+    const item = cfg.chapters.find(c => c.id === chId) || cfg.chapters[0];
+    scopeSummary = item ? `Trọng tâm ${item.number}: ${item.title}` : "Kiến thức trọng tâm chương";
+  }
+
   // Đọc 4 phần do Thầy thiết lập (Loại 1: 3 phần - 22 câu; Loại 2: 4 phần - 21 câu)
   const q1 = 12;
   const p1 = 3.0;
@@ -6028,16 +6275,18 @@ function executeManualUploadExam() {
   const newExam = {
     id: newExamId,
     grade: grade,
+    scope: scopeVal,
+    scopeText: scopeSummary,
     title: title,
     badge: youtubeUrl ? "📺 Có Video YouTube" : (isType1 ? `Loại 1 (3 phần: ${totalQ} câu - 10.0đ)` : `Loại 2 (4 phần: ${totalQ} câu - 10.0đ)`),
     badgeColor: isType1 ? "bg-amber-600" : "bg-purple-600",
     authorType: "teacher",
     sourceBadge: youtubeUrl ? "📺 Video YouTube + Đề của Thầy" : "📚 Nguồn: Thầy tự biên soạn",
-    summary: summary || `Đề thi do Thầy đưa lên hệ thống. Gồm ${totalQ} câu (${totalP}đ). Có barem đáp án, lời giải chi tiết và video hướng dẫn giải.`,
+    summary: summary || `Đề thi do Thầy đưa lên hệ thống. Gồm ${totalQ} câu (${totalP}đ). Phạm vi: ${scopeSummary}. Có barem đáp án, lời giải chi tiết và video hướng dẫn giải.`,
     duration: `${duration} phút`,
     examCount: `${totalQ} câu (${totalP}đ)`,
     format4Part: true,
-    questions: pickQuestionsFromSourceBank(grade, category === 'midterm' ? 'mid1' : category === 'finalterm' ? 'fin1' : 'ch_1', q1, q2, q3, q4, p1, p2, p3, p4),
+    questions: pickQuestionsFromSourceBank(grade, scopeVal, q1, q2, q3, q4, p1, p2, p3, p4),
     youtubeUrl: youtubeUrl || null,
     teacherSolution: solution || null,
     partsConfig: {

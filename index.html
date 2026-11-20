@@ -1546,6 +1546,11 @@
               </button>
             </div>
           </div>
+
+          <!-- 3. PHÂN NHÁNH CHI TIẾT: GIỮA KỲ 1/2, CUỐI KỲ 1/2 (THEO QUY ĐỊNH CHƯƠNG), HOẶC TẤT CẢ CÁC CHƯƠNG THEO SÁCH -->
+          <div id="review-scope-selector-container" class="space-y-2 pt-3 border-t border-white/20">
+            <!-- Rendered dynamically via renderReviewScopeSelector() -->
+          </div>
         </div>
 
         <!-- BẢNG CÔNG CỤ CỦA THẦY: 2 TAB (ĐỀ THEO MA TRẬN & ĐỀ THEO GIÁO VIÊN) -->
@@ -1565,11 +1570,11 @@
 
           <div class="flex items-center gap-3 flex-wrap">
             <!-- TAB 1: ĐỀ THEO MA TRẬN -->
-            <button onclick="openMatrixGeneratorModal(currentReviewGrade, currentReviewSubTab, null, 'default')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md flex items-center gap-2 transition glow-btn">
+            <button onclick="openMatrixGeneratorModal(currentReviewGrade, currentReviewSubTab, (typeof currentReviewScopeFilter !== 'undefined' && currentReviewScopeFilter !== 'all') ? currentReviewScopeFilter : null, 'default')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md flex items-center gap-2 transition glow-btn">
               <i data-lucide="sliders" class="w-4 h-4 text-amber-300"></i> 🎲 Đề theo ma trận
             </button>
             <!-- TAB 2: ĐỀ THEO GIÁO VIÊN -->
-            <button onclick="openManualUploadModal()" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md flex items-center gap-2 transition">
+            <button onclick="openManualUploadModal(currentReviewGrade, currentReviewSubTab, (typeof currentReviewScopeFilter !== 'undefined' && currentReviewScopeFilter !== 'all') ? currentReviewScopeFilter : null)" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md flex items-center gap-2 transition">
               <i data-lucide="upload-cloud" class="w-4 h-4"></i> 📝 Đề theo giáo viên
             </button>
           </div>
@@ -2361,8 +2366,8 @@
               <span>Hình thức ôn tập:</span>
             </label>
             <select id="matrix-exam-type" onchange="onMatrixGradeOrTypeChange()" class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 font-bold text-indigo-900 bg-white shadow-xs">
-              <option value="midterm">Ôn Tập Giữa Kỳ</option>
-              <option value="finalterm" selected>Ôn Tập Cuối Kỳ</option>
+              <option value="midterm" selected>Ôn Tập Giữa Kỳ</option>
+              <option value="finalterm">Ôn Tập Cuối Kỳ</option>
               <option value="chapter">Ôn Tập Cuối Chương</option>
             </select>
           </div>
@@ -2371,7 +2376,7 @@
           <div>
             <label id="matrix-scope-label" class="block font-bold text-slate-700 uppercase mb-1 flex items-center gap-1.5">
               <span class="w-4 h-4 rounded-full bg-indigo-600 text-white inline-flex items-center justify-center text-[10px] font-black">3</span>
-              <span id="matrix-scope-label-text">Kỳ thi cuối kỳ:</span>
+              <span id="matrix-scope-label-text">Kỳ thi giữa kỳ:</span>
             </label>
             <select id="matrix-scope-select" onchange="onMatrixScopeChange()" class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 font-bold text-blue-900 bg-white shadow-xs">
               <!-- Rendered dynamically via onMatrixGradeOrTypeChange() -->
@@ -2403,11 +2408,11 @@
           <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600 shrink-0 mt-0.5"></i>
           <div class="flex-1 space-y-0.5">
             <div class="font-bold text-indigo-950 flex items-center gap-2">
-              <span id="scope-banner-title">Ôn Tập Cuối Kỳ 1 - Toán Lớp 12</span>
-              <span id="scope-banner-tag" class="px-2 py-0.5 bg-indigo-200 text-indigo-900 font-bold text-[10px] rounded-full">3 Chương</span>
+              <span id="scope-banner-title">Ôn tập Giữa kỳ 1 - Toán Lớp 12</span>
+              <span id="scope-banner-tag" class="px-2 py-0.5 bg-indigo-200 text-indigo-900 font-bold text-[10px] rounded-full">Giữa kỳ</span>
             </div>
             <div id="scope-banner-desc" class="text-slate-600">
-              Phạm vi: Gồm các Chương 1, Chương 2, Chương 3
+              Phạm vi ôn tập: Kiến thức nửa đầu Học kỳ 1 (Chương 1 & Chương 2) chuẩn cấu trúc Bộ GD&ĐT
             </div>
           </div>
         </div>
@@ -3048,32 +3053,55 @@
 
       <div class="space-y-4 text-xs sm:text-sm">
         
-        <!-- BƯỚC 1: THÔNG TIN KỲ THI, KHỐI LỚP & THỜI GIAN -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+        <!-- BƯỚC 1: THÔNG TIN KỲ THI, KHỐI LỚP & THỜI GIAN THEO THỨ TỰ: KHỐI LỚP -> HÌNH THỨC ÔN TẬP -> PHÂN NHÁNH KỲ/CHƯƠNG -> THỜI GIAN -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+          <!-- 1. CHỌN KHỐI LỚP TRƯỚC -->
           <div>
-            <label class="block font-bold text-slate-700 uppercase mb-1">Loại kỳ thi: <span class="text-red-500">*</span></label>
-            <select id="manual-exam-category" class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 font-bold text-amber-900">
+            <label class="block font-bold text-slate-700 uppercase mb-1 flex items-center gap-1.5 text-xs">
+              <span class="w-4 h-4 rounded-full bg-amber-600 text-white inline-flex items-center justify-center text-[10px] font-black">1</span>
+              <span>Khối lớp: <span class="text-red-500">*</span></span>
+            </label>
+            <select id="manual-exam-grade" onchange="onManualGradeOrTypeChange()" class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 font-bold text-slate-900 bg-white shadow-xs">
+              <option value="12" selected>Toán Lớp 12</option>
+              <option value="11">Toán Lớp 11</option>
+              <option value="10">Toán Lớp 10</option>
+              <option value="9">Toán Lớp 9</option>
+              <option value="8">Toán Lớp 8</option>
+              <option value="7">Toán Lớp 7</option>
+              <option value="6">Toán Lớp 6</option>
+            </select>
+          </div>
+
+          <!-- 2. HÌNH THỨC ÔN TẬP: GIỮA KỲ, CUỐI KỲ, CUỐI CHƯƠNG -->
+          <div>
+            <label class="block font-bold text-slate-700 uppercase mb-1 flex items-center gap-1.5 text-xs">
+              <span class="w-4 h-4 rounded-full bg-amber-600 text-white inline-flex items-center justify-center text-[10px] font-black">2</span>
+              <span>Hình thức ôn tập: <span class="text-red-500">*</span></span>
+            </label>
+            <select id="manual-exam-category" onchange="onManualGradeOrTypeChange()" class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 font-bold text-amber-900 bg-white shadow-xs">
               <option value="midterm" selected>Ôn Tập Giữa Kỳ</option>
               <option value="finalterm">Ôn Tập Cuối Kỳ</option>
               <option value="chapter">Ôn Tập Cuối Chương</option>
             </select>
           </div>
 
+          <!-- 3. PHÂN NHÁNH PHẠM VI CHI TIẾT (GIỮA KỲ 1/2, CUỐI KỲ 1/2 HOẶC THEO CHƯƠNG) -->
           <div>
-            <label class="block font-bold text-slate-700 uppercase mb-1">Khối lớp: <span class="text-red-500">*</span></label>
-            <select id="manual-exam-grade" class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 font-medium">
-              <option value="9" selected>Toán Lớp 9</option>
-              <option value="12">Toán Lớp 12</option>
-              <option value="6">Toán Lớp 6</option>
-              <option value="7">Toán Lớp 7</option>
-              <option value="8">Toán Lớp 8</option>
-              <option value="10">Toán Lớp 10</option>
-              <option value="11">Toán Lớp 11</option>
+            <label id="manual-scope-label" class="block font-bold text-slate-700 uppercase mb-1 flex items-center gap-1.5 text-xs">
+              <span class="w-4 h-4 rounded-full bg-amber-600 text-white inline-flex items-center justify-center text-[10px] font-black">3</span>
+              <span id="manual-scope-label-text">Kỳ thi giữa kỳ:</span>
+            </label>
+            <select id="manual-exam-scope" onchange="onManualScopeChange()" class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 font-bold text-blue-900 bg-white shadow-xs">
+              <!-- Rendered dynamically via onManualGradeOrTypeChange() -->
             </select>
           </div>
 
+          <!-- 4. THỜI GIAN LÀM BÀI -->
           <div>
-            <label class="block font-bold text-slate-700 uppercase mb-1">Thời gian làm bài:</label>
+            <label class="block font-bold text-slate-700 uppercase mb-1 flex items-center gap-1.5 text-xs">
+              <span class="w-4 h-4 rounded-full bg-amber-600 text-white inline-flex items-center justify-center text-[10px] font-black">4</span>
+              <span>Thời gian làm bài:</span>
+            </label>
             <div class="flex items-center gap-1.5">
               <input type="number" id="manual-exam-duration-num" value="90" min="15" max="180" step="5"
                 class="w-20 p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 font-bold text-center text-amber-800">
@@ -3084,6 +3112,20 @@
               <button type="button" onclick="setManualCustomDuration(60)" class="px-2 py-0.5 bg-slate-100 hover:bg-amber-100 text-[10px] rounded font-bold text-slate-600">60p</button>
               <button type="button" onclick="setManualCustomDuration(90)" class="px-2 py-0.5 bg-amber-100 text-[10px] rounded font-bold text-amber-800">90p</button>
               <button type="button" onclick="setManualCustomDuration(120)" class="px-2 py-0.5 bg-slate-100 hover:bg-amber-100 text-[10px] rounded font-bold text-slate-600">120p</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BANNER TRỰC QUAN PHẠM VI CỦA ĐỀ THẦY ĐƯA LÊN -->
+        <div id="manual-scope-banner" class="p-3 bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl border border-amber-200 flex items-start gap-2.5 text-xs shadow-xs">
+          <i data-lucide="sparkles" class="w-4 h-4 text-amber-600 shrink-0 mt-0.5"></i>
+          <div class="flex-1 space-y-0.5">
+            <div class="font-bold text-amber-950 flex items-center gap-2">
+              <span id="manual-scope-banner-title">Ôn tập Giữa kỳ 1 - Toán Lớp 12</span>
+              <span id="manual-scope-banner-tag" class="px-2 py-0.5 bg-amber-200 text-amber-900 font-bold text-[10px] rounded-full">Giữa kỳ</span>
+            </div>
+            <div id="manual-scope-banner-desc" class="text-slate-600">
+              Phạm vi: Kiến thức nửa đầu Học kỳ 1 (Chương 1 & Chương 2) chuẩn cấu trúc Bộ GD&ĐT
             </div>
           </div>
         </div>
