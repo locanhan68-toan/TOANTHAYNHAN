@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script>
+window.__errors = [];
+window.onerror = function(msg, url, line, col, err) {
+  window.__errors.push({msg: msg, line: line, col: col});
+};
+</script>
+<script src="curriculum-knowledge.js"></script>
+<script src="data.js"></script>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  var pre = document.createElement('pre');
+  pre.id = "result";
+  pre.innerText = JSON.stringify({
+    errors: window.__errors,
+    mathDataLoaded: typeof window.MATH_DATA !== 'undefined',
+    reviewSections: window.MATH_DATA && !!window.MATH_DATA.reviewSections,
+    grade12Ch1: window.MATH_DATA && window.MATH_DATA.reviewSections && window.MATH_DATA.reviewSections.chapterReviews && window.MATH_DATA.reviewSections.chapterReviews[1] ? window.MATH_DATA.reviewSections.chapterReviews[1].title : null
+  });
+  document.body.appendChild(pre);
+});
+</script>
+</head>
+<body></body>
+</html>

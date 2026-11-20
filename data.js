@@ -1,4 +1,9 @@
 ﻿// Dữ liệu mẫu mô phỏng hệ thống học Toán từ lớp 6 đến lớp 12
+if (typeof REVIEW_SOURCE_BANK === 'undefined') {
+  window.REVIEW_SOURCE_BANK = (typeof window !== 'undefined' && window.REVIEW_SOURCE_BANK) ? window.REVIEW_SOURCE_BANK : { 12: {}, 11: {}, 10: {} };
+}
+var REVIEW_SOURCE_BANK = window.REVIEW_SOURCE_BANK;
+
 window.MATH_DATA = {
   grades: [
     { id: 6, name: "Toán Lớp 6", description: "Số học, Phân số, Hình học trực quan" },
@@ -66,6 +71,8 @@ window.MATH_DATA = {
   },
 
   // NGÂN HÀNG CÂU HỎI ĐỀ THI 4 PHẦN CHUẨN MA TRẬN MẶC ĐỊNH (NGUỒN TRÊN MẠNG)
+  reviewSourceBank: REVIEW_SOURCE_BANK,
+
   // THEO KHỐI LỚP 12, 11, 10 (SỞ GD&ĐT HÀ NỘI, TP.HCM, CHUYÊN SƯ PHẠM, KHTN)
   grade4PartBank: // CƠ SỞ DỮ LIỆU ĐỀ THI 4 PHẦN CHUẨN MA TRẬN MẶC ĐỊNH BỘ GD&ĐT
 // NGUỒN CÂU HỎI: QUÉT TỪ NGÂN HÀNG ĐỀ THI TRÊN MẠNG (SỞ GD&ĐT HÀ NỘI, TP.HCM, CHUYÊN SƯ PHẠM, KHTN)
@@ -883,8 +890,8 @@ window.MATH_DATA = {
       }
     ]
   }
-};
-,
+  },
+
   // NGÂN HÀNG CÂU HỎI MẪU 4 DẠNG (GDPT 2018)
   sample4PartQuestions: {
     // Phần 1: Trắc nghiệm 4 lựa chọn
@@ -1303,6 +1310,7 @@ window.MATH_DATA = {
           "Chuyên đề 3: Phân tích một vectơ theo hai vectơ không cùng phương",
           "Chuyên đề 4: Tích vô hướng của hai vectơ và ứng dụng tính góc, khoảng cách"
         ]
+      }
     ],
 
     // 2. ÔN TẬP GIỮA KỲ (HỖ TRỢ 4 DẠNG CHUẨN BỘ)
@@ -1579,14 +1587,6 @@ window.MATH_DATA = {
           "Chương 5: Số trung bình, trung vị, tứ phân vị, khoảng biến thiên, phương sai và độ lệch chuẩn",
           "Chương 9: Không gian mẫu, biến cố và tính xác suất theo định nghĩa cổ điển",
           "Chương 7: Phương trình đường thẳng, khoảng cách, góc, phương trình đường tròn và ba đường conic"
-        ]
-      },
-        examCount: "10 Đề chuẩn",
-        topics: [
-          "Trắc nghiệm nhiều lựa chọn: 12 câu quét lý thuyết cốt lõi",
-          "Trắc nghiệm đúng/sai: 4 câu phân hóa thông hiểu và vận dụng",
-          "Trả lời ngắn: 6 câu rèn tư duy tính toán chính xác",
-          "Chiến thuật lấy trọn vẹn điểm câu 9+ phân loại cao"
         ]
       }
     ]

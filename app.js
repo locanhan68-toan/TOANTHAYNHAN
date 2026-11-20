@@ -4824,9 +4824,8 @@ function executeGenerateFromMatrix() {
     setReviewGrade(grade);
     switchReviewSubTab(type);
 
-    if (confirm(`🎉 TỰ SINH ĐỀ THEO MA TRẬN ĐƯA LÊN THÀNH CÔNG!\n\nĐã tạo thành công: "${newTitle}"\n- Cấu trúc: ${matrixDesc}\n- Phạm vi: ${scopeSummary}\n- Thời gian: ${duration} phút\n- Nguồn câu hỏi: ${sourceBadge}\n\nThầy có muốn MỞ XEM VÀ THI THỬ ĐỀ NÀY NGAY KHÔNG?`)) {
-      openExamViewerModal(newExamId, type);
-    }
+    // Mở trực tiếp đề thi để học sinh làm ngay lập tức
+    openExamViewerModal(newExamId, type);
     return;
   }
 
@@ -4914,9 +4913,8 @@ function executeGenerateFromMatrix() {
   setReviewGrade(grade);
   switchReviewSubTab(type);
 
-  if (confirm(`🎉 TỰ SINH ĐỀ THEO MA TRẬN MẶC ĐỊNH THÀNH CÔNG!\n\nĐã tạo thành công: "${newTitle}"\n- Phạm vi: ${scopeSummary}\n- Thời gian: ${duration} phút\n- Nguồn: ${sourceBadge}\n- Cấu trúc: ${q1} TN (${p1}đ) + ${q2} ĐS (${p2}đ) + ${q3} TLN (${p3}đ) + ${q4} TL (${p4}đ) = ${totalPoints} điểm.\n\nThầy có muốn MỞ XEM VÀ THI THỬ ĐỀ NÀY NGAY KHÔNG?`)) {
-    openExamViewerModal(newExamId, type);
-  }
+  // Mở trực tiếp đề thi để học sinh làm ngay lập tức
+  openExamViewerModal(newExamId, type);
 }
 
 // ==========================================
@@ -5144,49 +5142,176 @@ function generateInternetExamQuickly() {
 
   renderReviewContent();
 
-  if (confirm(`🎉 TỰ SINH ĐỀ THEO MA TRẬN MẶC ĐỊNH (NGUỒN TRÊN MẠNG) THÀNH CÔNG!\n\nĐã tạo thành công đề thi mới: "${newTitle}"\n- Cấu trúc: 12 câu TN (3đ) + 4 câu ĐS (4đ) + 6 câu TLN (2đ) + 1 bài TL (1đ) = 10.0 điểm\n- Nguồn: Ngân hàng đề thi trên mạng (Toàn quốc)\n- Thời gian: ${duration} phút\n\nThầy có muốn MỞ XEM VÀ THI THỬ ĐỀ NÀY NGAY KHÔNG?`)) {
-    openExamViewerModal(newExamId, type);
-  }
+  // Mở trực tiếp đề thi để học sinh làm ngay lập tức
+  openExamViewerModal(newExamId, type);
 }
+// ==========================================
+// 9. MODAL XEM & THI THỬ ĐỀ THI 4 PHẦN CHUẨN BỘ
+// ==========================================
+let currentViewingExam = null;
+let viewerAnswers = {
+  mcq: {},
+  tf: {},
+  sa: {},
+  essay: ""
+};
+let viewerCountdownInterval = null;
+
 function openExamViewerModal(examId, category) {
-  let exam;
+  let exam = null;
   if (category === 'gifted') {
     exam = (MATH_DATA.giftedExams || []).find(e => e.id === examId);
-  } else {
-    const listKey = category + 'Reviews';
-    const list = MATH_DATA.reviewSections[listKey] || [];
-    exam = list.find(e => e.id === examId);
+  } else if (category && MATH_DATA.reviewSections && MATH_DATA.reviewSections[category + 'Reviews']) {
+    exam = MATH_DATA.reviewSections[category + 'Reviews'].find(e => e.id === examId);
   }
 
-  // Nếu không tìm thấy, lấy đề mẫu đầu tiên
-  if (!exam) {
+  if (!exam && MATH_DATA.reviewSections) {
+    const all = [
+      ...(MATH_DATA.reviewSections.midtermReviews || []),
+      ...(MATH_DATA.reviewSections.finaltermReviews || []),
+      ...(MATH_DATA.reviewSections.chapterReviews || [])
+    ];
+    exam = all.find(e => e.id === examId);
+  }
+
+  if (!exam && MATH_DATA.giftedExams) {
+    exam = MATH_DATA.giftedExams.find(e => e.id === examId);
+  }
+
+  if (!exam && MATH_DATA.reviewSections && MATH_DATA.reviewSections.midtermReviews) {
     exam = MATH_DATA.reviewSections.midtermReviews[0];
+  }
+
+  if (!exam) {
+    alert("Không tìm thấy thông tin đề thi để hiển thị!");
+    return;
   }
 
   currentViewingExam = exam;
   viewerAnswers = { mcq: {}, tf: {}, sa: {}, essay: "" };
 
+  if (viewerCountdownInterval) {
+    clearInterval(viewerCountdownInterval);
+    viewerCountdownInterval = null;
+  }
+
   const modal = document.getElementById('modal-exam-viewer');
   if (!modal) return;
 
   // Cập nhật Header
-  document.getElementById('viewer-exam-title').innerText = exam.title;
-  document.getElementById('viewer-exam-badge').innerText = exam.badge || "Chuẩn 4 Dạng Mới";
-  document.getElementById('viewer-exam-source').innerText = exam.sourceBadge || (exam.youtubeUrl ? "📺 Có Video YouTube" : "🌐 Nguồn: Trên mạng");
-  document.getElementById('viewer-exam-meta').innerText = `Thời gian: ${exam.duration} • Thang điểm 10.0 • Barem chi tiết`;
-  document.getElementById('viewer-countdown').innerText = exam.duration ? exam.duration.replace(' phút', ':00') : "90:00";
+  const titleEl = document.getElementById('viewer-exam-title');
+  const badgeEl = document.getElementById('viewer-exam-badge');
+  const sourceEl = document.getElementById('viewer-exam-source');
+  const metaEl = document.getElementById('viewer-exam-meta');
+  const countdownEl = document.getElementById('viewer-countdown');
 
-  // Render nội dung
-  const container = document.getElementById('viewer-exam-body');
-  let sampleBank = MATH_DATA.sample4PartQuestions;
-  if (exam.questions && exam.questions.part1_mcq) {
-    sampleBank = exam.questions;
-  } else if (MATH_DATA.grade4PartBank && MATH_DATA.grade4PartBank[exam.grade]) {
-    sampleBank = MATH_DATA.grade4PartBank[exam.grade];
+  if (titleEl) titleEl.innerText = exam.title;
+  if (badgeEl) badgeEl.innerText = exam.badge || "Chuẩn 4 Dạng Mới";
+  if (sourceEl) sourceEl.innerText = exam.sourceBadge || (exam.youtubeUrl ? "📺 Có Video YouTube" : "🌐 Nguồn: Trên mạng (Toàn quốc)");
+  if (metaEl) metaEl.innerText = `Thời gian: ${exam.duration || '90 phút'} • Thang điểm 10.0 • Barem chi tiết`;
+
+  // Thiết lập đồng hồ đếm ngược
+  const durationNum = parseInt(exam.duration) || 90;
+  let remainingSeconds = durationNum * 60;
+
+  function updateTimerText() {
+    const m = Math.floor(remainingSeconds / 60);
+    const s = remainingSeconds % 60;
+    if (countdownEl) {
+      countdownEl.innerText = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+      if (remainingSeconds <= 300) {
+        countdownEl.className = "text-sm sm:text-base font-black font-mono text-red-600 animate-pulse";
+      } else {
+        countdownEl.className = "text-sm sm:text-base font-black font-mono text-amber-900";
+      }
+    }
+    if (remainingSeconds <= 0) {
+      clearInterval(viewerCountdownInterval);
+      viewerCountdownInterval = null;
+      alert("⏰ ĐÃ HẾT THỜI GIAN LÀM BÀI!\nHệ thống tự động nộp bài và tính điểm cho em.");
+      submitExamViewer();
+    }
+    remainingSeconds--;
   }
+
+  updateTimerText();
+  viewerCountdownInterval = setInterval(updateTimerText, 1000);
+
+  // Chuẩn hóa ngân hàng câu hỏi an toàn tuyệt đối
+  let sampleBank = exam.questions || {};
+  if (!sampleBank.part1_mcq && typeof REVIEW_SOURCE_BANK !== 'undefined' && REVIEW_SOURCE_BANK[exam.grade] && REVIEW_SOURCE_BANK[exam.grade][exam.scope]) {
+    sampleBank = REVIEW_SOURCE_BANK[exam.grade][exam.scope];
+  } else if (!sampleBank.part1_mcq && MATH_DATA.reviewSourceBank && MATH_DATA.reviewSourceBank[exam.grade] && MATH_DATA.reviewSourceBank[exam.grade][exam.scope]) {
+    sampleBank = MATH_DATA.reviewSourceBank[exam.grade][exam.scope];
+  } else if (!sampleBank.part1_mcq && MATH_DATA.grade4PartBank && MATH_DATA.grade4PartBank[exam.grade]) {
+    sampleBank = MATH_DATA.grade4PartBank[exam.grade];
+  } else if (!sampleBank.part1_mcq) {
+    sampleBank = MATH_DATA.sample4PartQuestions || {};
+  }
+
+  const rawP1 = sampleBank.part1_mcq || sampleBank.part1 || [];
+  const rawP2 = sampleBank.part2_trueFalse || sampleBank.part2_tf || sampleBank.part2 || [];
+  const rawP3 = sampleBank.part3_shortAnswer || sampleBank.part3_sa || sampleBank.part3 || [];
+  const rawP4 = sampleBank.part4_essay || sampleBank.part4 || [];
+
+  const mcqQuestions = rawP1.map((q, idx) => ({
+    id: q.id || `mcq_${idx + 1}`,
+    question: q.question || '',
+    options: (q.options || []).map(opt => ({ key: opt.key, text: opt.text || opt.content || '' })),
+    correct: q.correct || (q.options ? q.options[0]?.key : 'A'),
+    points: q.points || 0.25,
+    source: q.source || 'Ngân hàng đề thi chuẩn'
+  }));
+
+  const tfQuestions = rawP2.map((q, idx) => {
+    const rawSubs = q.subItems || q.subQuestions || q.items || [];
+    return {
+      id: q.id || `tf_${idx + 1}`,
+      question: q.question || q.intro || 'Xét tính Đúng / Sai của các khẳng định sau:',
+      points: q.points || 1.0,
+      source: q.source || 'Ngân hàng đề thi Chuyên',
+      subItems: rawSubs.map(s => ({
+        key: s.key,
+        text: s.text || s.content || '',
+        isCorrect: (s.isCorrect !== undefined ? Boolean(s.isCorrect) : (s.correct !== undefined ? Boolean(s.correct) : true)),
+        explanation: s.explanation || s.explain || ''
+      }))
+    };
+  });
+
+  const saQuestions = rawP3.map((q, idx) => ({
+    id: q.id || `sa_${idx + 1}`,
+    question: q.question || '',
+    correctAnswer: String(q.correctAnswer !== undefined ? q.correctAnswer : (q.answer !== undefined ? q.answer : '')).trim(),
+    hint: q.hint || q.solution || q.explanation || 'Áp dụng công thức và tính toán cẩn thận.',
+    points: q.points || 0.5,
+    source: q.source || 'Ngân hàng đề Sở GD&ĐT'
+  }));
+
+  const essayQuestions = rawP4.map((q, idx) => ({
+    id: q.id || `es_${idx + 1}`,
+    question: q.question || '',
+    solution: q.solution || (Array.isArray(q.criteria) ? q.criteria.join('\n') : 'Lời giải chi tiết và barem điểm theo từng bước.'),
+    points: q.points || 1.0,
+    source: q.source || 'Đề thi thử tốt nghiệp THPT'
+  }));
+
+  // Lưu trữ danh sách chuẩn hóa để dùng khi chấm bài
+  currentViewingExam._normalized = {
+    mcq: mcqQuestions,
+    tf: tfQuestions,
+    sa: saQuestions,
+    essay: essayQuestions
+  };
+
   const embedUrl = exam.youtubeUrl ? getYoutubeEmbedUrl(exam.youtubeUrl) : null;
+  const container = document.getElementById('viewer-exam-body');
+  if (!container) return;
 
   container.innerHTML = `
+    <!-- KHUNG KẾT QUẢ CHẤM ĐIỂM THI TỰ ĐỘNG (HIỂN THỊ SAU KHI NỘP BÀI) -->
+    <div id="viewer-result-banner" class="hidden"></div>
+
     <!-- VIDEO HƯỚNG DẪN GIẢI YOUTUBE (NẾU CÓ) -->
     ${exam.youtubeUrl ? `
       <div class="p-5 bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl border-2 border-red-300 space-y-3 shadow-sm">
@@ -5245,11 +5370,11 @@ function openExamViewerModal(examId, category) {
           <span class="w-6 h-6 rounded-full bg-blue-600 text-white inline-flex items-center justify-center text-xs">I</span>
           PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN (Mỗi câu chọn 01 phương án đúng)
         </h4>
-        <span class="text-xs font-bold text-blue-700 bg-blue-100 px-2.5 py-0.5 rounded-full">3.0 Điểm</span>
+        <span class="text-xs font-bold text-blue-700 bg-blue-100 px-2.5 py-0.5 rounded-full">3.0 Điểm (${mcqQuestions.length} câu)</span>
       </div>
 
       <div class="space-y-4">
-        ${sampleBank.part1_mcq.map((q, idx) => `
+        ${mcqQuestions.map((q, idx) => `
           <div class="p-4 bg-white rounded-xl border border-blue-100 space-y-2.5 shadow-sm" id="viewer-mcq-box-${q.id}">
             <div class="flex items-start justify-between gap-2">
               <div class="font-bold text-slate-800 text-xs sm:text-sm math-content">
@@ -5269,6 +5394,7 @@ function openExamViewerModal(examId, category) {
               `).join('')}
             </div>
 
+            <div id="viewer-mcq-expl-${q.id}" class="hidden text-xs p-2.5 rounded-lg border"></div>
             <div class="text-[10px] text-slate-400 italic">Nguồn câu hỏi: ${q.source || 'Ngân hàng đề thi chuẩn'}</div>
           </div>
         `).join('')}
@@ -5282,12 +5408,12 @@ function openExamViewerModal(examId, category) {
           <span class="w-6 h-6 rounded-full bg-emerald-600 text-white inline-flex items-center justify-center text-xs">II</span>
           PHẦN II: TRẮC NGHIỆM ĐÚNG / SAI (Thí sinh chọn Đúng hoặc Sai cho mỗi ý a, b, c, d)
         </h4>
-        <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">4.0 Điểm</span>
+        <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">4.0 Điểm (${tfQuestions.length} câu)</span>
       </div>
 
       <div class="space-y-4">
-        ${sampleBank.part2_trueFalse.map((q, idx) => `
-          <div class="p-4 bg-white rounded-xl border border-emerald-100 space-y-3 shadow-sm">
+        ${tfQuestions.map((q, idx) => `
+          <div class="p-4 bg-white rounded-xl border border-emerald-100 space-y-3 shadow-sm" id="viewer-tf-box-${q.id}">
             <div class="flex items-start justify-between gap-2">
               <div class="font-bold text-slate-800 text-xs sm:text-sm math-content">
                 <strong>Câu ${idx + 1}:</strong> ${q.question}
@@ -5297,7 +5423,7 @@ function openExamViewerModal(examId, category) {
 
             <div class="space-y-2 pt-1">
               ${q.subItems.map(sub => `
-                <div class="p-2.5 rounded-xl border border-slate-100 bg-slate-50/70 flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div class="p-2.5 rounded-xl border border-slate-100 bg-slate-50/70 flex flex-wrap items-center justify-between gap-2 text-xs" id="viewer-tf-sub-${q.id}-${sub.key}">
                   <div class="flex items-start gap-2 flex-1">
                     <span class="font-bold text-emerald-800 shrink-0">(${sub.key})</span>
                     <span class="math-content text-slate-700">${sub.text}</span>
@@ -5315,6 +5441,8 @@ function openExamViewerModal(examId, category) {
                       Sai
                     </button>
                   </div>
+                  
+                  <div id="viewer-tf-expl-${q.id}-${sub.key}" class="hidden w-full text-[11px] p-2 rounded-lg mt-1"></div>
                 </div>
               `).join('')}
             </div>
@@ -5332,12 +5460,12 @@ function openExamViewerModal(examId, category) {
           <span class="w-6 h-6 rounded-full bg-amber-600 text-white inline-flex items-center justify-center text-xs">III</span>
           PHẦN III: TRẮC NGHIỆM TRẢ LỜI NGẮN (Thí sinh điền đáp số hoặc kết quả số)
         </h4>
-        <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full">2.0 Điểm</span>
+        <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full">2.0 Điểm (${saQuestions.length} câu)</span>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-        ${sampleBank.part3_shortAnswer.map((q, idx) => `
-          <div class="p-4 bg-white rounded-xl border border-amber-100 space-y-2.5 shadow-sm">
+        ${saQuestions.map((q, idx) => `
+          <div class="p-4 bg-white rounded-xl border border-amber-100 space-y-2.5 shadow-sm" id="viewer-sa-box-${q.id}">
             <div class="flex items-start justify-between gap-2">
               <div class="font-bold text-slate-800 text-xs sm:text-sm math-content">
                 <strong>Câu ${idx + 1}:</strong> ${q.question}
@@ -5349,7 +5477,7 @@ function openExamViewerModal(examId, category) {
               <span class="text-xs font-semibold text-slate-600">Đáp số:</span>
               <input type="text" id="viewer-sa-input-${q.id}" placeholder="Nhập số..." 
                 class="flex-1 p-2 border border-slate-300 rounded-lg text-xs font-bold text-amber-800 focus:ring-1 focus:ring-amber-500 font-mono">
-              <button type="button" onclick="checkViewerSA('${q.id}', '${q.correctAnswer}', '${q.hint}')" 
+              <button type="button" onclick="checkViewerSA('${q.id}')" 
                 class="px-3 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition">
                 Kiểm tra
               </button>
@@ -5369,11 +5497,11 @@ function openExamViewerModal(examId, category) {
           <span class="w-6 h-6 rounded-full bg-purple-600 text-white inline-flex items-center justify-center text-xs">IV</span>
           PHẦN IV: TỰ LUẬN (Trình bày chi tiết lời giải và kết luận)
         </h4>
-        <span class="text-xs font-bold text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-full">1.0 Điểm</span>
+        <span class="text-xs font-bold text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-full">1.0 Điểm (${essayQuestions.length} bài)</span>
       </div>
 
-      ${sampleBank.part4_essay.map((q, idx) => `
-        <div class="p-4 bg-white rounded-xl border border-purple-100 space-y-3 shadow-sm">
+      ${essayQuestions.map((q, idx) => `
+        <div class="p-4 bg-white rounded-xl border border-purple-100 space-y-3 shadow-sm" id="viewer-essay-box-${q.id}">
           <div class="flex items-start justify-between gap-2">
             <div class="font-bold text-slate-800 text-xs sm:text-sm math-content whitespace-pre-line leading-relaxed">
               <strong>Bài ${idx + 1}:</strong> ${q.question}
@@ -5382,7 +5510,7 @@ function openExamViewerModal(examId, category) {
           </div>
 
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Khu vực trình bày bài giải tự luận:</label>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Khu vực trình bày bài giải tự luận của học sinh:</label>
             <textarea id="viewer-essay-input" rows="4" 
               class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-purple-500 text-xs font-mono"
               placeholder="Học sinh gõ các bước biến đổi phương trình, hệ số và kết luận tại đây..."></textarea>
@@ -5393,7 +5521,7 @@ function openExamViewerModal(examId, category) {
               class="px-3 py-1.5 bg-purple-100 hover:bg-purple-200 text-purple-800 font-bold text-xs rounded-lg transition flex items-center gap-1">
               <i data-lucide="eye" class="w-3.5 h-3.5"></i> Xem Barem & Hướng Dẫn Giải Chi Tiết
             </button>
-            <span class="text-[10px] text-slate-400 italic">${q.source || 'Đề tuyển sinh vào 10'}</span>
+            <span class="text-[10px] text-slate-400 italic">${q.source || 'Đề tuyển sinh vào 10 & THPT'}</span>
           </div>
 
           <div id="viewer-essay-sol-${q.id}" class="hidden p-3.5 bg-purple-50/80 rounded-xl border border-purple-200 text-xs text-slate-700 space-y-1.5 whitespace-pre-line math-content">
@@ -5410,6 +5538,10 @@ function openExamViewerModal(examId, category) {
 }
 
 function closeExamViewerModal() {
+  if (viewerCountdownInterval) {
+    clearInterval(viewerCountdownInterval);
+    viewerCountdownInterval = null;
+  }
   const modal = document.getElementById('modal-exam-viewer');
   if (modal) modal.classList.add('hidden');
 }
@@ -5446,15 +5578,21 @@ function selectViewerTF(qId, subKey, boolVal) {
   }
 }
 
-function checkViewerSA(qId, correctAnswer, hint) {
+function checkViewerSA(qId, directAnswer, directHint) {
   const input = document.getElementById(`viewer-sa-input-${qId}`);
   const feedback = document.getElementById(`viewer-sa-feedback-${qId}`);
   if (!input || !feedback) return;
 
+  const q = (currentViewingExam && currentViewingExam._normalized && currentViewingExam._normalized.sa) 
+    ? currentViewingExam._normalized.sa.find(item => item.id === qId) 
+    : null;
+  const correctAnswer = directAnswer || (q ? q.correctAnswer : '');
+  const hint = directHint || (q ? q.hint : 'Áp dụng công thức và tính toán cẩn thận.');
+
   const userVal = input.value.trim();
   feedback.classList.remove('hidden');
 
-  if (userVal === correctAnswer) {
+  if (userVal !== "" && userVal.toLowerCase() === correctAnswer.toLowerCase()) {
     feedback.className = "text-[11px] text-emerald-700 font-bold p-2 bg-emerald-50 rounded-lg border border-emerald-200 flex items-center gap-1.5";
     feedback.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4"></i> Chính xác! Đáp số là ${correctAnswer}.`;
   } else {
@@ -5470,8 +5608,243 @@ function toggleViewerEssaySolution(qId) {
   refreshIconsAndMath();
 }
 
+// ==========================================
+// CHẤM ĐIỂM THI TỰ ĐỘNG THANG 10.0
+// ==========================================
 function submitExamViewer() {
-  alert("🎉 ĐÃ NỘP BÀI THÀNH CÔNG!\n\n- Hệ thống đã tự động chấm các phần Trắc nghiệm, Đúng/Sai, Trả lời ngắn.\n- Bài tự luận đã được chuyển đến giao diện chấm bài của Thầy.\n- Báo cáo kết quả và barem chi tiết đã sẵn sàng!");
+  if (viewerCountdownInterval) {
+    clearInterval(viewerCountdownInterval);
+    viewerCountdownInterval = null;
+  }
+
+  if (!currentViewingExam || !currentViewingExam._normalized) {
+    alert("🎉 ĐÃ NỘP BÀI THÀNH CÔNG!\nBài làm của em đã được lưu và gửi tới Thầy giáo.");
+    return;
+  }
+
+  const { mcq, tf, sa, essay } = currentViewingExam._normalized;
+  let mcqScore = 0;
+  let tfScore = 0;
+  let saScore = 0;
+  let essayScore = 0;
+
+  // 1. Chấm Phần I: Trắc nghiệm (mỗi câu đúng nhận points)
+  let mcqCorrectCount = 0;
+  mcq.forEach(q => {
+    const userChoice = viewerAnswers.mcq[q.id];
+    const isCorrect = (userChoice === q.correct);
+    if (isCorrect) {
+      mcqScore += q.points;
+      mcqCorrectCount++;
+    }
+    // Highlight UI
+    q.options.forEach(opt => {
+      const btn = document.getElementById(`viewer-btn-${q.id}-${opt.key}`);
+      if (btn) {
+        if (opt.key === q.correct) {
+          btn.className = "viewer-mcq-opt text-left p-2.5 rounded-xl border-2 border-emerald-500 bg-emerald-50 font-bold text-emerald-950 text-xs transition flex items-center gap-2 shadow-xs";
+        } else if (opt.key === userChoice && !isCorrect) {
+          btn.className = "viewer-mcq-opt text-left p-2.5 rounded-xl border-2 border-red-400 bg-red-50 font-medium text-red-900 text-xs transition flex items-center gap-2";
+        }
+      }
+    });
+
+    const explEl = document.getElementById(`viewer-mcq-expl-${q.id}`);
+    if (explEl) {
+      explEl.classList.remove('hidden');
+      if (isCorrect) {
+        explEl.className = "text-xs p-2.5 rounded-lg border bg-emerald-50 border-emerald-200 text-emerald-800 font-medium flex items-center gap-1.5";
+        explEl.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i> Chính xác! Đáp án đúng là <strong>${q.correct}</strong>. (+${q.points}đ)`;
+      } else {
+        explEl.className = "text-xs p-2.5 rounded-lg border bg-red-50 border-red-200 text-red-800 font-medium";
+        explEl.innerHTML = `<div class="flex items-center gap-1.5 font-bold"><i data-lucide="alert-circle" class="w-4 h-4 text-red-600 shrink-0"></i> Chưa chính xác! Em chọn (${userChoice || 'Chưa chọn'}), đáp án đúng là <strong>${q.correct}</strong>.</div>`;
+      }
+    }
+  });
+
+  // 2. Chấm Phần II: Đúng / Sai (Quy tắc Bộ: 1 ý đúng = 0.1đ; 2 ý = 0.25đ; 3 ý = 0.5đ; 4 ý = 1.0đ)
+  let tfFullyCorrectCount = 0;
+  tf.forEach(q => {
+    let subCorrectCount = 0;
+    q.subItems.forEach(sub => {
+      const userChoice = viewerAnswers.tf[q.id] ? viewerAnswers.tf[q.id][sub.key] : undefined;
+      const isCorrect = (userChoice === sub.isCorrect);
+      if (isCorrect) subCorrectCount++;
+
+      const subBox = document.getElementById(`viewer-tf-sub-${q.id}-${sub.key}`);
+      if (subBox) {
+        if (isCorrect) {
+          subBox.className = "p-2.5 rounded-xl border border-emerald-300 bg-emerald-50/80 flex flex-wrap items-center justify-between gap-2 text-xs";
+        } else {
+          subBox.className = "p-2.5 rounded-xl border border-red-200 bg-red-50/60 flex flex-wrap items-center justify-between gap-2 text-xs";
+        }
+      }
+
+      const explEl = document.getElementById(`viewer-tf-expl-${q.id}-${sub.key}`);
+      if (explEl) {
+        explEl.classList.remove('hidden');
+        const correctStr = sub.isCorrect ? "ĐÚNG" : "SAI";
+        if (isCorrect) {
+          explEl.className = "w-full text-[11px] p-2 rounded-lg bg-emerald-100/70 text-emerald-900 font-medium mt-1";
+          explEl.innerHTML = `✓ Em chọn đúng (<strong>${correctStr}</strong>). ${sub.explanation ? `• <em>${sub.explanation}</em>` : ''}`;
+        } else {
+          explEl.className = "w-full text-[11px] p-2 rounded-lg bg-red-100/70 text-red-900 font-medium mt-1";
+          explEl.innerHTML = `✗ Khẳng định này là <strong>${correctStr}</strong>! ${sub.explanation ? `• <em>${sub.explanation}</em>` : ''}`;
+        }
+      }
+    });
+
+    let qScore = 0;
+    if (subCorrectCount === 1) qScore = 0.1;
+    else if (subCorrectCount === 2) qScore = 0.25;
+    else if (subCorrectCount === 3) qScore = 0.5;
+    else if (subCorrectCount === 4) {
+      qScore = 1.0;
+      tfFullyCorrectCount++;
+    }
+    tfScore += qScore;
+  });
+
+  // 3. Chấm Phần III: Trả lời ngắn
+  let saCorrectCount = 0;
+  sa.forEach(q => {
+    const input = document.getElementById(`viewer-sa-input-${q.id}`);
+    const feedback = document.getElementById(`viewer-sa-feedback-${q.id}`);
+    const userVal = input ? input.value.trim() : "";
+    const isCorrect = (userVal !== "" && userVal.toLowerCase() === q.correctAnswer.toLowerCase());
+    if (isCorrect) {
+      saScore += q.points;
+      saCorrectCount++;
+    }
+    if (feedback) {
+      feedback.classList.remove('hidden');
+      if (isCorrect) {
+        feedback.className = "text-[11px] text-emerald-700 font-bold p-2 bg-emerald-50 rounded-lg border border-emerald-200 flex items-center gap-1.5";
+        feedback.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4"></i> Chính xác! Đáp số là ${q.correctAnswer}. (+${q.points}đ)`;
+      } else {
+        feedback.className = "text-[11px] text-red-700 font-medium p-2 bg-red-50 rounded-lg border border-red-200";
+        feedback.innerHTML = `Chưa chính xác (em điền: "${userVal || 'trống'}"). Đáp số đúng là <strong>${q.correctAnswer}</strong>. <br><span class="text-slate-600">Gợi ý: ${q.hint}</span>`;
+      }
+    }
+  });
+
+  // 4. Chấm Phần IV: Tự luận (Đánh giá hoàn thành bài giải)
+  const essayInput = document.getElementById('viewer-essay-input');
+  const essayText = essayInput ? essayInput.value.trim() : "";
+  if (essayText.length >= 20) {
+    essayScore = 1.0;
+  } else if (essayText.length > 0) {
+    essayScore = 0.5;
+  } else {
+    essayScore = 0.0;
+  }
+
+  // Tự động mở barem tự luận để học sinh đối chiếu
+  essay.forEach(q => {
+    const solBox = document.getElementById(`viewer-essay-sol-${q.id}`);
+    if (solBox) solBox.classList.remove('hidden');
+  });
+
+  const totalScore = Math.min(10.0, Math.round((mcqScore + tfScore + saScore + essayScore) * 100) / 100);
+
+  // Đánh giá xếp loại
+  let gradeBadge = "bg-emerald-600 text-white";
+  let gradeRank = "Xuất Sắc (9.0 - 10.0đ)";
+  let comment = "Tuyệt vời! Em có tư duy toán học rất sắc bén, nắm chắc kiến thức và kỹ năng làm bài đạt chuẩn cao!";
+  if (totalScore < 5.0) {
+    gradeBadge = "bg-red-600 text-white";
+    gradeRank = "Cần Cố Gắng (< 5.0đ)";
+    comment = "Em cần ôn lại các định lý trọng tâm và rèn luyện kỹ năng tính toán để tránh mất điểm đáng tiếc.";
+  } else if (totalScore < 6.5) {
+    gradeBadge = "bg-amber-600 text-white";
+    gradeRank = "Trung Bình - Khá (5.0 - 6.4đ)";
+    comment = "Em đã nắm được kiến thức nền tảng, cần chú ý đọc kỹ các câu hỏi Đúng/Sai và rèn luyện thêm bài tập vận dụng.";
+  } else if (totalScore < 8.0) {
+    gradeBadge = "bg-blue-600 text-white";
+    gradeRank = "Khá (6.5 - 7.9đ)";
+    comment = "Khá tốt! Em chỉ cần rèn phản xạ chính xác ở phần Trả lời ngắn và câu phân loại tự luận là sẽ bứt phá điểm 9+!";
+  } else if (totalScore < 9.0) {
+    gradeBadge = "bg-indigo-600 text-white";
+    gradeRank = "Giỏi (8.0 - 8.9đ)";
+    comment = "Rất tốt! Em làm bài rất chắc tay, kỹ năng tính toán và lập luận mạch lạc.";
+  }
+
+  // Hiển thị Banner Kết Quả
+  const banner = document.getElementById('viewer-result-banner');
+  if (banner) {
+    banner.className = "p-5 sm:p-6 bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-950 text-white rounded-3xl shadow-xl space-y-4 border-2 border-indigo-400";
+    banner.innerHTML = `
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-indigo-700/60 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-10 h-10 rounded-2xl bg-amber-400 text-slate-900 flex items-center justify-center font-black shadow-md">
+            <i data-lucide="award" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-black tracking-tight">KẾT QUẢ BÀI THI CỦA HỌC SINH</h3>
+            <p class="text-xs text-indigo-200">Đã chấm tự động 4 dạng theo chuẩn Bộ GD&ĐT 2018</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span class="px-3 py-1 rounded-full text-xs font-black uppercase ${gradeBadge}">${gradeRank}</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center">
+        <div class="p-3 bg-white/10 rounded-2xl backdrop-blur-xs border border-white/10">
+          <div class="text-[11px] text-indigo-200 font-bold">TỔNG ĐIỂM</div>
+          <div class="text-2xl sm:text-3xl font-black text-amber-300 font-mono mt-0.5">${totalScore} <span class="text-xs text-white/70">/ 10</span></div>
+        </div>
+        <div class="p-3 bg-white/10 rounded-2xl backdrop-blur-xs border border-white/10">
+          <div class="text-[11px] text-blue-200 font-bold">Phần I (TN)</div>
+          <div class="text-lg font-black text-white font-mono mt-1">${mcqScore.toFixed(2)}đ</div>
+          <div class="text-[10px] text-indigo-300">${mcqCorrectCount}/${mcq.length} câu đúng</div>
+        </div>
+        <div class="p-3 bg-white/10 rounded-2xl backdrop-blur-xs border border-white/10">
+          <div class="text-[11px] text-emerald-200 font-bold">Phần II (Đ/S)</div>
+          <div class="text-lg font-black text-white font-mono mt-1">${tfScore.toFixed(2)}đ</div>
+          <div class="text-[10px] text-indigo-300">${tfFullyCorrectCount}/${tf.length} câu trọn vẹn</div>
+        </div>
+        <div class="p-3 bg-white/10 rounded-2xl backdrop-blur-xs border border-white/10">
+          <div class="text-[11px] text-amber-200 font-bold">Phần III (TLN)</div>
+          <div class="text-lg font-black text-white font-mono mt-1">${saScore.toFixed(2)}đ</div>
+          <div class="text-[10px] text-indigo-300">${saCorrectCount}/${sa.length} câu đúng</div>
+        </div>
+        <div class="p-3 bg-white/10 rounded-2xl backdrop-blur-xs border border-white/10 col-span-2 sm:col-span-1">
+          <div class="text-[11px] text-purple-200 font-bold">Phần IV (TL)</div>
+          <div class="text-lg font-black text-white font-mono mt-1">${essayScore.toFixed(1)}đ</div>
+          <div class="text-[10px] text-indigo-300">${essayText.length > 0 ? 'Đã nộp bài giải' : 'Chưa nhập'}</div>
+        </div>
+      </div>
+
+      <div class="p-3 bg-white/10 rounded-xl text-xs text-indigo-100 flex items-start gap-2">
+        <i data-lucide="sparkles" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
+        <span><strong>Nhận xét:</strong> ${comment}</span>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-1">
+        <button type="button" onclick="resetViewerExam()" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-bold text-xs rounded-xl transition flex items-center gap-1.5">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Làm Lại Đề Này
+        </button>
+        <button type="button" onclick="printOrExportExam()" class="px-4 py-2 bg-amber-400 hover:bg-amber-500 text-slate-900 font-black text-xs rounded-xl shadow-md transition flex items-center gap-1.5">
+          <i data-lucide="printer" class="w-3.5 h-3.5"></i> In Báo Cáo / Xuất PDF
+        </button>
+      </div>
+    `;
+    banner.classList.remove('hidden');
+  }
+
+  // Cuộn mượt lên đầu để học sinh xem điểm
+  const modalBox = document.querySelector('#modal-exam-viewer > div');
+  if (modalBox) modalBox.scrollTo({ top: 0, behavior: 'smooth' });
+
+  refreshIconsAndMath();
+}
+
+function resetViewerExam() {
+  if (currentViewingExam) {
+    openExamViewerModal(currentViewingExam.id, currentReviewSubTab);
+  }
 }
 
 function printOrExportExam() {
@@ -6543,16 +6916,28 @@ function pickQuestionsFromSourceBank(grade, scopeKey, q1Count, q2Count, q3Count,
 
   const shuffle = arr => (Array.isArray(arr) ? [...arr].sort(() => Math.random() - 0.5) : []);
 
-  const part1 = shuffle(sourceObj.part1_mcq).slice(0, q1Count || 6);
-  const part2 = shuffle(sourceObj.part2_tf).slice(0, q2Count || 2);
-  const part3 = shuffle(sourceObj.part3_sa).slice(0, q3Count || 3);
-  const part4 = shuffle(sourceObj.part4_essay).slice(0, q4Count || 1);
+  const rawP1 = sourceObj.part1_mcq || sourceObj.part1 || [];
+  const rawP2 = sourceObj.part2_trueFalse || sourceObj.part2_tf || sourceObj.part2 || [];
+  const rawP3 = sourceObj.part3_shortAnswer || sourceObj.part3_sa || sourceObj.part3 || [];
+  const rawP4 = sourceObj.part4_essay || sourceObj.part4 || [];
+
+  const part1 = shuffle(rawP1).slice(0, q1Count || 12);
+  const part2 = shuffle(rawP2).slice(0, q2Count || 4);
+  const part3 = shuffle(rawP3).slice(0, q3Count || 6);
+  const part4 = shuffle(rawP4).slice(0, q4Count || 1);
+
+  const resP1 = part1.length ? part1 : rawP1;
+  const resP2 = part2.length ? part2 : rawP2;
+  const resP3 = part3.length ? part3 : rawP3;
+  const resP4 = part4.length ? part4 : rawP4;
 
   return {
-    part1_mcq: part1.length ? part1 : (sourceObj.part1_mcq || []),
-    part2_tf: part2.length ? part2 : (sourceObj.part2_tf || []),
-    part3_sa: part3.length ? part3 : (sourceObj.part3_sa || []),
-    part4_essay: part4.length ? part4 : (sourceObj.part4_essay || [])
+    part1_mcq: resP1,
+    part2_trueFalse: resP2,
+    part2_tf: resP2,
+    part3_shortAnswer: resP3,
+    part3_sa: resP3,
+    part4_essay: resP4
   };
 }
 
