@@ -2,7 +2,7 @@
 let isAppViewOpen = false; // false = Landing Page; true = Phòng học trực tuyến
 let currentRole = 'guest'; // 'guest' | 'student' | 'teacher'
 let currentTab = 'arena'; // 'arena' | 'review' | 'lesson' | 'assessment' | 'dashboard'
-let currentReviewSubTab = 'finalterm'; // 'chapter' | 'midterm' | 'finalterm'
+let currentReviewSubTab = 'midterm'; // 'chapter' | 'midterm' | 'finalterm'
 let currentReviewGrade = 12; // 12 | 11 | 10 | 9 | 8 | 7 | 6
 let currentGrade = 9;
 
@@ -822,6 +822,208 @@ function switchTab(tabId) {
 // 3. MỤC ÔN TẬP: CHỌN KHỐI LỚP -> GIỮA KỲ, CUỐI KỲ, CUỐI CHƯƠNG
 // ==========================================
 
+// Cấu hình phân cấp môn Toán các khối lớp chuẩn theo yêu cầu của Thầy
+const REVIEW_CURRICULUM_CONFIG = {
+  12: {
+    gradeName: "Toán Lớp 12",
+    midterm: [
+      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1 (Chương 1 & Chương 2)" },
+      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2 (Chương 4 & Chương 5)" }
+    ],
+    finalterm: [
+      { 
+        id: "fin1", 
+        name: "Ôn tập Cuối kỳ 1", 
+        shortName: "Cuối kỳ 1", 
+        chapters: [1, 2, 3],
+        chaptersText: "Chương 1, Chương 2, Chương 3", 
+        scopeText: "Gồm các Chương 1, Chương 2, Chương 3" 
+      },
+      { 
+        id: "fin2", 
+        name: "Ôn tập Cuối kỳ 2", 
+        shortName: "Cuối kỳ 2", 
+        chapters: [4, 5, 6],
+        chaptersText: "Chương 4, Chương 5, Chương 6", 
+        scopeText: "Gồm các Chương 4, Chương 5, Chương 6" 
+      }
+    ],
+    chapters: [
+      { id: 1, number: "Chương 1", title: "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số" },
+      { id: 2, number: "Chương 2", title: "Toạ độ của vectơ trong không gian" },
+      { id: 3, number: "Chương 3", title: "Các số đặc trưng đo mức độ phân tán cho mẫu số liệu ghép nhóm" },
+      { id: 4, number: "Chương 4", title: "Nguyên hàm và tích phân" },
+      { id: 5, number: "Chương 5", title: "Phương pháp toạ độ trong không gian (Oxyz)" },
+      { id: 6, number: "Chương 6", title: "Xác suất có điều kiện" }
+    ]
+  },
+  11: {
+    gradeName: "Toán Lớp 11",
+    midterm: [
+      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1 (Chương 1 & Chương 2)" },
+      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2 (Chương 6 & Chương 7)" }
+    ],
+    finalterm: [
+      { 
+        id: "fin1", 
+        name: "Ôn tập Cuối kỳ 1", 
+        shortName: "Cuối kỳ 1", 
+        chapters: [1, 2, 5, 4, 3],
+        chaptersText: "Chương 1, Chương 2, Chương 5, Chương 4, Chương 3", 
+        scopeText: "Gồm các Chương 1, Chương 2, Chương 5, Chương 4, Chương 3" 
+      },
+      { 
+        id: "fin2", 
+        name: "Ôn tập Cuối kỳ 2", 
+        shortName: "Cuối kỳ 2", 
+        chapters: [8, 6, 7, 9],
+        chaptersText: "Chương 8, Chương 6, Chương 7, Chương 9", 
+        scopeText: "Gồm các Chương 8, Chương 6, Chương 7, Chương 9" 
+      }
+    ],
+    chapters: [
+      { id: 1, number: "Chương 1", title: "Hàm số lượng giác và phương trình lượng giác" },
+      { id: 2, number: "Chương 2", title: "Dãy số. Cấp số cộng và cấp số nhân" },
+      { id: 3, number: "Chương 3", title: "Các số đặc trưng đo xu thế trung tâm của mẫu số liệu ghép nhóm" },
+      { id: 4, number: "Chương 4", title: "Quan hệ song song trong không gian" },
+      { id: 5, number: "Chương 5", title: "Giới hạn. Hàm số liên tục" },
+      { id: 6, number: "Chương 6", title: "Hàm số mũ và hàm số lôgarit" },
+      { id: 7, number: "Chương 7", title: "Quan hệ vuông góc trong không gian. Thể tích" },
+      { id: 8, number: "Chương 8", title: "Các quy tắc tính xác suất" },
+      { id: 9, number: "Chương 9", title: "Đạo hàm" }
+    ]
+  },
+  10: {
+    gradeName: "Toán Lớp 10",
+    midterm: [
+      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1 (Chương 1 & Chương 2)" },
+      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2 (Chương 6 & Chương 7)" }
+    ],
+    finalterm: [
+      { 
+        id: "fin1", 
+        name: "Ôn tập Cuối kỳ 1", 
+        shortName: "Cuối kỳ 1", 
+        chapters: [1, 2, 3, 4, 6],
+        chaptersText: "Chương 1, Chương 2, Chương 3, Chương 4, Chương 6", 
+        scopeText: "Gồm các Chương 1, Chương 2, Chương 3, Chương 4, Chương 6" 
+      },
+      { 
+        id: "fin2", 
+        name: "Ôn tập Cuối kỳ 2", 
+        shortName: "Cuối kỳ 2", 
+        chapters: [8, 5, 9, 7],
+        chaptersText: "Chương 8, Chương 5, Chương 9, Chương 7", 
+        scopeText: "Gồm các Chương 8, Chương 5, Chương 9, Chương 7" 
+      }
+    ],
+    chapters: [
+      { id: 1, number: "Chương 1", title: "Mệnh đề và tập hợp" },
+      { id: 2, number: "Chương 2", title: "Bất phương trình và hệ bất phương trình bậc nhất hai ẩn" },
+      { id: 3, number: "Chương 3", title: "Hệ thức lượng trong tam giác" },
+      { id: 4, number: "Chương 4", title: "Vectơ" },
+      { id: 5, number: "Chương 5", title: "Các số đặc trưng của mẫu số liệu không ghép nhóm" },
+      { id: 6, number: "Chương 6", title: "Hàm số, đồ thị và ứng dụng" },
+      { id: 7, number: "Chương 7", title: "Phương pháp toạ độ trong mặt phẳng (Oxy)" },
+      { id: 8, number: "Chương 8", title: "Đại số tổ hợp" },
+      { id: 9, number: "Chương 9", title: "Tính xác suất của biến cố" }
+    ]
+  },
+  9: {
+    gradeName: "Toán Lớp 9",
+    midterm: [
+      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1 (Chương 1 & Chương 2)" },
+      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2 (Chương 6 & Chương 7)" }
+    ],
+    finalterm: [
+      { id: "fin1", name: "Ôn tập Cuối kỳ 1", shortName: "Cuối kỳ 1", chapters: [1, 2, 3, 4, 5], chaptersText: "Chương 1 đến Chương 5", scopeText: "Gồm các chương Học kỳ 1 (Chương 1, 2, 3, 4, 5)" },
+      { id: "fin2", name: "Ôn tập Cuối kỳ 2", shortName: "Cuối kỳ 2", chapters: [6, 7, 8, 9, 10], chaptersText: "Chương 6 đến Chương 10", scopeText: "Gồm các chương Học kỳ 2 & Luyện thi tuyển sinh vào 10" }
+    ],
+    chapters: [
+      { id: 1, number: "Chương 1", title: "Phương trình và hệ hai phương trình bậc nhất hai ẩn" },
+      { id: 2, number: "Chương 2", title: "Phương trình và bất phương trình bậc nhất một ẩn" },
+      { id: 3, number: "Chương 3", title: "Căn bậc hai và căn bậc ba" },
+      { id: 4, number: "Chương 4", title: "Hệ thức lượng trong tam giác vuông" },
+      { id: 5, number: "Chương 5", title: "Đường tròn" },
+      { id: 6, number: "Chương 6", title: "Hàm số y = ax² (a ≠ 0). Phương trình bậc hai một ẩn" },
+      { id: 7, number: "Chương 7", title: "Một số yếu tố thống kê và xác suất" },
+      { id: 8, number: "Chương 8", title: "Đường tròn ngoại tiếp và đường tròn nội tiếp" },
+      { id: 9, number: "Chương 9", title: "Đa giác đều" },
+      { id: 10, number: "Chương 10", title: "Một số hình khối trong thực tiễn" }
+    ]
+  },
+  8: {
+    gradeName: "Toán Lớp 8",
+    midterm: [
+      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1" },
+      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2" }
+    ],
+    finalterm: [
+      { id: "fin1", name: "Ôn tập Cuối kỳ 1", shortName: "Cuối kỳ 1", scopeText: "Gồm các chương Học kỳ 1" },
+      { id: "fin2", name: "Ôn tập Cuối kỳ 2", shortName: "Cuối kỳ 2", scopeText: "Gồm các chương Học kỳ 2" }
+    ],
+    chapters: [
+      { id: 1, number: "Chương 1", title: "Đa thức" },
+      { id: 2, number: "Chương 2", title: "Hằng đẳng thức đáng nhớ và ứng dụng" },
+      { id: 3, number: "Chương 3", title: "Tứ giác" },
+      { id: 4, number: "Chương 4", title: "Định lí Thalès trong tam giác" },
+      { id: 5, number: "Chương 5", title: "Dữ liệu và biểu đồ" },
+      { id: 6, number: "Chương 6", title: "Phân thức đại số" },
+      { id: 7, number: "Chương 7", title: "Phương trình bậc nhất và hàm số bậc nhất" },
+      { id: 8, number: "Chương 8", title: "Mở đầu về tính xác suất của biến cố" },
+      { id: 9, number: "Chương 9", title: "Tam giác đồng dạng" },
+      { id: 10, number: "Chương 10", title: "Một số hình khối trong thực tiễn" }
+    ]
+  },
+  7: {
+    gradeName: "Toán Lớp 7",
+    midterm: [
+      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1" },
+      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2" }
+    ],
+    finalterm: [
+      { id: "fin1", name: "Ôn tập Cuối kỳ 1", shortName: "Cuối kỳ 1", scopeText: "Gồm các chương Học kỳ 1" },
+      { id: "fin2", name: "Ôn tập Cuối kỳ 2", shortName: "Cuối kỳ 2", scopeText: "Gồm các chương Học kỳ 2" }
+    ],
+    chapters: [
+      { id: 1, number: "Chương 1", title: "Số hữu tỉ" },
+      { id: 2, number: "Chương 2", title: "Số thực" },
+      { id: 3, number: "Chương 3", title: "Góc và đường thẳng song song" },
+      { id: 4, number: "Chương 4", title: "Tam giác bằng nhau" },
+      { id: 5, number: "Chương 5", title: "Thu thập và biểu diễn dữ liệu" },
+      { id: 6, number: "Chương 6", title: "Tỉ lệ thức và đại lượng tỉ lệ" },
+      { id: 7, number: "Chương 7", title: "Biểu thức đại số và đa thức một biến" },
+      { id: 8, number: "Chương 8", title: "Làm quen với biến cố và xác suất của biến cố" },
+      { id: 9, number: "Chương 9", title: "Quan hệ giữa các yếu tố trong một tam giác" },
+      { id: 10, number: "Chương 10", title: "Một số hình khối trong thực tiễn" }
+    ]
+  },
+  6: {
+    gradeName: "Toán Lớp 6",
+    midterm: [
+      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1" },
+      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2" }
+    ],
+    finalterm: [
+      { id: "fin1", name: "Ôn tập Cuối kỳ 1", shortName: "Cuối kỳ 1", scopeText: "Gồm các chương Học kỳ 1" },
+      { id: "fin2", name: "Ôn tập Cuối kỳ 2", shortName: "Cuối kỳ 2", scopeText: "Gồm các chương Học kỳ 2" }
+    ],
+    chapters: [
+      { id: 1, number: "Chương 1", title: "Tập hợp các số tự nhiên" },
+      { id: 2, number: "Chương 2", title: "Tính chia hết trong tập hợp các số tự nhiên" },
+      { id: 3, number: "Chương 3", title: "Số nguyên" },
+      { id: 4, number: "Chương 4", title: "Một số hình phẳng trong thực tiễn" },
+      { id: 5, number: "Chương 5", title: "Tính đối xứng của hình phẳng trong tự nhiên" },
+      { id: 6, number: "Chương 6", title: "Phân số" },
+      { id: 7, number: "Chương 7", title: "Số thập phân" },
+      { id: 8, number: "Chương 8", title: "Những hình hình học cơ bản" },
+      { id: 9, number: "Chương 9", title: "Dữ liệu và xác suất thực nghiệm" }
+    ]
+  }
+};
+
+
+
 function setReviewGrade(grade) {
   currentReviewGrade = parseInt(grade) || 12;
   const grades = [12, 11, 10, 9, 8, 7, 6];
@@ -829,9 +1031,11 @@ function setReviewGrade(grade) {
     const btn = document.getElementById(`review-grade-btn-${g}`);
     if (btn) {
       if (g === currentReviewGrade) {
-        btn.className = "px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white text-indigo-900 shadow-md transition";
+        btn.className = "px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-indigo-900 shadow-md transition flex items-center gap-1.5";
+        btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i> Toán Lớp ${g}`;
       } else {
-        btn.className = "px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white/20 text-white hover:bg-white/30 transition";
+        btn.className = "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white/20 text-white hover:bg-white/30 transition flex items-center gap-1.5";
+        btn.innerHTML = `Toán Lớp ${g}`;
       }
     }
   });
@@ -849,21 +1053,27 @@ function setReviewGrade(grade) {
 function switchReviewSubTab(subTab) {
   currentReviewSubTab = subTab;
   
-  const subTabs = ['chapter', 'midterm', 'finalterm'];
+  const subTabs = ['midterm', 'finalterm', 'chapter'];
   subTabs.forEach(s => {
     const btn = document.getElementById(`subtab-btn-${s}`);
     if (btn) {
       if (s === subTab) {
-        btn.className = "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-indigo-900 shadow-sm transition flex items-center gap-1.5";
+        btn.className = "px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold bg-white text-indigo-900 shadow-md transition flex items-center gap-2";
       } else {
-        btn.className = "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white/20 text-white hover:bg-white/30 transition flex items-center gap-1.5";
+        btn.className = "px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold bg-white/20 text-white hover:bg-white/30 transition flex items-center gap-2";
       }
     }
   });
 
+  // Đồng bộ loại kỳ thi vào modal nếu chuẩn bị mở
+  const matrixTypeEl = document.getElementById('matrix-exam-type');
+  if (matrixTypeEl) {
+    matrixTypeEl.value = subTab;
+    if (typeof onMatrixGradeOrTypeChange === 'function') onMatrixGradeOrTypeChange();
+  }
+
   renderReviewContent();
 }
-
 function renderReviewContent() {
   const container = document.getElementById('review-content-area');
   if (!container) return;
@@ -1158,9 +1368,6 @@ function renderReviewContent() {
       </div>
     `;
   }
-
-  refreshIconsAndMath();
-}
 
   refreshIconsAndMath();
 }
@@ -4183,208 +4390,8 @@ function assignRemedialHomework(questionId) {
 
 // ==========================================
 // 8. TÍNH NĂNG GIÁO VIÊN: TẠO ĐỀ ÔN TẬP
-// (TỰ SINH THEO MA TRẬN & TỰ ĐƯA ĐỀ LÊN)
+// (REVIEW_CURRICULUM_CONFIG đã được khai báo ở phần 3 để dùng chung toàn hệ thống)
 // ==========================================
-
-// Cấu hình phân cấp môn Toán các khối lớp chuẩn theo yêu cầu của Thầy
-const REVIEW_CURRICULUM_CONFIG = {
-  12: {
-    gradeName: "Toán Lớp 12",
-    midterm: [
-      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1 (Chương 1 & Chương 2)" },
-      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2 (Chương 4 & Chương 5)" }
-    ],
-    finalterm: [
-      { 
-        id: "fin1", 
-        name: "Ôn tập Cuối kỳ 1", 
-        shortName: "Cuối kỳ 1", 
-        chapters: [1, 2, 3],
-        chaptersText: "Chương 1, Chương 2, Chương 3", 
-        scopeText: "Gồm các Chương 1, Chương 2, Chương 3" 
-      },
-      { 
-        id: "fin2", 
-        name: "Ôn tập Cuối kỳ 2", 
-        shortName: "Cuối kỳ 2", 
-        chapters: [4, 5, 6],
-        chaptersText: "Chương 4, Chương 5, Chương 6", 
-        scopeText: "Gồm các Chương 4, Chương 5, Chương 6" 
-      }
-    ],
-    chapters: [
-      { id: 1, number: "Chương 1", title: "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số" },
-      { id: 2, number: "Chương 2", title: "Toạ độ của vectơ trong không gian" },
-      { id: 3, number: "Chương 3", title: "Các số đặc trưng đo mức độ phân tán cho mẫu số liệu ghép nhóm" },
-      { id: 4, number: "Chương 4", title: "Nguyên hàm và tích phân" },
-      { id: 5, number: "Chương 5", title: "Phương pháp toạ độ trong không gian (Oxyz)" },
-      { id: 6, number: "Chương 6", title: "Xác suất có điều kiện" }
-    ]
-  },
-  11: {
-    gradeName: "Toán Lớp 11",
-    midterm: [
-      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1 (Chương 1 & Chương 2)" },
-      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2 (Chương 6 & Chương 7)" }
-    ],
-    finalterm: [
-      { 
-        id: "fin1", 
-        name: "Ôn tập Cuối kỳ 1", 
-        shortName: "Cuối kỳ 1", 
-        chapters: [1, 2, 5, 4, 3],
-        chaptersText: "Chương 1, Chương 2, Chương 5, Chương 4, Chương 3", 
-        scopeText: "Gồm các Chương 1, Chương 2, Chương 5, Chương 4, Chương 3" 
-      },
-      { 
-        id: "fin2", 
-        name: "Ôn tập Cuối kỳ 2", 
-        shortName: "Cuối kỳ 2", 
-        chapters: [8, 6, 7, 9],
-        chaptersText: "Chương 8, Chương 6, Chương 7, Chương 9", 
-        scopeText: "Gồm các Chương 8, Chương 6, Chương 7, Chương 9" 
-      }
-    ],
-    chapters: [
-      { id: 1, number: "Chương 1", title: "Hàm số lượng giác và phương trình lượng giác" },
-      { id: 2, number: "Chương 2", title: "Dãy số. Cấp số cộng và cấp số nhân" },
-      { id: 3, number: "Chương 3", title: "Các số đặc trưng đo xu thế trung tâm của mẫu số liệu ghép nhóm" },
-      { id: 4, number: "Chương 4", title: "Quan hệ song song trong không gian" },
-      { id: 5, number: "Chương 5", title: "Giới hạn. Hàm số liên tục" },
-      { id: 6, number: "Chương 6", title: "Hàm số mũ và hàm số lôgarit" },
-      { id: 7, number: "Chương 7", title: "Quan hệ vuông góc trong không gian. Thể tích" },
-      { id: 8, number: "Chương 8", title: "Các quy tắc tính xác suất" },
-      { id: 9, number: "Chương 9", title: "Đạo hàm" }
-    ]
-  },
-  10: {
-    gradeName: "Toán Lớp 10",
-    midterm: [
-      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1 (Chương 1 & Chương 2)" },
-      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2 (Chương 6 & Chương 7)" }
-    ],
-    finalterm: [
-      { 
-        id: "fin1", 
-        name: "Ôn tập Cuối kỳ 1", 
-        shortName: "Cuối kỳ 1", 
-        chapters: [1, 2, 3, 4, 6],
-        chaptersText: "Chương 1, Chương 2, Chương 3, Chương 4, Chương 6", 
-        scopeText: "Gồm các Chương 1, Chương 2, Chương 3, Chương 4, Chương 6" 
-      },
-      { 
-        id: "fin2", 
-        name: "Ôn tập Cuối kỳ 2", 
-        shortName: "Cuối kỳ 2", 
-        chapters: [8, 5, 9, 7],
-        chaptersText: "Chương 8, Chương 5, Chương 9, Chương 7", 
-        scopeText: "Gồm các Chương 8, Chương 5, Chương 9, Chương 7" 
-      }
-    ],
-    chapters: [
-      { id: 1, number: "Chương 1", title: "Mệnh đề và tập hợp" },
-      { id: 2, number: "Chương 2", title: "Bất phương trình và hệ bất phương trình bậc nhất hai ẩn" },
-      { id: 3, number: "Chương 3", title: "Hệ thức lượng trong tam giác" },
-      { id: 4, number: "Chương 4", title: "Vectơ" },
-      { id: 5, number: "Chương 5", title: "Các số đặc trưng của mẫu số liệu không ghép nhóm" },
-      { id: 6, number: "Chương 6", title: "Hàm số, đồ thị và ứng dụng" },
-      { id: 7, number: "Chương 7", title: "Phương pháp toạ độ trong mặt phẳng (Oxy)" },
-      { id: 8, number: "Chương 8", title: "Đại số tổ hợp" },
-      { id: 9, number: "Chương 9", title: "Tính xác suất của biến cố" }
-    ]
-  },
-  9: {
-    gradeName: "Toán Lớp 9",
-    midterm: [
-      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1 (Chương 1 & Chương 2)" },
-      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2 (Chương 6 & Chương 7)" }
-    ],
-    finalterm: [
-      { id: "fin1", name: "Ôn tập Cuối kỳ 1", shortName: "Cuối kỳ 1", chapters: [1, 2, 3, 4, 5], chaptersText: "Chương 1 đến Chương 5", scopeText: "Gồm các chương Học kỳ 1 (Chương 1, 2, 3, 4, 5)" },
-      { id: "fin2", name: "Ôn tập Cuối kỳ 2", shortName: "Cuối kỳ 2", chapters: [6, 7, 8, 9, 10], chaptersText: "Chương 6 đến Chương 10", scopeText: "Gồm các chương Học kỳ 2 & Luyện thi tuyển sinh vào 10" }
-    ],
-    chapters: [
-      { id: 1, number: "Chương 1", title: "Phương trình và hệ hai phương trình bậc nhất hai ẩn" },
-      { id: 2, number: "Chương 2", title: "Phương trình và bất phương trình bậc nhất một ẩn" },
-      { id: 3, number: "Chương 3", title: "Căn bậc hai và căn bậc ba" },
-      { id: 4, number: "Chương 4", title: "Hệ thức lượng trong tam giác vuông" },
-      { id: 5, number: "Chương 5", title: "Đường tròn" },
-      { id: 6, number: "Chương 6", title: "Hàm số y = ax² (a ≠ 0). Phương trình bậc hai một ẩn" },
-      { id: 7, number: "Chương 7", title: "Một số yếu tố thống kê và xác suất" },
-      { id: 8, number: "Chương 8", title: "Đường tròn ngoại tiếp và đường tròn nội tiếp" },
-      { id: 9, number: "Chương 9", title: "Đa giác đều" },
-      { id: 10, number: "Chương 10", title: "Một số hình khối trong thực tiễn" }
-    ]
-  },
-  8: {
-    gradeName: "Toán Lớp 8",
-    midterm: [
-      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1" },
-      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2" }
-    ],
-    finalterm: [
-      { id: "fin1", name: "Ôn tập Cuối kỳ 1", shortName: "Cuối kỳ 1", scopeText: "Gồm các chương Học kỳ 1" },
-      { id: "fin2", name: "Ôn tập Cuối kỳ 2", shortName: "Cuối kỳ 2", scopeText: "Gồm các chương Học kỳ 2" }
-    ],
-    chapters: [
-      { id: 1, number: "Chương 1", title: "Đa thức" },
-      { id: 2, number: "Chương 2", title: "Hằng đẳng thức đáng nhớ và ứng dụng" },
-      { id: 3, number: "Chương 3", title: "Tứ giác" },
-      { id: 4, number: "Chương 4", title: "Định lí Thalès trong tam giác" },
-      { id: 5, number: "Chương 5", title: "Dữ liệu và biểu đồ" },
-      { id: 6, number: "Chương 6", title: "Phân thức đại số" },
-      { id: 7, number: "Chương 7", title: "Phương trình bậc nhất và hàm số bậc nhất" },
-      { id: 8, number: "Chương 8", title: "Mở đầu về tính xác suất của biến cố" },
-      { id: 9, number: "Chương 9", title: "Tam giác đồng dạng" },
-      { id: 10, number: "Chương 10", title: "Một số hình khối trong thực tiễn" }
-    ]
-  },
-  7: {
-    gradeName: "Toán Lớp 7",
-    midterm: [
-      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1" },
-      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2" }
-    ],
-    finalterm: [
-      { id: "fin1", name: "Ôn tập Cuối kỳ 1", shortName: "Cuối kỳ 1", scopeText: "Gồm các chương Học kỳ 1" },
-      { id: "fin2", name: "Ôn tập Cuối kỳ 2", shortName: "Cuối kỳ 2", scopeText: "Gồm các chương Học kỳ 2" }
-    ],
-    chapters: [
-      { id: 1, number: "Chương 1", title: "Số hữu tỉ" },
-      { id: 2, number: "Chương 2", title: "Số thực" },
-      { id: 3, number: "Chương 3", title: "Góc và đường thẳng song song" },
-      { id: 4, number: "Chương 4", title: "Tam giác bằng nhau" },
-      { id: 5, number: "Chương 5", title: "Thu thập và biểu diễn dữ liệu" },
-      { id: 6, number: "Chương 6", title: "Tỉ lệ thức và đại lượng tỉ lệ" },
-      { id: 7, number: "Chương 7", title: "Biểu thức đại số và đa thức một biến" },
-      { id: 8, number: "Chương 8", title: "Làm quen với biến cố và xác suất của biến cố" },
-      { id: 9, number: "Chương 9", title: "Quan hệ giữa các yếu tố trong một tam giác" },
-      { id: 10, number: "Chương 10", title: "Một số hình khối trong thực tiễn" }
-    ]
-  },
-  6: {
-    gradeName: "Toán Lớp 6",
-    midterm: [
-      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1" },
-      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2" }
-    ],
-    finalterm: [
-      { id: "fin1", name: "Ôn tập Cuối kỳ 1", shortName: "Cuối kỳ 1", scopeText: "Gồm các chương Học kỳ 1" },
-      { id: "fin2", name: "Ôn tập Cuối kỳ 2", shortName: "Cuối kỳ 2", scopeText: "Gồm các chương Học kỳ 2" }
-    ],
-    chapters: [
-      { id: 1, number: "Chương 1", title: "Tập hợp các số tự nhiên" },
-      { id: 2, number: "Chương 2", title: "Tính chia hết trong tập hợp các số tự nhiên" },
-      { id: 3, number: "Chương 3", title: "Số nguyên" },
-      { id: 4, number: "Chương 4", title: "Một số hình phẳng trong thực tiễn" },
-      { id: 5, number: "Chương 5", title: "Tính đối xứng của hình phẳng trong tự nhiên" },
-      { id: 6, number: "Chương 6", title: "Phân số" },
-      { id: 7, number: "Chương 7", title: "Số thập phân" },
-      { id: 8, number: "Chương 8", title: "Những hình hình học cơ bản" },
-      { id: 9, number: "Chương 9", title: "Dữ liệu và xác suất thực nghiệm" }
-    ]
-  }
-};
 
 // Cập nhật các lựa chọn phạm vi khi thay đổi Khối lớp hoặc Hình thức ôn tập
 function onMatrixGradeOrTypeChange(targetScope) {

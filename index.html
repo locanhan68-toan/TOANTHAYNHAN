@@ -1489,45 +1489,62 @@
       <!-- ============================================== -->
       <div id="view-review" class="hidden space-y-8">
         
-        <div class="bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-800 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-3">
-          <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/20 rounded-full text-xs font-black uppercase">
-            <i data-lucide="book-marked" class="w-4 h-4 text-amber-300"></i> Chuyên Mục Ôn Tập Toàn Diện
-          </div>
-          <h2 class="text-2xl sm:text-3xl font-black tracking-tight">
-            Ôn Tập Cuối Chương • Ôn Tập Giữa Kỳ • Ôn Tập Cuối Kỳ
-          </h2>
-          <p class="text-blue-100 text-xs sm:text-sm max-w-3xl leading-relaxed">
-            Hệ thống ngân hàng đề ôn tập theo từng giai đoạn chuẩn Bộ Giáo Dục. Giúp học sinh nắm vững kiến thức tổng hợp và chuẩn bị tốt nhất trước mỗi kỳ thi chính thức.
-          </p>
-
-          <!-- 3 Tab con chuyển đổi nhanh -->
-          <div class="pt-3 flex flex-wrap gap-2">
-            <button onclick="switchReviewSubTab('chapter')" id="subtab-btn-chapter" 
-              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-indigo-900 shadow-sm transition flex items-center gap-1.5">
-              <i data-lucide="layers" class="w-4 h-4"></i> Ôn Tập Cuối Chương
-            </button>
-            <button onclick="switchReviewSubTab('midterm')" id="subtab-btn-midterm" 
-              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white/20 text-white hover:bg-white/30 transition flex items-center gap-1.5">
-              <i data-lucide="target" class="w-4 h-4"></i> Ôn Tập Giữa Kỳ
-            </button>
-            <button onclick="switchReviewSubTab('finalterm')" id="subtab-btn-finalterm" 
-              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white/20 text-white hover:bg-white/30 transition flex items-center gap-1.5">
-              <i data-lucide="trophy" class="w-4 h-4"></i> Ôn Tập Cuối Kỳ
-            </button>
+        <!-- BANNER & ĐIỀU HƯỚNG PHÂN CẤP ÔN TẬP: CHỌN KHỐI LỚP -> GIỮA KỲ / CUỐI KỲ / CUỐI CHƯƠNG -->
+        <div class="bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-800 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-5">
+          <div class="space-y-1">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/20 rounded-full text-xs font-black uppercase">
+              <i data-lucide="book-marked" class="w-4 h-4 text-amber-300"></i> Chuyên Mục Ôn Tập Toàn Diện
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black tracking-tight">
+              Hệ Thống Ôn Tập Phân Cấp Chuẩn Bộ Giáo Dục
+            </h2>
+            <p class="text-blue-100 text-xs sm:text-sm max-w-3xl leading-relaxed">
+              Chọn khối lớp &rarr; Chọn hình thức ôn tập (Giữa kỳ, Cuối kỳ, Cuối chương) &rarr; Tiếp cận toàn diện kiến thức, sơ đồ chuyên đề và hệ thống đề rèn luyện chuẩn 4 dạng mới.
+            </p>
           </div>
 
-          <!-- Thanh chọn khối lớp ôn tập theo phân cấp mới -->
-          <div class="pt-3 flex flex-wrap items-center gap-2 border-t border-white/20 mt-2">
-            <span class="text-xs font-bold text-amber-200 uppercase tracking-wider mr-1 flex items-center gap-1">
-              <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i> Chọn Khối Lớp:
-            </span>
-            <button onclick="setReviewGrade(12)" id="review-grade-btn-12" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white text-indigo-900 shadow-sm transition">Toán 12</button>
-            <button onclick="setReviewGrade(11)" id="review-grade-btn-11" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white/20 text-white hover:bg-white/30 transition">Toán 11</button>
-            <button onclick="setReviewGrade(10)" id="review-grade-btn-10" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white/20 text-white hover:bg-white/30 transition">Toán 10</button>
-            <button onclick="setReviewGrade(9)" id="review-grade-btn-9" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white/20 text-white hover:bg-white/30 transition">Toán 9</button>
-            <button onclick="setReviewGrade(8)" id="review-grade-btn-8" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white/20 text-white hover:bg-white/30 transition">Toán 8</button>
-            <button onclick="setReviewGrade(7)" id="review-grade-btn-7" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white/20 text-white hover:bg-white/30 transition">Toán 7</button>
-            <button onclick="setReviewGrade(6)" id="review-grade-btn-6" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white/20 text-white hover:bg-white/30 transition">Toán 6</button>
+          <!-- 1. CHỌN KHỐI LỚP TRƯỚC -->
+          <div class="space-y-2 pt-3 border-t border-white/20">
+            <div class="text-xs font-black uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
+              <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+              <span>1. Chọn Khối Lớp:</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-2" id="review-grade-buttons-container">
+              <button onclick="setReviewGrade(12)" id="review-grade-btn-12" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-indigo-900 shadow-md transition flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i> Toán Lớp 12
+              </button>
+              <button onclick="setReviewGrade(11)" id="review-grade-btn-11" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white/20 text-white hover:bg-white/30 transition">Toán Lớp 11</button>
+              <button onclick="setReviewGrade(10)" id="review-grade-btn-10" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white/20 text-white hover:bg-white/30 transition">Toán Lớp 10</button>
+              <button onclick="setReviewGrade(9)" id="review-grade-btn-9" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white/20 text-white hover:bg-white/30 transition">Toán Lớp 9</button>
+              <button onclick="setReviewGrade(8)" id="review-grade-btn-8" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white/20 text-white hover:bg-white/30 transition">Toán Lớp 8</button>
+              <button onclick="setReviewGrade(7)" id="review-grade-btn-7" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white/20 text-white hover:bg-white/30 transition">Toán Lớp 7</button>
+              <button onclick="setReviewGrade(6)" id="review-grade-btn-6" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white/20 text-white hover:bg-white/30 transition">Toán Lớp 6</button>
+            </div>
+          </div>
+
+          <!-- 2. RỒI ĐẾN ÔN TẬP GIỮA KỲ, ÔN TẬP CUỐI KỲ, ÔN TẬP CUỐI CHƯƠNG -->
+          <div class="space-y-2 pt-3 border-t border-white/20">
+            <div class="text-xs font-black uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
+              <i data-lucide="layers" class="w-4 h-4"></i>
+              <span>2. Chọn Hình Thức Ôn Tập:</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-2.5">
+              <!-- Ôn tập giữa kỳ -->
+              <button onclick="switchReviewSubTab('midterm')" id="subtab-btn-midterm" 
+                class="px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold bg-white text-indigo-900 shadow-md transition flex items-center gap-2">
+                <i data-lucide="target" class="w-4 h-4 text-emerald-600"></i> Ôn Tập Giữa Kỳ
+              </button>
+              <!-- Ôn tập cuối kỳ -->
+              <button onclick="switchReviewSubTab('finalterm')" id="subtab-btn-finalterm" 
+                class="px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold bg-white/20 text-white hover:bg-white/30 transition flex items-center gap-2">
+                <i data-lucide="trophy" class="w-4 h-4 text-amber-300"></i> Ôn Tập Cuối Kỳ
+              </button>
+              <!-- Ôn tập cuối chương -->
+              <button onclick="switchReviewSubTab('chapter')" id="subtab-btn-chapter" 
+                class="px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold bg-white/20 text-white hover:bg-white/30 transition flex items-center gap-2">
+                <i data-lucide="book-open" class="w-4 h-4 text-purple-300"></i> Ôn Tập Cuối Chương
+              </button>
+            </div>
           </div>
         </div>
 

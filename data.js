@@ -265,6 +265,101 @@ window.MATH_DATA = {
         ]
       },
       {
+        id: "rev-mid2-grade12",
+        grade: 12,
+        scope: "mid2",
+        scopeText: "Kiến thức nửa đầu Học kỳ 2 (Chương 4 & Chương 5)",
+        title: "Bộ Đề Ôn Thi Giữa Học Kỳ II - Toán 12 (Tích Phân & Oxyz)",
+        badge: "Đề chuẩn thi thử",
+        badgeColor: "bg-amber-600",
+        authorType: "matrix",
+        sourceBadge: "Nguồn: Thầy cung cấp kết hợp trên mạng",
+        summary: "Rèn luyện kỹ năng giải nhanh trắc nghiệm, đúng/sai và trả lời ngắn Nguyên hàm - Tích phân và Hình học giải tích Oxyz.",
+        duration: "90 phút",
+        examCount: "4 Bộ đề",
+        topics: [
+          "Phương pháp đổi biến và từng phần tìm nguyên hàm",
+          "Ứng dụng tích phân tính diện tích hình phẳng và thể tích vật thể tròn xoay",
+          "Phương trình mặt phẳng, đường thẳng và mặt cầu trong không gian Oxyz"
+        ]
+      },
+      {
+        id: "rev-mid1-grade11",
+        grade: 11,
+        scope: "mid1",
+        scopeText: "Kiến thức nửa đầu Học kỳ 1 (Chương 1 & Chương 2)",
+        title: "Bộ Đề Ôn Thi Giữa Học Kỳ I - Toán 11 (Lượng Giác & Cấp Số)",
+        badge: "Chuẩn 4 Dạng Bộ",
+        badgeColor: "bg-emerald-600",
+        authorType: "matrix",
+        sourceBadge: "Nguồn: Các Sở GD&ĐT",
+        summary: "Tổng hợp kiến thức giữa kỳ 1 lớp 11: Phương trình lượng giác, dãy số, cấp số cộng và cấp số nhân.",
+        duration: "90 phút",
+        examCount: "4 Bộ đề",
+        topics: [
+          "Hàm số lượng giác và giải phương trình lượng giác cơ bản",
+          "Dãy số tăng, giảm, bị chặn và tính chất cấp số cộng",
+          "Số hạng tổng quát và tổng n số hạng của cấp số nhân"
+        ]
+      },
+      {
+        id: "rev-mid2-grade11",
+        grade: 11,
+        scope: "mid2",
+        scopeText: "Kiến thức nửa đầu Học kỳ 2 (Chương 6 & Chương 7)",
+        title: "Bộ Đề Ôn Thi Giữa Học Kỳ II - Toán 11 (Mũ, Lôgarit & Hình Không Gian)",
+        badge: "Chuẩn 4 Dạng Bộ",
+        badgeColor: "bg-amber-600",
+        authorType: "matrix",
+        sourceBadge: "Nguồn: Trường Chuyên",
+        summary: "Hàm số mũ, hàm số lôgarit, phương trình bất phương trình mũ - log và quan hệ vuông góc trong không gian.",
+        duration: "90 phút",
+        examCount: "4 Bộ đề",
+        topics: [
+          "Tính chất và đồ thị hàm số mũ, hàm số lôgarit",
+          "Đường thẳng vuông góc với mặt phẳng và hai mặt phẳng vuông góc",
+          "Tính góc giữa đường thẳng và mặt phẳng, góc giữa hai mặt phẳng"
+        ]
+      },
+      {
+        id: "rev-mid1-grade10",
+        grade: 10,
+        scope: "mid1",
+        scopeText: "Kiến thức nửa đầu Học kỳ 1 (Chương 1 & Chương 2)",
+        title: "Bộ Đề Ôn Thi Giữa Học Kỳ I - Toán 10 (Mệnh Đề, Tập Hợp & Bất Phương Trình)",
+        badge: "Chuẩn 4 Dạng Bộ",
+        badgeColor: "bg-emerald-600",
+        authorType: "matrix",
+        sourceBadge: "Nguồn: Các Sở GD&ĐT",
+        summary: "Mệnh đề toán học, các phép toán tập hợp, bất phương trình và hệ bất phương trình bậc nhất hai ẩn.",
+        duration: "90 phút",
+        examCount: "4 Bộ đề",
+        topics: [
+          "Mệnh đề phủ định, mệnh đề kéo theo, mệnh đề tương đương",
+          "Giao, hợp, hiệu và phần bù của các tập hợp số",
+          "Biểu diễn miền nghiệm của hệ bất phương trình bậc nhất hai ẩn"
+        ]
+      },
+      {
+        id: "rev-mid2-grade10",
+        grade: 10,
+        scope: "mid2",
+        scopeText: "Kiến thức nửa đầu Học kỳ 2 (Chương 6 & Chương 7)",
+        title: "Bộ Đề Ôn Thi Giữa Học Kỳ II - Toán 10 (Hàm Số & Toạ Độ Mặt Phẳng Oxy)",
+        badge: "Chuẩn 4 Dạng Bộ",
+        badgeColor: "bg-amber-600",
+        authorType: "matrix",
+        sourceBadge: "Nguồn: Trường Chuyên",
+        summary: "Hàm số bậc hai, dấu tam thức bậc hai, phương trình đường thẳng và đường tròn trong mặt phẳng toạ độ Oxy.",
+        duration: "90 phút",
+        examCount: "4 Bộ đề",
+        topics: [
+          "Tập xác định, sự biến thiên và đỉnh parabol hàm số bậc hai",
+          "Giải bất phương trình bậc hai một ẩn và phương trình quy về bậc hai",
+          "Phương trình tổng quát, tham số của đường thẳng và phương trình đường tròn"
+        ]
+      },
+      {
         id: "rev-mid2-grade9",
         grade: 9,
         scope: "mid2",
@@ -284,25 +379,6 @@ window.MATH_DATA = {
           "Phần II: 4 câu trắc nghiệm Đúng/Sai 4 ý (4.0 đ)",
           "Phần III: 6 câu điền đáp số ngắn (2.0 đ)",
           "Phần IV: 1 câu tự luận lập hệ phương trình (1.0 đ)"
-        ]
-      },
-      {
-        id: "rev-mid2-grade12",
-        grade: 12,
-        scope: "mid2",
-        scopeText: "Kiến thức nửa đầu Học kỳ 2 (Chương 4 & Chương 5)",
-        title: "Bộ Đề Ôn Thi Giữa Học Kỳ II - Toán 12 (Tích Phân & Oxyz)",
-        badge: "Đề chuẩn thi thử",
-        badgeColor: "bg-amber-600",
-        authorType: "matrix",
-        sourceBadge: "Nguồn: Thầy cung cấp kết hợp trên mạng",
-        summary: "Rèn luyện kỹ năng giải nhanh trắc nghiệm, đúng/sai và trả lời ngắn Nguyên hàm - Tích phân và Hình học giải tích Oxyz.",
-        duration: "90 phút",
-        examCount: "4 Bộ đề",
-        topics: [
-          "Phương pháp đổi biến và từng phần tìm nguyên hàm",
-          "Ứng dụng tích phân tính diện tích hình phẳng và thể tích vật thể tròn xoay",
-          "Phương trình mặt phẳng, đường thẳng và mặt cầu trong không gian Oxyz"
         ]
       }
     ],
@@ -330,23 +406,6 @@ window.MATH_DATA = {
         ]
       },
       {
-        id: "rev-fin2-grade9",
-        grade: 9,
-        title: "Chiến Dịch Tổng Ôn Thi Cuối Học Kỳ II & Thi Vào 10 Chuyên",
-        badge: "Đặc biệt: 9+ Môn Toán",
-        badgeColor: "bg-rose-600",
-        authorType: "matrix",
-        sourceBadge: "Nguồn: Các trường Chuyên toàn quốc",
-        summary: "Toàn bộ kiến thức trọng tâm cả năm lớp 9. Đầy đủ trắc nghiệm nhiều phương án, đúng sai, trả lời ngắn và tự luận điểm 10.",
-        duration: "120 phút",
-        examCount: "8 Đề tổng ôn",
-        topics: [
-          "Tổng hợp toàn bộ Đại số lớp 9 (Căn thức, Hệ pt, Phương trình bậc hai, Vi-ét)",
-          "Tổng hợp toàn bộ Hình học lớp 9 (Hệ thức lượng, Đường tròn, Tứ giác nội tiếp)",
-          "Chuyên đề câu 10 điểm (Bất đẳng thức Cauchy, Bunhiacopxki, Min-Max đại số)"
-        ]
-      },
-      {
         id: "rev-fin2-grade12",
         grade: 12,
         scope: "fin2",
@@ -356,8 +415,98 @@ window.MATH_DATA = {
         badgeColor: "bg-indigo-600",
         authorType: "matrix",
         sourceBadge: "Nguồn: Đề minh họa Bộ GD&ĐT",
-        summary: "Hệ thống hóa toàn bộ kiến thức 3 năm THPT theo đúng format mới nhất của Bộ GD&ĐT.",
+        summary: "Hệ thống hóa toàn bộ kiến thức 3 năm THPT theo đúng format mới nhất của Bộ GD&ĐT. Gồm: Nguyên hàm - Tích phân (Ch 4), Phương pháp toạ độ Oxyz (Ch 5) và Xác suất có điều kiện (Ch 6).",
         duration: "90 phút",
+        examCount: "10 Đề chuẩn",
+        topics: [
+          "Chương 4: Nguyên hàm, tích phân và ứng dụng tính diện tích, thể tích",
+          "Chương 5: Phương pháp toạ độ trong không gian Oxyz (mặt phẳng, đường thẳng, mặt cầu)",
+          "Chương 6: Xác suất có điều kiện, công thức xác suất toàn phần và Bayes",
+          "Chiến thuật lấy trọn vẹn điểm câu 9+ phân loại cao"
+        ]
+      },
+      {
+        id: "rev-fin1-grade11",
+        grade: 11,
+        scope: "fin1",
+        scopeText: "Gồm các Chương 1, Chương 2, Chương 5, Chương 4, Chương 3",
+        title: "Bộ Đề Ôn Thi Cuối Học Kỳ I - Toán 11 (Chương 1, 2, 5, 4, 3)",
+        badge: "Chuẩn 4 Dạng Bộ",
+        badgeColor: "bg-blue-600",
+        authorType: "matrix",
+        sourceBadge: "Nguồn: Ngân hàng đề thi Trường Chuyên",
+        summary: "Tổng hợp toàn diện kiến thức Học kỳ 1 Lớp 11 gồm 5 chương: Hàm số lượng giác & PT lượng giác (Ch 1), Cấp số cộng & Cấp số nhân (Ch 2), Giới hạn & Hàm số liên tục (Ch 5), Quan hệ song song trong không gian (Ch 4), Các số đặc trưng mẫu số liệu ghép nhóm (Ch 3).",
+        duration: "90 phút",
+        examCount: "6 Bộ đề chuẩn",
+        topics: [
+          "Chương 1: Hàm số lượng giác và phương trình lượng giác",
+          "Chương 2: Dãy số. Cấp số cộng và cấp số nhân",
+          "Chương 5: Giới hạn của dãy số, giới hạn hàm số và hàm số liên tục",
+          "Chương 4: Đường thẳng và mặt phẳng song song trong không gian",
+          "Chương 3: Các số đặc trưng đo xu thế trung tâm của mẫu số liệu ghép nhóm"
+        ]
+      },
+      {
+        id: "rev-fin2-grade11",
+        grade: 11,
+        scope: "fin2",
+        scopeText: "Gồm các Chương 8, Chương 6, Chương 7, Chương 9",
+        title: "Bộ Đề Ôn Thi Cuối Học Kỳ II - Toán 11 (Chương 8, 6, 7, 9)",
+        badge: "Chuẩn 4 Dạng Bộ",
+        badgeColor: "bg-indigo-600",
+        authorType: "matrix",
+        sourceBadge: "Nguồn: Sở GD&ĐT & Trường Chuyên",
+        summary: "Tổng hợp toàn diện kiến thức Học kỳ 2 Lớp 11 gồm 4 chương: Các quy tắc tính xác suất (Ch 8), Hàm số mũ & Lôgarit (Ch 6), Quan hệ vuông góc trong không gian & Thể tích (Ch 7), Đạo hàm (Ch 9).",
+        duration: "90 phút",
+        examCount: "6 Bộ đề chuẩn",
+        topics: [
+          "Chương 8: Biến cố hợp, biến cố giao, biến cố độc lập và quy tắc nhân/cộng xác suất",
+          "Chương 6: Lũy thừa, lôgarit, hàm số mũ, hàm số lôgarit và phương trình mũ/log",
+          "Chương 7: Quan hệ vuông góc trong không gian, góc, khoảng cách và tính thể tích khối chóp, lăng trụ",
+          "Chương 9: Định nghĩa đạo hàm, quy tắc tính đạo hàm và ý nghĩa hình học của đạo hàm"
+        ]
+      },
+      {
+        id: "rev-fin1-grade10",
+        grade: 10,
+        scope: "fin1",
+        scopeText: "Gồm các Chương 1, Chương 2, Chương 3, Chương 4, Chương 6",
+        title: "Bộ Đề Ôn Thi Cuối Học Kỳ I - Toán 10 (Chương 1, 2, 3, 4, 6)",
+        badge: "Chuẩn 4 Dạng Bộ",
+        badgeColor: "bg-blue-600",
+        authorType: "matrix",
+        sourceBadge: "Nguồn: Ngân hàng đề thi Trường Chuyên",
+        summary: "Tổng hợp kiến thức Học kỳ 1 Lớp 10 gồm 5 chương: Mệnh đề & Tập hợp (Ch 1), Bất phương trình & Hệ BPT bậc nhất hai ẩn (Ch 2), Hệ thức lượng trong tam giác (Ch 3), Vectơ (Ch 4), Hàm số, đồ thị & ứng dụng (Ch 6).",
+        duration: "90 phút",
+        examCount: "5 Bộ đề chuẩn",
+        topics: [
+          "Chương 1: Mệnh đề, tập hợp và các phép toán trên tập hợp",
+          "Chương 2: Miền nghiệm của bất phương trình và hệ bất phương trình bậc nhất hai ẩn",
+          "Chương 3: Định lý côsin, định lý sin, công thức tính diện tích tam giác và giải tam giác",
+          "Chương 4: Vectơ, các phép toán tổng hiệu vectơ, tích vô hướng của hai vectơ",
+          "Chương 6: Hàm số, hàm số bậc hai, bảng biến thiên và đồ thị parabol"
+        ]
+      },
+      {
+        id: "rev-fin2-grade10",
+        grade: 10,
+        scope: "fin2",
+        scopeText: "Gồm các Chương 8, Chương 5, Chương 9, Chương 7",
+        title: "Bộ Đề Ôn Thi Cuối Học Kỳ II - Toán 10 (Chương 8, 5, 9, 7)",
+        badge: "Chuẩn 4 Dạng Bộ",
+        badgeColor: "bg-indigo-600",
+        authorType: "matrix",
+        sourceBadge: "Nguồn: Sở GD&ĐT & Trường Chuyên",
+        summary: "Tổng hợp kiến thức Học kỳ 2 Lớp 10 gồm 4 chương: Đại số tổ hợp (Ch 8), Các số đặc trưng mẫu số liệu không ghép nhóm (Ch 5), Tính xác suất của biến cố (Ch 9), Phương pháp toạ độ trong mặt phẳng Oxy (Ch 7).",
+        duration: "90 phút",
+        examCount: "5 Bộ đề chuẩn",
+        topics: [
+          "Chương 8: Quy tắc đếm, hoán vị, chỉnh hợp, tổ hợp và nhị thức Newton",
+          "Chương 5: Số trung bình, trung vị, tứ phân vị, khoảng biến thiên, phương sai và độ lệch chuẩn",
+          "Chương 9: Không gian mẫu, biến cố và tính xác suất theo định nghĩa cổ điển",
+          "Chương 7: Phương trình đường thẳng, khoảng cách, góc, phương trình đường tròn và ba đường conic"
+        ]
+      },
         examCount: "10 Đề chuẩn",
         topics: [
           "Trắc nghiệm nhiều lựa chọn: 12 câu quét lý thuyết cốt lõi",
