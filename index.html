@@ -2470,20 +2470,26 @@
               <span class="text-xs font-black text-indigo-950 uppercase tracking-wide flex items-center gap-1.5">
                 <i data-lucide="sliders" class="w-4 h-4 text-indigo-600"></i> Thiết Lập 4 Phần Thi & Điểm Số Tự Chọn:
               </span>
-              <p class="text-[11px] text-indigo-700">Tự do điều chỉnh số câu hỏi và điểm số cho từng phần theo ý muốn của Thầy</p>
+              <p class="text-[11px] text-indigo-700">Phần I cố định 12 câu (3.0đ). Phần II + III + IV tổng 7.0đ (số câu thay đổi, số điểm thay đổi tương ứng)</p>
             </div>
 
-            <!-- PRESETS NHANH -->
-            <div class="flex items-center gap-1.5">
-              <span class="text-[11px] text-slate-500 font-semibold">Cấu trúc mẫu:</span>
-              <button type="button" onclick="applyPresetStructure('gdpt2018')" class="px-2.5 py-1 bg-white hover:bg-indigo-600 hover:text-white border border-indigo-200 text-indigo-800 text-[11px] rounded-lg font-bold transition">
-                Chuẩn Bộ 2018
+            <!-- PRESETS NHANH (TỔNG 7.0Đ CHO PHẦN 2+3+4) -->
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="text-[11px] text-slate-500 font-semibold">Cấu trúc mẫu (Tổng 7đ):</span>
+              <button type="button" onclick="applyPresetStructure('combo_4_4_1')" class="px-2.5 py-1 bg-white hover:bg-indigo-600 hover:text-white border border-indigo-200 text-indigo-800 text-[11px] rounded-lg font-bold transition">
+                Chuẩn: 4 ĐS + 4 Ngắn + 1 TL
               </button>
-              <button type="button" onclick="applyPresetStructure('mix7030')" class="px-2.5 py-1 bg-white hover:bg-indigo-600 hover:text-white border border-indigo-200 text-indigo-800 text-[11px] rounded-lg font-bold transition">
-                70% TN + 30% TL
+              <button type="button" onclick="applyPresetStructure('combo_3_6_1')" class="px-2.5 py-1 bg-white hover:bg-indigo-600 hover:text-white border border-indigo-200 text-indigo-800 text-[11px] rounded-lg font-bold transition">
+                3 ĐS + 6 Ngắn + 1 TL
               </button>
-              <button type="button" onclick="applyPresetStructure('mcq100')" class="px-2.5 py-1 bg-white hover:bg-indigo-600 hover:text-white border border-indigo-200 text-indigo-800 text-[11px] rounded-lg font-bold transition">
-                100% Trắc nghiệm
+              <button type="button" onclick="applyPresetStructure('combo_5_2_1')" class="px-2.5 py-1 bg-white hover:bg-indigo-600 hover:text-white border border-indigo-200 text-indigo-800 text-[11px] rounded-lg font-bold transition">
+                5 ĐS + 2 Ngắn + 1 TL
+              </button>
+              <button type="button" onclick="applyPresetStructure('combo_4_6_0')" class="px-2.5 py-1 bg-white hover:bg-indigo-600 hover:text-white border border-indigo-200 text-indigo-800 text-[11px] rounded-lg font-bold transition">
+                Không TL: 4 ĐS + 6 Ngắn
+              </button>
+              <button type="button" onclick="applyPresetStructure('combo_3_4_2')" class="px-2.5 py-1 bg-white hover:bg-indigo-600 hover:text-white border border-indigo-200 text-indigo-800 text-[11px] rounded-lg font-bold transition">
+                Nhiều TL: 3 ĐS + 4 Ngắn + 2 TL
               </button>
             </div>
           </div>
@@ -2491,48 +2497,48 @@
           <!-- GRID 4 PHẦN -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             
-            <!-- PHẦN 1: TRẮC NGHIỆM 4 LỰA CHỌN -->
-            <div class="p-3 bg-white rounded-xl border border-indigo-100 space-y-2 shadow-sm">
+            <!-- PHẦN 1: TRẮC NGHIỆM 4 LỰA CHỌN (CỐ ĐỊNH 12 CÂU - 3.0 ĐIỂM) -->
+            <div class="p-3 bg-blue-50/50 rounded-xl border border-blue-200 space-y-2 shadow-xs">
               <div class="flex items-center justify-between">
-                <span class="font-bold text-slate-800 text-xs flex items-center gap-1.5 text-blue-700">
-                  <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-700 inline-flex items-center justify-center font-bold text-[11px]">I</span>
-                  Trắc Nghiệm Nhiều Lựa Chọn
+                <span class="font-bold text-slate-800 text-xs flex items-center gap-1.5 text-blue-800">
+                  <span class="w-5 h-5 rounded-full bg-blue-600 text-white inline-flex items-center justify-center font-black text-[11px]">I</span>
+                  Trắc Nghiệm 4 Lựa Chọn
                 </span>
-                <span class="text-[10px] text-slate-400 font-semibold">4 phương án A,B,C,D</span>
+                <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 font-bold text-[10px]">🔒 Cố định: 12 câu (3.0đ)</span>
               </div>
               <div class="grid grid-cols-2 gap-2 pt-1">
                 <div>
-                  <label class="text-[11px] text-slate-500 font-semibold block">Số câu hỏi:</label>
+                  <label class="text-[11px] text-slate-500 font-semibold block">Số câu hỏi (Cố định):</label>
                   <div class="flex items-center gap-1 mt-0.5">
-                    <input type="number" id="part1-questions" value="12" min="0" max="60" oninput="updateMatrixLiveSummary()"
-                      class="w-full p-2 border border-slate-300 rounded-lg text-center font-bold text-indigo-700 text-sm focus:ring-1 focus:ring-indigo-500">
-                    <span class="text-xs text-slate-500">câu</span>
+                    <input type="number" id="part1-questions" value="12" readonly
+                      class="w-full p-2 border border-slate-200 bg-slate-100 rounded-lg text-center font-black text-indigo-800 text-sm cursor-not-allowed">
+                    <span class="text-xs text-slate-500 font-bold">câu</span>
                   </div>
                 </div>
                 <div>
-                  <label class="text-[11px] text-slate-500 font-semibold block">Số điểm:</label>
+                  <label class="text-[11px] text-slate-500 font-semibold block">Số điểm (Cố định):</label>
                   <div class="flex items-center gap-1 mt-0.5">
-                    <input type="number" id="part1-points" value="3.0" min="0" max="10" step="0.25" oninput="updateMatrixLiveSummary()"
-                      class="w-full p-2 border border-slate-300 rounded-lg text-center font-bold text-blue-700 text-sm focus:ring-1 focus:ring-indigo-500">
-                    <span class="text-xs text-slate-500">điểm</span>
+                    <input type="number" id="part1-points" value="3.0" readonly
+                      class="w-full p-2 border border-slate-200 bg-slate-100 rounded-lg text-center font-black text-blue-800 text-sm cursor-not-allowed">
+                    <span class="text-xs text-slate-500 font-bold">điểm</span>
                   </div>
                 </div>
               </div>
-              <div class="text-[10px] text-slate-400 italic">Mỗi câu chiếm <span id="part1-rate-hint" class="font-bold text-slate-600">0.25đ</span> / câu</div>
+              <div class="text-[10px] text-slate-500 font-medium">Cố định <span class="font-bold text-blue-900">0.25đ</span> / câu • 12 câu = 3.0 điểm</div>
             </div>
 
-            <!-- PHẦN 2: ĐÚNG / SAI -->
-            <div class="p-3 bg-white rounded-xl border border-indigo-100 space-y-2 shadow-sm">
+            <!-- PHẦN 2: ĐÚNG / SAI (1.00Đ / CÂU) -->
+            <div class="p-3 bg-white rounded-xl border border-emerald-200 space-y-2 shadow-sm">
               <div class="flex items-center justify-between">
                 <span class="font-bold text-slate-800 text-xs flex items-center gap-1.5 text-emerald-700">
                   <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 inline-flex items-center justify-center font-bold text-[11px]">II</span>
                   Trắc Nghiệm Đúng / Sai
                 </span>
-                <span class="text-[10px] text-slate-400 font-semibold">Mỗi câu 4 ý a,b,c,d</span>
+                <span class="text-[10px] text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full">1.00đ / câu</span>
               </div>
               <div class="grid grid-cols-2 gap-2 pt-1">
                 <div>
-                  <label class="text-[11px] text-slate-500 font-semibold block">Số câu hỏi:</label>
+                  <label class="text-[11px] text-slate-500 font-semibold block">Số câu hỏi (tùy chọn):</label>
                   <div class="flex items-center gap-1 mt-0.5">
                     <input type="number" id="part2-questions" value="4" min="0" max="20" oninput="updateMatrixLiveSummary()"
                       class="w-full p-2 border border-slate-300 rounded-lg text-center font-bold text-indigo-700 text-sm focus:ring-1 focus:ring-indigo-500">
@@ -2540,29 +2546,29 @@
                   </div>
                 </div>
                 <div>
-                  <label class="text-[11px] text-slate-500 font-semibold block">Số điểm:</label>
+                  <label class="text-[11px] text-slate-500 font-semibold block">Số điểm (tự tính):</label>
                   <div class="flex items-center gap-1 mt-0.5">
-                    <input type="number" id="part2-points" value="4.0" min="0" max="10" step="0.25" oninput="updateMatrixLiveSummary()"
-                      class="w-full p-2 border border-slate-300 rounded-lg text-center font-bold text-emerald-700 text-sm focus:ring-1 focus:ring-indigo-500">
+                    <input type="number" id="part2-points" value="4.0" readonly
+                      class="w-full p-2 border border-slate-200 bg-emerald-50/60 rounded-lg text-center font-black text-emerald-700 text-sm cursor-not-allowed">
                     <span class="text-xs text-slate-500">điểm</span>
                   </div>
                 </div>
               </div>
-              <div class="text-[10px] text-slate-400 italic">Mỗi câu chiếm <span id="part2-rate-hint" class="font-bold text-slate-600">1.00đ</span> (tính điểm theo số ý đúng)</div>
+              <div class="text-[10px] text-slate-500 font-medium">Mỗi câu chiếm <span class="font-bold text-emerald-700">1.00đ</span> (tính theo số ý a,b,c,d đúng)</div>
             </div>
 
-            <!-- PHẦN 3: TRẢ LỜI NGẮN -->
-            <div class="p-3 bg-white rounded-xl border border-indigo-100 space-y-2 shadow-sm">
+            <!-- PHẦN 3: TRẢ LỜI NGẮN (0.50Đ / CÂU) -->
+            <div class="p-3 bg-white rounded-xl border border-amber-200 space-y-2 shadow-sm">
               <div class="flex items-center justify-between">
                 <span class="font-bold text-slate-800 text-xs flex items-center gap-1.5 text-amber-700">
                   <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-700 inline-flex items-center justify-center font-bold text-[11px]">III</span>
-                  Trắc Nghiệm Trả Lời Ngắn
+                  Trả Lời Ngắn (Điền Số)
                 </span>
-                <span class="text-[10px] text-slate-400 font-semibold">Điền đáp số / giá trị số</span>
+                <span class="text-[10px] text-amber-700 font-semibold bg-amber-50 px-2 py-0.5 rounded-full">0.50đ / câu</span>
               </div>
               <div class="grid grid-cols-2 gap-2 pt-1">
                 <div>
-                  <label class="text-[11px] text-slate-500 font-semibold block">Số câu hỏi:</label>
+                  <label class="text-[11px] text-slate-500 font-semibold block">Số câu hỏi (tùy chọn):</label>
                   <div class="flex items-center gap-1 mt-0.5">
                     <input type="number" id="part3-questions" value="4" min="0" max="30" oninput="updateMatrixLiveSummary()"
                       class="w-full p-2 border border-slate-300 rounded-lg text-center font-bold text-indigo-700 text-sm focus:ring-1 focus:ring-indigo-500">
@@ -2570,29 +2576,29 @@
                   </div>
                 </div>
                 <div>
-                  <label class="text-[11px] text-slate-500 font-semibold block">Số điểm:</label>
+                  <label class="text-[11px] text-slate-500 font-semibold block">Số điểm (tự tính):</label>
                   <div class="flex items-center gap-1 mt-0.5">
-                    <input type="number" id="part3-points" value="2.0" min="0" max="10" step="0.25" oninput="updateMatrixLiveSummary()"
-                      class="w-full p-2 border border-slate-300 rounded-lg text-center font-bold text-amber-700 text-sm focus:ring-1 focus:ring-indigo-500">
+                    <input type="number" id="part3-points" value="2.0" readonly
+                      class="w-full p-2 border border-slate-200 bg-amber-50/60 rounded-lg text-center font-black text-amber-700 text-sm cursor-not-allowed">
                     <span class="text-xs text-slate-500">điểm</span>
                   </div>
                 </div>
               </div>
-              <div class="text-[10px] text-slate-400 italic">Mỗi câu chiếm <span id="part3-rate-hint" class="font-bold text-slate-600">0.50đ</span> / câu</div>
+              <div class="text-[10px] text-slate-500 font-medium">Mỗi câu chiếm <span class="font-bold text-amber-700">0.50đ</span> / câu</div>
             </div>
 
-            <!-- PHẦN 4: TỰ LUẬN -->
-            <div class="p-3 bg-white rounded-xl border border-indigo-100 space-y-2 shadow-sm">
+            <!-- PHẦN 4: TỰ LUẬN (1.00Đ / BÀI) -->
+            <div class="p-3 bg-white rounded-xl border border-purple-200 space-y-2 shadow-sm">
               <div class="flex items-center justify-between">
                 <span class="font-bold text-slate-800 text-xs flex items-center gap-1.5 text-purple-700">
                   <span class="w-5 h-5 rounded-full bg-purple-100 text-purple-700 inline-flex items-center justify-center font-bold text-[11px]">IV</span>
                   Tự Luận Toán Học
                 </span>
-                <span class="text-[10px] text-slate-400 font-semibold">Trình bày bài giải chi tiết</span>
+                <span class="text-[10px] text-purple-700 font-semibold bg-purple-50 px-2 py-0.5 rounded-full">1.00đ / bài</span>
               </div>
               <div class="grid grid-cols-2 gap-2 pt-1">
                 <div>
-                  <label class="text-[11px] text-slate-500 font-semibold block">Số câu hỏi:</label>
+                  <label class="text-[11px] text-slate-500 font-semibold block">Số câu hỏi (tùy chọn):</label>
                   <div class="flex items-center gap-1 mt-0.5">
                     <input type="number" id="part4-questions" value="1" min="0" max="10" oninput="updateMatrixLiveSummary()"
                       class="w-full p-2 border border-slate-300 rounded-lg text-center font-bold text-indigo-700 text-sm focus:ring-1 focus:ring-indigo-500">
@@ -2600,29 +2606,35 @@
                   </div>
                 </div>
                 <div>
-                  <label class="text-[11px] text-slate-500 font-semibold block">Số điểm:</label>
+                  <label class="text-[11px] text-slate-500 font-semibold block">Số điểm (tự tính):</label>
                   <div class="flex items-center gap-1 mt-0.5">
-                    <input type="number" id="part4-points" value="1.0" min="0" max="10" step="0.25" oninput="updateMatrixLiveSummary()"
-                      class="w-full p-2 border border-slate-300 rounded-lg text-center font-bold text-purple-700 text-sm focus:ring-1 focus:ring-indigo-500">
+                    <input type="number" id="part4-points" value="1.0" readonly
+                      class="w-full p-2 border border-slate-200 bg-purple-50/60 rounded-lg text-center font-black text-purple-700 text-sm cursor-not-allowed">
                     <span class="text-xs text-slate-500">điểm</span>
                   </div>
                 </div>
               </div>
-              <div class="text-[10px] text-slate-400 italic">Mỗi bài chiếm <span id="part4-rate-hint" class="font-bold text-slate-600">1.00đ</span> / bài</div>
+              <div class="text-[10px] text-slate-500 font-medium">Mỗi bài chiếm <span class="font-bold text-purple-700">1.00đ</span> / bài</div>
             </div>
 
           </div>
 
           <!-- BẢNG TÍNH TỔNG KẾT LIVE -->
-          <div class="p-3 bg-white rounded-xl border border-indigo-200 flex flex-wrap items-center justify-between gap-3 shadow-sm">
-            <div class="flex items-center gap-3">
-              <span class="text-xs text-slate-600">Tổng số câu hỏi: <strong id="summary-total-questions" class="text-indigo-900 font-black text-sm">21</strong> câu</span>
-              <span class="text-slate-300">|</span>
-              <span class="text-xs text-slate-600">Tổng điểm tích lũy: <strong id="summary-total-points" class="text-emerald-700 font-black text-base">10.0</strong> / 10.0 đ</span>
+          <div class="p-3 bg-white rounded-xl border border-indigo-200 space-y-2 shadow-sm">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2">
+              <div class="flex items-center gap-3 text-xs flex-wrap">
+                <span class="text-slate-600">Tổng số câu hỏi: <strong id="summary-total-questions" class="text-indigo-900 font-black text-sm">21</strong> câu</span>
+                <span class="text-slate-300">|</span>
+                <span class="text-slate-600">Phần I: <strong class="text-blue-700 font-black">12 câu (3.0đ)</strong></span>
+                <span class="text-slate-300">|</span>
+                <span class="text-slate-600">Phần II+III+IV: <strong id="summary-part234-points" class="text-purple-700 font-black text-sm">7.0</strong> / 7.0 đ</span>
+                <span class="text-slate-300">|</span>
+                <span class="text-slate-600">Tổng toàn bài: <strong id="summary-total-points" class="text-emerald-700 font-black text-base">10.0</strong> / 10.0 đ</span>
+              </div>
             </div>
 
-            <div id="summary-points-status" class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold flex items-center gap-1">
-              <i data-lucide="check" class="w-3.5 h-3.5"></i> Chuẩn thang điểm 10.0
+            <div id="summary-points-status" class="px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold flex items-center gap-1.5 shadow-xs">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i> Đạt chuẩn: Phần I (3.0đ) + Phần II,III,IV (7.0đ) = 10.0đ
             </div>
           </div>
 
@@ -3084,86 +3096,104 @@
               <span class="text-xs font-black text-amber-950 uppercase tracking-wide flex items-center gap-1.5">
                 <i data-lucide="sliders" class="w-4 h-4 text-amber-600"></i> Thiết Lập Số Câu Hỏi & Số Điểm 4 Phần Cho Đề:
               </span>
-              <p class="text-[11px] text-amber-800">Thầy chọn số câu từng phần trước, sau đó đưa đề và đáp án tương ứng lên</p>
+              <p class="text-[11px] text-amber-800">Phần I cố định 12 câu (3.0đ). Phần II + III + IV tổng 7.0đ (số câu thay đổi, số điểm thay đổi tương ứng)</p>
             </div>
 
-            <!-- Nút mẫu nhanh -->
-            <div class="flex items-center gap-1.5">
-              <span class="text-[11px] text-slate-500 font-semibold">Mẫu nhanh:</span>
-              <button type="button" onclick="setManualPresetStructure('gdpt2018')" class="px-2 py-0.5 bg-white hover:bg-amber-600 hover:text-white border border-amber-300 text-amber-900 text-[11px] rounded-lg font-bold transition">
-                Chuẩn Bộ 2018
+            <!-- Nút mẫu nhanh (Tổng 7đ) -->
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="text-[11px] text-slate-500 font-semibold">Mẫu nhanh (Tổng 7đ):</span>
+              <button type="button" onclick="setManualPresetStructure('combo_4_4_1')" class="px-2 py-0.5 bg-white hover:bg-amber-600 hover:text-white border border-amber-300 text-amber-900 text-[11px] rounded-lg font-bold transition">
+                4 ĐS + 4 Ngắn + 1 TL
               </button>
-              <button type="button" onclick="setManualPresetStructure('mix7030')" class="px-2 py-0.5 bg-white hover:bg-amber-600 hover:text-white border border-amber-300 text-amber-900 text-[11px] rounded-lg font-bold transition">
-                70% TN + 30% TL
+              <button type="button" onclick="setManualPresetStructure('combo_3_6_1')" class="px-2 py-0.5 bg-white hover:bg-amber-600 hover:text-white border border-amber-300 text-amber-900 text-[11px] rounded-lg font-bold transition">
+                3 ĐS + 6 Ngắn + 1 TL
+              </button>
+              <button type="button" onclick="setManualPresetStructure('combo_5_2_1')" class="px-2 py-0.5 bg-white hover:bg-amber-600 hover:text-white border border-amber-300 text-amber-900 text-[11px] rounded-lg font-bold transition">
+                5 ĐS + 2 Ngắn + 1 TL
+              </button>
+              <button type="button" onclick="setManualPresetStructure('combo_4_6_0')" class="px-2 py-0.5 bg-white hover:bg-amber-600 hover:text-white border border-amber-300 text-amber-900 text-[11px] rounded-lg font-bold transition">
+                4 ĐS + 6 Ngắn
               </button>
             </div>
           </div>
 
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
             <!-- Phần I -->
-            <div class="p-2.5 bg-white rounded-xl border border-amber-200 space-y-1">
-              <span class="text-[11px] font-bold text-blue-700 block">I. Trắc nghiệm 4 LC</span>
+            <div class="p-2.5 bg-blue-50/60 rounded-xl border border-blue-200 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-bold text-blue-800 block">I. Trắc nghiệm 4 LC</span>
+                <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-blue-100 text-blue-800">Cố định</span>
+              </div>
               <div class="flex items-center gap-1">
-                <input type="number" id="manual-part1-questions" value="12" min="0" oninput="updateManualLiveSummary()"
-                  class="w-14 p-1.5 border border-slate-300 rounded-lg text-center font-bold text-xs text-blue-700">
-                <span class="text-[11px] text-slate-500">câu</span>
+                <input type="number" id="manual-part1-questions" value="12" readonly
+                  class="w-14 p-1.5 border border-slate-200 bg-slate-100 rounded-lg text-center font-bold text-xs text-blue-800 cursor-not-allowed">
+                <span class="text-[11px] text-slate-500 font-bold">câu</span>
               </div>
               <div class="flex items-center gap-1 pt-0.5">
-                <input type="number" id="manual-part1-points" value="3.0" step="0.25" min="0" oninput="updateManualLiveSummary()"
-                  class="w-14 p-1.5 border border-slate-300 rounded-lg text-center font-bold text-xs text-slate-700">
-                <span class="text-[11px] text-slate-500">điểm</span>
+                <input type="number" id="manual-part1-points" value="3.0" readonly
+                  class="w-14 p-1.5 border border-slate-200 bg-slate-100 rounded-lg text-center font-bold text-xs text-blue-800 cursor-not-allowed">
+                <span class="text-[11px] text-slate-500 font-bold">điểm</span>
               </div>
             </div>
 
             <!-- Phần II -->
-            <div class="p-2.5 bg-white rounded-xl border border-amber-200 space-y-1">
-              <span class="text-[11px] font-bold text-emerald-700 block">II. Đúng / Sai</span>
+            <div class="p-2.5 bg-white rounded-xl border border-emerald-200 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-bold text-emerald-700 block">II. Đúng / Sai</span>
+                <span class="text-[9px] text-emerald-600 font-semibold">1đ / câu</span>
+              </div>
               <div class="flex items-center gap-1">
                 <input type="number" id="manual-part2-questions" value="4" min="0" oninput="updateManualLiveSummary()"
                   class="w-14 p-1.5 border border-slate-300 rounded-lg text-center font-bold text-xs text-emerald-700">
                 <span class="text-[11px] text-slate-500">câu</span>
               </div>
               <div class="flex items-center gap-1 pt-0.5">
-                <input type="number" id="manual-part2-points" value="4.0" step="0.25" min="0" oninput="updateManualLiveSummary()"
-                  class="w-14 p-1.5 border border-slate-300 rounded-lg text-center font-bold text-xs text-slate-700">
+                <input type="number" id="manual-part2-points" value="4.0" readonly
+                  class="w-14 p-1.5 border border-slate-200 bg-emerald-50 rounded-lg text-center font-bold text-xs text-emerald-700 cursor-not-allowed">
                 <span class="text-[11px] text-slate-500">điểm</span>
               </div>
             </div>
 
             <!-- Phần III -->
             <div class="p-2.5 bg-white rounded-xl border border-amber-200 space-y-1">
-              <span class="text-[11px] font-bold text-amber-700 block">III. Trả lời ngắn</span>
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-bold text-amber-700 block">III. Trả lời ngắn</span>
+                <span class="text-[9px] text-amber-600 font-semibold">0.5đ / câu</span>
+              </div>
               <div class="flex items-center gap-1">
                 <input type="number" id="manual-part3-questions" value="4" min="0" oninput="updateManualLiveSummary()"
                   class="w-14 p-1.5 border border-slate-300 rounded-lg text-center font-bold text-xs text-amber-700">
                 <span class="text-[11px] text-slate-500">câu</span>
               </div>
               <div class="flex items-center gap-1 pt-0.5">
-                <input type="number" id="manual-part3-points" value="2.0" step="0.25" min="0" oninput="updateManualLiveSummary()"
-                  class="w-14 p-1.5 border border-slate-300 rounded-lg text-center font-bold text-xs text-slate-700">
+                <input type="number" id="manual-part3-points" value="2.0" readonly
+                  class="w-14 p-1.5 border border-slate-200 bg-amber-50 rounded-lg text-center font-bold text-xs text-amber-700 cursor-not-allowed">
                 <span class="text-[11px] text-slate-500">điểm</span>
               </div>
             </div>
 
             <!-- Phần IV -->
-            <div class="p-2.5 bg-white rounded-xl border border-amber-200 space-y-1">
-              <span class="text-[11px] font-bold text-purple-700 block">IV. Tự luận</span>
+            <div class="p-2.5 bg-white rounded-xl border border-purple-200 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-bold text-purple-700 block">IV. Tự luận</span>
+                <span class="text-[9px] text-purple-600 font-semibold">1đ / bài</span>
+              </div>
               <div class="flex items-center gap-1">
                 <input type="number" id="manual-part4-questions" value="1" min="0" oninput="updateManualLiveSummary()"
                   class="w-14 p-1.5 border border-slate-300 rounded-lg text-center font-bold text-xs text-purple-700">
                 <span class="text-[11px] text-slate-500">bài</span>
               </div>
               <div class="flex items-center gap-1 pt-0.5">
-                <input type="number" id="manual-part4-points" value="1.0" step="0.25" min="0" oninput="updateManualLiveSummary()"
-                  class="w-14 p-1.5 border border-slate-300 rounded-lg text-center font-bold text-xs text-slate-700">
+                <input type="number" id="manual-part4-points" value="1.0" readonly
+                  class="w-14 p-1.5 border border-slate-200 bg-purple-50 rounded-lg text-center font-bold text-xs text-purple-700 cursor-not-allowed">
                 <span class="text-[11px] text-slate-500">điểm</span>
               </div>
             </div>
           </div>
 
-          <div class="flex items-center justify-between pt-1 text-xs">
-            <span class="text-slate-600">Tổng cấu trúc: <strong id="manual-summary-q" class="text-amber-900 font-bold">21</strong> câu • Tổng điểm: <strong id="manual-summary-p" class="text-emerald-700 font-bold">10.0</strong> / 10.0đ</span>
-            <span id="manual-summary-badge" class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">✅ Đủ 10 điểm</span>
+          <div class="flex items-center justify-between pt-1 text-xs flex-wrap gap-2">
+            <span class="text-slate-600">Tổng: <strong id="manual-summary-q" class="text-amber-900 font-bold">21</strong> câu • P1: <strong>3.0đ</strong> • P2+3+4: <strong id="manual-summary-p234" class="text-purple-700 font-bold">7.0</strong>/7.0đ • Tổng điểm: <strong id="manual-summary-p" class="text-emerald-700 font-bold">10.0</strong>đ</span>
+            <span id="manual-summary-badge" class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">✅ Đủ chuẩn 10 điểm</span>
           </div>
         </div>
 
