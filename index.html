@@ -1548,7 +1548,7 @@
           </div>
         </div>
 
-        <!-- BẢNG CÔNG CỤ CỦA THẦY: TẠO ĐỀ ÔN TẬP GIỮA KỲ & CUỐI KỲ -->
+        <!-- BẢNG CÔNG CỤ CỦA THẦY: 2 TAB (ĐỀ THEO MA TRẬN & ĐỀ THEO GIÁO VIÊN) -->
         <div class="bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 rounded-2xl p-4 sm:p-5 border-2 border-amber-300 shadow-sm flex flex-wrap items-center justify-between gap-4">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold shadow-sm shrink-0">
@@ -1559,25 +1559,18 @@
                 <h4 class="font-black text-slate-900 text-sm sm:text-base">Công Cụ Giáo Viên: Tạo Đề Ôn Tập (Giữa Kỳ & Cuối Kỳ)</h4>
                 <span class="px-2 py-0.5 bg-amber-200 text-amber-900 text-[10px] font-black rounded-full uppercase">Tự động</span>
               </div>
-              <p class="text-xs text-slate-600 mt-0.5">Thầy có thể đưa ma trận lên để web tự sinh đề, hoặc tự đưa đề ôn tập của Thầy lên</p>
+              <p class="text-xs text-slate-600 mt-0.5">Thầy có thể chọn tạo Đề theo ma trận hoặc Đề theo giáo viên</p>
             </div>
           </div>
 
-          <div class="flex items-center gap-2 flex-wrap">
-                        <button onclick="openSourceIngestionModal(currentReviewGrade, currentReviewSubTab)" class="px-3.5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-95 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition glow-btn">
-              <i data-lucide="database" class="w-4 h-4 text-amber-300"></i> 📥 Nạp Nguồn Câu Hỏi & Đề Thi
+          <div class="flex items-center gap-3 flex-wrap">
+            <!-- TAB 1: ĐỀ THEO MA TRẬN -->
+            <button onclick="openMatrixGeneratorModal(currentReviewGrade, currentReviewSubTab, null, 'default')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md flex items-center gap-2 transition glow-btn">
+              <i data-lucide="sliders" class="w-4 h-4 text-amber-300"></i> 🎲 Đề theo ma trận
             </button>
-            <button onclick="generateInternetExamQuickly()" class="px-3.5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:opacity-95 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition glow-btn">
-              <i data-lucide="zap" class="w-4 h-4 text-amber-300"></i> ⚡ Tự Sinh Đề Nguồn Mạng Nhanh
-            </button>
-            <button onclick="openMatrixGeneratorModal(currentReviewGrade, currentReviewSubTab, null, 'default')" class="px-3.5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition glow-btn">
-              <i data-lucide="sliders" class="w-4 h-4 text-amber-300"></i> 🎲 Tự Sinh Đề Theo Ma Trận Mặc Định
-            </button>
-            <button onclick="openMatrixGeneratorModal(currentReviewGrade, currentReviewSubTab, null, 'upload')" class="px-3.5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition glow-btn">
-              <i data-lucide="file-up" class="w-4 h-4 text-amber-300"></i> 📤 Tự Sinh Đề Theo Ma Trận Đưa Lên
-            </button>
-            <button onclick="openManualUploadModal()" class="px-3.5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition">
-              <i data-lucide="upload-cloud" class="w-4 h-4"></i> 📝 Thầy Tự Đưa Đề Lên
+            <!-- TAB 2: ĐỀ THEO GIÁO VIÊN -->
+            <button onclick="openManualUploadModal()" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md flex items-center gap-2 transition">
+              <i data-lucide="upload-cloud" class="w-4 h-4"></i> 📝 Đề theo giáo viên
             </button>
           </div>
         </div>
@@ -3033,7 +3026,7 @@
             <i data-lucide="upload-cloud" class="w-6 h-6"></i>
           </div>
           <div>
-            <h3 class="font-black text-slate-800 text-lg sm:text-xl">Giáo Viên Tự Đưa Đề Ôn Tập Lên Web</h3>
+            <h3 class="font-black text-slate-800 text-lg sm:text-xl">Đề Theo Giáo Viên (Tự Đưa Đề Ôn Tập Lên Web)</h3>
             <p class="text-xs text-slate-500">Thiết lập cấu trúc câu hỏi, thời gian, đưa đề kèm Đáp án, Lời giải & Video YouTube</p>
           </div>
         </div>
@@ -3944,4 +3937,5 @@
   <script src="app.js"></script>
 </body>
 </html>
+
 
