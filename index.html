@@ -13,7 +13,8 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {
+    if (typeof tailwind !== 'undefined') {
+      tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
@@ -34,7 +35,8 @@
           }
         }
       }
-    }
+    };
+  }
   </script>
 
   <!-- KaTeX for crisp Math formula rendering -->
@@ -4016,6 +4018,7 @@
   </div>
 
   <!-- SCRIPTS -->
+  <script src="curriculum-review-bank.js"></script>
   <script src="data.js"></script>
   <script src="curriculum-kntt.js"></script>
   <script src="math-diagrams-tikz.js"></script>
@@ -4026,7 +4029,6 @@
   <script src="curriculum-grade12.js"></script>
   <script src="curriculum-diagnostic.js"></script>
   <script src="curriculum-diagnostic-grade12.js"></script>
-  <script src="curriculum-review-bank.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

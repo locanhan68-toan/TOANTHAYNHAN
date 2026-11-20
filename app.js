@@ -320,11 +320,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof renderLessonDiagram === 'function') renderLessonDiagram();
   
   // Nạp lại mã Google Studio đã lưu nếu có
-  const savedStudioKey = localStorage.getItem('TOAN_GOOGLE_STUDIO_API_KEY');
-  const loginApiKeyInput = document.getElementById('login-api-key');
-  if (savedStudioKey && loginApiKeyInput) {
-    loginApiKeyInput.value = savedStudioKey;
-  }
+  try {
+    const savedStudioKey = localStorage.getItem('TOAN_GOOGLE_STUDIO_API_KEY');
+    const loginApiKeyInput = document.getElementById('login-api-key');
+    if (savedStudioKey && loginApiKeyInput) {
+      loginApiKeyInput.value = savedStudioKey;
+    }
+  } catch (e) {}
 
   refreshIconsAndMath();
 });
@@ -719,9 +721,9 @@ function quickLogin(role) {
   if (role === 'teacher') {
     switchTab('dashboard');
   } else if (role === 'student') {
-    switchTab('midterm');
+    switchTab('review');
   } else {
-    switchTab('theory');
+    switchTab('arena');
   }
 }
 
@@ -785,6 +787,16 @@ function switchRole(role) {
 // 2. CHUYỂN ĐỔI TAB CHỨC NĂNG
 // ==========================================
 function switchTab(tabId) {
+  if (tabId === 'midterm' || tabId === 'finalterm' || tabId === 'chapter') {
+    switchTab('review');
+    switchReviewSubTab(tabId);
+    return;
+  }
+  if (tabId === 'theory') {
+    switchTab('lesson');
+    return;
+  }
+
   currentTab = tabId;
   const tabs = ['arena', 'review', 'gifted', 'lesson', 'assessment', 'dashboard'];
   
@@ -1424,6 +1436,21 @@ function renderReviewContent() {
       ? chaptersList.filter(ch => ch.id === specificChId) 
       : chaptersList;
 
+    const relevantExams = isSpecificChapter
+      ? gradeChExams.filter(item => item.scope === currentReviewScopeFilter || (item.title && item.title.includes(`Chương ${specificChId}`)))
+      : gradeChExams;
+
+    const chapterExamsHtml = relevantExams.length ? `
+      <div class="pt-4 space-y-4">
+        <h4 class="font-extrabold text-slate-800 text-sm flex items-center gap-2">
+          <i data-lucide="folder-check" class="w-4 h-4 text-purple-600"></i> Các đề ôn tập cuối chương đã có cho ${cfg.gradeName}:
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          ${relevantExams.map(ex => renderExamCard(ex, 'chapter')).join('')}
+        </div>
+      </div>
+    ` : '';
+
     container.innerHTML = `
       <div class="space-y-6">
         
@@ -1476,22 +1503,7 @@ function renderReviewContent() {
         </div>
 
         <!-- CÁC ĐỀ ĐÃ TẠO THEO CHƯƠNG -->
-        ${(() => {
-          const relevantExams = isSpecificChapter
-            ? gradeChExams.filter(item => item.scope === currentReviewScopeFilter || (item.title && item.title.includes(`Chương ${specificChId}`)))
-            : gradeChExams;
-          if (!relevantExams.length) return '';
-          return `
-            <div class="pt-4 space-y-4">
-              <h4 class="font-extrabold text-slate-800 text-sm flex items-center gap-2">
-                <i data-lucide="folder-check" class="w-4 h-4 text-purple-600"></i> Các đề ôn tập cuối chương đã có cho ${cfg.gradeName}:
-              </h4>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                ${relevantExams.map(ex => renderExamCard(ex, 'chapter')).join('')}
-              </div>
-            </div>
-          `;
-        })()}
+        ${chapterExamsHtml}
 
       </div>
     `;
@@ -4007,7 +4019,7 @@ function renderClasses() {
           <p class="text-xs text-slate-500 mt-0.5">Mã nhóm: <strong class="font-mono text-indigo-700 font-bold bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">${c.code}</strong> • Sĩ số: <strong>${c.students ? c.students.length : 0} học sinh</strong> ${c.description ? `• <span class="italic text-slate-400">${c.description}</span>` : ''}</p>
         </div>
         <div class="flex items-center gap-2">
-          <button onclick="deleteClass('${c.id}', '${c.name.split(\"'\").join(\"\\\\'\")}')" 
+          <button onclick="deleteClass('${c.id}')" 
             title="Xóa lớp học này"
             class="px-2.5 py-1 text-xs text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition border border-red-200 flex items-center gap-1 font-semibold">
             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Xóa lớp
@@ -4214,7 +4226,9 @@ function confirmCreateClass() {
   alert(`✅ ĐÃ TẠO THÀNH CÔNG LỚP HỌC / NHÓM HỌC TẬP!\n\n- Tên lớp/nhóm: ${name}\n- Thuộc Khối kiến thức: Khối ${grade}\n- Mã tham gia nhóm: ${code}\n\nLớp học đã được lưu vĩnh viễn vào hệ thống và sẵn sàng để Thầy xếp học sinh vào học!`);
 }
 
-function deleteClass(classId, className) {
+function deleteClass(classId) {
+  const cls = (MATH_DATA.classes || []).find(c => c.id === classId);
+  const className = cls ? cls.name : 'này';
   if (MATH_DATA.classes.length <= 1) {
     alert("⚠️ Hệ thống cần giữ lại ít nhất 1 lớp học!");
     return;
@@ -5224,17 +5238,6 @@ function executeGenerateFromMatrix() {
   // Mở trực tiếp đề thi để học sinh làm ngay lập tức
   openExamViewerModal(newExamId, type);
 }
-
-// ==========================================
-// 9. MODAL XEM & THI THỬ ĐỀ THI 4 PHẦN CHUẨN BỘ
-// ==========================================
-let currentViewingExam = null;
-let viewerAnswers = {
-  mcq: {},
-  tf: {},
-  sa: {},
-  essay: ""
-};
 
 // ==========================================
 // HỖ TRỢ XỬ LÝ VIDEO YOUTUBE & UPLOAD ĐỀ THI CỦA THẦY
