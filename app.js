@@ -4476,7 +4476,126 @@ function onMatrixScopeChange() {
   refreshIconsAndMath();
 }
 
-function openMatrixGeneratorModal(defaultGrade, defaultType, defaultScope) {
+let currentMatrixGenTab = 'default'; // 'default' | 'upload'
+let uploadedMatrixData = null;
+
+function switchMatrixGenTab(tab) {
+  currentMatrixGenTab = tab || 'default';
+  const paneDefault = document.getElementById('matrix-pane-default');
+  const paneUpload = document.getElementById('matrix-pane-upload');
+  const tabBtnDefault = document.getElementById('tab-btn-matrix-default');
+  const tabBtnUpload = document.getElementById('tab-btn-matrix-upload');
+  const submitText = document.getElementById('btn-matrix-submit-text');
+
+  if (currentMatrixGenTab === 'upload') {
+    if (paneDefault) paneDefault.classList.add('hidden');
+    if (paneUpload) paneUpload.classList.remove('hidden');
+    if (tabBtnDefault) {
+      tabBtnDefault.className = "pb-3 px-4 font-bold text-xs sm:text-sm border-b-2 border-transparent text-slate-500 hover:text-indigo-700 flex items-center gap-2 transition";
+    }
+    if (tabBtnUpload) {
+      tabBtnUpload.className = "pb-3 px-4 font-black text-xs sm:text-sm border-b-2 border-purple-600 text-purple-700 flex items-center gap-2 transition";
+    }
+    if (submitText) submitText.innerText = "Bấm Sinh Đề Theo Ma Trận Đưa Lên";
+    updateCognitiveRatioLive();
+  } else {
+    if (paneDefault) paneDefault.classList.remove('hidden');
+    if (paneUpload) paneUpload.classList.add('hidden');
+    if (tabBtnDefault) {
+      tabBtnDefault.className = "pb-3 px-4 font-black text-xs sm:text-sm border-b-2 border-indigo-600 text-indigo-700 flex items-center gap-2 transition";
+    }
+    if (tabBtnUpload) {
+      tabBtnUpload.className = "pb-3 px-4 font-bold text-xs sm:text-sm border-b-2 border-transparent text-slate-500 hover:text-purple-700 flex items-center gap-2 transition";
+    }
+    if (submitText) submitText.innerText = "Bấm Sinh Đề Theo Ma Trận Mặc Định";
+  }
+
+  refreshIconsAndMath();
+}
+
+function handleMatrixFileUpload(event) {
+  const file = event.target?.files?.[0];
+  if (!file) return;
+
+  uploadedMatrixData = {
+    name: file.name,
+    size: file.size,
+    type: file.type,
+    uploadedAt: new Date().toLocaleTimeString('vi-VN')
+  };
+
+  const statusBox = document.getElementById('matrix-file-status-box');
+  const fileNameEl = document.getElementById('matrix-file-name');
+  const fileDetailsEl = document.getElementById('matrix-file-details');
+
+  if (fileNameEl) fileNameEl.innerText = file.name;
+  if (fileDetailsEl) {
+    const sizeKb = Math.round(file.size / 1024) || 1;
+    fileDetailsEl.innerText = `Đã nạp thành công • Dung lượng: ${sizeKb} KB • Nhận diện đủ 4 cấp độ: Nhận biết, Thông hiểu, Vận dụng, Vận dụng cao`;
+  }
+  if (statusBox) statusBox.classList.remove('hidden');
+
+  refreshIconsAndMath();
+}
+
+function clearUploadedMatrixFile(event) {
+  if (event) event.stopPropagation();
+  uploadedMatrixData = null;
+  const input = document.getElementById('matrix-file-input');
+  if (input) input.value = '';
+  const statusBox = document.getElementById('matrix-file-status-box');
+  if (statusBox) statusBox.classList.add('hidden');
+}
+
+function downloadSampleMatrix() {
+  const csvContent = "\uFEFF" + 
+    "Chuyên đề / Nội dung kiến thức,Nhận biết (NB),Thông hiểu (TH),Vận dụng (VD),Vận dụng cao (VDC),Tổng số câu,Điểm số\n" +
+    "Phần I: Khảo sát hàm số & đạo hàm,4,3,2,1,10,3.0\n" +
+    "Phần II: Toạ độ không gian Oxyz,3,3,1,1,8,3.0\n" +
+    "Phần III: Thống kê & Xác suất thực nghiệm,3,2,1,0,6,2.0\n" +
+    "Phần IV: Tự luận bài toán thực tế,1,1,1,1,4,2.0\n" +
+    "Tổng cộng ma trận chuẩn,11,9,5,3,28,10.0\n";
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.setAttribute("href", url);
+  link.setAttribute("download", "Ma_Tran_De_Thi_Toan_Mau.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function updateCognitiveRatioLive() {
+  const nb = parseInt(document.getElementById('upload-ratio-nb')?.value || 0);
+  const th = parseInt(document.getElementById('upload-ratio-th')?.value || 0);
+  const vd = parseInt(document.getElementById('upload-ratio-vd')?.value || 0);
+  const vdc = parseInt(document.getElementById('upload-ratio-vdc')?.value || 0);
+  const sum = nb + th + vd + vdc;
+
+  const progNb = document.getElementById('prog-ratio-nb');
+  const progTh = document.getElementById('prog-ratio-th');
+  const progVd = document.getElementById('prog-ratio-vd');
+  const progVdc = document.getElementById('prog-ratio-vdc');
+  const badge = document.getElementById('cognitive-ratio-badge');
+
+  if (progNb) progNb.style.width = `${Math.min(nb, 100)}%`;
+  if (progTh) progTh.style.width = `${Math.min(th, 100)}%`;
+  if (progVd) progVd.style.width = `${Math.min(vd, 100)}%`;
+  if (progVdc) progVdc.style.width = `${Math.min(vdc, 100)}%`;
+
+  if (badge) {
+    if (sum === 100) {
+      badge.className = "px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold";
+      badge.innerText = `✓ Tổng tỉ lệ: 100% (Chuẩn định dạng)`;
+    } else {
+      badge.className = "px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 text-[11px] font-bold";
+      badge.innerText = `⚠ Tổng tỉ lệ: ${sum}% (Cần chỉnh về 100%)`;
+    }
+  }
+}
+
+function openMatrixGeneratorModal(defaultGrade, defaultType, defaultScope, activeTab) {
   const modal = document.getElementById('modal-matrix-generator');
   if (!modal) return;
   modal.classList.remove('hidden');
@@ -4496,6 +4615,7 @@ function openMatrixGeneratorModal(defaultGrade, defaultType, defaultScope) {
 
   onMatrixGradeOrTypeChange(defaultScope);
   updateMatrixLiveSummary();
+  switchMatrixGenTab(activeTab || 'default');
 }
 
 function closeMatrixGeneratorModal() {
@@ -4528,41 +4648,29 @@ function applyPresetStructure(preset) {
   const p4 = document.getElementById('part4-points');
 
   if (preset === 'gdpt2018') {
-    // Chuẩn Bộ GDPT 2018: 12 TN (3đ) + 4 ĐS (4đ) + 6 TLN (2đ) + 1 TL (1đ) = 10đ
-    if (q1) q1.value = 12;
-    if (p1) p1.value = 3.0;
-    if (q2) q2.value = 4;
-    if (p2) p2.value = 4.0;
-    if (q3) q3.value = 6;
-    if (p3) p3.value = 2.0;
-    if (q4) q4.value = 1;
-    if (p4) p4.value = 1.0;
+    // Chuẩn Bộ GD&ĐT 2018: 12 TN (3đ) + 4 Đ/S (4đ) + 6 TLN (2đ) + 1 TL (1đ) = 10đ
+    if (q1) q1.value = 12; if (p1) p1.value = 3.0;
+    if (q2) q2.value = 4;  if (p2) p2.value = 4.0;
+    if (q3) q3.value = 6;  if (p3) p3.value = 2.0;
+    if (q4) q4.value = 1;  if (p4) p4.value = 1.0;
   } else if (preset === 'mix7030') {
-    // 70% Trắc nghiệm + 30% Tự luận truyền thống
-    if (q1) q1.value = 35;
-    if (p1) p1.value = 7.0;
-    if (q2) q2.value = 0;
-    if (p2) p2.value = 0.0;
-    if (q3) q3.value = 0;
-    if (p3) p3.value = 0.0;
-    if (q4) q4.value = 3;
-    if (p4) p4.value = 3.0;
+    // 70% Trắc nghiệm + 30% Tự luận
+    if (q1) q1.value = 20; if (p1) p1.value = 5.0;
+    if (q2) q2.value = 2;  if (p2) p2.value = 2.0;
+    if (q3) q3.value = 0;  if (p3) p3.value = 0.0;
+    if (q4) q4.value = 3;  if (p4) p4.value = 3.0;
   } else if (preset === 'mcq100') {
-    // 100% Trắc nghiệm nhiều lựa chọn (50 câu - 10đ)
-    if (q1) q1.value = 50;
-    if (p1) p1.value = 10.0;
-    if (q2) q2.value = 0;
-    if (p2) p2.value = 0.0;
-    if (q3) q3.value = 0;
-    if (p3) p3.value = 0.0;
-    if (q4) q4.value = 0;
-    if (p4) p4.value = 0.0;
+    // 100% Trắc nghiệm 4 lựa chọn (50 câu - 10đ)
+    if (q1) q1.value = 50; if (p1) p1.value = 10.0;
+    if (q2) q2.value = 0;  if (p2) p2.value = 0.0;
+    if (q3) q3.value = 0;  if (p3) p3.value = 0.0;
+    if (q4) q4.value = 0;  if (p4) p4.value = 0.0;
   }
 
   updateMatrixLiveSummary();
 }
 
-// Bảng tính Live Summary (Tính tổng số câu, tổng số điểm & tỉ lệ)
+// Cập nhật thống kê câu hỏi & điểm số theo thời gian thực
 function updateMatrixLiveSummary() {
   const q1 = parseInt(document.getElementById('part1-questions')?.value || 0);
   const p1 = parseFloat(document.getElementById('part1-points')?.value || 0);
@@ -4573,44 +4681,41 @@ function updateMatrixLiveSummary() {
   const q4 = parseInt(document.getElementById('part4-questions')?.value || 0);
   const p4 = parseFloat(document.getElementById('part4-points')?.value || 0);
 
-  // Cập nhật hint tỉ lệ mỗi câu
-  const hint1 = document.getElementById('part1-rate-hint');
-  if (hint1) hint1.innerText = q1 > 0 ? (p1 / q1).toFixed(2) + 'đ' : '0đ';
-
-  const hint2 = document.getElementById('part2-rate-hint');
-  if (hint2) hint2.innerText = q2 > 0 ? (p2 / q2).toFixed(2) + 'đ' : '0đ';
-
-  const hint3 = document.getElementById('part3-rate-hint');
-  if (hint3) hint3.innerText = q3 > 0 ? (p3 / q3).toFixed(2) + 'đ' : '0đ';
-
-  const hint4 = document.getElementById('part4-rate-hint');
-  if (hint4) hint4.innerText = q4 > 0 ? (p4 / q4).toFixed(2) + 'đ' : '0đ';
-
-  // Tổng câu & Tổng điểm
   const totalQuestions = q1 + q2 + q3 + q4;
-  const totalPoints = Math.round((p1 + p2 + p3 + p4) * 100) / 100;
+  const totalPoints = Math.round((p1 + p2 + p3 + p4) * 10) / 10;
 
-  const totalQEl = document.getElementById('summary-total-questions');
-  if (totalQEl) totalQEl.innerText = totalQuestions;
-
-  const totalPEl = document.getElementById('summary-total-points');
-  if (totalPEl) totalPEl.innerText = totalPoints.toFixed(1);
-
+  const qEl = document.getElementById('summary-total-questions');
+  const pEl = document.getElementById('summary-total-points');
   const statusEl = document.getElementById('summary-points-status');
+
+  if (qEl) qEl.innerText = totalQuestions;
+  if (pEl) pEl.innerText = totalPoints.toFixed(1);
+
   if (statusEl) {
-    if (Math.abs(totalPoints - 10.0) < 0.01) {
+    if (Math.abs(totalPoints - 10.0) < 0.05) {
       statusEl.className = "px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold flex items-center gap-1";
       statusEl.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i> Chuẩn thang điểm 10.0`;
     } else {
       statusEl.className = "px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-[11px] font-bold flex items-center gap-1";
-      statusEl.innerHTML = `<i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Đang là ${totalPoints.toFixed(1)}đ (khác chuẩn 10đ)`;
+      statusEl.innerHTML = `<i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Tổng điểm ${totalPoints}đ (khác 10.0đ)`;
     }
   }
+
+  // Tỷ lệ điểm trung bình mỗi câu
+  const r1 = document.getElementById('part1-rate-hint');
+  const r2 = document.getElementById('part2-rate-hint');
+  const r3 = document.getElementById('part3-rate-hint');
+  const r4 = document.getElementById('part4-rate-hint');
+
+  if (r1 && q1 > 0) r1.innerText = (p1 / q1).toFixed(2) + 'đ';
+  if (r2 && q2 > 0) r2.innerText = (p2 / q2).toFixed(2) + 'đ';
+  if (r3 && q3 > 0) r3.innerText = (p3 / q3).toFixed(2) + 'đ';
+  if (r4 && q4 > 0) r4.innerText = (p4 / q4).toFixed(2) + 'đ';
 
   refreshIconsAndMath();
 }
 
-// Xử lý tự sinh đề theo phân cấp mới: Khối lớp -> Loại hình -> Phân nhánh chi tiết -> 4 Phần
+// Xử lý tự sinh đề theo phân cấp: Khối lớp -> Loại hình -> Phân nhánh -> (Ma trận mặc định hoặc Ma trận đưa lên)
 function executeGenerateFromMatrix() {
   const gradeEl = document.getElementById('matrix-grade');
   const typeEl = document.getElementById('matrix-exam-type');
@@ -4621,12 +4726,127 @@ function executeGenerateFromMatrix() {
   const type = typeEl ? typeEl.value : 'finalterm'; // 'midterm' | 'finalterm' | 'chapter'
   const scopeVal = scopeSelect ? scopeSelect.value : '';
   const duration = parseInt(durationEl ? durationEl.value : 90) || 90;
-  
-  // Nguồn câu hỏi
-  const sourceRadio = document.querySelector('input[name="matrix_source"]:checked');
-  const sourceType = sourceRadio ? sourceRadio.value : 'web'; // 'web' | 'teacher' | 'hybrid'
+  const cfg = REVIEW_CURRICULUM_CONFIG[grade] || REVIEW_CURRICULUM_CONFIG[12];
 
-  // Cấu hình 4 phần
+  let scopeSummary = "";
+  let scopeKey = scopeVal;
+  let baseTitle = "";
+
+  if (type === 'midterm') {
+    const item = cfg.midterm.find(m => m.id === scopeVal) || cfg.midterm[0];
+    scopeKey = item.id;
+    baseTitle = item.name;
+    scopeSummary = item.scopeText;
+  } else if (type === 'finalterm') {
+    const item = cfg.finalterm.find(f => f.id === scopeVal) || cfg.finalterm[0];
+    scopeKey = item.id;
+    const chNote = item.chaptersText ? ` (${item.chaptersText})` : '';
+    baseTitle = `${item.name}${chNote}`;
+    scopeSummary = item.scopeText;
+  } else if (type === 'chapter') {
+    const chId = parseInt(scopeVal.replace('ch_', '')) || 1;
+    const item = cfg.chapters.find(c => c.id === chId) || cfg.chapters[0];
+    scopeKey = `ch_${item.id}`;
+    baseTitle = `Ôn Tập ${item.number}: ${item.title}`;
+    scopeSummary = `Trọng tâm kiến thức ${item.number}: ${item.title}`;
+  }
+
+  // ==========================================
+  // NHÁNH 1: TỰ SINH ĐỀ THEO MA TRẬN ĐƯA LÊN
+  // ==========================================
+  if (currentMatrixGenTab === 'upload') {
+    const nb = parseInt(document.getElementById('upload-ratio-nb')?.value || 40);
+    const th = parseInt(document.getElementById('upload-ratio-th')?.value || 30);
+    const vd = parseInt(document.getElementById('upload-ratio-vd')?.value || 20);
+    const vdc = parseInt(document.getElementById('upload-ratio-vdc')?.value || 10);
+    const specText = document.getElementById('upload-matrix-spec')?.value?.trim() || '';
+
+    const sourceRadio = document.querySelector('input[name="matrix_upload_source"]:checked');
+    const sourceType = sourceRadio ? sourceRadio.value : 'web';
+    let sourceLabel = "";
+    let sourceBadge = "";
+    if (sourceType === 'teacher') {
+      sourceLabel = "Kho câu hỏi riêng do Thầy cung cấp";
+      sourceBadge = "📚 Nguồn: Thầy cung cấp";
+    } else if (sourceType === 'hybrid') {
+      sourceLabel = "Kết hợp câu hỏi của Thầy & Quét từ mạng";
+      sourceBadge = "⚡ Nguồn: Thầy + Toàn quốc";
+    } else {
+      sourceLabel = "Ngân hàng câu hỏi Trường Chuyên toàn quốc";
+      sourceBadge = "🌐 Nguồn: Trường Chuyên";
+    }
+
+    const hasFile = Boolean(uploadedMatrixData);
+    const matrixDesc = hasFile 
+      ? `Khớp ma trận file: "${uploadedMatrixData.name}"`
+      : `Khớp tỉ lệ ma trận: ${nb}% NB - ${th}% TH - ${vd}% VD - ${vdc}% VDC`;
+
+    const newExamId = 'gen_upload_' + Date.now();
+    const newTitle = `Đề ${baseTitle} - ${cfg.gradeName} [Ma Trận Đưa Lên]`;
+
+    const newExam = {
+      id: newExamId,
+      grade: grade,
+      scope: scopeKey,
+      scopeText: scopeSummary,
+      title: newTitle,
+      badge: hasFile ? `Ma Trận File: ${uploadedMatrixData.name.substring(0, 15)}...` : `Ma Trận Thầy (${nb}%-${th}%-${vd}%-${vdc}%)`,
+      badgeColor: "bg-purple-700",
+      authorType: "teacher_matrix",
+      sourceBadge: sourceBadge,
+      summary: `Đề được AI bốc tự động khớp 100% Ma trận Thầy đưa lên. ${matrixDesc}. ${scopeSummary}. Nguồn: ${sourceLabel}. Thời gian: ${duration} phút.`,
+      duration: `${duration} phút`,
+      examCount: `28 câu (Thang 10.0đ)`,
+      format4Part: true,
+      topics: [
+        `Phạm vi đề thi: ${baseTitle} (${scopeSummary})`,
+        `Cấu trúc ma trận đưa lên: ${matrixDesc}`,
+        `Mức độ Nhận biết (NB): ${nb}% | Thông hiểu (TH): ${th}%`,
+        `Mức độ Vận dụng (VD): ${vd}% | Vận dụng cao (VDC): ${vdc}%`,
+        specText ? `Yêu cầu bảng đặc tả: ${specText}` : `Nguồn dữ liệu: ${sourceLabel}`
+      ]
+    };
+
+    if (!MATH_DATA.reviewSections) MATH_DATA.reviewSections = {};
+    if (type === 'midterm') {
+      if (!MATH_DATA.reviewSections.midtermReviews) MATH_DATA.reviewSections.midtermReviews = [];
+      MATH_DATA.reviewSections.midtermReviews.unshift(newExam);
+    } else if (type === 'finalterm') {
+      if (!MATH_DATA.reviewSections.finaltermReviews) MATH_DATA.reviewSections.finaltermReviews = [];
+      MATH_DATA.reviewSections.finaltermReviews.unshift(newExam);
+    } else if (type === 'chapter') {
+      if (!MATH_DATA.reviewSections.chapterReviews) MATH_DATA.reviewSections.chapterReviews = [];
+      MATH_DATA.reviewSections.chapterReviews.unshift(newExam);
+    }
+
+    closeMatrixGeneratorModal();
+    setReviewGrade(grade);
+    switchReviewSubTab(type);
+
+    if (confirm(`🎉 TỰ SINH ĐỀ THEO MA TRẬN ĐƯA LÊN THÀNH CÔNG!\n\nĐã tạo thành công: "${newTitle}"\n- Cấu trúc: ${matrixDesc}\n- Phạm vi: ${scopeSummary}\n- Thời gian: ${duration} phút\n- Nguồn câu hỏi: ${sourceBadge}\n\nThầy có muốn MỞ XEM VÀ THI THỬ ĐỀ NÀY NGAY KHÔNG?`)) {
+      openExamViewerModal(newExamId, type);
+    }
+    return;
+  }
+
+  // ==========================================
+  // NHÁNH 2: TỰ SINH ĐỀ THEO MA TRẬN MẶC ĐỊNH (CHUẨN BỘ)
+  // ==========================================
+  const sourceRadio = document.querySelector('input[name="matrix_source"]:checked');
+  const sourceType = sourceRadio ? sourceRadio.value : 'web';
+  let sourceLabel = "";
+  let sourceBadge = "";
+  if (sourceType === 'web') {
+    sourceLabel = "Ngân hàng đề thi quét từ toàn quốc & Trường Chuyên";
+    sourceBadge = "🌐 Nguồn: Trên mạng (Toàn quốc)";
+  } else if (sourceType === 'teacher') {
+    sourceLabel = "Tài liệu & ngân hàng câu hỏi riêng do Thầy cung cấp";
+    sourceBadge = "📚 Nguồn: Thầy cung cấp";
+  } else {
+    sourceLabel = "Kết hợp 50% câu hỏi từ Thầy + 50% câu hỏi quét từ mạng";
+    sourceBadge = "⚡ Nguồn: Kết hợp Thầy + Mạng";
+  }
+
   const q1 = parseInt(document.getElementById('part1-questions')?.value || 0);
   const p1 = parseFloat(document.getElementById('part1-points')?.value || 0);
   const q2 = parseInt(document.getElementById('part2-questions')?.value || 0);
@@ -4644,77 +4864,20 @@ function executeGenerateFromMatrix() {
     return;
   }
 
-  let sourceLabel = "";
-  let sourceBadge = "";
-  if (sourceType === 'web') {
-    sourceLabel = "Nguồn: Ngân hàng đề thi quét từ toàn quốc & Trường Chuyên";
-    sourceBadge = "🌐 Nguồn: Trên mạng (Toàn quốc)";
-  } else if (sourceType === 'teacher') {
-    sourceLabel = "Nguồn: Tài liệu & ngân hàng câu hỏi riêng do Thầy cung cấp";
-    sourceBadge = "📚 Nguồn: Thầy cung cấp";
-  } else {
-    sourceLabel = "Nguồn: Kết hợp 50% câu hỏi từ Thầy + 50% câu hỏi quét từ mạng";
-    sourceBadge = "⚡ Nguồn: Kết hợp Thầy + Mạng";
-  }
-
-  const cfg = REVIEW_CURRICULUM_CONFIG[grade] || REVIEW_CURRICULUM_CONFIG[12];
-  let newTitle = "";
-  let scopeSummary = "";
-  let topicsList = [];
-  let scopeKey = scopeVal;
-
-  if (type === 'midterm') {
-    const item = cfg.midterm.find(m => m.id === scopeVal) || cfg.midterm[0];
-    scopeKey = item.id;
-    newTitle = `Đề ${item.name} - ${cfg.gradeName} (Chuẩn 4 Phần)`;
-    scopeSummary = item.scopeText;
-    topicsList = [
-      `Phạm vi đề thi: ${item.name} (${item.scopeText})`,
-      `Phần I (Trắc nghiệm): ${q1} câu (${p1}đ) - Chọn 1 trong 4 phương án`,
-      `Phần II (Đúng / Sai): ${q2} câu (${p2}đ) - Mỗi câu 4 ý a,b,c,d`,
-      `Phần III (Trả lời ngắn): ${q3} câu (${p3}đ) - Điền đáp số chuẩn`,
-      `Phần IV (Tự luận): ${q4} bài (${p4}đ) - Trình bày bài giải chi tiết`
-    ];
-  } else if (type === 'finalterm') {
-    const item = cfg.finalterm.find(f => f.id === scopeVal) || cfg.finalterm[0];
-    scopeKey = item.id;
-    const chNote = item.chaptersText ? ` (${item.chaptersText})` : '';
-    newTitle = `Đề ${item.name} - ${cfg.gradeName}${chNote}`;
-    scopeSummary = item.scopeText;
-    topicsList = [
-      `Phạm vi đề thi: ${item.name} - ${item.scopeText}`,
-      `Phần I (Trắc nghiệm): ${q1} câu (${p1}đ) - Khảo sát lý thuyết trọng tâm`,
-      `Phần II (Đúng / Sai): ${q2} câu (${p2}đ) - Phân hóa mức độ Thông hiểu & Vận dụng`,
-      `Phần III (Trả lời ngắn): ${q3} câu (${p3}đ) - Rèn luyện tính toán chính xác`,
-      `Phần IV (Tự luận): ${q4} bài (${p4}đ) - Câu phân loại điểm 9+ và 10`
-    ];
-  } else if (type === 'chapter') {
-    const chId = parseInt(scopeVal.replace('ch_', '')) || 1;
-    const item = cfg.chapters.find(c => c.id === chId) || cfg.chapters[0];
-    scopeKey = `ch_${item.id}`;
-    newTitle = `Đề Ôn Tập ${item.number}: ${item.title} - ${cfg.gradeName}`;
-    scopeSummary = `Trọng tâm kiến thức ${item.number}: ${item.title}`;
-    topicsList = [
-      `Chuyên đề ôn tập: ${item.number} - ${item.title}`,
-      `Phần I (Trắc nghiệm): ${q1} câu (${p1}đ) - Nhận biết và thông hiểu`,
-      `Phần II (Đúng / Sai): ${q2} câu (${p2}đ) - Kiểm tra toàn diện 4 ý`,
-      `Phần III (Trả lời ngắn): ${q3} câu (${p3}đ) - Điền kết quả giải toán`,
-      `Phần IV (Tự luận): ${q4} bài (${p4}đ) - Bài toán thực tế và vận dụng cao`
-    ];
-  }
-
   const newExamId = 'gen_' + Date.now();
+  const newTitle = `Đề ${baseTitle} - ${cfg.gradeName} [Ma Trận Mặc Định]`;
+
   const newExam = {
     id: newExamId,
     grade: grade,
     scope: scopeKey,
     scopeText: scopeSummary,
     title: newTitle,
-    badge: `Chuẩn 4 Dạng (${totalQuestions} câu - ${totalPoints}đ)`,
+    badge: `Ma Trận Chuẩn (${totalQuestions} câu - ${totalPoints}đ)`,
     badgeColor: type === 'midterm' ? "bg-emerald-600" : type === 'finalterm' ? "bg-indigo-600" : "bg-purple-600",
     authorType: "matrix",
     sourceBadge: sourceBadge,
-    summary: `Đề được tự sinh ngẫu nhiên theo ma trận của Thầy. ${scopeSummary}. ${sourceLabel}. Thời gian làm bài: ${duration} phút.`,
+    summary: `Đề được tự sinh ngẫu nhiên theo ma trận mặc định chuẩn Bộ GD&ĐT. ${scopeSummary}. ${sourceLabel}. Thời gian làm bài: ${duration} phút.`,
     duration: `${duration} phút`,
     examCount: `${totalQuestions} câu (${totalPoints}đ)`,
     format4Part: true,
@@ -4724,22 +4887,32 @@ function executeGenerateFromMatrix() {
       part3: { name: "Phần III: Trả lời ngắn", count: q3, points: p3 },
       part4: { name: "Phần IV: Tự luận", count: q4, points: p4 }
     },
-    topics: topicsList
+    topics: [
+      `Phạm vi đề thi: ${baseTitle} (${scopeSummary})`,
+      `Phần I (Trắc nghiệm): ${q1} câu (${p1}đ) - Khảo sát lý thuyết trọng tâm`,
+      `Phần II (Đúng / Sai): ${q2} câu (${p2}đ) - Phân hóa mức độ Thông hiểu & Vận dụng`,
+      `Phần III (Trả lời ngắn): ${q3} câu (${p3}đ) - Rèn luyện tính toán chính xác`,
+      `Phần IV (Tự luận): ${q4} bài (${p4}đ) - Bài giải chi tiết phân loại điểm cao`
+    ]
   };
 
-  // Đưa vào danh sách tương ứng
-  const listKey = type + 'Reviews';
-  if (!MATH_DATA.reviewSections[listKey]) {
-    MATH_DATA.reviewSections[listKey] = [];
+  if (!MATH_DATA.reviewSections) MATH_DATA.reviewSections = {};
+  if (type === 'midterm') {
+    if (!MATH_DATA.reviewSections.midtermReviews) MATH_DATA.reviewSections.midtermReviews = [];
+    MATH_DATA.reviewSections.midtermReviews.unshift(newExam);
+  } else if (type === 'finalterm') {
+    if (!MATH_DATA.reviewSections.finaltermReviews) MATH_DATA.reviewSections.finaltermReviews = [];
+    MATH_DATA.reviewSections.finaltermReviews.unshift(newExam);
+  } else if (type === 'chapter') {
+    if (!MATH_DATA.reviewSections.chapterReviews) MATH_DATA.reviewSections.chapterReviews = [];
+    MATH_DATA.reviewSections.chapterReviews.unshift(newExam);
   }
-  MATH_DATA.reviewSections[listKey].unshift(newExam);
 
   closeMatrixGeneratorModal();
   setReviewGrade(grade);
   switchReviewSubTab(type);
 
-  // Thông báo xác nhận và gợi ý xem đề
-  if (confirm(`🎉 TỰ SINH ĐỀ THÀNH CÔNG!\n\nĐã tạo thành công: "${newTitle}"\n- Phạm vi: ${scopeSummary}\n- Thời gian: ${duration} phút\n- Nguồn: ${sourceBadge}\n- Cấu trúc: ${q1} TN (${p1}đ) + ${q2} ĐS (${p2}đ) + ${q3} TLN (${p3}đ) + ${q4} TL (${p4}đ) = ${totalPoints} điểm.\n\nThầy có muốn MỞ XEM VÀ THI THỬ ĐỀ NÀY NGAY KHÔNG?`)) {
+  if (confirm(`🎉 TỰ SINH ĐỀ THEO MA TRẬN MẶC ĐỊNH THÀNH CÔNG!\n\nĐã tạo thành công: "${newTitle}"\n- Phạm vi: ${scopeSummary}\n- Thời gian: ${duration} phút\n- Nguồn: ${sourceBadge}\n- Cấu trúc: ${q1} TN (${p1}đ) + ${q2} ĐS (${p2}đ) + ${q3} TLN (${p3}đ) + ${q4} TL (${p4}đ) = ${totalPoints} điểm.\n\nThầy có muốn MỞ XEM VÀ THI THỬ ĐỀ NÀY NGAY KHÔNG?`)) {
     openExamViewerModal(newExamId, type);
   }
 }

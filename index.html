@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
@@ -1563,11 +1563,14 @@
             </div>
           </div>
 
-          <div class="flex items-center gap-2.5">
-            <button onclick="openMatrixGeneratorModal()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition glow-btn">
-              <i data-lucide="cpu" class="w-4 h-4 text-amber-300"></i> 🎲 Tự Sinh Đề Theo Ma Trận
+          <div class="flex items-center gap-2 flex-wrap">
+            <button onclick="openMatrixGeneratorModal(currentReviewGrade, currentReviewSubTab, null, 'default')" class="px-3.5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition glow-btn">
+              <i data-lucide="sliders" class="w-4 h-4 text-amber-300"></i> 🎲 Tự Sinh Đề Theo Ma Trận Mặc Định
             </button>
-            <button onclick="openManualUploadModal()" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition">
+            <button onclick="openMatrixGeneratorModal(currentReviewGrade, currentReviewSubTab, null, 'upload')" class="px-3.5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition glow-btn">
+              <i data-lucide="file-up" class="w-4 h-4 text-amber-300"></i> 📤 Tự Sinh Đề Theo Ma Trận Đưa Lên
+            </button>
+            <button onclick="openManualUploadModal()" class="px-3.5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition">
               <i data-lucide="upload-cloud" class="w-4 h-4"></i> 📝 Thầy Tự Đưa Đề Lên
             </button>
           </div>
@@ -2410,7 +2413,25 @@
           </div>
         </div>
 
-        <!-- MỤC CHỌN NGUỒN CÂU HỎI ĐỂ TỰ SINH ĐỀ -->
+        <!-- TAB CHỌN: MA TRẬN MẶC ĐỊNH VS MA TRẬN ĐƯA LÊN -->
+        <div class="border-b border-slate-200">
+          <div class="flex gap-2">
+            <button type="button" id="tab-btn-matrix-default" onclick="switchMatrixGenTab('default')"
+              class="pb-3 px-4 font-black text-xs sm:text-sm border-b-2 border-indigo-600 text-indigo-700 flex items-center gap-2 transition">
+              <i data-lucide="sliders" class="w-4 h-4 text-indigo-600"></i>
+              <span>Tự Sinh Đề Theo Ma Trận Mặc Định</span>
+            </button>
+            <button type="button" id="tab-btn-matrix-upload" onclick="switchMatrixGenTab('upload')"
+              class="pb-3 px-4 font-bold text-xs sm:text-sm border-b-2 border-transparent text-slate-500 hover:text-purple-700 flex items-center gap-2 transition">
+              <i data-lucide="upload-cloud" class="w-4 h-4 text-purple-600"></i>
+              <span>Tự Sinh Đề Theo Ma Trận Đưa Lên</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 1: TỰ SINH ĐỀ THEO MA TRẬN MẶC ĐỊNH (CHUẨN BỘ GD&ĐT) -->
+        <div id="matrix-pane-default" class="space-y-4">
+          <!-- MỤC CHỌN NGUỒN CÂU HỎI ĐỂ TỰ SINH ĐỀ -->
         <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2.5">
           <label class="block font-bold text-slate-800 uppercase text-xs flex items-center gap-1.5">
             <i data-lucide="database" class="w-4 h-4 text-indigo-600"></i> Nguồn Lấy Câu Hỏi Tự Sinh Đề:
@@ -2609,6 +2630,165 @@
         </div>
 
       </div>
+        </div>
+
+        <!-- TAB 2: TỰ SINH ĐỀ THEO MA TRẬN ĐƯA LÊN -->
+        <div id="matrix-pane-upload" class="hidden space-y-4">
+          
+          <!-- 1. TẢI FILE MA TRẬN LÊN HỆ THỐNG -->
+          <div class="p-4 bg-purple-50/60 rounded-2xl border border-purple-200 space-y-3">
+            <div class="flex items-center justify-between">
+              <label class="block font-bold text-slate-800 uppercase text-xs flex items-center gap-1.5">
+                <i data-lucide="upload-cloud" class="w-4 h-4 text-purple-600"></i> 1. Tải Lên File Ma Trận Đề Thi:
+              </label>
+              <button type="button" onclick="downloadSampleMatrix()" class="text-xs text-indigo-700 hover:text-indigo-900 font-bold flex items-center gap-1">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i> Tải File Ma Trận Mẫu (.xlsx)
+              </button>
+            </div>
+
+            <div class="border-2 border-dashed border-purple-300 rounded-2xl p-5 text-center bg-white hover:bg-purple-50/30 transition cursor-pointer" onclick="document.getElementById('matrix-file-input').click()">
+              <input type="file" id="matrix-file-input" accept=".xlsx,.xls,.docx,.pdf,.json,.csv" onchange="handleMatrixFileUpload(event)" class="hidden">
+              <div class="flex flex-col items-center justify-center gap-1.5">
+                <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center">
+                  <i data-lucide="file-spreadsheet" class="w-5 h-5"></i>
+                </div>
+                <div class="text-xs font-bold text-slate-700">Kéo thả file ma trận vào đây hoặc <span class="text-purple-600 underline">bấm để chọn file từ máy</span></div>
+                <div class="text-[11px] text-slate-400">Hỗ trợ định dạng: Excel (.xlsx, .xls), Word (.docx), PDF (.pdf), CSV, JSON</div>
+              </div>
+            </div>
+
+            <!-- Khung thông báo file đã nạp thành công -->
+            <div id="matrix-file-status-box" class="hidden p-3 bg-emerald-50 rounded-xl border border-emerald-200 flex items-center justify-between gap-2 text-xs">
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 shrink-0"></i>
+                <div>
+                  <span class="font-bold text-emerald-900" id="matrix-file-name">matrix_de_thi.xlsx</span>
+                  <span class="text-emerald-700 text-[11px] block" id="matrix-file-details">Đã nạp thành công • Cấu trúc ma trận hợp lệ</span>
+                </div>
+              </div>
+              <button type="button" onclick="clearUploadedMatrixFile(event)" class="text-slate-400 hover:text-rose-600 p-1">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. PHÂN BỔ TỈ LỆ 4 CẤP ĐỘ TƯ DUY TRONG MA TRẬN -->
+          <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+            <div class="flex items-center justify-between">
+              <label class="block font-bold text-slate-800 uppercase text-xs flex items-center gap-1.5">
+                <i data-lucide="pie-chart" class="w-4 h-4 text-purple-600"></i> 2. Phân Bổ Tỉ Lệ 4 Cấp Độ Tư Duy Trong Ma Trận:
+              </label>
+              <span id="cognitive-ratio-badge" class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold">
+                ✓ Tổng tỉ lệ: 100%
+              </span>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <!-- Nhận biết -->
+              <div class="p-2.5 bg-blue-50/70 rounded-xl border border-blue-200 space-y-1">
+                <div class="text-[11px] font-bold text-blue-900 flex items-center justify-between">
+                  <span>Nhận Biết (NB)</span>
+                  <span class="text-[10px] text-blue-600 font-semibold">Cơ bản</span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <input type="number" id="upload-ratio-nb" value="40" min="0" max="100" oninput="updateCognitiveRatioLive()"
+                    class="w-full p-1.5 border border-blue-300 rounded-lg text-center font-bold text-blue-700 text-xs bg-white">
+                  <span class="text-xs text-slate-500 font-bold">%</span>
+                </div>
+              </div>
+
+              <!-- Thông hiểu -->
+              <div class="p-2.5 bg-emerald-50/70 rounded-xl border border-emerald-200 space-y-1">
+                <div class="text-[11px] font-bold text-emerald-900 flex items-center justify-between">
+                  <span>Thông Hiểu (TH)</span>
+                  <span class="text-[10px] text-emerald-600 font-semibold">Hiểu bài</span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <input type="number" id="upload-ratio-th" value="30" min="0" max="100" oninput="updateCognitiveRatioLive()"
+                    class="w-full p-1.5 border border-emerald-300 rounded-lg text-center font-bold text-emerald-700 text-xs bg-white">
+                  <span class="text-xs text-slate-500 font-bold">%</span>
+                </div>
+              </div>
+
+              <!-- Vận dụng -->
+              <div class="p-2.5 bg-amber-50/70 rounded-xl border border-amber-200 space-y-1">
+                <div class="text-[11px] font-bold text-amber-900 flex items-center justify-between">
+                  <span>Vận Dụng (VD)</span>
+                  <span class="text-[10px] text-amber-600 font-semibold">Vận dụng</span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <input type="number" id="upload-ratio-vd" value="20" min="0" max="100" oninput="updateCognitiveRatioLive()"
+                    class="w-full p-1.5 border border-amber-300 rounded-lg text-center font-bold text-amber-700 text-xs bg-white">
+                  <span class="text-xs text-slate-500 font-bold">%</span>
+                </div>
+              </div>
+
+              <!-- Vận dụng cao -->
+              <div class="p-2.5 bg-rose-50/70 rounded-xl border border-rose-200 space-y-1">
+                <div class="text-[11px] font-bold text-rose-900 flex items-center justify-between">
+                  <span>Vận Dụng Cao</span>
+                  <span class="text-[10px] text-rose-600 font-semibold">Điểm 9-10</span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <input type="number" id="upload-ratio-vdc" value="10" min="0" max="100" oninput="updateCognitiveRatioLive()"
+                    class="w-full p-1.5 border border-rose-300 rounded-lg text-center font-bold text-rose-700 text-xs bg-white">
+                  <span class="text-xs text-slate-500 font-bold">%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Thanh Progress Bar trực quan 4 màu -->
+            <div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden flex shadow-inner">
+              <div id="prog-ratio-nb" class="bg-blue-500 h-full transition-all" style="width: 40%"></div>
+              <div id="prog-ratio-th" class="bg-emerald-500 h-full transition-all" style="width: 30%"></div>
+              <div id="prog-ratio-vd" class="bg-amber-500 h-full transition-all" style="width: 20%"></div>
+              <div id="prog-ratio-vdc" class="bg-rose-500 h-full transition-all" style="width: 10%"></div>
+            </div>
+          </div>
+
+          <!-- 3. BẢNG ĐẶC TẢ MA TRẬN CHI TIẾT (TÙY CHỌN) -->
+          <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+            <label class="block font-bold text-slate-800 uppercase text-xs flex items-center justify-between">
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="file-text" class="w-4 h-4 text-purple-600"></i> 3. Bảng Đặc Tả Ma Trận Chi Tiết (Tùy chọn):
+              </span>
+              <span class="text-[11px] text-slate-400 font-normal">Dán từ Word/Excel hoặc ghi chú yêu cầu</span>
+            </label>
+            <textarea id="upload-matrix-spec" rows="2" placeholder="Ví dụ: Chương 1: 5 câu NB, 3 câu TH, 1 câu VD; Chương 2: 3 câu NB, 2 câu TH, 1 câu VDC..."
+              class="w-full p-2.5 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-purple-500 font-mono"></textarea>
+          </div>
+
+          <!-- 4. NGUỒN CÂU HỎI QUÉT THEO MA TRẬN ĐƯA LÊN -->
+          <div class="p-4 bg-purple-50/40 rounded-2xl border border-purple-200 space-y-2">
+            <label class="block font-bold text-slate-800 uppercase text-xs flex items-center gap-1.5">
+              <i data-lucide="database" class="w-4 h-4 text-purple-600"></i> 4. Nguồn Câu Hỏi Để Bốc Khớp Ma Trận Đưa Lên:
+            </label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <label class="flex items-start gap-2 p-2.5 rounded-xl border border-slate-200 bg-white hover:border-purple-400 cursor-pointer">
+                <input type="radio" name="matrix_upload_source" value="web" checked class="mt-0.5 text-purple-600">
+                <div>
+                  <strong class="text-slate-800 text-xs block">🌐 Toàn quốc & Trường Chuyên</strong>
+                  <span class="text-[10px] text-slate-500 leading-tight block">Bốc câu hỏi trên mạng đúng ma trận.</span>
+                </div>
+              </label>
+              <label class="flex items-start gap-2 p-2.5 rounded-xl border border-slate-200 bg-white hover:border-amber-400 cursor-pointer">
+                <input type="radio" name="matrix_upload_source" value="teacher" class="mt-0.5 text-amber-600">
+                <div>
+                  <strong class="text-slate-800 text-xs block">📚 Kho câu hỏi của Thầy</strong>
+                  <span class="text-[10px] text-slate-500 leading-tight block">Bốc từ kho tài liệu của Thầy.</span>
+                </div>
+              </label>
+              <label class="flex items-start gap-2 p-2.5 rounded-xl border border-slate-200 bg-white hover:border-indigo-400 cursor-pointer">
+                <input type="radio" name="matrix_upload_source" value="hybrid" class="mt-0.5 text-indigo-600">
+                <div>
+                  <strong class="text-slate-800 text-xs block">⚡ Kết hợp cả hai nguồn</strong>
+                  <span class="text-[10px] text-slate-500 leading-tight block">50% từ Thầy + 50% từ mạng.</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+        </div>
 
       <!-- FOOTER -->
       <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
@@ -2617,8 +2797,8 @@
         </span>
         <div class="flex gap-2">
           <button onclick="closeMatrixGeneratorModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl">Hủy</button>
-          <button onclick="executeGenerateFromMatrix()" class="px-6 py-2.5 text-xs sm:text-sm font-black bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white rounded-xl hover:opacity-95 shadow-md flex items-center gap-2 glow-btn">
-            <i data-lucide="sparkles" class="w-4 h-4 text-amber-300"></i> Bấm Sinh Đề Thi Ngay
+          <button id="btn-matrix-submit" onclick="executeGenerateFromMatrix()" class="px-6 py-2.5 text-xs sm:text-sm font-black bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white rounded-xl hover:opacity-95 shadow-md flex items-center gap-2 glow-btn">
+            <i data-lucide="sparkles" class="w-4 h-4 text-amber-300"></i> <span id="btn-matrix-submit-text">Bấm Sinh Đề Theo Ma Trận Mặc Định</span>
           </button>
         </div>
       </div>
