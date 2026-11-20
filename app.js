@@ -4637,10 +4637,22 @@ function setCustomDuration(minutes) {
   if (input) input.value = minutes;
 }
 
-// Áp dụng cấu trúc đề mẫu nhanh (Presets) tuân thủ quy tắc:
-// Phần 1: CỐ ĐỊNH 12 câu, tổng 3.0 điểm
-// Phần 2 + Phần 3 + Phần 4: TỔNG 7.0 điểm (mỗi câu ĐS 1đ, mỗi câu Ngắn 0.5đ, mỗi bài TL 1đ)
-function applyPresetStructure(preset) {
+// ==========================================
+// THIẾT LẬP CẤU TRÚC ĐỀ THI:
+// LOẠI 1: 3 PHẦN (Trắc nghiệm 3đ, Đúng/Sai 4đ, Trả lời ngắn 3đ) = 10đ (22 câu)
+// LOẠI 2: 4 PHẦN (Trắc nghiệm 3đ, Đúng/Sai 2đ, Trả lời ngắn 2đ, Tự luận 3đ) = 10đ (21 câu)
+// ==========================================
+let currentExamStructureType = 'type1';
+
+function selectExamStructureType(type) {
+  currentExamStructureType = type || 'type1';
+  const card1 = document.getElementById('card-struct-type1');
+  const card2 = document.getElementById('card-struct-type2');
+  const radio1 = document.getElementById('radio-matrix-type1');
+  const radio2 = document.getElementById('radio-matrix-type2');
+  const boxPart4 = document.getElementById('box-part4-container');
+  const badgePart4 = document.getElementById('part4-status-badge');
+
   const q1 = document.getElementById('part1-questions');
   const p1 = document.getElementById('part1-points');
   const q2 = document.getElementById('part2-questions');
@@ -4650,108 +4662,93 @@ function applyPresetStructure(preset) {
   const q4 = document.getElementById('part4-questions');
   const p4 = document.getElementById('part4-points');
 
-  if (q1) q1.value = 12;
-  if (p1) p1.value = 3.0;
+  if (currentExamStructureType === 'type1') {
+    // LOẠI 1: GỒM 3 PHẦN (Trắc nghiệm 3đ, Đúng/Sai 4đ, Trả lời ngắn 3đ)
+    if (card1) card1.className = "p-3.5 rounded-2xl border-2 border-indigo-600 bg-white hover:bg-indigo-50/40 cursor-pointer transition shadow-xs flex items-start gap-3 relative";
+    if (card2) card2.className = "p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-purple-400 hover:bg-purple-50/30 cursor-pointer transition shadow-xs flex items-start gap-3 relative";
+    if (radio1) radio1.checked = true;
+    if (radio2) radio2.checked = false;
 
-  if (preset === 'combo_4_4_1' || preset === 'gdpt2018' || preset === 'standard') {
-    // 4 Đ/S (4đ) + 4 Ngắn (2đ) + 1 TL (1đ) = 7.0đ (Tổng 21 câu)
-    if (q2) q2.value = 4;
-    if (q3) q3.value = 4;
-    if (q4) q4.value = 1;
-  } else if (preset === 'combo_3_6_1' || preset === 'more_short') {
-    // 3 Đ/S (3đ) + 6 Ngắn (3đ) + 1 TL (1đ) = 7.0đ (Tổng 22 câu)
-    if (q2) q2.value = 3;
-    if (q3) q3.value = 6;
-    if (q4) q4.value = 1;
-  } else if (preset === 'combo_5_2_1' || preset === 'more_tf') {
-    // 5 Đ/S (5đ) + 2 Ngắn (1đ) + 1 TL (1đ) = 7.0đ (Tổng 20 câu)
-    if (q2) q2.value = 5;
-    if (q3) q3.value = 2;
-    if (q4) q4.value = 1;
-  } else if (preset === 'combo_4_6_0' || preset === 'no_essay') {
-    // 4 Đ/S (4đ) + 6 Ngắn (3đ) + 0 TL (0đ) = 7.0đ (Tổng 22 câu)
-    if (q2) q2.value = 4;
-    if (q3) q3.value = 6;
-    if (q4) q4.value = 0;
-  } else if (preset === 'combo_3_4_2' || preset === 'more_essay') {
-    // 3 Đ/S (3đ) + 4 Ngắn (2đ) + 2 TL (2đ) = 7.0đ (Tổng 21 câu)
-    if (q2) q2.value = 3;
-    if (q3) q3.value = 4;
-    if (q4) q4.value = 2;
+    if (q1) q1.value = 12; if (p1) p1.value = "3.0";
+    if (q2) q2.value = 4;  if (p2) p2.value = "4.0";
+    if (q3) q3.value = 6;  if (p3) p3.value = "3.0";
+    if (q4) q4.value = 0;  if (p4) p4.value = "0.0";
+
+    if (boxPart4) {
+      boxPart4.classList.add('opacity-40');
+      boxPart4.classList.remove('border-purple-200', 'bg-white');
+      boxPart4.classList.add('border-slate-200', 'bg-slate-50');
+    }
+    if (badgePart4) {
+      badgePart4.className = "text-[10px] font-bold text-slate-400 italic";
+      badgePart4.innerText = "Không áp dụng (Loại 1)";
+    }
+  } else {
+    // LOẠI 2: GỒM 4 PHẦN (Trắc nghiệm 3đ, Đúng/Sai 2đ, Trả lời ngắn 2đ, Tự luận 3đ)
+    if (card1) card1.className = "p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/40 cursor-pointer transition shadow-xs flex items-start gap-3 relative";
+    if (card2) card2.className = "p-3.5 rounded-2xl border-2 border-purple-600 bg-white hover:bg-purple-50/30 cursor-pointer transition shadow-xs flex items-start gap-3 relative";
+    if (radio1) radio1.checked = false;
+    if (radio2) radio2.checked = true;
+
+    if (q1) q1.value = 12; if (p1) p1.value = "3.0";
+    if (q2) q2.value = 2;  if (p2) p2.value = "2.0";
+    if (q3) q3.value = 4;  if (p3) p3.value = "2.0";
+    if (q4) q4.value = 3;  if (p4) p4.value = "3.0";
+
+    if (boxPart4) {
+      boxPart4.classList.remove('opacity-40');
+      boxPart4.classList.add('border-purple-200', 'bg-white');
+      boxPart4.classList.remove('border-slate-200', 'bg-slate-50');
+    }
+    if (badgePart4) {
+      badgePart4.className = "text-[10px] font-bold text-purple-700";
+      badgePart4.innerText = "1.00đ / bài (3 bài = 3.0đ)";
+    }
   }
 
   updateMatrixLiveSummary();
 }
 
+function applyPresetStructure(preset) {
+  if (preset === 'type2' || preset === 'combo_3_4_2' || preset === 'more_essay') {
+    selectExamStructureType('type2');
+  } else {
+    selectExamStructureType('type1');
+  }
+}
+
 // Cập nhật thống kê câu hỏi & điểm số theo thời gian thực
 function updateMatrixLiveSummary() {
-  const q1El = document.getElementById('part1-questions');
-  const p1El = document.getElementById('part1-points');
-  const q2El = document.getElementById('part2-questions');
-  const p2El = document.getElementById('part2-points');
-  const q3El = document.getElementById('part3-questions');
-  const p3El = document.getElementById('part3-points');
-  const q4El = document.getElementById('part4-questions');
-  const p4El = document.getElementById('part4-points');
+  const q1 = parseInt(document.getElementById('part1-questions')?.value || 12);
+  const p1 = parseFloat(document.getElementById('part1-points')?.value || 3.0);
+  const q2 = parseInt(document.getElementById('part2-questions')?.value || 0);
+  const p2 = parseFloat(document.getElementById('part2-points')?.value || 0);
+  const q3 = parseInt(document.getElementById('part3-questions')?.value || 0);
+  const p3 = parseFloat(document.getElementById('part3-points')?.value || 0);
+  const q4 = parseInt(document.getElementById('part4-questions')?.value || 0);
+  const p4 = parseFloat(document.getElementById('part4-points')?.value || 0);
 
-  // Phần 1: CỐ ĐỊNH 12 câu, tổng 3.0 điểm
-  if (q1El) q1El.value = 12;
-  if (p1El) p1El.value = 3.0;
-
-  const q1 = 12;
-  const p1 = 3.0;
-  const q2 = Math.max(0, parseInt(q2El?.value || 0));
-  const q3 = Math.max(0, parseInt(q3El?.value || 0));
-  const q4 = Math.max(0, parseInt(q4El?.value || 0));
-
-  // Tự động tính điểm giữa các phần 2, 3, 4 tùy thuộc vào số câu:
-  // Mỗi câu Đúng/Sai = 1.0 điểm; Mỗi câu Trả lời ngắn = 0.5 điểm; Mỗi bài Tự luận = 1.0 điểm
-  const p2 = q2 * 1.0;
-  const p3 = Math.round(q3 * 0.5 * 10) / 10;
-  const p4 = q4 * 1.0;
-
-  if (p2El) p2El.value = p2.toFixed(1);
-  if (p3El) p3El.value = p3.toFixed(1);
-  if (p4El) p4El.value = p4.toFixed(1);
-
-  const part234Points = Math.round((p2 + p3 + p4) * 10) / 10;
   const totalQuestions = q1 + q2 + q3 + q4;
-  const totalPoints = Math.round((p1 + part234Points) * 10) / 10;
+  const totalPoints = Math.round((p1 + p2 + p3 + p4) * 10) / 10;
 
+  const structNameEl = document.getElementById('summary-structure-name');
   const qEl = document.getElementById('summary-total-questions');
-  const p234El = document.getElementById('summary-part234-points');
   const pEl = document.getElementById('summary-total-points');
   const statusEl = document.getElementById('summary-points-status');
 
+  const isType1 = (q4 === 0);
+  if (structNameEl) {
+    structNameEl.innerText = isType1 
+      ? "Loại 1 (3 phần: TN 3đ, ĐS 4đ, Ngắn 3đ)" 
+      : "Loại 2 (4 phần: TN 3đ, ĐS 2đ, Ngắn 2đ, TL 3đ)";
+  }
   if (qEl) qEl.innerText = totalQuestions;
-  if (p234El) p234El.innerText = part234Points.toFixed(1);
   if (pEl) pEl.innerText = totalPoints.toFixed(1);
 
   if (statusEl) {
-    if (Math.abs(part234Points - 7.0) < 0.05 && Math.abs(totalPoints - 10.0) < 0.05) {
-      statusEl.className = "px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold flex items-center gap-1.5 shadow-xs";
-      statusEl.innerHTML = `<i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i> Đạt chuẩn: Phần I (3.0đ) + Phần II,III,IV (${part234Points}đ / 7.0đ) = ${totalPoints}đ`;
-    } else if (part234Points < 7.0) {
-      const diff = (7.0 - part234Points).toFixed(1);
-      statusEl.className = "px-3 py-1.5 rounded-full bg-amber-100 text-amber-800 text-xs font-bold flex items-center gap-1.5 shadow-xs";
-      statusEl.innerHTML = `<i data-lucide="alert-circle" class="w-4 h-4 text-amber-600"></i> Phần II+III+IV: ${part234Points}đ / 7.0đ (còn thiếu ${diff}đ). Hãy tăng thêm câu hỏi để đủ 7đ.`;
-    } else {
-      const diff = (part234Points - 7.0).toFixed(1);
-      statusEl.className = "px-3 py-1.5 rounded-full bg-rose-100 text-rose-800 text-xs font-bold flex items-center gap-1.5 shadow-xs";
-      statusEl.innerHTML = `<i data-lucide="alert-circle" class="w-4 h-4 text-rose-600"></i> Phần II+III+IV: ${part234Points}đ / 7.0đ (vượt ${diff}đ). Hãy giảm bớt câu hỏi để đúng 7đ.`;
-    }
+    statusEl.className = "px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold flex items-center gap-1 shadow-xs";
+    statusEl.innerHTML = `<i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i> Chuẩn thang điểm 10.0 tuyệt đối (${totalQuestions} câu)`;
   }
-
-  // Tỷ lệ điểm đơn giá mỗi câu
-  const r1 = document.getElementById('part1-rate-hint');
-  const r2 = document.getElementById('part2-rate-hint');
-  const r3 = document.getElementById('part3-rate-hint');
-  const r4 = document.getElementById('part4-rate-hint');
-
-  if (r1) r1.innerText = '0.25đ / câu';
-  if (r2) r2.innerText = '1.00đ / câu';
-  if (r3) r3.innerText = '0.50đ / câu';
-  if (r4) r4.innerText = '1.00đ / bài';
 
   refreshIconsAndMath();
 }
@@ -4824,17 +4821,19 @@ function executeGenerateFromMatrix() {
 
     const q1_up = 12;
     const p1_up = 3.0;
-    const q2_up = Math.max(0, parseInt(document.getElementById('part2-questions')?.value || 4));
-    const p2_up = q2_up * 1.0;
-    const q3_up = Math.max(0, parseInt(document.getElementById('part3-questions')?.value || 4));
-    const p3_up = Math.round(q3_up * 0.5 * 10) / 10;
-    const q4_up = Math.max(0, parseInt(document.getElementById('part4-questions')?.value || 1));
-    const p4_up = q4_up * 1.0;
+    const q2_up = Math.max(0, parseInt(document.getElementById('part2-questions')?.value ?? 4));
+    const p2_up = parseFloat(document.getElementById('part2-points')?.value ?? 4.0);
+    const q3_up = Math.max(0, parseInt(document.getElementById('part3-questions')?.value ?? 6));
+    const p3_up = parseFloat(document.getElementById('part3-points')?.value ?? 3.0);
+    const q4_up = Math.max(0, parseInt(document.getElementById('part4-questions')?.value ?? 0));
+    const p4_up = parseFloat(document.getElementById('part4-points')?.value ?? 0.0);
     const totalQuestions_up = q1_up + q2_up + q3_up + q4_up;
     const totalPoints_up = Math.round((p1_up + p2_up + p3_up + p4_up) * 10) / 10;
 
+    const isType1_up = (q4_up === 0);
     const newExamId = 'gen_upload_' + Date.now();
-    const newTitle = `Đề ${baseTitle} - ${cfg.gradeName} [Ma Trận Đưa Lên]`;
+    const typeTag_up = isType1_up ? '[Loại 1: 3 Phần]' : '[Loại 2: 4 Phần]';
+    const newTitle = `Đề ${baseTitle} - ${cfg.gradeName} ${typeTag_up} [Ma Trận Đưa Lên]`;
 
     const newExam = {
       id: newExamId,
@@ -4842,8 +4841,8 @@ function executeGenerateFromMatrix() {
       scope: scopeKey,
       scopeText: scopeSummary,
       title: newTitle,
-      badge: hasFile ? `Ma Trận File: ${uploadedMatrixData.name.substring(0, 15)}...` : `Ma Trận Thầy (${nb}%-${th}%-${vd}%-${vdc}%)`,
-      badgeColor: "bg-purple-700",
+      badge: hasFile ? `Ma Trận File: ${uploadedMatrixData.name.substring(0, 15)}...` : (isType1_up ? `Loại 1 (3 phần: ${totalQuestions_up} câu - 10.0đ)` : `Loại 2 (4 phần: ${totalQuestions_up} câu - 10.0đ)`),
+      badgeColor: isType1_up ? "bg-indigo-700" : "bg-purple-700",
       authorType: "teacher_matrix",
       sourceBadge: sourceBadge,
       summary: `Đề được AI bốc tự động khớp 100% Ma trận Thầy đưa lên. ${matrixDesc}. ${scopeSummary}. Nguồn: ${sourceLabel}. Thời gian: ${duration} phút.`,
@@ -4852,16 +4851,25 @@ function executeGenerateFromMatrix() {
       format4Part: true,
       questions: pickQuestionsFromSourceBank(grade, scopeKey, q1_up, q2_up, q3_up, q4_up, p1_up, p2_up, p3_up, p4_up),
       partsConfig: {
-        part1: { name: "Phần I: Trắc nghiệm nhiều lựa chọn", count: q1_up, points: p1_up },
-        part2: { name: "Phần II: Đúng / Sai", count: q2_up, points: p2_up },
-        part3: { name: "Phần III: Trả lời ngắn", count: q3_up, points: p3_up },
-        part4: { name: "Phần IV: Tự luận", count: q4_up, points: p4_up }
+        part1: { name: "Phần I: Trắc nghiệm (12 câu - 3.0đ)", count: q1_up, points: p1_up },
+        part2: { name: `Phần II: Đúng / Sai (${q2_up} câu - ${p2_up.toFixed(1)}đ)`, count: q2_up, points: p2_up },
+        part3: { name: `Phần III: Trả lời ngắn (${q3_up} câu - ${p3_up.toFixed(1)}đ)`, count: q3_up, points: p3_up },
+        part4: { name: `Phần IV: Tự luận (${q4_up} bài - ${p4_up.toFixed(1)}đ)`, count: q4_up, points: p4_up }
       },
-      topics: [
+      topics: isType1_up ? [
         `Phạm vi đề thi: ${baseTitle} (${scopeSummary})`,
-        `Cấu trúc ma trận đưa lên: ${matrixDesc}`,
-        `Mức độ Nhận biết (NB): ${nb}% | Thông hiểu (TH): ${th}%`,
-        `Mức độ Vận dụng (VD): ${vd}% | Vận dụng cao (VDC): ${vdc}%`,
+        `Cấu trúc đề: Loại 1 gồm 3 phần (22 câu - 10.0 điểm)`,
+        `Phần I (Trắc nghiệm): 12 câu (3.0đ) - Mỗi câu 0.25đ`,
+        `Phần II (Đúng / Sai): 4 câu (4.0đ) - Mỗi câu 1.0đ (4 ý a,b,c,d)`,
+        `Phần III (Trả lời ngắn): 6 câu (3.0đ) - Mỗi câu 0.5đ`,
+        specText ? `Yêu cầu bảng đặc tả: ${specText}` : `Nguồn dữ liệu: ${sourceLabel}`
+      ] : [
+        `Phạm vi đề thi: ${baseTitle} (${scopeSummary})`,
+        `Cấu trúc đề: Loại 2 gồm 4 phần (21 câu - 10.0 điểm)`,
+        `Phần I (Trắc nghiệm): 12 câu (3.0đ) - Mỗi câu 0.25đ`,
+        `Phần II (Đúng / Sai): 2 câu (2.0đ) - Mỗi câu 1.0đ (4 ý a,b,c,d)`,
+        `Phần III (Trả lời ngắn): 4 câu (2.0đ) - Mỗi câu 0.5đ`,
+        `Phần IV (Tự luận): 3 bài (3.0đ) - Mỗi bài 1.0đ`,
         specText ? `Yêu cầu bảng đặc tả: ${specText}` : `Nguồn dữ liệu: ${sourceLabel}`
       ]
     };
@@ -4907,12 +4915,12 @@ function executeGenerateFromMatrix() {
 
   const q1 = 12;
   const p1 = 3.0;
-  const q2 = Math.max(0, parseInt(document.getElementById('part2-questions')?.value || 4));
-  const p2 = q2 * 1.0;
-  const q3 = Math.max(0, parseInt(document.getElementById('part3-questions')?.value || 4));
-  const p3 = Math.round(q3 * 0.5 * 10) / 10;
-  const q4 = Math.max(0, parseInt(document.getElementById('part4-questions')?.value || 1));
-  const p4 = q4 * 1.0;
+  const q2 = Math.max(0, parseInt(document.getElementById('part2-questions')?.value ?? 4));
+  const p2 = parseFloat(document.getElementById('part2-points')?.value ?? 4.0);
+  const q3 = Math.max(0, parseInt(document.getElementById('part3-questions')?.value ?? 6));
+  const p3 = parseFloat(document.getElementById('part3-points')?.value ?? 3.0);
+  const q4 = Math.max(0, parseInt(document.getElementById('part4-questions')?.value ?? 0));
+  const p4 = parseFloat(document.getElementById('part4-points')?.value ?? 0.0);
 
   const totalQuestions = q1 + q2 + q3 + q4;
   const totalPoints = Math.round((p1 + p2 + p3 + p4) * 10) / 10;
@@ -4922,8 +4930,10 @@ function executeGenerateFromMatrix() {
     return;
   }
 
+  const isType1 = (q4 === 0);
   const newExamId = 'gen_' + Date.now();
-  const newTitle = `Đề ${baseTitle} - ${cfg.gradeName} [Ma Trận Mặc Định]`;
+  const typeTag = isType1 ? '[Loại 1: 3 Phần]' : '[Loại 2: 4 Phần]';
+  const newTitle = `Đề ${baseTitle} - ${cfg.gradeName} ${typeTag} [Ma Trận Mặc Định]`;
 
   const newExam = {
     id: newExamId,
@@ -4931,8 +4941,8 @@ function executeGenerateFromMatrix() {
     scope: scopeKey,
     scopeText: scopeSummary,
     title: newTitle,
-    badge: `Ma Trận Chuẩn (${totalQuestions} câu - ${totalPoints}đ)`,
-    badgeColor: type === 'midterm' ? "bg-emerald-600" : type === 'finalterm' ? "bg-indigo-600" : "bg-purple-600",
+    badge: isType1 ? `Loại 1: 3 Phần (${totalQuestions} câu - 10.0đ)` : `Loại 2: 4 Phần (${totalQuestions} câu - 10.0đ)`,
+    badgeColor: isType1 ? "bg-indigo-600" : "bg-purple-600",
     authorType: "matrix",
     sourceBadge: sourceBadge,
     summary: `Đề được tự sinh ngẫu nhiên theo ma trận mặc định chuẩn Bộ GD&ĐT. ${scopeSummary}. ${sourceLabel}. Thời gian làm bài: ${duration} phút.`,
@@ -4941,17 +4951,26 @@ function executeGenerateFromMatrix() {
     format4Part: true,
     questions: pickQuestionsFromSourceBank(grade, scopeKey, q1, q2, q3, q4, p1, p2, p3, p4),
     partsConfig: {
-      part1: { name: "Phần I: Trắc nghiệm nhiều lựa chọn", count: q1, points: p1 },
-      part2: { name: "Phần II: Đúng / Sai", count: q2, points: p2 },
-      part3: { name: "Phần III: Trả lời ngắn", count: q3, points: p3 },
-      part4: { name: "Phần IV: Tự luận", count: q4, points: p4 }
+      part1: { name: "Phần I: Trắc nghiệm (12 câu - 3.0đ)", count: q1, points: p1 },
+      part2: { name: `Phần II: Đúng / Sai (${q2} câu - ${p2.toFixed(1)}đ)`, count: q2, points: p2 },
+      part3: { name: `Phần III: Trả lời ngắn (${q3} câu - ${p3.toFixed(1)}đ)`, count: q3, points: p3 },
+      part4: { name: `Phần IV: Tự luận (${q4} bài - ${p4.toFixed(1)}đ)`, count: q4, points: p4 }
     },
-    topics: [
+    topics: isType1 ? [
       `Phạm vi đề thi: ${baseTitle} (${scopeSummary})`,
-      `Phần I (Trắc nghiệm): ${q1} câu (${p1}đ) - Khảo sát lý thuyết trọng tâm`,
-      `Phần II (Đúng / Sai): ${q2} câu (${p2}đ) - Phân hóa mức độ Thông hiểu & Vận dụng`,
-      `Phần III (Trả lời ngắn): ${q3} câu (${p3}đ) - Rèn luyện tính toán chính xác`,
-      `Phần IV (Tự luận): ${q4} bài (${p4}đ) - Bài giải chi tiết phân loại điểm cao`
+      `Cấu trúc đề: Loại 1 gồm 3 phần (22 câu - 10.0 điểm)`,
+      `Phần I (Trắc nghiệm): 12 câu (3.0đ) - Mỗi câu 0.25đ`,
+      `Phần II (Đúng / Sai): 4 câu (4.0đ) - Mỗi câu 1.0đ (4 ý a,b,c,d)`,
+      `Phần III (Trả lời ngắn): 6 câu (3.0đ) - Mỗi câu 0.5đ`,
+      `Nguồn đề: ${sourceLabel}`
+    ] : [
+      `Phạm vi đề thi: ${baseTitle} (${scopeSummary})`,
+      `Cấu trúc đề: Loại 2 gồm 4 phần (21 câu - 10.0 điểm)`,
+      `Phần I (Trắc nghiệm): 12 câu (3.0đ) - Mỗi câu 0.25đ`,
+      `Phần II (Đúng / Sai): 2 câu (2.0đ) - Mỗi câu 1.0đ (4 ý a,b,c,d)`,
+      `Phần III (Trả lời ngắn): 4 câu (2.0đ) - Mỗi câu 0.5đ`,
+      `Phần IV (Tự luận): 3 bài (3.0đ) - Mỗi bài 1.0đ`,
+      `Nguồn đề: ${sourceLabel}`
     ]
   };
 
@@ -5003,7 +5022,16 @@ function setManualCustomDuration(minutes) {
   if (input) input.value = minutes;
 }
 
-function setManualPresetStructure(preset) {
+function selectManualStructureType(type) {
+  const card1 = document.getElementById('card-manual-type1');
+  const card2 = document.getElementById('card-manual-type2');
+  const radio1 = document.getElementById('radio-manual-type1');
+  const radio2 = document.getElementById('radio-manual-type2');
+  const boxPart4 = document.getElementById('manual-box-part4');
+  const tagPart4 = document.getElementById('manual-part4-tag');
+  const tagPart2 = document.getElementById('manual-part2-tag');
+  const tagPart3 = document.getElementById('manual-part3-tag');
+
   const q1 = document.getElementById('manual-part1-questions');
   const p1 = document.getElementById('manual-part1-points');
   const q2 = document.getElementById('manual-part2-questions');
@@ -5013,80 +5041,75 @@ function setManualPresetStructure(preset) {
   const q4 = document.getElementById('manual-part4-questions');
   const p4 = document.getElementById('manual-part4-points');
 
-  if (q1) q1.value = 12;
-  if (p1) p1.value = 3.0;
+  if (type === 'type1') {
+    if (card1) card1.className = "p-3 rounded-2xl border-2 border-amber-600 bg-amber-50/40 cursor-pointer transition shadow-xs flex items-start gap-2.5";
+    if (card2) card2.className = "p-3 rounded-2xl border-2 border-slate-200 bg-white hover:border-purple-300 cursor-pointer transition shadow-xs flex items-start gap-2.5";
+    if (radio1) radio1.checked = true;
+    if (radio2) radio2.checked = false;
 
-  if (preset === 'combo_4_4_1' || preset === 'gdpt2018') {
-    if (q2) q2.value = 4;
-    if (q3) q3.value = 4;
-    if (q4) q4.value = 1;
-  } else if (preset === 'combo_3_6_1') {
-    if (q2) q2.value = 3;
-    if (q3) q3.value = 6;
-    if (q4) q4.value = 1;
-  } else if (preset === 'combo_5_2_1') {
-    if (q2) q2.value = 5;
-    if (q3) q3.value = 2;
-    if (q4) q4.value = 1;
-  } else if (preset === 'combo_4_6_0') {
-    if (q2) q2.value = 4;
-    if (q3) q3.value = 6;
-    if (q4) q4.value = 0;
+    if (q1) q1.value = 12; if (p1) p1.value = "3.0";
+    if (q2) q2.value = 4;  if (p2) p2.value = "4.0";
+    if (q3) q3.value = 6;  if (p3) p3.value = "3.0";
+    if (q4) q4.value = 0;  if (p4) p4.value = "0.0";
+
+    if (tagPart2) tagPart2.innerText = "4.0đ";
+    if (tagPart3) tagPart3.innerText = "3.0đ";
+    if (tagPart4) tagPart4.innerText = "0.0đ";
+    if (boxPart4) boxPart4.classList.add('opacity-40');
+  } else {
+    if (card1) card1.className = "p-3 rounded-2xl border-2 border-slate-200 bg-white hover:border-amber-300 cursor-pointer transition shadow-xs flex items-start gap-2.5";
+    if (card2) card2.className = "p-3 rounded-2xl border-2 border-purple-600 bg-purple-50/40 cursor-pointer transition shadow-xs flex items-start gap-2.5";
+    if (radio1) radio1.checked = false;
+    if (radio2) radio2.checked = true;
+
+    if (q1) q1.value = 12; if (p1) p1.value = "3.0";
+    if (q2) q2.value = 2;  if (p2) p2.value = "2.0";
+    if (q3) q3.value = 4;  if (p3) p3.value = "2.0";
+    if (q4) q4.value = 3;  if (p4) p4.value = "3.0";
+
+    if (tagPart2) tagPart2.innerText = "2.0đ";
+    if (tagPart3) tagPart3.innerText = "2.0đ";
+    if (tagPart4) tagPart4.innerText = "3.0đ";
+    if (boxPart4) boxPart4.classList.remove('opacity-40');
   }
 
   updateManualLiveSummary();
 }
 
-function updateManualLiveSummary() {
-  const q1El = document.getElementById('manual-part1-questions');
-  const p1El = document.getElementById('manual-part1-points');
-  const q2El = document.getElementById('manual-part2-questions');
-  const p2El = document.getElementById('manual-part2-points');
-  const q3El = document.getElementById('manual-part3-questions');
-  const p3El = document.getElementById('manual-part3-points');
-  const q4El = document.getElementById('manual-part4-questions');
-  const p4El = document.getElementById('manual-part4-points');
-
-  if (q1El) q1El.value = 12;
-  if (p1El) p1El.value = 3.0;
-
-  const q1 = 12;
-  const p1 = 3.0;
-  const q2 = Math.max(0, parseInt(q2El?.value || 0));
-  const q3 = Math.max(0, parseInt(q3El?.value || 0));
-  const q4 = Math.max(0, parseInt(q4El?.value || 0));
-
-  const p2 = q2 * 1.0;
-  const p3 = Math.round(q3 * 0.5 * 10) / 10;
-  const p4 = q4 * 1.0;
-
-  if (p2El) p2El.value = p2.toFixed(1);
-  if (p3El) p3El.value = p3.toFixed(1);
-  if (p4El) p4El.value = p4.toFixed(1);
-
-  const part234P = Math.round((p2 + p3 + p4) * 10) / 10;
-  const totalQ = q1 + q2 + q3 + q4;
-  const totalP = Math.round((p1 + part234P) * 10) / 10;
-
-  const qEl = document.getElementById('manual-summary-q');
-  const pEl = document.getElementById('manual-summary-p');
-  const p234El = document.getElementById('manual-summary-p234');
-  const badgeEl = document.getElementById('manual-summary-badge');
-
-  if (qEl) qEl.innerText = totalQ;
-  if (pEl) pEl.innerText = totalP.toFixed(1);
-  if (p234El) p234El.innerText = part234P.toFixed(1);
-
-  if (badgeEl) {
-    if (Math.abs(part234P - 7.0) < 0.05 && Math.abs(totalP - 10.0) < 0.05) {
-      badgeEl.className = "px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold";
-      badgeEl.innerText = "✅ P1: 3đ + P2,3,4: 7đ = 10đ";
-    } else {
-      badgeEl.className = "px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold";
-      badgeEl.innerText = `⚠️ P2,3,4: ${part234P}đ / 7đ (Tổng: ${totalP}đ)`;
-    }
+function setManualPresetStructure(preset) {
+  if (preset === 'type2') {
+    selectManualStructureType('type2');
+  } else {
+    selectManualStructureType('type1');
   }
 }
+
+function updateManualLiveSummary() {
+  const q1 = parseInt(document.getElementById('manual-part1-questions')?.value || 12);
+  const p1 = parseFloat(document.getElementById('manual-part1-points')?.value || 3.0);
+  const q2 = parseInt(document.getElementById('manual-part2-questions')?.value || 0);
+  const p2 = parseFloat(document.getElementById('manual-part2-points')?.value || 0);
+  const q3 = parseInt(document.getElementById('manual-part3-questions')?.value || 0);
+  const p3 = parseFloat(document.getElementById('manual-part3-points')?.value || 0);
+  const q4 = parseInt(document.getElementById('manual-part4-questions')?.value || 0);
+  const p4 = parseFloat(document.getElementById('manual-part4-points')?.value || 0);
+
+  const totalQ = q1 + q2 + q3 + q4;
+  const totalP = Math.round((p1 + p2 + p3 + p4) * 10) / 10;
+
+  const nameEl = document.getElementById('manual-summary-name');
+  const qEl = document.getElementById('manual-summary-q');
+  const pEl = document.getElementById('manual-summary-p');
+  const badgeEl = document.getElementById('manual-summary-badge');
+
+  if (nameEl) nameEl.innerText = (q4 === 0) ? "Loại 1 (3 phần)" : "Loại 2 (4 phần)";
+  if (qEl) qEl.innerText = totalQ;
+  if (pEl) pEl.innerText = totalP.toFixed(1);
+
+  if (badgeEl) {
+    badgeEl.className = "px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold";
+    badgeEl.innerText = "✅ Chuẩn 10 điểm tuyệt đối";
+  }
 }
 
 function fillSampleManualSolution() {
@@ -5324,10 +5347,10 @@ function openExamViewerModal(examId, category) {
   const p1 = exam.partsConfig?.part1?.points ?? 3.0;
   const q2 = exam.partsConfig?.part2?.count ?? 4;
   const p2 = exam.partsConfig?.part2?.points ?? 4.0;
-  const q3 = exam.partsConfig?.part3?.count ?? 4;
-  const p3 = exam.partsConfig?.part3?.points ?? 2.0;
-  const q4 = exam.partsConfig?.part4?.count ?? 1;
-  const p4 = exam.partsConfig?.part4?.points ?? 1.0;
+  const q3 = exam.partsConfig?.part3?.count ?? 6;
+  const p3 = exam.partsConfig?.part3?.points ?? 3.0;
+  const q4 = exam.partsConfig?.part4?.count ?? 0;
+  const p4 = exam.partsConfig?.part4?.points ?? 0.0;
 
   const currentQ1 = sampleBank ? (sampleBank.part1_mcq || sampleBank.part1 || []).length : 0;
   const currentQ2 = sampleBank ? (sampleBank.part2_trueFalse || sampleBank.part2_tf || sampleBank.part2 || []).length : 0;
@@ -5639,11 +5662,6 @@ function openExamViewerModal(examId, category) {
       `).join('')}
     </div>
     ` : ''}
-            ${q.solution}
-          </div>
-        </div>
-      `).join('')}
-    </div>
   `;
 
   modal.classList.remove('hidden');
@@ -5910,31 +5928,33 @@ function submitExamViewer() {
         </div>
       </div>
 
-      <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center">
+      <div class="grid grid-cols-2 ${essay.length > 0 ? 'sm:grid-cols-5' : 'sm:grid-cols-4'} gap-3 text-center">
         <div class="p-3 bg-white/10 rounded-2xl backdrop-blur-xs border border-white/10">
           <div class="text-[11px] text-indigo-200 font-bold">TỔNG ĐIỂM</div>
           <div class="text-2xl sm:text-3xl font-black text-amber-300 font-mono mt-0.5">${totalScore} <span class="text-xs text-white/70">/ 10</span></div>
         </div>
         <div class="p-3 bg-white/10 rounded-2xl backdrop-blur-xs border border-white/10">
-          <div class="text-[11px] text-blue-200 font-bold">Phần I (TN)</div>
+          <div class="text-[11px] text-blue-200 font-bold">Phần I (TN: 3.0đ)</div>
           <div class="text-lg font-black text-white font-mono mt-1">${mcqScore.toFixed(2)}đ</div>
           <div class="text-[10px] text-indigo-300">${mcqCorrectCount}/${mcq.length} câu đúng</div>
         </div>
         <div class="p-3 bg-white/10 rounded-2xl backdrop-blur-xs border border-white/10">
-          <div class="text-[11px] text-emerald-200 font-bold">Phần II (Đ/S)</div>
+          <div class="text-[11px] text-emerald-200 font-bold">Phần II (Đ/S: ${tf.reduce((s,q)=>s+(q.points||1.0),0).toFixed(1)}đ)</div>
           <div class="text-lg font-black text-white font-mono mt-1">${tfScore.toFixed(2)}đ</div>
           <div class="text-[10px] text-indigo-300">${tfFullyCorrectCount}/${tf.length} câu trọn vẹn</div>
         </div>
         <div class="p-3 bg-white/10 rounded-2xl backdrop-blur-xs border border-white/10">
-          <div class="text-[11px] text-amber-200 font-bold">Phần III (TLN)</div>
+          <div class="text-[11px] text-amber-200 font-bold">Phần III (TLN: ${sa.reduce((s,q)=>s+(q.points||0.5),0).toFixed(1)}đ)</div>
           <div class="text-lg font-black text-white font-mono mt-1">${saScore.toFixed(2)}đ</div>
           <div class="text-[10px] text-indigo-300">${saCorrectCount}/${sa.length} câu đúng</div>
         </div>
+        ${essay.length > 0 ? `
         <div class="p-3 bg-white/10 rounded-2xl backdrop-blur-xs border border-white/10 col-span-2 sm:col-span-1">
-          <div class="text-[11px] text-purple-200 font-bold">Phần IV (TL)</div>
+          <div class="text-[11px] text-purple-200 font-bold">Phần IV (TL: ${essay.reduce((s,q)=>s+(q.points||1.0),0).toFixed(1)}đ)</div>
           <div class="text-lg font-black text-white font-mono mt-1">${essayScore.toFixed(1)}đ</div>
           <div class="text-[10px] text-indigo-300">${essayText.length > 0 ? 'Đã nộp bài giải' : 'Chưa nhập'}</div>
         </div>
+        ` : ''}
       </div>
 
       <div class="p-3 bg-white/10 rounded-xl text-xs text-indigo-100 flex items-start gap-2">
@@ -5985,15 +6005,15 @@ function executeManualUploadExam() {
   const solution = document.getElementById('manual-exam-solution')?.value.trim();
   const youtubeUrl = document.getElementById('manual-exam-youtube')?.value.trim();
 
-  // Đọc 4 phần do Thầy thiết lập (Phần 1 cố định 12 câu - 3.0đ; Phần 2,3,4 tự tính theo số câu)
+  // Đọc 4 phần do Thầy thiết lập (Loại 1: 3 phần - 22 câu; Loại 2: 4 phần - 21 câu)
   const q1 = 12;
   const p1 = 3.0;
-  const q2 = Math.max(0, parseInt(document.getElementById('manual-part2-questions')?.value || 4));
-  const p2 = q2 * 1.0;
-  const q3 = Math.max(0, parseInt(document.getElementById('manual-part3-questions')?.value || 4));
-  const p3 = Math.round(q3 * 0.5 * 10) / 10;
-  const q4 = Math.max(0, parseInt(document.getElementById('manual-part4-questions')?.value || 1));
-  const p4 = q4 * 1.0;
+  const q2 = Math.max(0, parseInt(document.getElementById('manual-part2-questions')?.value ?? 4));
+  const p2 = parseFloat(document.getElementById('manual-part2-points')?.value ?? 4.0);
+  const q3 = Math.max(0, parseInt(document.getElementById('manual-part3-questions')?.value ?? 6));
+  const p3 = parseFloat(document.getElementById('manual-part3-points')?.value ?? 3.0);
+  const q4 = Math.max(0, parseInt(document.getElementById('manual-part4-questions')?.value ?? 0));
+  const p4 = parseFloat(document.getElementById('manual-part4-points')?.value ?? 0.0);
 
   const totalQ = q1 + q2 + q3 + q4;
   const totalP = Math.round((p1 + p2 + p3 + p4) * 10) / 10;
@@ -6003,13 +6023,14 @@ function executeManualUploadExam() {
     return;
   }
 
+  const isType1 = (q4 === 0);
   const newExamId = 'manual_' + Date.now();
   const newExam = {
     id: newExamId,
     grade: grade,
     title: title,
-    badge: youtubeUrl ? "📺 Có Video YouTube" : "Thầy Tự Biên Soạn",
-    badgeColor: "bg-amber-600",
+    badge: youtubeUrl ? "📺 Có Video YouTube" : (isType1 ? `Loại 1 (3 phần: ${totalQ} câu - 10.0đ)` : `Loại 2 (4 phần: ${totalQ} câu - 10.0đ)`),
+    badgeColor: isType1 ? "bg-amber-600" : "bg-purple-600",
     authorType: "teacher",
     sourceBadge: youtubeUrl ? "📺 Video YouTube + Đề của Thầy" : "📚 Nguồn: Thầy tự biên soạn",
     summary: summary || `Đề thi do Thầy đưa lên hệ thống. Gồm ${totalQ} câu (${totalP}đ). Có barem đáp án, lời giải chi tiết và video hướng dẫn giải.`,
@@ -6020,16 +6041,23 @@ function executeManualUploadExam() {
     youtubeUrl: youtubeUrl || null,
     teacherSolution: solution || null,
     partsConfig: {
-      part1: { name: "Phần I: Trắc nghiệm nhiều lựa chọn", count: q1, points: p1 },
-      part2: { name: "Phần II: Đúng / Sai", count: q2, points: p2 },
-      part3: { name: "Phần III: Trả lời ngắn", count: q3, points: p3 },
-      part4: { name: "Phần IV: Tự luận", count: q4, points: p4 }
+      part1: { name: "Phần I: Trắc nghiệm (12 câu - 3.0đ)", count: q1, points: p1 },
+      part2: { name: `Phần II: Đúng / Sai (${q2} câu - ${p2.toFixed(1)}đ)`, count: q2, points: p2 },
+      part3: { name: `Phần III: Trả lời ngắn (${q3} câu - ${p3.toFixed(1)}đ)`, count: q3, points: p3 },
+      part4: { name: `Phần IV: Tự luận (${q4} bài - ${p4.toFixed(1)}đ)`, count: q4, points: p4 }
     },
-    topics: [
-      `Phần I: ${q1} câu trắc nghiệm nhiều phương án (${p1}đ)`,
-      `Phần II: ${q2} câu trắc nghiệm Đúng/Sai 4 ý (${p2}đ)`,
-      `Phần III: ${q3} câu điền đáp số ngắn (${p3}đ)`,
-      `Phần IV: ${q4} bài tự luận giải chi tiết (${p4}đ)`,
+    topics: isType1 ? [
+      `Cấu trúc đề: Loại 1 gồm 3 phần (22 câu - 10.0 điểm)`,
+      `Phần I: 12 câu trắc nghiệm nhiều phương án (${p1}đ)`,
+      `Phần II: ${q2} câu trắc nghiệm Đúng/Sai 4 ý (${p2.toFixed(1)}đ)`,
+      `Phần III: ${q3} câu điền đáp số ngắn (${p3.toFixed(1)}đ)`,
+      youtubeUrl ? `Video chữa đề: ${youtubeUrl}` : "Kèm barem đáp án chi tiết của Thầy"
+    ] : [
+      `Cấu trúc đề: Loại 2 gồm 4 phần (21 câu - 10.0 điểm)`,
+      `Phần I: 12 câu trắc nghiệm nhiều phương án (${p1}đ)`,
+      `Phần II: ${q2} câu trắc nghiệm Đúng/Sai 4 ý (${p2.toFixed(1)}đ)`,
+      `Phần III: ${q3} câu điền đáp số ngắn (${p3.toFixed(1)}đ)`,
+      `Phần IV: ${q4} bài tự luận giải chi tiết (${p4.toFixed(1)}đ)`,
       youtubeUrl ? `Video chữa đề: ${youtubeUrl}` : "Kèm barem đáp án chi tiết của Thầy"
     ]
   };
