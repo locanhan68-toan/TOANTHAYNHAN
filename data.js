@@ -1043,6 +1043,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[12].ch_1,
         id: "rev-ch1-grade12",
         grade: 12,
         scope: "ch_1",
@@ -1062,6 +1063,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[12].ch_2,
         id: "rev-ch2-grade12",
         grade: 12,
         scope: "ch_2",
@@ -1083,6 +1085,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[12].ch_3,
         id: "rev-ch3-grade12",
         grade: 12,
         scope: "ch_3",
@@ -1104,6 +1107,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[12].ch_4,
         id: "rev-ch4-grade12",
         grade: 12,
         scope: "ch_4",
@@ -1125,6 +1129,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[12].ch_5,
         id: "rev-ch5-grade12",
         grade: 12,
         scope: "ch_5",
@@ -1146,6 +1151,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[12].ch_6,
         id: "rev-ch6-grade12",
         grade: 12,
         scope: "ch_6",
@@ -1167,6 +1173,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[11].ch_1,
         id: "rev-ch1-grade11",
         grade: 11,
         scope: "ch_1",
@@ -1188,6 +1195,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[11].ch_2,
         id: "rev-ch2-grade11",
         grade: 11,
         scope: "ch_2",
@@ -1209,6 +1217,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[11].ch_4,
         id: "rev-ch4-grade11",
         grade: 11,
         scope: "ch_4",
@@ -1230,6 +1239,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[10].ch_1,
         id: "rev-ch1-grade10",
         grade: 10,
         scope: "ch_1",
@@ -1251,6 +1261,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[10].ch_2,
         id: "rev-ch2-grade10",
         grade: 10,
         scope: "ch_2",
@@ -1272,6 +1283,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[10].ch_4,
         id: "rev-ch4-grade10",
         grade: 10,
         scope: "ch_4",
@@ -1296,6 +1308,7 @@ window.MATH_DATA = {
     // 2. ÔN TẬP GIỮA KỲ (HỖ TRỢ 4 DẠNG CHUẨN BỘ)
     midtermReviews: [
       {
+        questions: REVIEW_SOURCE_BANK[12].mid1,
         id: "rev-mid1-grade12",
         grade: 12,
         scope: "mid1",
@@ -1315,6 +1328,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[12].mid2,
         id: "rev-mid2-grade12",
         grade: 12,
         scope: "mid2",
@@ -1334,6 +1348,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[11].mid1,
         id: "rev-mid1-grade11",
         grade: 11,
         scope: "mid1",
@@ -1353,6 +1368,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[11].mid2,
         id: "rev-mid2-grade11",
         grade: 11,
         scope: "mid2",
@@ -1372,6 +1388,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[10].mid1,
         id: "rev-mid1-grade10",
         grade: 10,
         scope: "mid1",
@@ -1391,6 +1408,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[10].mid2,
         id: "rev-mid2-grade10",
         grade: 10,
         scope: "mid2",
@@ -1436,6 +1454,7 @@ window.MATH_DATA = {
     // 3. ÔN TẬP CUỐI KỲ
     finaltermReviews: [
       {
+        questions: REVIEW_SOURCE_BANK[12].fin1,
         id: "rev-fin1-grade12",
         grade: 12,
         scope: "fin1",
@@ -1456,6 +1475,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[12].fin2,
         id: "rev-fin2-grade12",
         grade: 12,
         scope: "fin2",
@@ -1476,6 +1496,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[11].fin1,
         id: "rev-fin1-grade11",
         grade: 11,
         scope: "fin1",
@@ -1497,6 +1518,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[11].fin2,
         id: "rev-fin2-grade11",
         grade: 11,
         scope: "fin2",
@@ -1517,6 +1539,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[10].fin1,
         id: "rev-fin1-grade10",
         grade: 10,
         scope: "fin1",
@@ -1538,6 +1561,7 @@ window.MATH_DATA = {
         ]
       },
       {
+        questions: REVIEW_SOURCE_BANK[10].fin2,
         id: "rev-fin2-grade10",
         grade: 10,
         scope: "fin2",
@@ -2207,3 +2231,4 @@ window.MATH_DATA = {
     }
   ]
 };
+

@@ -1564,7 +1564,10 @@
           </div>
 
           <div class="flex items-center gap-2 flex-wrap">
-                        <button onclick="generateInternetExamQuickly()" class="px-3.5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:opacity-95 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition glow-btn">
+                        <button onclick="openSourceIngestionModal(currentReviewGrade, currentReviewSubTab)" class="px-3.5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-95 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition glow-btn">
+              <i data-lucide="database" class="w-4 h-4 text-amber-300"></i> 📥 Nạp Nguồn Câu Hỏi & Đề Thi
+            </button>
+            <button onclick="generateInternetExamQuickly()" class="px-3.5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:opacity-95 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition glow-btn">
               <i data-lucide="zap" class="w-4 h-4 text-amber-300"></i> ⚡ Tự Sinh Đề Nguồn Mạng Nhanh
             </button>
             <button onclick="openMatrixGeneratorModal(currentReviewGrade, currentReviewSubTab, null, 'default')" class="px-3.5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5 transition glow-btn">
@@ -2871,7 +2874,156 @@
   <!-- ========================================== -->
   <!-- MODAL 2: THẦY TỰ ĐƯA ĐỀ ÔN TẬP LÊN (HỖ TRỢ 4 PHẦN, ĐÁP ÁN & VIDEO YOUTUBE) -->
   <!-- ========================================== -->
-  <div id="modal-manual-upload-exam" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
+      <!-- ========================================== -->
+    <!-- MODAL MỚI: NẠP NGUỒN CÂU HỎI & ĐỀ THI CHO PHẦN ÔN TẬP -->
+    <!-- ========================================== -->
+    <div id="modal-source-ingestion" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
+      <div class="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-7 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto">
+        
+        <!-- HEADER -->
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2.5">
+            <div class="p-2.5 bg-gradient-to-br from-blue-600 to-indigo-700 text-white rounded-2xl shadow-md">
+              <i data-lucide="database" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-800 text-lg sm:text-xl">Nạp Nguồn Câu Hỏi & Đề Thi Cho Phần Ôn Tập</h3>
+              <p class="text-xs text-slate-500">Nạp ngân hàng câu hỏi chuẩn 4 phần từ các Sở GD&ĐT, Trường Chuyên hoặc kho tài liệu của Thầy</p>
+            </div>
+          </div>
+          <button onclick="closeSourceIngestionModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+            <i data-lucide="x" class="w-6 h-6"></i>
+          </button>
+        </div>
+
+        <form onsubmit="executeSourceIngestion(event)" class="space-y-4 text-xs sm:text-sm">
+          
+          <!-- BƯỚC 1: KHỐI LỚP, HÌNH THỨC ÔN TẬP, PHẠM VI & KHO LƯU TRỮ -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+            <!-- 1. Khối lớp -->
+            <div>
+              <label class="block font-bold text-slate-700 uppercase mb-1 flex items-center gap-1.5">
+                <span class="w-4 h-4 rounded-full bg-blue-600 text-white inline-flex items-center justify-center text-[10px] font-black">1</span>
+                <span>Khối lớp:</span>
+              </label>
+              <select id="ingest-grade" onchange="onIngestGradeOrTypeChange()" class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold text-slate-900 bg-white shadow-xs">
+                <option value="12" selected>Toán Lớp 12</option>
+                <option value="11">Toán Lớp 11</option>
+                <option value="10">Toán Lớp 10</option>
+                <option value="9">Toán Lớp 9</option>
+                <option value="8">Toán Lớp 8</option>
+                <option value="7">Toán Lớp 7</option>
+                <option value="6">Toán Lớp 6</option>
+              </select>
+            </div>
+
+            <!-- 2. Hình thức ôn tập -->
+            <div>
+              <label class="block font-bold text-slate-700 uppercase mb-1 flex items-center gap-1.5">
+                <span class="w-4 h-4 rounded-full bg-blue-600 text-white inline-flex items-center justify-center text-[10px] font-black">2</span>
+                <span>Hình thức:</span>
+              </label>
+              <select id="ingest-type" onchange="onIngestGradeOrTypeChange()" class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold text-indigo-900 bg-white shadow-xs">
+                <option value="chapter" selected>Ôn Tập Cuối Chương</option>
+                <option value="midterm">Ôn Tập Giữa Kỳ</option>
+                <option value="finalterm">Ôn Tập Cuối Kỳ</option>
+              </select>
+            </div>
+
+            <!-- 3. Phạm vi (Chương hoặc Giữa kỳ/Cuối kỳ) -->
+            <div>
+              <label class="block font-bold text-slate-700 uppercase mb-1 flex items-center gap-1.5">
+                <span class="w-4 h-4 rounded-full bg-blue-600 text-white inline-flex items-center justify-center text-[10px] font-black">3</span>
+                <span>Phạm vi nạp:</span>
+              </label>
+              <select id="ingest-scope" class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold text-blue-900 bg-white shadow-xs">
+                <!-- Dynamically rendered -->
+              </select>
+            </div>
+
+            <!-- 4. Kho đích nạp vào -->
+            <div>
+              <label class="block font-bold text-slate-700 uppercase mb-1 flex items-center gap-1.5">
+                <span class="w-4 h-4 rounded-full bg-blue-600 text-white inline-flex items-center justify-center text-[10px] font-black">4</span>
+                <span>Kho nguồn nạp:</span>
+              </label>
+              <select id="ingest-target-pool" class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold text-slate-800 bg-white shadow-xs">
+                <option value="web" selected>🌐 Nguồn trên mạng</option>
+                <option value="teacher">📚 Nguồn Thầy cung cấp</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- BƯỚC 2: TÊN ĐỀ THI & NGUỒN CUNG CẤP -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="block font-bold text-slate-700 uppercase mb-1">Tiêu đề bộ đề / tài liệu nguồn <span class="text-red-500">*</span>:</label>
+              <input type="text" id="ingest-title" required placeholder="Ví dụ: Đề Khảo Sát Chất Lượng Ôn Tập Cuối Chương I - Sở GD&ĐT Hà Nội"
+                class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold text-slate-900">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 uppercase mb-1">Huy hiệu & Đơn vị nguồn cung cấp:</label>
+              <input type="text" id="ingest-badge" value="🌐 Nguồn: Sở GD&ĐT Hà Nội (Quét trên mạng)"
+                class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold text-blue-700">
+            </div>
+          </div>
+
+          <!-- BƯỚC 3: NÚT THAO TÁC NHANH: NẠP MẪU HOẶC TẢI FILE -->
+          <div class="p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-200 flex flex-wrap items-center justify-between gap-2.5 text-xs">
+            <div class="flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i>
+              <span class="font-bold text-indigo-950">Hỗ trợ nạp nhanh:</span>
+              <span class="text-slate-600">Thầy có thể bấm Nạp nguồn mẫu chuẩn hoặc tải tệp lên</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="fillSampleIngestionData()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold rounded-xl shadow-xs flex items-center gap-1 transition">
+                <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-300"></i> ⚡ Nạp Nguồn Mẫu Chuẩn Từ Các Sở GD&ĐT
+              </button>
+              <label class="px-3 py-1.5 bg-white hover:bg-slate-100 text-indigo-900 border border-indigo-200 font-bold rounded-xl cursor-pointer shadow-xs flex items-center gap-1 transition">
+                <i data-lucide="file-up" class="w-3.5 h-3.5 text-purple-600"></i> 📂 Tải File Nguồn (.json, .txt)
+                <input type="file" id="ingest-file-upload" accept=".json,.txt,.doc,.docx" onchange="handleSourceIngestFile(event)" class="hidden">
+              </label>
+            </div>
+          </div>
+
+          <!-- BƯỚC 4: NỘI DUNG CÂU HỎI 4 PHẦN -->
+          <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="block font-bold text-slate-800 uppercase text-xs flex items-center gap-1.5">
+                <i data-lucide="file-text" class="w-4 h-4 text-indigo-600"></i> Nội dung câu hỏi đề thi (Hỗ trợ định dạng chuẩn 4 phần hoặc JSON):
+              </label>
+              <span class="text-[11px] text-slate-500 font-semibold">Gồm Phần I (Trắc nghiệm), Phần II (Đúng/Sai), Phần III (Trả lời ngắn), Phần IV (Tự luận)</span>
+            </div>
+            <textarea id="ingest-content" rows="6" required placeholder="Dán nội dung câu hỏi đề thi hoặc bấm 'Nạp Nguồn Mẫu Chuẩn' ở trên..."
+              class="w-full p-3 border border-slate-300 rounded-xl font-mono text-xs focus:ring-2 focus:ring-blue-500 bg-white leading-relaxed"></textarea>
+          </div>
+
+          <!-- BƯỚC 5: LỜI GIẢI CHI TIẾT & BAREM ĐIỂM -->
+          <div>
+            <label class="block font-bold text-slate-700 uppercase mb-1">Hướng dẫn giải chi tiết & Barem chấm điểm của nguồn:</label>
+            <textarea id="ingest-solution" rows="3" placeholder="Nhập lời giải chi tiết, barem điểm và các lưu ý giải bài..."
+              class="w-full p-2.5 border border-slate-300 rounded-xl font-mono text-xs focus:ring-2 focus:ring-blue-500 bg-white"></textarea>
+          </div>
+
+          <!-- FOOTER BUTTONS -->
+          <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+            <span class="text-xs text-slate-500 flex items-center gap-1">
+              <i data-lucide="info" class="w-4 h-4 text-blue-600"></i> Câu hỏi nạp sẽ được lưu trữ trực tiếp vào kho nguồn ôn tập của khối lớp tương ứng
+            </span>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="closeSourceIngestionModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl">Hủy</button>
+              <button type="submit" class="px-5 py-2 text-xs font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:opacity-95 shadow-md flex items-center gap-1.5 transition">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-300"></i> Xác Nhận Nạp Vào Kho Ôn Tập
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+
+    <div id="modal-manual-upload-exam" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
     <div class="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-7 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto">
       
       <!-- HEADER -->
@@ -3792,3 +3944,4 @@
   <script src="app.js"></script>
 </body>
 </html>
+

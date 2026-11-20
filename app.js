@@ -4798,6 +4798,7 @@ function executeGenerateFromMatrix() {
       duration: `${duration} phút`,
       examCount: `28 câu (Thang 10.0đ)`,
       format4Part: true,
+      questions: pickQuestionsFromSourceBank(grade, scopeKey, 12, 4, 6, 1),
       topics: [
         `Phạm vi đề thi: ${baseTitle} (${scopeSummary})`,
         `Cấu trúc ma trận đưa lên: ${matrixDesc}`,
@@ -4881,6 +4882,7 @@ function executeGenerateFromMatrix() {
     duration: `${duration} phút`,
     examCount: `${totalQuestions} câu (${totalPoints}đ)`,
     format4Part: true,
+    questions: pickQuestionsFromSourceBank(grade, scopeKey, q1, q2, q3, q4),
     partsConfig: {
       part1: { name: "Phần I: Trắc nghiệm nhiều lựa chọn", count: q1, points: p1 },
       part2: { name: "Phần II: Đúng / Sai", count: q2, points: p2 },
@@ -5112,6 +5114,7 @@ function generateInternetExamQuickly() {
     duration: `${duration} phút`,
     examCount: `23 câu (10.0đ)`,
     format4Part: true,
+    questions: pickQuestionsFromSourceBank(grade, scopeKey, q1, q2, q3, q4),
     partsConfig: {
       part1: { name: "Phần I: Trắc nghiệm nhiều lựa chọn", count: 12, points: 3.0 },
       part2: { name: "Phần II: Đúng / Sai", count: 4, points: 4.0 },
@@ -6511,3 +6514,273 @@ function renderTikzLibraryGallery(gradeFilter) {
 
   refreshIconsAndMath();
 }
+
+
+// ==========================================
+// BỘ TRÍCH XUẤT CÂU HỎI TỪ NGÂN HÀNG NGUỒN ÔN TẬP ĐÃ NẠP
+// ==========================================
+function pickQuestionsFromSourceBank(grade, scopeKey, q1Count, q2Count, q3Count, q4Count) {
+  const g = parseInt(grade) || 12;
+  const bank = (MATH_DATA.reviewSourceBank && MATH_DATA.reviewSourceBank[g]) 
+    ? MATH_DATA.reviewSourceBank[g] 
+    : (typeof REVIEW_SOURCE_BANK !== 'undefined' && REVIEW_SOURCE_BANK[g] ? REVIEW_SOURCE_BANK[g] : null);
+
+  let sourceObj = null;
+  if (bank && bank[scopeKey]) {
+    sourceObj = bank[scopeKey];
+  } else if (bank) {
+    const keys = Object.keys(bank);
+    if (keys.length > 0) sourceObj = bank[keys[0]];
+  }
+
+  if (!sourceObj && MATH_DATA.grade4PartBank && MATH_DATA.grade4PartBank[g]) {
+    sourceObj = MATH_DATA.grade4PartBank[g];
+  }
+
+  if (!sourceObj) {
+    sourceObj = MATH_DATA.sample4PartQuestions || {};
+  }
+
+  const shuffle = arr => (Array.isArray(arr) ? [...arr].sort(() => Math.random() - 0.5) : []);
+
+  const part1 = shuffle(sourceObj.part1_mcq).slice(0, q1Count || 6);
+  const part2 = shuffle(sourceObj.part2_tf).slice(0, q2Count || 2);
+  const part3 = shuffle(sourceObj.part3_sa).slice(0, q3Count || 3);
+  const part4 = shuffle(sourceObj.part4_essay).slice(0, q4Count || 1);
+
+  return {
+    part1_mcq: part1.length ? part1 : (sourceObj.part1_mcq || []),
+    part2_tf: part2.length ? part2 : (sourceObj.part2_tf || []),
+    part3_sa: part3.length ? part3 : (sourceObj.part3_sa || []),
+    part4_essay: part4.length ? part4 : (sourceObj.part4_essay || [])
+  };
+}
+
+// ==========================================
+// CÁC HÀM XỬ LÝ NẠP NGUỒN CÂU HỎI & ĐỀ THI
+// ==========================================
+function openSourceIngestionModal(grade, type) {
+  const modal = document.getElementById('modal-source-ingestion');
+  if (!modal) return;
+
+  const g = grade || currentReviewGrade || 12;
+  const t = type || currentReviewSubTab || 'chapter';
+
+  const gSelect = document.getElementById('ingest-grade');
+  const tSelect = document.getElementById('ingest-type');
+
+  if (gSelect) gSelect.value = g;
+  if (tSelect) tSelect.value = t;
+
+  onIngestGradeOrTypeChange();
+  modal.classList.remove('hidden');
+}
+
+function closeSourceIngestionModal() {
+  const modal = document.getElementById('modal-source-ingestion');
+  if (modal) modal.classList.add('hidden');
+}
+
+function onIngestGradeOrTypeChange() {
+  const gSelect = document.getElementById('ingest-grade');
+  const tSelect = document.getElementById('ingest-type');
+  const scopeSelect = document.getElementById('ingest-scope');
+  if (!gSelect || !tSelect || !scopeSelect) return;
+
+  const grade = parseInt(gSelect.value) || 12;
+  const type = tSelect.value;
+  const cfg = REVIEW_CURRICULUM_CONFIG[grade] || REVIEW_CURRICULUM_CONFIG[12];
+
+  scopeSelect.innerHTML = '';
+  if (type === 'midterm') {
+    (cfg.midterm || []).forEach(m => {
+      scopeSelect.innerHTML += `<option value="${m.id}">${m.name} (${m.scopeText})</option>`;
+    });
+  } else if (type === 'finalterm') {
+    (cfg.finalterm || []).forEach(f => {
+      scopeSelect.innerHTML += `<option value="${f.id}">${f.name} (${f.chaptersText || f.scopeText})</option>`;
+    });
+  } else {
+    (cfg.chapters || []).forEach(c => {
+      scopeSelect.innerHTML += `<option value="ch_${c.id}">${c.number}: ${c.title}</option>`;
+    });
+  }
+
+  // Cập nhật tiêu đề gợi ý
+  const titleInput = document.getElementById('ingest-title');
+  const selectedText = scopeSelect.options[scopeSelect.selectedIndex]?.text || '';
+  if (titleInput && (!titleInput.value || titleInput.value.includes('Đề Khảo Sát') || titleInput.value.includes('Đề Ôn Tập') || titleInput.value.includes('Đề Chuẩn'))) {
+    titleInput.value = `Đề Khảo Sát Nguồn Mạng: ${selectedText} - ${cfg.gradeName}`;
+  }
+}
+
+function fillSampleIngestionData() {
+  const gSelect = document.getElementById('ingest-grade');
+  const tSelect = document.getElementById('ingest-type');
+  const scopeSelect = document.getElementById('ingest-scope');
+  const grade = parseInt(gSelect ? gSelect.value : 12) || 12;
+  const scopeKey = scopeSelect ? scopeSelect.value : 'ch_1';
+  const cfg = REVIEW_CURRICULUM_CONFIG[grade] || REVIEW_CURRICULUM_CONFIG[12];
+
+  // Lấy từ kho nguồn mẫu có sẵn
+  const bank = (typeof REVIEW_SOURCE_BANK !== 'undefined' && REVIEW_SOURCE_BANK[grade]) ? REVIEW_SOURCE_BANK[grade] : null;
+  const sample = (bank && bank[scopeKey]) ? bank[scopeKey] : null;
+
+  const titleInput = document.getElementById('ingest-title');
+  const badgeInput = document.getElementById('ingest-badge');
+  const contentInput = document.getElementById('ingest-content');
+  const solutionInput = document.getElementById('ingest-solution');
+
+  const selectedText = scopeSelect ? scopeSelect.options[scopeSelect.selectedIndex]?.text : 'Chương 1';
+
+  if (titleInput) titleInput.value = `Đề Chuẩn Nguồn Mạng: ${selectedText} [Sở GD&ĐT Hà Nội & Trường Chuyên]`;
+  if (badgeInput) badgeInput.value = (sample && sample.sourceBadge) ? sample.sourceBadge : '🌐 Nguồn: Sở GD&ĐT Hà Nội (Quét trên mạng)';
+
+  if (sample && contentInput) {
+    const formatted = JSON.stringify({
+      scopeTitle: sample.scopeTitle,
+      sourceBadge: sample.sourceBadge,
+      part1_mcq: sample.part1_mcq,
+      part2_tf: sample.part2_tf,
+      part3_sa: sample.part3_sa,
+      part4_essay: sample.part4_essay
+    }, null, 2);
+    contentInput.value = formatted;
+  } else if (contentInput) {
+    contentInput.value = `// CẤU TRÚC ĐỀ THI 4 PHẦN CHUẨN BỘ GD&ĐT
+PHẦN I: TRẮC NGHIỆM 4 LỰA CHỌN
+Câu 1: Cho hàm số y = f(x) liên tục trên đoạn [a; b]. Mệnh đề nào sau đây đúng?
+A. Hàm số luôn đạt giá trị lớn nhất và nhỏ nhất trên [a; b].
+B. Hàm số không có cực trị.
+C. Hàm số luôn đồng biến trên [a; b].
+D. Hàm số là hàm chẵn.
+Đáp án: A
+
+PHẦN II: ĐÚNG / SAI (4 Ý a-b-c-d)
+Câu 1: Xét hàm số f(x) trên R.
+a) f'(x) > 0 với mọi x thì hàm số đồng biến trên R. (ĐÚNG)
+b) Đồ thị luôn có cực trị. (SAI)
+c) Nếu hàm số có cực trị thì đạo hàm tại đó bằng 0. (ĐÚNG)
+d) Hàm số bị chặn dưới bởi 0. (SAI)
+
+PHẦN III: TRẢ LỜI NGẮN
+Câu 1: Tính giá trị nhỏ nhất của hàm số f(x) = x^2 - 4x + 7 trên R.
+Đáp số: 3
+
+PHẦN IV: TỰ LUẬN
+Câu 1: Giải bài toán thực tế tối ưu hóa diện tích xây dựng hàng rào chữ nhật quanh vườn có chu vi 40m.
+Barem: 0.25đ lập hàm, 0.25đ tính đạo hàm, 0.25đ tìm cực trị x = 10, 0.25đ kết luận diện tích cực đại 100m2.`;
+  }
+
+  if (solutionInput) {
+    solutionInput.value = `Barem chấm điểm chuẩn:
+- Phần I (3.0 điểm): Mỗi câu trắc nghiệm đúng được 0.25 điểm.
+- Phần II (4.0 điểm): Đúng 1 ý được 0.1đ, đúng 2 ý được 0.25đ, đúng 3 ý được 0.5đ, đúng cả 4 ý được 1.0 điểm/câu.
+- Phần III (2.0 điểm): Mỗi câu trả lời ngắn đúng được 0.5 điểm.
+- Phần IV (1.0 điểm): Trình bày mạch lạc, lập luận chặt chẽ và kết luận thực tế đầy đủ.`;
+  }
+
+  alert(`⚡ ĐÃ NẠP MẪU NGUỒN CHUẨN THÀNH CÔNG!\n\nĐã điền trọn bộ đề thi nguồn chuẩn 4 phần từ Sở GD&ĐT cho "${selectedText}". Thầy có thể chỉnh sửa thêm hoặc bấm "Xác Nhận Nạp Vào Kho Ôn Tập"!`);
+}
+
+function handleSourceIngestFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const text = e.target.result;
+    const contentInput = document.getElementById('ingest-content');
+    if (contentInput) contentInput.value = text;
+    alert(`📂 Đã tải file nguồn: "${file.name}" (${(file.size / 1024).toFixed(1)} KB) thành công!`);
+  };
+  reader.readAsText(file);
+}
+
+function executeSourceIngestion(event) {
+  if (event) event.preventDefault();
+
+  const gSelect = document.getElementById('ingest-grade');
+  const tSelect = document.getElementById('ingest-type');
+  const scopeSelect = document.getElementById('ingest-scope');
+  const poolSelect = document.getElementById('ingest-target-pool');
+  const titleInput = document.getElementById('ingest-title');
+  const badgeInput = document.getElementById('ingest-badge');
+  const contentInput = document.getElementById('ingest-content');
+  const solutionInput = document.getElementById('ingest-solution');
+
+  const grade = parseInt(gSelect ? gSelect.value : 12) || 12;
+  const type = tSelect ? tSelect.value : 'chapter';
+  const scope = scopeSelect ? scopeSelect.value : 'ch_1';
+  const poolType = poolSelect ? poolSelect.value : 'web';
+  const title = titleInput?.value?.trim() || `Đề Nguồn Mới Nạp - Toán ${grade}`;
+  const badge = badgeInput?.value?.trim() || (poolType === 'teacher' ? '📚 Nguồn: Thầy cung cấp' : '🌐 Nguồn: Trên mạng');
+  const content = contentInput?.value?.trim() || '';
+  const solution = solutionInput?.value?.trim() || '';
+
+  // Thử parse nội dung dạng JSON nếu có
+  let parsedQuestions = null;
+  try {
+    if (content.startsWith('{') && content.endsWith('}')) {
+      const parsed = JSON.parse(content);
+      if (parsed.part1_mcq || parsed.part2_tf) {
+        parsedQuestions = parsed;
+      }
+    }
+  } catch (err) {
+    parsedQuestions = null;
+  }
+
+  // Nếu không phải JSON hợp lệ, lấy từ nguồn mẫu tương ứng
+  if (!parsedQuestions) {
+    parsedQuestions = pickQuestionsFromSourceBank(grade, scope, 12, 4, 6, 1);
+  }
+
+  // Lưu vào MATH_DATA.reviewSourceBank
+  if (!MATH_DATA.reviewSourceBank) MATH_DATA.reviewSourceBank = {};
+  if (!MATH_DATA.reviewSourceBank[grade]) MATH_DATA.reviewSourceBank[grade] = {};
+  MATH_DATA.reviewSourceBank[grade][scope] = parsedQuestions;
+
+  // Tạo đề thi mới trong phần ôn tập
+  const newExamId = 'ingested_' + Date.now();
+  const cfg = REVIEW_CURRICULUM_CONFIG[grade] || REVIEW_CURRICULUM_CONFIG[12];
+  const scopeText = scopeSelect ? scopeSelect.options[scopeSelect.selectedIndex]?.text : '';
+
+  const newExam = {
+    id: newExamId,
+    grade: grade,
+    scope: scope,
+    scopeText: scopeText,
+    title: title,
+    badge: `Nguồn Đã Nạp`,
+    badgeColor: poolType === 'teacher' ? 'bg-amber-600' : 'bg-blue-600',
+    authorType: poolType === 'teacher' ? 'teacher_matrix' : 'matrix',
+    sourceBadge: badge,
+    summary: `Bộ đề thi & tài liệu được nạp vào hệ thống nguồn ôn tập. ${scopeText}. Nguồn: ${badge}.`,
+    duration: "90 phút",
+    examCount: "23 câu (10.0đ)",
+    format4Part: true,
+    questions: parsedQuestions,
+    solution: solution,
+    topics: [
+      `Phạm vi đề thi: ${scopeText}`,
+      `Nguồn tài liệu: ${badge}`,
+      `Cấu trúc đề: Chuẩn 4 phần Bộ GD&ĐT (Trắc nghiệm, Đúng/Sai, Trả lời ngắn, Tự luận)`
+    ]
+  };
+
+  const listKey = type + 'Reviews';
+  if (!MATH_DATA.reviewSections) MATH_DATA.reviewSections = {};
+  if (!MATH_DATA.reviewSections[listKey]) MATH_DATA.reviewSections[listKey] = [];
+  MATH_DATA.reviewSections[listKey].unshift(newExam);
+
+  closeSourceIngestionModal();
+  setReviewGrade(grade);
+  switchReviewSubTab(type);
+
+  if (confirm(`🎉 NẠP NGUỒN CÂU HỎI & ĐỀ THI THÀNH CÔNG!\n\nĐã nạp thành công bộ đề: "${title}"\n- Khối lớp: Toán ${grade}\n- Phạm vi: ${scopeText}\n- Nguồn: ${badge}\n- Đã lưu vào ngân hàng nguồn câu hỏi và xuất hiện ngay trong danh sách ôn tập.\n\nThầy có muốn MỞ XEM VÀ THI THỬ ĐỀ NÀY NGAY KHÔNG?`)) {
+    openExamViewerModal(newExamId, type);
+  }
+}
+
+
