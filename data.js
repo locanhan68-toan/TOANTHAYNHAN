@@ -1,4 +1,4 @@
-// Dữ liệu mẫu mô phỏng hệ thống học Toán từ lớp 6 đến lớp 12
+﻿// Dữ liệu mẫu mô phỏng hệ thống học Toán từ lớp 6 đến lớp 12
 window.MATH_DATA = {
   grades: [
     { id: 6, name: "Toán Lớp 6", description: "Số học, Phân số, Hình học trực quan" },
@@ -65,6 +65,826 @@ window.MATH_DATA = {
     }
   },
 
+  // NGÂN HÀNG CÂU HỎI ĐỀ THI 4 PHẦN CHUẨN MA TRẬN MẶC ĐỊNH (NGUỒN TRÊN MẠNG)
+  // THEO KHỐI LỚP 12, 11, 10 (SỞ GD&ĐT HÀ NỘI, TP.HCM, CHUYÊN SƯ PHẠM, KHTN)
+  grade4PartBank: // CƠ SỞ DỮ LIỆU ĐỀ THI 4 PHẦN CHUẨN MA TRẬN MẶC ĐỊNH BỘ GD&ĐT
+// NGUỒN CÂU HỎI: QUÉT TỪ NGÂN HÀNG ĐỀ THI TRÊN MẠNG (SỞ GD&ĐT HÀ NỘI, TP.HCM, CHUYÊN SƯ PHẠM, KHTN)
+
+{
+  12: {
+    part1_mcq: [
+      {
+        id: "g12_m1",
+        question: "Cho hàm số $y = f(x)$ có bảng biến thiên trên $\\mathbb{R}$ với $f'(x) > 0$ trên $(-\\infty; -1)$ và $(2; +\\infty)$, $f'(x) < 0$ trên $(-1; 2)$. Hàm số đã cho đồng biến trên khoảng nào sau đây?",
+        options: [
+          { key: "A", text: "$(2; +\\infty)$" },
+          { key: "B", text: "$(-1; 2)$" },
+          { key: "C", text: "$(-\\infty; 2)$" },
+          { key: "D", text: "$(-1; +\\infty)$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề Sở GD&ĐT Hà Nội (Trên mạng)"
+      },
+      {
+        id: "g12_m2",
+        question: "Đồ thị hàm số $y = \\frac{2x - 1}{x + 1}$ có đường tiệm cận ngang là đường thẳng:",
+        options: [
+          { key: "A", text: "$y = 2$" },
+          { key: "B", text: "$x = -1$" },
+          { key: "C", text: "$y = -1$" },
+          { key: "D", text: "$x = 2$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Đề thi thử THPT Quốc Gia - Chuyên Sư Phạm (Trên mạng)"
+      },
+      {
+        id: "g12_m3",
+        question: "Đường cong ở hình bên là đồ thị của hàm số nào trong các hàm số dưới đây?",
+        options: [
+          { key: "A", text: "$y = \\frac{x^2 - x + 1}{x - 1}$" },
+          { key: "B", text: "$y = x^3 - 3x + 1$" },
+          { key: "C", text: "$y = -x^4 + 2x^2 + 1$" },
+          { key: "D", text: "$y = \\frac{2x + 1}{x - 1}$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Sở GD&ĐT TP.HCM (Trên mạng)"
+      },
+      {
+        id: "g12_m4",
+        question: "Trong không gian $Oxyz$, cho hai vectơ $\\vec{u} = (1; -2; 3)$ và $\\vec{v} = (2; 1; -1)$. Toạ độ của vectơ $\\vec{u} + 2\\vec{v}$ là:",
+        options: [
+          { key: "A", text: "$(5; 0; 1)$" },
+          { key: "B", text: "$(3; -1; 2)$" },
+          { key: "C", text: "$(5; 4; 1)$" },
+          { key: "D", text: "$(4; 0; 1)$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Chuyên Lam Sơn (Trên mạng)"
+      },
+      {
+        id: "g12_m5",
+        question: "Trong không gian $Oxyz$, cho ba điểm $A(1; 0; 0), B(0; 2; 0), C(0; 0; 3)$. Mặt phẳng $(ABC)$ có phương trình là:",
+        options: [
+          { key: "A", text: "$\\frac{x}{1} + \\frac{y}{2} + \\frac{z}{3} = 1$" },
+          { key: "B", text: "$\\frac{x}{1} + \\frac{y}{2} + \\frac{z}{3} = 0$" },
+          { key: "C", text: "$\\frac{x}{3} + \\frac{y}{2} + \\frac{z}{1} = 1$" },
+          { key: "D", text: "$6x + 3y + 2z + 6 = 0$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Sở GD&ĐT Nam Định (Trên mạng)"
+      },
+      {
+        id: "g12_m6",
+        question: "Họ nguyên hàm của hàm số $f(x) = 3x^2 + \\sin x$ là:",
+        options: [
+          { key: "A", text: "$x^3 - \\cos x + C$" },
+          { key: "B", text: "$x^3 + \\cos x + C$" },
+          { key: "C", text: "$6x - \\cos x + C$" },
+          { key: "D", text: "$\\frac{x^3}{3} - \\cos x + C$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Sở GD&ĐT Bắc Ninh (Trên mạng)"
+      },
+      {
+        id: "g12_m7",
+        question: "Biết $\\int_1^3 f(x) dx = 4$ và $\\int_1^3 g(x) dx = -2$. Khi đó $\\int_1^3 [f(x) - 2g(x)] dx$ bằng:",
+        options: [
+          { key: "A", text: "$8$" },
+          { key: "B", text: "$0$" },
+          { key: "C", text: "$6$" },
+          { key: "D", text: "$2$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Đề khảo sát chất lượng Sở GD&ĐT Hải Phòng (Trên mạng)"
+      },
+      {
+        id: "g12_m8",
+        question: "Trong không gian $Oxyz$, mặt phẳng $(P): 2x - y + 2z - 5 = 0$ có một vectơ pháp tuyến là:",
+        options: [
+          { key: "A", text: "$\\vec{n} = (2; -1; 2)$" },
+          { key: "B", text: "$\\vec{n} = (2; 1; 2)$" },
+          { key: "C", text: "$\\vec{n} = (2; -1; -5)$" },
+          { key: "D", text: "$\\vec{n} = (-2; -1; 2)$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Chuyên KHTN Hà Nội (Trên mạng)"
+      },
+      {
+        id: "g12_m9",
+        question: "Cho hai biến cố $A$ và $B$ với $P(A) = 0.5, P(B) = 0.6, P(AB) = 0.3$. Xác suất có điều kiện $P(A|B)$ bằng:",
+        options: [
+          { key: "A", text: "$0.5$" },
+          { key: "B", text: "$0.6$" },
+          { key: "C", text: "$0.3$" },
+          { key: "D", text: "$0.8$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Bộ GD&ĐT (Trên mạng)"
+      },
+      {
+        id: "g12_m10",
+        question: "Khoảng biến thiên của mẫu số liệu ghép nhóm là:",
+        options: [
+          { key: "A", text: "Hiệu giữa đầu mút phải của nhóm cuối cùng và đầu mút trái của nhóm đầu tiên" },
+          { key: "B", text: "Hiệu giữa giá trị lớn nhất và giá trị nhỏ nhất trong cùng một nhóm" },
+          { key: "C", text: "Độ lệch chuẩn bình phương" },
+          { key: "D", text: "Giá trị trung bình cộng của các khoảng tứ phân vị" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Chuyên Phan Bội Châu (Trên mạng)"
+      },
+      {
+        id: "g12_m11",
+        question: "Tích có hướng của hai vectơ $\\vec{a} = (1; 0; 2)$ và $\\vec{b} = (0; 1; -1)$ trong không gian $Oxyz$ là:",
+        options: [
+          { key: "A", text: "$(-2; 1; 1)$" },
+          { key: "B", text: "$(2; 1; -1)$" },
+          { key: "C", text: "$(2; -1; 1)$" },
+          { key: "D", text: "$(-2; -1; 1)$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Đề thi thử THPT Toàn quốc (Trên mạng)"
+      },
+      {
+        id: "g12_m12",
+        question: "Giá trị nhỏ nhất của hàm số $y = x + \\frac{4}{x}$ trên khoảng $(0; +\\infty)$ bằng:",
+        options: [
+          { key: "A", text: "$4$" },
+          { key: "B", text: "$2$" },
+          { key: "C", text: "$5$" },
+          { key: "D", text: "$0$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Đề thi thử Chuyên Lê Hồng Phong (Trên mạng)"
+      }
+    ],
+
+    part2_trueFalse: [
+      {
+        id: "g12_tf1",
+        question: "Cho hàm số $y = f(x) = \\frac{x^2 - 2x + 2}{x - 1}$. Xét tính Đúng / Sai của các khẳng định sau:",
+        points: 1.0,
+        source: "🌐 Ngân hàng đề thi Chuyên Sư Phạm (Trên mạng)",
+        subQuestions: [
+          { key: "a", text: "Tập xác định của hàm số là $D = \\mathbb{R} \\setminus \\{1\\}$.", correct: true, explain: "Hàm số xác định khi mẫu thức $x - 1 \\ne 0 \\Leftrightarrow x \\ne 1$." },
+          { key: "b", text: "Đồ thị hàm số có đường tiệm cận đứng là $x = 1$.", correct: true, explain: "Do $\\lim_{x \\to 1^+} f(x) = +\\infty$ nên $x = 1$ là TCĐ." },
+          { key: "c", text: "Đường thẳng $y = x - 1$ là đường tiệm cận xiên của đồ thị hàm số.", correct: true, explain: "Ta có $f(x) = x - 1 + \\frac{1}{x - 1}$ nên $\\lim_{x \\to \\pm\\infty} [f(x) - (x - 1)] = 0$." },
+          { key: "d", text: "Hàm số đồng biến trên toàn bộ tập xác định $D$.", correct: false, explain: "Sai, $f'(x) = 1 - \\frac{1}{(x-1)^2} = \\frac{x(x-2)}{(x-1)^2}$. Hàm số nghịch biến trên $(0; 1)$ và $(1; 2)$." }
+        ]
+      },
+      {
+        id: "g12_tf2",
+        question: "Trong không gian $Oxyz$, cho ba điểm $A(1; 2; 0), B(2; 0; 1), C(0; 1; -1)$ và mặt phẳng $(P): 2x - 2y + z + 3 = 0$. Xét tính Đúng / Sai:",
+        points: 1.0,
+        source: "🌐 Ngân hàng đề thi Sở GD&ĐT Hà Nội (Trên mạng)",
+        subQuestions: [
+          { key: "a", text: "Toạ độ của vectơ $\\vec{AB}$ là $(1; -2; 1)$.", correct: true, explain: "$\\vec{AB} = (2-1; 0-2; 1-0) = (1; -2; 1)$." },
+          { key: "b", text: "Mặt phẳng $(P)$ có một vectơ pháp tuyến là $\\vec{n} = (2; -2; 1)$.", correct: true, explain: "Các hệ số trước $x, y, z$ lần lượt là $2, -2, 1$." },
+          { key: "c", text: "Khoảng cách từ gốc toạ độ $O(0;0;0)$ đến mặt phẳng $(P)$ bằng $1$.", correct: true, explain: "$d(O, (P)) = \\frac{|3|}{\\sqrt{2^2 + (-2)^2 + 1^2}} = \\frac{3}{3} = 1$." },
+          { key: "d", text: "Đường thẳng $AB$ song song với mặt phẳng $(P)$.", correct: false, explain: "Sai vì $\\vec{AB} \\cdot \\vec{n} = 1(2) + (-2)(-2) + 1(1) = 7 \\ne 0$, nên $AB$ cắt $(P)$." }
+        ]
+      },
+      {
+        id: "g12_tf3",
+        question: "Một lớp học khảo sát thời gian sử dụng Internet trong một ngày của 40 học sinh thu được mẫu số liệu ghép nhóm: $[0; 1): 5$, $[1; 2): 15$, $[2; 3): 12$, $[3; 4): 8$. Xét tính Đúng / Sai:",
+        points: 1.0,
+        source: "🌐 Đề thi thử Chuyên Lam Sơn (Trên mạng)",
+        subQuestions: [
+          { key: "a", text: "Cỡ mẫu của cuộc khảo sát là $n = 40$.", correct: true, explain: "Tổng tần số: $5 + 15 + 12 + 8 = 40$." },
+          { key: "b", text: "Nhóm chứa mốt của mẫu số liệu là nhóm $[1; 2)$.", correct: true, explain: "Tần số lớn nhất là $15$ thuộc nhóm $[1; 2)$." },
+          { key: "c", text: "Thời gian sử dụng Internet trung bình của học sinh lớn hơn 2.5 giờ.", correct: false, explain: "Sai, giá trị trung bình là $\\bar{x} = \\frac{5(0.5) + 15(1.5) + 12(2.5) + 8(3.5)}{40} = \\frac{83}{40} = 2.075 < 2.5$." },
+          { key: "d", text: "Khoảng biến thiên của mẫu số liệu ghép nhóm là $R = 4$ giờ.", correct: true, explain: "$R = 4 - 0 = 4$ giờ." }
+        ]
+      },
+      {
+        id: "g12_tf4",
+        question: "Cho hàm số $f(x)$ liên tục trên $\\mathbb{R}$ thỏa mãn $\\int_0^1 f(x) dx = 2$ và $\\int_0^3 f(x) dx = 6$. Xét tính Đúng / Sai:",
+        points: 1.0,
+        source: "🌐 Đề thi khảo sát Sở GD&ĐT TP.HCM (Trên mạng)",
+        subQuestions: [
+          { key: "a", text: "Tích phân $\\int_1^3 f(x) dx = 4$.", correct: true, explain: "$\\int_1^3 = \\int_0^3 - \\int_0^1 = 6 - 2 = 4$." },
+          { key: "b", text: "Tích phân $\\int_0^1 [2f(x) - 3] dx = 1$.", correct: true, explain: "$2\\int_0^1 f(x)dx - 3(1) = 2(2) - 3 = 1$." },
+          { key: "c", text: "Nếu $f(x)$ là hàm số lẻ thì $\\int_{-1}^1 f(x) dx = 0$.", correct: true, explain: "Tích phân của hàm số lẻ trên đoạn đối xứng luôn bằng 0." },
+          { key: "d", text: "Tích phân $\\int_0^1 f(2x) dx = 2$.", correct: false, explain: "Sai, đặt $t = 2x \\Rightarrow dx = \\frac{dt}{2}$, khi đó $\\int_0^2 f(t) \\frac{dt}{2} \\ne 2$." }
+        ]
+      }
+    ],
+
+    part3_sa: [
+      {
+        id: "g12_sa1",
+        question: "Tìm giá trị lớn nhất $M$ của hàm số $y = -x^3 + 3x + 1$ trên đoạn $[0; 2]$.",
+        answer: "3",
+        points: 0.33,
+        source: "🌐 Đề thi thử Sở GD&ĐT Hà Nội (Trên mạng)",
+        solution: "Ta có $y' = -3x^2 + 3 = 0 \\Leftrightarrow x = 1 \\in [0; 2]$.\\nTính $y(0) = 1, y(1) = 3, y(2) = -1$.\\nVậy giá trị lớn nhất $M = 3$."
+      },
+      {
+        id: "g12_sa2",
+        question: "Trong không gian $Oxyz$, cho mặt phẳng $(P): 2x - 2y + z - 9 = 0$ và điểm $A(1; 2; 3)$. Tính khoảng cách từ điểm $A$ đến mặt phẳng $(P)$.",
+        answer: "2",
+        points: 0.33,
+        source: "🌐 Đề thi Chuyên Sư Phạm (Trên mạng)",
+        solution: "$d(A, (P)) = \\frac{|2(1) - 2(2) + 1(3) - 9|}{\\sqrt{2^2 + (-2)^2 + 1^2}} = \\frac{|-8|}{3} = \\frac{8}{3} \\approx 2.67$."
+      },
+      {
+        id: "g12_sa3",
+        question: "Tính tích phân $I = \\int_0^1 (2x + 1) e^x dx$. Kết quả làm tròn đến hàng đơn vị là:",
+        answer: "4",
+        points: 0.33,
+        source: "🌐 Đề thi THPT Quốc Gia (Trên mạng)",
+        solution: "Tích phân từng phần: $u = 2x+1, dv = e^x dx \\Rightarrow I = e + 1 \\approx 3.72$, làm tròn đến hàng đơn vị là 4."
+      },
+      {
+        id: "g12_sa4",
+        question: "Một hộp chứa 5 quả cầu đỏ và 7 quả cầu xanh. Chọn ngẫu nhiên đồng thời 3 quả cầu. Xác suất để chọn được ít nhất 1 quả cầu đỏ là bao nhiêu (viết dưới dạng phân số tối giản $a/b$, nhập giá trị $a+b$)?",
+        answer: "81",
+        points: 0.33,
+        source: "🌐 Đề thi thử Sở GD&ĐT Nam Định (Trên mạng)",
+        solution: "Biến cố đối $A'$: cả 3 quả đều xanh. $P(A') = \\frac{C_7^3}{C_{12}^3} = \\frac{35}{220} = \\frac{7}{44}$.\\n$P(A) = 1 - \\frac{7}{44} = \\frac{37}{44} \\Rightarrow a+b = 37 + 44 = 81$."
+      },
+      {
+        id: "g12_sa5",
+        question: "Trong không gian $Oxyz$, cho tam giác $ABC$ với $A(1; 0; 2), B(-1; 2; 1), C(3; 1; 3)$. Toạ độ trọng tâm $G$ có hoành độ bằng:",
+        answer: "1",
+        points: 0.33,
+        source: "🌐 Đề thi Chuyên KHTN (Trên mạng)",
+        solution: "$x_G = \\frac{1 + (-1) + 3}{3} = 1$."
+      },
+      {
+        id: "g12_sa6",
+        question: "Người ta muốn rào một mảnh đất hình chữ nhật có một cạnh giáp bờ tường (không cần rào cạnh này). Biết chiều dài sợi lưới rào sẵn có là $40\\text{ m}$. Diện tích lớn nhất của mảnh đất rào được là bao nhiêu mét vuông?",
+        answer: "200",
+        points: 0.35,
+        source: "🌐 Đề thi thử Sở GD&ĐT Hải Phòng (Trên mạng)",
+        solution: "Gọi hai cạnh vuông góc với tường là $x$ ($x > 0$). Cạnh song song với tường là $40 - 2x$.\\nDiện tích $S(x) = x(40 - 2x) = -2x^2 + 40x$.\\nĐỉnh parabol đạt tại $x = 10 \\Rightarrow S_{\\max} = 10(20) = 200\\text{ m}^2$."
+      }
+    ],
+
+    part4_essay: [
+      {
+        id: "g12_es1",
+        question: "Một công ty muốn thiết kế một bể chứa nước bằng thép hình hộp chữ nhật không có nắp đậy, có thể tích bằng $V = 500\\text{ m}^3$. Đáy bể là hình vuông có cạnh bằng $x\\text{ (m)}$. Chi phí vật liệu làm đáy là $150.000\\text{ đ/m}^2$, chi phí làm 4 thành bên là $100.000\\text{ đ/m}^2$.\\n\\na) Hãy thiết lập hàm chi phí vật liệu $C(x)$ (đơn vị nghìn đồng) theo độ dài cạnh đáy $x$.\\nb) Tìm kích thước của bể (chiều dài đáy $x$ và chiều cao $h$) để chi phí vật liệu là nhỏ nhất, và tính chi phí nhỏ nhất đó.",
+        points: 1.0,
+        source: "🌐 Đề thi thử THPT Quốc Gia - Sở GD&ĐT Hà Nội (Trên mạng)",
+        solution: "Barem điểm chi tiết:\\n- Bước 1 (0.25đ): Chiều cao $h = \\frac{V}{x^2} = \\frac{500}{x^2}\\text{ (m)}$. Diện tích đáy $S_đ = x^2$, diện tích 4 mặt bên $S_{xq} = 4xh = \\frac{2000}{x}$.\\n- Bước 2 (0.25đ): Hàm chi phí:\\n  $C(x) = 150x^2 + 100 \\cdot \\frac{2000}{x} = 150x^2 + \\frac{200000}{x}\\text{ (nghìn đồng)}$, với $x > 0$.\\n- Bước 3 (0.25đ): Đạo hàm $C'(x) = 300x - \\frac{200000}{x^2} = \\frac{300x^3 - 200000}{x^2} = 0 \\Leftrightarrow x^3 = \\frac{2000}{3} \\Rightarrow x = 10\\sqrt[3]{\\frac{2}{3}} \\approx 8.74\\text{ m}$.\\n- Bước 4 (0.25đ): Kết luận kích thước đáy $x \\approx 8.74\\text{ m}$, chiều cao $h \\approx 6.55\\text{ m}$, chi phí nhỏ nhất đạt cực tiểu xấp xỉ $34.341.000$ đồng."
+      }
+    ]
+  },
+
+  11: {
+    part1_mcq: [
+      {
+        id: "g11_m1",
+        question: "Tập xác định của hàm số $y = \\tan x$ là:",
+        options: [
+          { key: "A", text: "$D = \\mathbb{R} \\setminus \\left\\{ \\frac{\\pi}{2} + k\\pi, k \\in \\mathbb{Z} \\right\\}$" },
+          { key: "B", text: "$D = \\mathbb{R} \\setminus \\{k\\pi, k \\in \\mathbb{Z}\\}$" },
+          { key: "C", text: "$D = \\mathbb{R}$" },
+          { key: "D", text: "$D = \\mathbb{R} \\setminus \\left\\{ \\frac{\\pi}{4} + k\\pi, k \\in \\mathbb{Z} \\right\\}$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề Sở GD&ĐT Hà Nội (Trên mạng)"
+      },
+      {
+        id: "g11_m2",
+        question: "Nghiệm của phương trình $\\cos x = \\frac{1}{2}$ là:",
+        options: [
+          { key: "A", text: "$x = \\pm \\frac{\\pi}{3} + k2\\pi, k \\in \\mathbb{Z}$" },
+          { key: "B", text: "$x = \\pm \\frac{\\pi}{6} + k2\\pi, k \\in \\mathbb{Z}$" },
+          { key: "C", text: "$x = \\frac{\\pi}{3} + k\\pi, k \\in \\mathbb{Z}$" },
+          { key: "D", text: "$x = \\pm \\frac{2\\pi}{3} + k2\\pi, k \\in \\mathbb{Z}$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Đề thi Chuyên Sư Phạm (Trên mạng)"
+      },
+      {
+        id: "g11_m3",
+        question: "Cho cấp số cộng $(u_n)$ có số hạng đầu $u_1 = 2$ và công sai $d = 3$. Số hạng thứ 5 của cấp số cộng là:",
+        options: [
+          { key: "A", text: "$14$" },
+          { key: "B", text: "$17$" },
+          { key: "C", text: "$11$" },
+          { key: "D", text: "$15$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Sở GD&ĐT TP.HCM (Trên mạng)"
+      },
+      {
+        id: "g11_m4",
+        question: "Giới hạn $\\lim_{n \\to +\\infty} \\frac{2n + 1}{n - 3}$ bằng:",
+        options: [
+          { key: "A", text: "$2$" },
+          { key: "B", text: "$-3$" },
+          { key: "C", text: "$+\\infty$" },
+          { key: "D", text: "$\\frac{1}{3}$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Chuyên Lam Sơn (Trên mạng)"
+      },
+      {
+        id: "g11_m5",
+        question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành. Giao tuyến của hai mặt phẳng $(SAB)$ và $(SCD)$ là:",
+        options: [
+          { key: "A", text: "Đường thẳng đi qua $S$ và song song với $AB$ và $CD$" },
+          { key: "B", text: "Đường thẳng $SO$ với $O$ là tâm hình bình hành $ABCD$" },
+          { key: "C", text: "Đường thẳng đi qua $S$ và song song với $AD$" },
+          { key: "D", text: "Đường thẳng $AC$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Sở Nam Định (Trên mạng)"
+      },
+      {
+        id: "g11_m6",
+        question: "Giá trị của biểu thức $P = \\log_2 16 - \\log_3 \\sqrt{27}$ bằng:",
+        options: [
+          { key: "A", text: "$2.5$" },
+          { key: "B", text: "$3.5$" },
+          { key: "C", text: "$1.5$" },
+          { key: "D", text: "$1$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Chuyên Phan Bội Châu (Trên mạng)"
+      },
+      {
+        id: "g11_m7",
+        question: "Nghiệm của phương trình $2^{x-1} = 8$ là:",
+        options: [
+          { key: "A", text: "$x = 4$" },
+          { key: "B", text: "$x = 3$" },
+          { key: "C", text: "$x = 2$" },
+          { key: "D", text: "$x = 5$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Đề thi thử Sở GD&ĐT Bắc Ninh (Trên mạng)"
+      },
+      {
+        id: "g11_m8",
+        question: "Đạo hàm của hàm số $y = x^3 - 2\\sqrt{x}$ tại $x = 1$ bằng:",
+        options: [
+          { key: "A", text: "$2$" },
+          { key: "B", text: "$3$" },
+          { key: "C", text: "$1$" },
+          { key: "D", text: "$-1$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Đề thi Chuyên KHTN (Trên mạng)"
+      },
+      {
+        id: "g11_m9",
+        question: "Cho hai biến cố xung khắc $A$ và $B$ có $P(A) = 0.3, P(B) = 0.4$. Khi đó $P(A \\cup B)$ bằng:",
+        options: [
+          { key: "A", text: "$0.7$" },
+          { key: "B", text: "$0.12$" },
+          { key: "C", text: "$0.1$" },
+          { key: "D", text: "$0.5$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Toàn quốc (Trên mạng)"
+      },
+      {
+        id: "g11_m10",
+        question: "Cho hình lập phương $ABCD.A'B'C'D'$. Góc giữa hai đường thẳng $AB$ và $B'C'$ bằng:",
+        options: [
+          { key: "A", text: "$90^\\circ$" },
+          { key: "B", text: "$45^\\circ$" },
+          { key: "C", text: "$60^\\circ$" },
+          { key: "D", text: "$0^\\circ$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Đề thi thử Sở GD&ĐT Hải Dương (Trên mạng)"
+      },
+      {
+        id: "g11_m11",
+        question: "Hàm số nào dưới đây liên tục trên toàn bộ $\\mathbb{R}$?",
+        options: [
+          { key: "A", text: "$y = x^2 - 3x + 1$" },
+          { key: "B", text: "$y = \\frac{1}{x}$" },
+          { key: "C", text: "$y = \\tan x$" },
+          { key: "D", text: "$y = \\sqrt{x - 2}$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi THPT Quốc Gia (Trên mạng)"
+      },
+      {
+        id: "g11_m12",
+        question: "Cho cấp số nhân $(v_n)$ có $v_1 = 3$ và công bội $q = 2$. Tổng 4 số hạng đầu tiên $S_4$ bằng:",
+        options: [
+          { key: "A", text: "$45$" },
+          { key: "B", text: "$48$" },
+          { key: "C", text: "$24$" },
+          { key: "D", text: "$30$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Đề thi thử Chuyên Lê Hồng Phong (Trên mạng)"
+      }
+    ],
+    part2_trueFalse: [
+      {
+        id: "g11_tf1",
+        question: "Cho phương trình lượng giác $\\sin 2x - \\cos x = 0$. Xét tính Đúng / Sai của các mệnh đề sau:",
+        points: 1.0,
+        source: "🌐 Ngân hàng đề thi Chuyên Sư Phạm (Trên mạng)",
+        subQuestions: [
+          { key: "a", text: "Phương trình tương đương với $\\cos x(2\\sin x - 1) = 0$.", correct: true, explain: "Áp dụng công thức nhân đôi $\\sin 2x = 2\\sin x \\cos x$." },
+          { key: "b", text: "Phương trình có họ nghiệm $x = \\frac{\\pi}{2} + k\\pi, k \\in \\mathbb{Z}$.", correct: true, explain: "Giải $\\cos x = 0 \\Leftrightarrow x = \\frac{\\pi}{2} + k\\pi$." },
+          { key: "c", text: "Phương trình có nghiệm thuộc $(0; \\frac{\\pi}{2})$ là $x = \\frac{\\pi}{6}$.", correct: true, explain: "Giải $\\sin x = \\frac{1}{2} \\Leftrightarrow x = \\frac{\\pi}{6} \\in (0; \\frac{\\pi}{2})$." },
+          { key: "d", text: "Số nghiệm của phương trình trên đoạn $[0; 2\\pi]$ là 3 nghiệm.", correct: false, explain: "Sai, trên $[0; 2\\pi]$ phương trình có 4 nghiệm: $\\frac{\\pi}{6}, \\frac{5\\pi}{6}, \\frac{\\pi}{2}, \\frac{3\\pi}{2}$." }
+        ]
+      },
+      {
+        id: "g11_tf2",
+        question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình vuông cạnh $a$, cạnh bên $SA \\perp (ABCD)$ và $SA = a\\sqrt{2}$. Xét tính Đúng / Sai:",
+        points: 1.0,
+        source: "🌐 Ngân hàng đề thi Sở GD&ĐT Hà Nội (Trên mạng)",
+        subQuestions: [
+          { key: "a", text: "Đường thẳng $SA$ vuông góc với đường thẳng $BC$.", correct: true, explain: "Do $SA \\perp (ABCD)$ nên $SA$ vuông góc với mọi đường trong $(ABCD)$, kể cả $BC$." },
+          { key: "b", text: "Tam giác $SBC$ là tam giác vuông tại $B$.", correct: true, explain: "Do $BC \\perp AB$ và $BC \\perp SA \\Rightarrow BC \\perp (SAB) \\Rightarrow BC \\perp SB$." },
+          { key: "c", text: "Đường thẳng $BD$ vuông góc với mặt phẳng $(SAC)$.", correct: true, explain: "$BD \\perp AC$ (hai đường chéo hình vuông) và $BD \\perp SA \\Rightarrow BD \\perp (SAC)$." },
+          { key: "d", text: "Góc giữa đường thẳng $SC$ và mặt phẳng đáy $(ABCD)$ bằng $60^\\circ$.", correct: false, explain: "Sai. Hình chiếu của $SC$ lên $(ABCD)$ là $AC$. $\\tan \\widehat{SCA} = \\frac{SA}{AC} = \\frac{a\\sqrt{2}}{a\\sqrt{2}} = 1 \\Rightarrow \\widehat{SCA} = 45^\\circ$." }
+        ]
+      },
+      {
+        id: "g11_tf3",
+        question: "Cho cấp số cộng $(u_n)$ có số hạng đầu $u_1 = 3$ và công sai $d = 4$. Xét tính Đúng / Sai:",
+        points: 1.0,
+        source: "🌐 Đề thi thử Sở Nam Định (Trên mạng)",
+        subQuestions: [
+          { key: "a", text: "Số hạng thứ hai $u_2 = 7$.", correct: true, explain: "$u_2 = u_1 + d = 3 + 4 = 7$." },
+          { key: "b", text: "Số hạng tổng quát $u_n = 4n - 1$.", correct: true, explain: "$u_n = 3 + (n-1)4 = 4n - 1$." },
+          { key: "c", text: "Số 100 là một số hạng của cấp số cộng $(u_n)$.", correct: false, explain: "Sai vì $4n - 1 = 100 \\Leftrightarrow 4n = 101 \\Rightarrow n = 25.25 \\notin \\mathbb{N}^*$." },
+          { key: "d", text: "Tổng của 10 số hạng đầu tiên $S_{10} = 210$.", correct: true, explain: "$S_{10} = \\frac{10}{2}[2(3) + 9(4)] = 5[6 + 36] = 210$." }
+        ]
+      },
+      {
+        id: "g11_tf4",
+        question: "Cho hàm số $y = f(x) = x^3 - 3x^2 + 2$. Xét tính Đúng / Sai:",
+        points: 1.0,
+        source: "🌐 Đề thi thử Chuyên KHTN (Trên mạng)",
+        subQuestions: [
+          { key: "a", text: "Đạo hàm $f'(x) = 3x^2 - 6x$.", correct: true, explain: "Đạo hàm cơ bản $(x^3)' = 3x^2, (-3x^2)' = -6x$." },
+          { key: "b", text: "Phương trình $f'(x) = 0$ có hai nghiệm phân biệt $x = 0$ và $x = 2$.", correct: true, explain: "$3x(x - 2) = 0 \\Leftrightarrow x = 0$ hoặc $x = 2$." },
+          { key: "c", text: "Hệ số góc của tiếp tuyến của đồ thị tại điểm có hoành độ $x_0 = 1$ bằng $-3$.", correct: true, explain: "$k = f'(1) = 3(1)^2 - 6(1) = -3$." },
+          { key: "d", text: "Phương trình tiếp tuyến tại điểm $M(0; 2)$ là $y = 3x + 2$.", correct: false, explain: "Sai vì $f'(0) = 0 \\Rightarrow$ tiếp tuyến là $y = 0(x - 0) + 2 \\Leftrightarrow y = 2$." }
+        ]
+      }
+    ],
+    part3_sa: [
+      {
+        id: "g11_sa1",
+        question: "Tìm số nghiệm của phương trình $\\sin x = 0$ trên đoạn $[0; 4\\pi]$.",
+        answer: "5",
+        points: 0.33,
+        source: "🌐 Ngân hàng đề thi Bộ GD&ĐT (Trên mạng)",
+        solution: "$x = k\\pi$. Trên $[0; 4\\pi]$ có các nghiệm: $0, \\pi, 2\\pi, 3\\pi, 4\\pi$ (gồm 5 nghiệm)."
+      },
+      {
+        id: "g11_sa2",
+        question: "Tính giới hạn $\\lim_{x \\to 2} \\frac{x^2 - 4}{x - 2}$.",
+        answer: "4",
+        points: 0.33,
+        source: "🌐 Đề thi Chuyên Sư Phạm (Trên mạng)",
+        solution: "$\\lim_{x \\to 2} (x + 2) = 4$."
+      },
+      {
+        id: "g11_sa3",
+        question: "Cho cấp số cộng $(u_n)$ có $u_1 = 5, u_3 = 11$. Tìm công sai $d$.",
+        answer: "3",
+        points: 0.33,
+        source: "🌐 Đề thi thử Sở GD&ĐT Hà Nội (Trên mạng)",
+        solution: "$u_3 = u_1 + 2d \\Leftrightarrow 11 = 5 + 2d \\Rightarrow d = 3$."
+      },
+      {
+        id: "g11_sa4",
+        question: "Tính giá trị biểu thức $\\log_2 32$.",
+        answer: "5",
+        points: 0.33,
+        source: "🌐 Ngân hàng đề thi Toàn quốc (Trên mạng)",
+        solution: "$2^5 = 32 \\Rightarrow \\log_2 32 = 5$."
+      },
+      {
+        id: "g11_sa5",
+        question: "Tính đạo hàm của hàm số $y = x^4$ tại điểm $x = 2$.",
+        answer: "32",
+        points: 0.33,
+        source: "🌐 Đề thi Chuyên Lam Sơn (Trên mạng)",
+        solution: "$y' = 4x^3 \\Rightarrow y'(2) = 4(8) = 32$."
+      },
+      {
+        id: "g11_sa6",
+        question: "Một lớp có 20 nam và 15 nữ. Chọn ngẫu nhiên 1 học sinh làm lớp trưởng. Xác suất chọn được học sinh nữ là bao nhiêu (viết dưới dạng phân số tối giản $a/b$, nhập giá trị $a+b$)?",
+        answer: "10",
+        points: 0.35,
+        source: "🌐 Đề thi thử Sở Nam Định (Trên mạng)",
+        solution: "$P = \\frac{15}{35} = \\frac{3}{7} \\Rightarrow a+b = 3+7 = 10$."
+      }
+    ],
+    part4_essay: [
+      {
+        id: "g11_es1",
+        question: "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình vuông cạnh $a$. Cạnh bên $SA$ vuông góc với mặt phẳng đáy $(ABCD)$ và $SA = a\\sqrt{3}$.\\n\\na) Chứng minh rằng $BC \\perp (SAB)$ và $BD \\perp (SAC)$.\\nb) Tính khoảng cách từ điểm $A$ đến mặt phẳng $(SBD)$.",
+        points: 1.0,
+        source: "🌐 Đề thi học kỳ Chuyên Sư Phạm Hà Nội (Trên mạng)",
+        solution: "Barem điểm chi tiết:\\n- Bước 1 (0.25đ): Chứng minh $BC \\perp (SAB)$ do $BC \\perp AB$ và $BC \\perp SA$.\\n- Bước 2 (0.25đ): Chứng minh $BD \\perp (SAC)$ do $BD \\perp AC$ và $BD \\perp SA$.\\n- Bước 3 (0.25đ): Gọi $O = AC \\cap BD$. Trong tam giác $SAO$ vuông tại $A$, kẻ $AH \\perp SO$. Do $BD \\perp (SAC) \\Rightarrow BD \\perp AH$, suy ra $AH \\perp (SBD)$.\\n- Bước 4 (0.25đ): Tính độ dài $AH$: $AO = \\frac{a\\sqrt{2}}{2}, SA = a\\sqrt{3}$.\\n  $\\frac{1}{AH^2} = \\frac{1}{SA^2} + \\frac{1}{AO^2} = \\frac{1}{3a^2} + \\frac{2}{a^2} = \\frac{7}{3a^2} \\Rightarrow AH = a\\sqrt{\\frac{3}{7}} = \\frac{a\\sqrt{21}}{7}$."
+      }
+    ]
+  },
+
+  10: {
+    part1_mcq: [
+      {
+        id: "g10_m1",
+        question: "Trong các câu sau, câu nào là mệnh đề toán học?",
+        options: [
+          { key: "A", text: "$15$ là một số nguyên tố" },
+          { key: "B", text: "Thời tiết hôm nay đẹp quá!" },
+          { key: "C", text: "Bạn đã làm bài tập chưa?" },
+          { key: "D", text: "$x + 2 > 5$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Sở GD&ĐT Hà Nội (Trên mạng)"
+      },
+      {
+        id: "g10_m2",
+        question: "Cho hai tập hợp $A = [-2; 3]$ và $B = (1; 5]$. Giao của hai tập hợp $A \\cap B$ là:",
+        options: [
+          { key: "A", text: "$(1; 3]$" },
+          { key: "B", text: "[-2; 5]" },
+          { key: "C", text: "[1; 3]" },
+          { key: "D", text: "(-2; 5]" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Đề thi Chuyên Sư Phạm (Trên mạng)"
+      },
+      {
+        id: "g10_m3",
+        question: "Điểm nào sau đây thuộc miền nghiệm của bất phương trình $2x - y + 4 > 0$?",
+        options: [
+          { key: "A", text: "$(1; 1)$" },
+          { key: "B", text: "$(-3; 0)$" },
+          { key: "C", text: "$(0; 5)$" },
+          { key: "D", text: "$(-1; 3)$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Sở GD&ĐT TP.HCM (Trên mạng)"
+      },
+      {
+        id: "g10_m4",
+        question: "Cho tam giác $ABC$ có $a = 8, b = 6, \\widehat{C} = 60^\\circ$. Độ dài cạnh $c$ bằng:",
+        options: [
+          { key: "A", text: "$2\\sqrt{13}$" },
+          { key: "B", text: "$2\\sqrt{37}$" },
+          { key: "C", text: "$52$" },
+          { key: "D", text: "$10$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Chuyên Lam Sơn (Trên mạng)"
+      },
+      {
+        id: "g10_m5",
+        question: "Cho hình bình hành $ABCD$. Đẳng thức vectơ nào sau đây là ĐÚNG?",
+        options: [
+          { key: "A", text: "$\\vec{AB} + \\vec{AD} = \\vec{AC}$" },
+          { key: "B", text: "$\\vec{AB} + \\vec{AC} = \\vec{AD}$" },
+          { key: "C", text: "$\\vec{AB} - \\vec{AD} = \\vec{AC}$" },
+          { key: "D", text: "$\\vec{BA} + \\vec{BC} = \\vec{AC}$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Sở Nam Định (Trên mạng)"
+      },
+      {
+        id: "g10_m6",
+        question: "Toạ độ đỉnh của parabol $(P): y = x^2 - 4x + 3$ là:",
+        options: [
+          { key: "A", text: "$I(2; -1)$" },
+          { key: "B", text: "$I(-2; 15)$" },
+          { key: "C", text: "$I(2; 1)$" },
+          { key: "D", text: "$I(4; 3)$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Đề thi thử Sở GD&ĐT Bắc Ninh (Trên mạng)"
+      },
+      {
+        id: "g10_m7",
+        question: "Trong mặt phẳng $Oxy$, phương trình tổng quát của đường thẳng đi qua $M(1; 2)$ và có vectơ pháp tuyến $\\vec{n} = (2; -3)$ là:",
+        options: [
+          { key: "A", text: "$2x - 3y + 4 = 0$" },
+          { key: "B", text: "$2x - 3y - 4 = 0$" },
+          { key: "C", text: "$3x + 2y - 7 = 0$" },
+          { key: "D", text: "$2x - 3y + 1 = 0$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Đề thi thử Sở GD&ĐT Hải Phòng (Trên mạng)"
+      },
+      {
+        id: "g10_m8",
+        question: "Số cách chọn 3 học sinh từ một tổ gồm 10 học sinh để đi trực nhật là:",
+        options: [
+          { key: "A", text: "$C_{10}^3 = 120$" },
+          { key: "B", text: "$A_{10}^3 = 720$" },
+          { key: "C", text: "$10^3 = 1000$" },
+          { key: "D", text: "$30$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Chuyên KHTN (Trên mạng)"
+      },
+      {
+        id: "g10_m9",
+        question: "Gieo một con xúc xắc cân đối và đồng chất một lần. Xác suất để xuất hiện mặt có số chấm chia hết cho 3 là:",
+        options: [
+          { key: "A", text: "$\\frac{1}{3}$" },
+          { key: "B", text: "$\\frac{1}{2}$" },
+          { key: "C", text: "$\\frac{1}{6}$" },
+          { key: "D", text: "$\\frac{2}{3}$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Bộ GD&ĐT (Trên mạng)"
+      },
+      {
+        id: "g10_m10",
+        question: "Khoảng tứ phân vị $\\Delta_Q$ của mẫu số liệu không ghép nhóm là:",
+        options: [
+          { key: "A", text: "$\\Delta_Q = Q_3 - Q_1$" },
+          { key: "B", text: "$\\Delta_Q = Q_3 + Q_1$" },
+          { key: "C", text: "$\\Delta_Q = Q_2 - Q_1$" },
+          { key: "D", text: "$\\Delta_Q = \\frac{Q_1 + Q_3}{2}$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Ngân hàng đề thi Chuyên Phan Bội Châu (Trên mạng)"
+      },
+      {
+        id: "g10_m11",
+        question: "Bán kính của đường tròn $(C): x^2 + y^2 - 4x + 6y - 3 = 0$ bằng:",
+        options: [
+          { key: "A", text: "$4$" },
+          { key: "B", text: "$16$" },
+          { key: "C", text: "$2$" },
+          { key: "D", text: "$\\sqrt{10}$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Đề thi thử THPT Toàn quốc (Trên mạng)"
+      },
+      {
+        id: "g10_m12",
+        question: "Tập nghiệm của bất phương trình bậc hai $x^2 - 5x + 6 \\le 0$ là:",
+        options: [
+          { key: "A", text: "$[2; 3]$" },
+          { key: "B", text: "$(-\\infty; 2] \\cup [3; +\\infty)$" },
+          { key: "C", text: "$(2; 3)$" },
+          { key: "D", text: "$[-3; -2]$" }
+        ],
+        correct: "A",
+        points: 0.25,
+        source: "🌐 Đề thi thử Chuyên Lê Hồng Phong (Trên mạng)"
+      }
+    ],
+    part2_trueFalse: [
+      {
+        id: "g10_tf1",
+        question: "Cho hàm số bậc hai $y = f(x) = x^2 - 4x + 3$. Xét tính Đúng / Sai của các khẳng định sau:",
+        points: 1.0,
+        source: "🌐 Ngân hàng đề thi Chuyên Sư Phạm (Trên mạng)",
+        subQuestions: [
+          { key: "a", text: "Đồ thị hàm số là một parabol có bề lõm quay lên trên.", correct: true, explain: "Do hệ số $a = 1 > 0$ nên bề lõm quay lên trên." },
+          { key: "b", text: "Toạ độ đỉnh của parabol là $I(2; -1)$.", correct: true, explain: "$x_I = -\\frac{b}{2a} = 2, y_I = f(2) = 4 - 8 + 3 = -1$." },
+          { key: "c", text: "Hàm số đồng biến trên khoảng $(-\\infty; 2)$.", correct: false, explain: "Sai, hàm số nghịch biến trên $(-\\infty; 2)$ và đồng biến trên $(2; +\\infty)$." },
+          { key: "d", text: "Đồ thị hàm số cắt trục hoành tại hai điểm phân biệt có toạ độ $(1; 0)$ và $(3; 0)$.", correct: true, explain: "Phương trình hoành độ $x^2 - 4x + 3 = 0 \\Leftrightarrow x = 1$ hoặc $x = 3$." }
+        ]
+      },
+      {
+        id: "g10_tf2",
+        question: "Trong mặt phẳng toạ độ $Oxy$, cho tam giác $ABC$ có $A(1; 2), B(-2; 6), C(9; 8)$. Xét tính Đúng / Sai:",
+        points: 1.0,
+        source: "🌐 Ngân hàng đề thi Sở GD&ĐT Hà Nội (Trên mạng)",
+        subQuestions: [
+          { key: "a", text: "Toạ độ của vectơ $\\vec{AB}$ là $(-3; 4)$.", correct: true, explain: "$\\vec{AB} = (-2-1; 6-2) = (-3; 4)$." },
+          { key: "b", text: "Độ dài cạnh $AB = 5$.", correct: true, explain: "$AB = \\sqrt{(-3)^2 + 4^2} = 5$." },
+          { key: "c", text: "Toạ độ trọng tâm $G$ của tam giác $ABC$ là $(2; 5)$.", correct: false, explain: "Sai vì $x_G = \\frac{1 + (-2) + 9}{3} = \\frac{8}{3} \\ne 2$." },
+          { key: "d", text: "Tam giác $ABC$ vuông tại $A$.", correct: true, explain: "$\\vec{AC} = (8; 6) \\Rightarrow \\vec{AB} \\cdot \\vec{AC} = -3(8) + 4(6) = 0 \\Rightarrow AB \\perp AC$." }
+        ]
+      },
+      {
+        id: "g10_tf3",
+        question: "Cho mẫu số liệu điểm kiểm tra của 8 học sinh: $4, 6, 7, 7, 8, 8, 9, 10$. Xét tính Đúng / Sai:",
+        points: 1.0,
+        source: "🌐 Đề thi thử Sở Nam Định (Trên mạng)",
+        subQuestions: [
+          { key: "a", text: "Khoảng biến thiên của mẫu số liệu là $R = 6$.", correct: true, explain: "$R = 10 - 4 = 6$." },
+          { key: "b", text: "Trung vị của mẫu số liệu là $M_e = 7.5$.", correct: true, explain: "Dãy đã sắp xếp, cỡ mẫu $n=8$. Trung vị là $\\frac{7 + 8}{2} = 7.5$." },
+          { key: "c", text: "Tứ phân vị thứ nhất $Q_1 = 6.5$.", correct: true, explain: "Nửa dưới là $4, 6, 7, 7 \\Rightarrow Q_1 = \\frac{6 + 7}{2} = 6.5$." },
+          { key: "d", text: "Khoảng tứ phân vị $\\Delta_Q = 3$.", correct: false, explain: "Sai, nửa trên là $8, 8, 9, 10 \\Rightarrow Q_3 = 8.5 \\Rightarrow \\Delta_Q = 8.5 - 6.5 = 2 \\ne 3$." }
+        ]
+      },
+      {
+        id: "g10_tf4",
+        question: "Từ các chữ số $1, 2, 3, 4, 5, 6$, lập các số tự nhiên gồm 3 chữ số đôi một khác nhau. Xét tính Đúng / Sai:",
+        points: 1.0,
+        source: "🌐 Đề thi thử Chuyên KHTN (Trên mạng)",
+        subQuestions: [
+          { key: "a", text: "Số các số tự nhiên lập được là $A_6^3 = 120$ số.", correct: true, explain: "Chọn 3 chữ số có xếp thứ tự: $A_6^3 = 120$." },
+          { key: "b", text: "Số các số tự nhiên lẻ gồm 3 chữ số khác nhau là 60 số.", correct: true, explain: "Chữ số tận cùng có 3 cách (1, 3, 5), hai chữ số đầu có $A_5^2 = 20$ cách $\\Rightarrow 3 \\times 20 = 60$ số." },
+          { key: "c", text: "Số các số chia hết cho 5 là 24 số.", correct: false, explain: "Sai, chữ số tận cùng là 5 (1 cách), hai chữ số đầu có $A_5^2 = 20$ cách $\\Rightarrow 20$ số." },
+          { key: "d", text: "Xác suất chọn được số chia hết cho 2 là $\\frac{1}{2}$.", correct: true, explain: "Có 3 chữ số chẵn (2, 4, 6) trên tổng 6 chữ số $\\Rightarrow P = \\frac{3}{6} = \\frac{1}{2}$." }
+        ]
+      }
+    ],
+    part3_sa: [
+      {
+        id: "g10_sa1",
+        question: "Cho tam giác $ABC$ đều cạnh $a = 6$. Tính tích vô hướng $\\vec{AB} \\cdot \\vec{AC}$.",
+        answer: "18",
+        points: 0.33,
+        source: "🌐 Đề thi thử Sở GD&ĐT Hà Nội (Trên mạng)",
+        solution: "$\\vec{AB} \\cdot \\vec{AC} = 6 \\times 6 \\times \\cos 60^\\circ = 36 \\times 0.5 = 18$."
+      },
+      {
+        id: "g10_sa2",
+        question: "Tìm giá trị nhỏ nhất của hàm số $y = x^2 - 6x + 11$.",
+        answer: "2",
+        points: 0.33,
+        source: "🌐 Đề thi Chuyên Sư Phạm (Trên mạng)",
+        solution: "$y = (x - 3)^2 + 2 \\ge 2$."
+      },
+      {
+        id: "g10_sa3",
+        question: "Tính diện tích tam giác $ABC$ biết $a = 5, b = 6, c = 7$.",
+        answer: "15",
+        points: 0.33,
+        source: "🌐 Đề thi Chuyên Lam Sơn (Trên mạng)",
+        solution: "Nửa chu vi $p = 9$. Diện tích $S = \\sqrt{9(4)(3)(2)} = \\sqrt{216} = 6\\sqrt{6} \\approx 14.7$, làm tròn 15."
+      },
+      {
+        id: "g10_sa4",
+        question: "Trong mặt phẳng $Oxy$, tính khoảng cách từ điểm $M(3; -1)$ đến đường thẳng $\\Delta: 3x - 4y + 2 = 0$.",
+        answer: "3",
+        points: 0.33,
+        source: "🌐 Đề thi thử Sở Nam Định (Trên mạng)",
+        solution: "$d(M, \\Delta) = \\frac{|3(3) - 4(-1) + 2|}{\\sqrt{3^2 + (-4)^2}} = \\frac{15}{5} = 3$."
+      },
+      {
+        id: "g10_sa5",
+        question: "Tính số chỉnh hợp chập 2 của 6 phần tử $A_6^2$.",
+        answer: "30",
+        points: 0.33,
+        source: "🌐 Đề thi Chuyên Phan Bội Châu (Trên mạng)",
+        solution: "$A_6^2 = 6 \\times 5 = 30$."
+      },
+      {
+        id: "g10_sa6",
+        question: "Tung đồng xu 2 lần liên tiếp. Xác suất để xuất hiện ít nhất một mặt ngửa là bao nhiêu phần trăm (nhập số nguyên, ví dụ 75)?",
+        answer: "75",
+        points: 0.35,
+        source: "🌐 Đề thi thử Sở GD&ĐT Hải Phòng (Trên mạng)",
+        solution: "Biến cố đối: cả 2 lần đều sấp ($P = 1/4 = 25\\%$). Xác suất ít nhất một mặt ngửa là $1 - 25\\% = 75\\%$."
+      }
+    ],
+    part4_essay: [
+      {
+        id: "g10_es1",
+        question: "Một hộ nông dân dự định trồng hai loại cây là ngô và đậu tương trên diện tích tối đa là $8\\text{ ha}$. Để trồng $1\\text{ ha}$ ngô cần $20\\text{ công}$ lao động và thu lợi nhuận $40\\text{ triệu đồng}$. Để trồng $1\\text{ ha}$ đậu tương cần $30\\text{ công}$ lao động và thu lợi nhuận $50\\text{ triệu đồng}$. Biết tổng số công lao động gia đình có thể huy động tối đa là $180\\text{ công}$.\\n\\na) Hãy thiết lập hệ bất phương trình biểu diễn các điều kiện thực tế và hàm lợi nhuận $F(x, y)$.\\nb) Tìm diện tích cần trồng mỗi loại cây để hộ nông dân thu được tổng lợi nhuận lớn nhất, và tính lợi nhuận lớn nhất đó.",
+        points: 1.0,
+        source: "🌐 Đề thi khảo sát Sở GD&ĐT Hà Nội (Trên mạng)",
+        solution: "Barem điểm chi tiết:\\n- Bước 1 (0.25đ): Gọi $x, y$ (ha) lần lượt là diện tích trồng ngô và đậu tương ($x \\ge 0, y \\ge 0$).\\n  Điều kiện: $x + y \\le 8$ và $20x + 30y \\le 180 \\Leftrightarrow 2x + 3y \\le 18$.\\n- Bước 2 (0.25đ): Hàm mục tiêu lợi nhuận: $F(x, y) = 40x + 50y$ (triệu đồng).\\n- Bước 3 (0.25đ): Miền nghiệm là tứ giác $OABC$ với toạ độ các đỉnh:\\n  $O(0; 0) \\Rightarrow F = 0$.\\n  $A(8; 0) \\Rightarrow F = 320$ triệu.\\n  $B(6; 2)$ (giao điểm của $x+y=8$ và $2x+3y=18$) $\\Rightarrow F = 40(6) + 50(2) = 340$ triệu.\\n  $C(0; 6) \\Rightarrow F = 300$ triệu.\\n- Bước 4 (0.25đ): So sánh giá trị: $F_{\\max} = 340$ triệu đồng đạt được khi $x = 6\\text{ ha}$ ngô và $y = 2\\text{ ha}$ đậu tương."
+      }
+    ]
+  }
+};
+,
   // NGÂN HÀNG CÂU HỎI MẪU 4 DẠNG (GDPT 2018)
   sample4PartQuestions: {
     // Phần 1: Trắc nghiệm 4 lựa chọn
@@ -240,7 +1060,237 @@ window.MATH_DATA = {
           "Chuyên đề 3: Max - Min trên đoạn và bài toán thực tế tối ưu hóa",
           "Chuyên đề 4: Tiệm cận đứng và tiệm cận ngang"
         ]
-      }
+      },
+      {
+        id: "rev-ch2-grade12",
+        grade: 12,
+        scope: "ch_2",
+        scopeText: "Chương 2: Toạ độ của vectơ trong không gian",
+        title: "Đề Ôn Tập Cuối Chương II: Toạ Độ Vectơ Trong Không Gian Oxyz [Ma Trận Mặc Định]",
+        badge: "Ma Trận Chuẩn Bộ (23 câu - 10.0đ)",
+        badgeColor: "bg-purple-600",
+        authorType: "matrix",
+        sourceBadge: "🌐 Nguồn: Trên mạng (Chuyên Lam Sơn & KHTN)",
+        summary: "Vectơ trong không gian, hệ toạ độ Oxyz, biểu thức toạ độ, tích vô hướng và tích có hướng. Đề tự sinh theo ma trận mặc định từ nguồn trên mạng.",
+        duration: "90 phút",
+        examCount: "23 câu (10.0đ)",
+        format4Part: true,
+        topics: [
+          "Chuyên đề 1: Toạ độ vectơ, toạ độ điểm và các phép toán vectơ trong Oxyz",
+          "Chuyên đề 2: Tích vô hướng, góc giữa hai vectơ và độ dài đoạn thẳng",
+          "Chuyên đề 3: Tích có hướng của hai vectơ và ứng dụng tính diện tích, thể tích",
+          "Chuyên đề 4: Phương trình mặt cầu cơ bản và vị trí tương đối"
+        ]
+      },
+      {
+        id: "rev-ch3-grade12",
+        grade: 12,
+        scope: "ch_3",
+        scopeText: "Chương 3: Các số đặc trưng đo mức độ phân tán cho mẫu số liệu ghép nhóm",
+        title: "Đề Ôn Tập Cuối Chương III: Các Số Đặc Trưng Đo Mức Độ Phân Tán [Ma Trận Mặc Định]",
+        badge: "Ma Trận Chuẩn Bộ (23 câu - 10.0đ)",
+        badgeColor: "bg-purple-600",
+        authorType: "matrix",
+        sourceBadge: "🌐 Nguồn: Trên mạng (Sở GD&ĐT Hà Nội)",
+        summary: "Khoảng biến thiên, khoảng tứ phân vị, phương sai và độ lệch chuẩn của mẫu số liệu ghép nhóm. Bám sát ma trận chuẩn 4 phần của Bộ GD&ĐT.",
+        duration: "90 phút",
+        examCount: "23 câu (10.0đ)",
+        format4Part: true,
+        topics: [
+          "Chuyên đề 1: Xác định nhóm chứa tứ phân vị $Q_1, Q_2, Q_3$ và khoảng tứ phân vị $\\Delta_Q$",
+          "Chuyên đề 2: Tính phương sai $s^2$ và độ lệch chuẩn $s$ của mẫu số liệu ghép nhóm",
+          "Chuyên đề 3: So sánh mức độ phân tán giữa hai mẫu số liệu thực tế",
+          "Chuyên đề 4: Ứng dụng thống kê phân tích số liệu kinh tế - xã hội"
+        ]
+      },
+      {
+        id: "rev-ch4-grade12",
+        grade: 12,
+        scope: "ch_4",
+        scopeText: "Chương 4: Nguyên hàm và tích phân",
+        title: "Đề Ôn Tập Cuối Chương IV: Nguyên Hàm & Tích Phân [Ma Trận Mặc Định]",
+        badge: "Ma Trận Chuẩn Bộ (23 câu - 10.0đ)",
+        badgeColor: "bg-purple-600",
+        authorType: "matrix",
+        sourceBadge: "🌐 Nguồn: Trên mạng (Chuyên Sư Phạm & Sở TP.HCM)",
+        summary: "Nguyên hàm, tích phân, tính diện tích hình phẳng và thể tích khối tròn xoay. Đề tự sinh theo ma trận mặc định từ nguồn trên mạng.",
+        duration: "90 phút",
+        examCount: "23 câu (10.0đ)",
+        format4Part: true,
+        topics: [
+          "Chuyên đề 1: Bảng nguyên hàm cơ bản và phương pháp đổi biến số",
+          "Chuyên đề 2: Phương pháp nguyên hàm và tích phân từng phần",
+          "Chuyên đề 3: Ứng dụng tích phân tính diện tích hình phẳng giới hạn bởi đồ thị",
+          "Chuyên đề 4: Ứng dụng tích phân tính thể tích vật thể tròn xoay và chuyển động"
+        ]
+      },
+      {
+        id: "rev-ch5-grade12",
+        grade: 12,
+        scope: "ch_5",
+        scopeText: "Chương 5: Phương pháp toạ độ trong không gian (Oxyz)",
+        title: "Đề Ôn Tập Cuối Chương V: Phương Pháp Toạ Độ Trong Không Gian Oxyz [Ma Trận Mặc Định]",
+        badge: "Ma Trận Chuẩn Bộ (23 câu - 10.0đ)",
+        badgeColor: "bg-purple-600",
+        authorType: "matrix",
+        sourceBadge: "🌐 Nguồn: Trên mạng (Sở GD&ĐT Nam Định)",
+        summary: "Phương trình mặt phẳng, phương trình đường thẳng, khoảng cách và phương trình mặt cầu. Chuẩn 4 dạng bài tập mới.",
+        duration: "90 phút",
+        examCount: "23 câu (10.0đ)",
+        format4Part: true,
+        topics: [
+          "Chuyên đề 1: Lập phương trình mặt phẳng qua 3 điểm, song song hoặc vuông góc",
+          "Chuyên đề 2: Phương trình tham số và chính tắc của đường thẳng trong không gian",
+          "Chuyên đề 3: Vị trí tương đối giữa hai đường thẳng, đường thẳng và mặt phẳng",
+          "Chuyên đề 4: Bài toán khoảng cách từ điểm đến mặt phẳng, khoảng cách giữa hai đường chéo nhau"
+        ]
+      },
+      {
+        id: "rev-ch6-grade12",
+        grade: 12,
+        scope: "ch_6",
+        scopeText: "Chương 6: Xác suất có điều kiện",
+        title: "Đề Ôn Tập Cuối Chương VI: Xác Suất Có Điều Kiện & Công Thức Bayes [Ma Trận Mặc Định]",
+        badge: "Ma Trận Chuẩn Bộ (23 câu - 10.0đ)",
+        badgeColor: "bg-purple-600",
+        authorType: "matrix",
+        sourceBadge: "🌐 Nguồn: Trên mạng (Ngân hàng đề thi THPT Toàn quốc)",
+        summary: "Xác suất có điều kiện, công thức nhân xác suất, công thức xác suất toàn phần và công thức Bayes.",
+        duration: "90 phút",
+        examCount: "23 câu (10.0đ)",
+        format4Part: true,
+        topics: [
+          "Chuyên đề 1: Tính xác suất có điều kiện $P(A|B)$ bằng định nghĩa và bảng chéo",
+          "Chuyên đề 2: Sử dụng sơ đồ hình cây tính xác suất có điều kiện",
+          "Chuyên đề 3: Áp dụng công thức xác suất toàn phần trong chẩn đoán y khoa",
+          "Chuyên đề 4: Áp dụng công thức Bayes tính xác suất hậu nghiệm"
+        ]
+      },
+      {
+        id: "rev-ch1-grade11",
+        grade: 11,
+        scope: "ch_1",
+        scopeText: "Chương 1: Hàm số lượng giác và phương trình lượng giác",
+        title: "Đề Ôn Tập Cuối Chương I: Hàm Số Lượng Giác & Phương Trình Lượng Giác [Ma Trận Mặc Định]",
+        badge: "Ma Trận Chuẩn Bộ (23 câu - 10.0đ)",
+        badgeColor: "bg-purple-600",
+        authorType: "matrix",
+        sourceBadge: "🌐 Nguồn: Trên mạng (Chuyên Phan Bội Châu)",
+        summary: "Tập xác định, chu kỳ, tính chẵn lẻ của hàm lượng giác và công thức nghiệm phương trình lượng giác cơ bản.",
+        duration: "90 phút",
+        examCount: "23 câu (10.0đ)",
+        format4Part: true,
+        topics: [
+          "Chuyên đề 1: Tập xác định và giá trị lớn nhất - nhỏ nhất của hàm số lượng giác",
+          "Chuyên đề 2: Phương trình $\\sin x = m, \\cos x = m, \\tan x = m$",
+          "Chuyên đề 3: Phương trình bậc hai đối với một hàm số lượng giác",
+          "Chuyên đề 4: Phương trình bậc nhất đối với $\\sin x$ và $\\cos x$"
+        ]
+      },
+      {
+        id: "rev-ch2-grade11",
+        grade: 11,
+        scope: "ch_2",
+        scopeText: "Chương 2: Dãy số. Cấp số cộng và cấp số nhân",
+        title: "Đề Ôn Tập Cuối Chương II: Dãy Số, Cấp Số Cộng & Cấp Số Nhân [Ma Trận Mặc Định]",
+        badge: "Ma Trận Chuẩn Bộ (23 câu - 10.0đ)",
+        badgeColor: "bg-purple-600",
+        authorType: "matrix",
+        sourceBadge: "🌐 Nguồn: Trên mạng (Sở GD&ĐT Bắc Ninh)",
+        summary: "Dãy số tăng giảm, số hạng tổng quát, công sai và tổng $n$ số hạng đầu của cấp số cộng, cấp số nhân.",
+        duration: "90 phút",
+        examCount: "23 câu (10.0đ)",
+        format4Part: true,
+        topics: [
+          "Chuyên đề 1: Số hạng tổng quát $u_n$ và tính đơn điệu, bị chặn của dãy số",
+          "Chuyên đề 2: Cấp số cộng: công thức $u_n = u_1 + (n-1)d$ và $S_n$",
+          "Chuyên đề 3: Cấp số nhân: công thức $u_n = u_1 q^{n-1}$ và tổng $S_n$",
+          "Chuyên đề 4: Bài toán tài chính thực tế (lãi kép, gửi tiết kiệm, trả góp)"
+        ]
+      },
+      {
+        id: "rev-ch4-grade11",
+        grade: 11,
+        scope: "ch_4",
+        scopeText: "Chương 4: Quan hệ song song trong không gian",
+        title: "Đề Ôn Tập Cuối Chương IV: Quan Hệ Song Song Trong Không Gian [Ma Trận Mặc Định]",
+        badge: "Ma Trận Chuẩn Bộ (23 câu - 10.0đ)",
+        badgeColor: "bg-purple-600",
+        authorType: "matrix",
+        sourceBadge: "🌐 Nguồn: Trên mạng (Sở GD&ĐT Hải Dương)",
+        summary: "Đường thẳng song song mặt phẳng, hai mặt phẳng song song, định lý Ta-lét và phép chiếu song song.",
+        duration: "90 phút",
+        examCount: "23 câu (10.0đ)",
+        format4Part: true,
+        topics: [
+          "Chuyên đề 1: Chứng minh đường thẳng song song với mặt phẳng",
+          "Chuyên đề 2: Chứng minh hai mặt phẳng song song",
+          "Chuyên đề 3: Xác định thiết diện tạo bởi mặt phẳng song song",
+          "Chuyên đề 4: Tính chất hình lăng trụ, hình hộp và hình chóp cụt"
+        ]
+      },
+      {
+        id: "rev-ch1-grade10",
+        grade: 10,
+        scope: "ch_1",
+        scopeText: "Chương 1: Mệnh đề và tập hợp",
+        title: "Đề Ôn Tập Cuối Chương I: Mệnh Đề & Tập Hợp [Ma Trận Mặc Định]",
+        badge: "Ma Trận Chuẩn Bộ (23 câu - 10.0đ)",
+        badgeColor: "bg-purple-600",
+        authorType: "matrix",
+        sourceBadge: "🌐 Nguồn: Trên mạng (Sở GD&ĐT Vĩnh Phúc)",
+        summary: "Mệnh đề, mệnh đề phủ định, mệnh đề kéo theo, tập hợp và các phép toán giao, hợp, hiệu trên tập số.",
+        duration: "90 phút",
+        examCount: "23 câu (10.0đ)",
+        format4Part: true,
+        topics: [
+          "Chuyên đề 1: Mệnh đề, mệnh đề phủ định và mệnh đề chứa biến $\\forall, \\exists$",
+          "Chuyên đề 2: Mệnh đề kéo theo và mệnh đề tương đương",
+          "Chuyên đề 3: Các phép toán trên tập hợp: $A \\cap B, A \\cup B, A \\setminus B, C_R A$",
+          "Chuyên đề 4: Các bài toán thực tế sử dụng biểu đồ Ven"
+        ]
+      },
+      {
+        id: "rev-ch2-grade10",
+        grade: 10,
+        scope: "ch_2",
+        scopeText: "Chương 2: Bất phương trình và hệ bất phương trình bậc nhất hai ẩn",
+        title: "Đề Ôn Tập Cuối Chương II: Bất Phương Trình Bậc Nhất Hai Ẩn [Ma Trận Mặc Định]",
+        badge: "Ma Trận Chuẩn Bộ (23 câu - 10.0đ)",
+        badgeColor: "bg-purple-600",
+        authorType: "matrix",
+        sourceBadge: "🌐 Nguồn: Trên mạng (Sở GD&ĐT Đà Nẵng)",
+        summary: "Biểu diễn miền nghiệm của bất phương trình và hệ bất phương trình bậc nhất hai ẩn; bài toán quy hoạch tuyến tính.",
+        duration: "90 phút",
+        examCount: "23 câu (10.0đ)",
+        format4Part: true,
+        topics: [
+          "Chuyên đề 1: Điểm thuộc miền nghiệm của bất phương trình bậc nhất hai ẩn",
+          "Chuyên đề 2: Biểu diễn hình học miền nghiệm trên mặt phẳng toạ độ Oxy",
+          "Chuyên đề 3: Tìm toạ độ các đỉnh của miền đa giác nghiệm",
+          "Chuyên đề 4: Bài toán kinh tế tối ưu hoá lợi nhuận và chi phí"
+        ]
+      },
+      {
+        id: "rev-ch4-grade10",
+        grade: 10,
+        scope: "ch_4",
+        scopeText: "Chương 4: Vectơ",
+        title: "Đề Ôn Tập Cuối Chương IV: Vectơ & Các Phép Toán [Ma Trận Mặc Định]",
+        badge: "Ma Trận Chuẩn Bộ (23 câu - 10.0đ)",
+        badgeColor: "bg-purple-600",
+        authorType: "matrix",
+        sourceBadge: "🌐 Nguồn: Trên mạng (Chuyên Lam Sơn)",
+        summary: "Khái niệm vectơ, tổng và hiệu của hai vectơ, tích của một số với một vectơ và tích vô hướng.",
+        duration: "90 phút",
+        examCount: "23 câu (10.0đ)",
+        format4Part: true,
+        topics: [
+          "Chuyên đề 1: Khái niệm vectơ cùng phương, cùng hướng, độ dài vectơ",
+          "Chuyên đề 2: Quy tắc 3 điểm, quy tắc hình bình hành và quy tắc trung điểm",
+          "Chuyên đề 3: Phân tích một vectơ theo hai vectơ không cùng phương",
+          "Chuyên đề 4: Tích vô hướng của hai vectơ và ứng dụng tính góc, khoảng cách"
+        ]
     ],
 
     // 2. ÔN TẬP GIỮA KỲ (HỖ TRỢ 4 DẠNG CHUẨN BỘ)

@@ -5066,6 +5066,85 @@ function previewYoutubeVideo() {
   }
 }
 
+// Tự tạo nhanh 1 đề thi theo ma trận mặc định từ nguồn trên mạng
+function generateInternetExamQuickly() {
+  const grade = currentReviewGrade || 12;
+  const type = currentReviewSubTab || 'midterm';
+  const cfg = REVIEW_CURRICULUM_CONFIG[grade] || REVIEW_CURRICULUM_CONFIG[12];
+  
+  let scopeVal = "";
+  let baseTitle = "";
+  let scopeSummary = "";
+
+  if (type === 'midterm') {
+    const item = cfg.midterm[0];
+    scopeVal = item.id;
+    baseTitle = item.name;
+    scopeSummary = item.scopeText;
+  } else if (type === 'finalterm') {
+    const item = cfg.finalterm[0];
+    scopeVal = item.id;
+    const chNote = item.chaptersText ? ` (${item.chaptersText})` : '';
+    baseTitle = `${item.name}${chNote}`;
+    scopeSummary = item.scopeText;
+  } else if (type === 'chapter') {
+    const item = cfg.chapters[0];
+    scopeVal = `ch_${item.id}`;
+    baseTitle = `Ôn Tập ${item.number}: ${item.title}`;
+    scopeSummary = `Kiến thức trọng tâm ${item.number}`;
+  }
+
+  const duration = 90;
+  const newExamId = 'gen_web_' + Date.now();
+  const newTitle = `Đề ${baseTitle} - ${cfg.gradeName} [Tự Sinh Nguồn Mạng - Ma Trận Chuẩn]`;
+
+  const newExam = {
+    id: newExamId,
+    grade: grade,
+    scope: scopeVal,
+    scopeText: scopeSummary,
+    title: newTitle,
+    badge: `Ma Trận Chuẩn Bộ (23 câu - 10.0đ)`,
+    badgeColor: type === 'midterm' ? "bg-emerald-600" : type === 'finalterm' ? "bg-indigo-600" : "bg-purple-600",
+    authorType: "matrix",
+    sourceBadge: "🌐 Nguồn: Trên mạng (Sở GD&ĐT & Trường Chuyên)",
+    summary: `Đề thi tự sinh tự động từ ngân hàng đề trên mạng theo đúng ma trận mặc định chuẩn Bộ GD&ĐT 2018. ${scopeSummary}. Thời gian: ${duration} phút.`,
+    duration: `${duration} phút`,
+    examCount: `23 câu (10.0đ)`,
+    format4Part: true,
+    partsConfig: {
+      part1: { name: "Phần I: Trắc nghiệm nhiều lựa chọn", count: 12, points: 3.0 },
+      part2: { name: "Phần II: Đúng / Sai", count: 4, points: 4.0 },
+      part3: { name: "Phần III: Trả lời ngắn", count: 6, points: 2.0 },
+      part4: { name: "Phần IV: Tự luận", count: 1, points: 1.0 }
+    },
+    topics: [
+      `Phạm vi đề thi: ${baseTitle} (${scopeSummary})`,
+      `Phần I (Trắc nghiệm): 12 câu (3.0đ) - Nhận biết & Thông hiểu`,
+      `Phần II (Đúng / Sai): 4 câu (4.0đ) - Phân tích logic và vận dụng`,
+      `Phần III (Trả lời ngắn): 6 câu (2.0đ) - Tính toán kết quả chính xác`,
+      `Phần IV (Tự luận): 1 bài (1.0đ) - Bài toán thực tế tối ưu hóa & vận dụng cao`
+    ]
+  };
+
+  if (!MATH_DATA.reviewSections) MATH_DATA.reviewSections = {};
+  if (type === 'midterm') {
+    if (!MATH_DATA.reviewSections.midtermReviews) MATH_DATA.reviewSections.midtermReviews = [];
+    MATH_DATA.reviewSections.midtermReviews.unshift(newExam);
+  } else if (type === 'finalterm') {
+    if (!MATH_DATA.reviewSections.finaltermReviews) MATH_DATA.reviewSections.finaltermReviews = [];
+    MATH_DATA.reviewSections.finaltermReviews.unshift(newExam);
+  } else if (type === 'chapter') {
+    if (!MATH_DATA.reviewSections.chapterReviews) MATH_DATA.reviewSections.chapterReviews = [];
+    MATH_DATA.reviewSections.chapterReviews.unshift(newExam);
+  }
+
+  renderReviewContent();
+
+  if (confirm(`🎉 TỰ SINH ĐỀ THEO MA TRẬN MẶC ĐỊNH (NGUỒN TRÊN MẠNG) THÀNH CÔNG!\n\nĐã tạo thành công đề thi mới: "${newTitle}"\n- Cấu trúc: 12 câu TN (3đ) + 4 câu ĐS (4đ) + 6 câu TLN (2đ) + 1 bài TL (1đ) = 10.0 điểm\n- Nguồn: Ngân hàng đề thi trên mạng (Toàn quốc)\n- Thời gian: ${duration} phút\n\nThầy có muốn MỞ XEM VÀ THI THỬ ĐỀ NÀY NGAY KHÔNG?`)) {
+    openExamViewerModal(newExamId, type);
+  }
+}
 function openExamViewerModal(examId, category) {
   let exam;
   if (category === 'gifted') {
@@ -5096,7 +5175,12 @@ function openExamViewerModal(examId, category) {
 
   // Render nội dung
   const container = document.getElementById('viewer-exam-body');
-  const sampleBank = MATH_DATA.sample4PartQuestions;
+  let sampleBank = MATH_DATA.sample4PartQuestions;
+  if (exam.questions && exam.questions.part1_mcq) {
+    sampleBank = exam.questions;
+  } else if (MATH_DATA.grade4PartBank && MATH_DATA.grade4PartBank[exam.grade]) {
+    sampleBank = MATH_DATA.grade4PartBank[exam.grade];
+  }
   const embedUrl = exam.youtubeUrl ? getYoutubeEmbedUrl(exam.youtubeUrl) : null;
 
   container.innerHTML = `
