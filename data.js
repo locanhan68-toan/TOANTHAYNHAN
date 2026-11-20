@@ -225,6 +225,8 @@ window.MATH_DATA = {
       {
         id: "rev-ch1-grade12",
         grade: 12,
+        scope: "ch_1",
+        scopeText: "Chương 1: Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số",
         title: "Ôn Tập Cuối Chương I: Ứng Dụng Đạo Hàm Để Khảo Sát & Vẽ Đồ Thị Hàm Số",
         badge: "Chiếm 25% đề thi THPT",
         badgeColor: "bg-purple-600",
@@ -244,8 +246,29 @@ window.MATH_DATA = {
     // 2. ÔN TẬP GIỮA KỲ (HỖ TRỢ 4 DẠNG CHUẨN BỘ)
     midtermReviews: [
       {
+        id: "rev-mid1-grade12",
+        grade: 12,
+        scope: "mid1",
+        scopeText: "Kiến thức nửa đầu Học kỳ 1 (Chương 1 & Chương 2)",
+        title: "Bộ Đề Ôn Thi Giữa Học Kỳ I - Toán 12 (Hàm Số & Vectơ Không Gian)",
+        badge: "Đề chuẩn thi thử",
+        badgeColor: "bg-emerald-600",
+        authorType: "matrix",
+        sourceBadge: "Nguồn: Sở GD&ĐT & Trường Chuyên",
+        summary: "Rèn luyện chuyên sâu các dạng bài giữa kỳ 1: Tính đơn điệu, cực trị, tiệm cận đồ thị hàm số và các phép toán vectơ trong không gian.",
+        duration: "90 phút",
+        examCount: "5 Bộ đề",
+        topics: [
+          "Khảo sát sự biến thiên và cực trị hàm số bậc ba, trùng phương, phân thức",
+          "Tiệm cận đứng, tiệm cận ngang và tiệm cận xiên của đồ thị hàm số",
+          "Toạ độ điểm, toạ độ vectơ và tích vô hướng trong không gian"
+        ]
+      },
+      {
         id: "rev-mid2-grade9",
         grade: 9,
+        scope: "mid2",
+        scopeText: "Kiến thức nửa đầu Học kỳ 2",
         title: "Bộ Đề Ôn Thi Giữa Học Kỳ II (Chuẩn 4 Dạng Mới Bộ GD&ĐT 2018)",
         badge: "Chuẩn 4 Dạng Bộ",
         badgeColor: "bg-emerald-600",
@@ -266,6 +289,8 @@ window.MATH_DATA = {
       {
         id: "rev-mid2-grade12",
         grade: 12,
+        scope: "mid2",
+        scopeText: "Kiến thức nửa đầu Học kỳ 2 (Chương 4 & Chương 5)",
         title: "Bộ Đề Ôn Thi Giữa Học Kỳ II - Toán 12 (Tích Phân & Oxyz)",
         badge: "Đề chuẩn thi thử",
         badgeColor: "bg-amber-600",
@@ -284,6 +309,26 @@ window.MATH_DATA = {
 
     // 3. ÔN TẬP CUỐI KỲ
     finaltermReviews: [
+      {
+        id: "rev-fin1-grade12",
+        grade: 12,
+        scope: "fin1",
+        scopeText: "Gồm các Chương 1, Chương 2, Chương 3",
+        title: "Bộ Đề Ôn Thi Cuối Học Kỳ I - Toán 12 (Chương 1, Chương 2, Chương 3)",
+        badge: "Chuẩn 4 Dạng Bộ",
+        badgeColor: "bg-blue-600",
+        authorType: "matrix",
+        sourceBadge: "Nguồn: Ngân hàng đề thi Trường Chuyên",
+        summary: "Tổng hợp toàn bộ kiến thức Học kỳ 1 Lớp 12 gồm: Khảo sát hàm số (Chương 1), Toạ độ vectơ không gian (Chương 2) và Mẫu số liệu ghép nhóm (Chương 3).",
+        duration: "90 phút",
+        examCount: "6 Bộ đề chuẩn",
+        topics: [
+          "Chương 1: Khảo sát hàm số, cực trị, Min-Max và đồ thị",
+          "Chương 2: Vectơ và hệ trục toạ độ không gian Oxyz",
+          "Chương 3: Số đặc trưng đo mức độ phân tán mẫu số liệu ghép nhóm",
+          "Cấu trúc 4 phần chuẩn: Trắc nghiệm, Đúng/Sai, Điền đáp số & Tự luận"
+        ]
+      },
       {
         id: "rev-fin2-grade9",
         grade: 9,
@@ -304,7 +349,9 @@ window.MATH_DATA = {
       {
         id: "rev-fin2-grade12",
         grade: 12,
-        title: "Chiến Dịch Về Đích: Tổng Ôn Cuối Kỳ II & Tốt Nghiệp THPT 2026",
+        scope: "fin2",
+        scopeText: "Gồm các Chương 4, Chương 5, Chương 6",
+        title: "Chiến Dịch Về Đích: Tổng Ôn Cuối Kỳ II - Toán 12 (Chương 4, Chương 5, Chương 6)",
         badge: "Bứt phá 9+ ĐGNL",
         badgeColor: "bg-indigo-600",
         authorType: "matrix",

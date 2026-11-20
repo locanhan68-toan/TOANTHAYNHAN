@@ -2,7 +2,8 @@
 let isAppViewOpen = false; // false = Landing Page; true = Phòng học trực tuyến
 let currentRole = 'guest'; // 'guest' | 'student' | 'teacher'
 let currentTab = 'arena'; // 'arena' | 'review' | 'lesson' | 'assessment' | 'dashboard'
-let currentReviewSubTab = 'chapter'; // 'chapter' | 'midterm' | 'finalterm'
+let currentReviewSubTab = 'finalterm'; // 'chapter' | 'midterm' | 'finalterm'
+let currentReviewGrade = 12; // 12 | 11 | 10 | 9 | 8 | 7 | 6
 let currentGrade = 9;
 
 // Trạng thái bài thi Đấu trường
@@ -296,7 +297,11 @@ document.addEventListener('DOMContentLoaded', () => {
   renderArenaExamSelector();
   renderArenaExam();
   renderArenaLeaderboard();
-  renderReviewContent();
+  if (typeof setReviewGrade === 'function') {
+    setReviewGrade(12);
+  } else {
+    renderReviewContent();
+  }
   renderGiftedTopics();
   renderGiftedArticles();
   renderGiftedExams();
@@ -797,6 +802,7 @@ function switchTab(tabId) {
           btn.className = "px-3 py-1.5 text-xs sm:text-sm font-bold rounded-lg bg-red-50 text-red-700 border border-red-200 flex items-center gap-1.5 whitespace-nowrap shrink-0";
         } else if (t === 'review') {
           btn.className = "px-3 py-1.5 text-xs sm:text-sm font-bold rounded-lg bg-blue-50 text-blue-700 border border-blue-200 flex items-center gap-1.5 whitespace-nowrap shrink-0";
+          if (typeof renderReviewContent === 'function') renderReviewContent();
         } else if (t === 'gifted') {
           btn.className = "px-3 py-1.5 text-xs sm:text-sm font-bold rounded-lg bg-amber-50 text-amber-800 border border-amber-300 flex items-center gap-1.5 whitespace-nowrap shrink-0";
         } else {
@@ -813,8 +819,33 @@ function switchTab(tabId) {
 }
 
 // ==========================================
-// 3. MỤC MỚI: ÔN TẬP CUỐI CHƯƠNG, GIỮA KỲ, CUỐI KỲ
+// 3. MỤC ÔN TẬP: CHỌN KHỐI LỚP -> GIỮA KỲ, CUỐI KỲ, CUỐI CHƯƠNG
 // ==========================================
+
+function setReviewGrade(grade) {
+  currentReviewGrade = parseInt(grade) || 12;
+  const grades = [12, 11, 10, 9, 8, 7, 6];
+  grades.forEach(g => {
+    const btn = document.getElementById(`review-grade-btn-${g}`);
+    if (btn) {
+      if (g === currentReviewGrade) {
+        btn.className = "px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white text-indigo-900 shadow-md transition";
+      } else {
+        btn.className = "px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white/20 text-white hover:bg-white/30 transition";
+      }
+    }
+  });
+
+  // Đồng bộ khối lớp vào modal nếu chuẩn bị mở
+  const matrixGradeEl = document.getElementById('matrix-grade');
+  if (matrixGradeEl) {
+    matrixGradeEl.value = currentReviewGrade;
+    if (typeof onMatrixGradeOrTypeChange === 'function') onMatrixGradeOrTypeChange();
+  }
+
+  renderReviewContent();
+}
+
 function switchReviewSubTab(subTab) {
   currentReviewSubTab = subTab;
   
@@ -837,132 +868,299 @@ function renderReviewContent() {
   const container = document.getElementById('review-content-area');
   if (!container) return;
 
-  const data = MATH_DATA.reviewSections;
+  const data = MATH_DATA.reviewSections || {};
+  const g = currentReviewGrade || 12;
+  const cfg = (typeof REVIEW_CURRICULUM_CONFIG !== 'undefined' && REVIEW_CURRICULUM_CONFIG[g]) 
+    ? REVIEW_CURRICULUM_CONFIG[g] 
+    : { gradeName: `Toán Lớp ${g}`, chapters: [], midterm: [], finalterm: [] };
 
-  if (currentReviewSubTab === 'chapter') {
-    container.innerHTML = `
-      <div class="space-y-6">
-        <div class="flex items-center justify-between pb-2 border-b border-slate-200">
-          <div>
-            <h3 class="text-lg font-black text-slate-900">1. Ôn Tập Cuối Chương</h3>
-            <p class="text-xs text-slate-500">Tổng hợp kiến thức sau khi học xong mỗi chương</p>
+  // Helper render đề thi item card
+  function renderExamCard(item, subType) {
+    return `
+      <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4 hover:border-indigo-400 hover:shadow-md transition">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="px-2.5 py-0.5 rounded-full ${item.badgeColor || 'bg-indigo-600'} text-white text-[10px] font-black uppercase">Khối ${item.grade}</span>
+            ${item.sourceBadge ? `<span class="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 text-[10px] font-bold border border-indigo-100">${item.sourceBadge}</span>` : ''}
+            ${item.scopeText ? `<span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 text-[10px] font-bold border border-amber-200">📌 ${item.scopeText}</span>` : ''}
           </div>
-          <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded-full">
-            2 Chương Trọng Tâm
-          </span>
+          <span class="text-xs text-slate-400 font-medium">${item.sectionsCount || 'Đề chuẩn'} • ${item.questionsCount ? item.questionsCount + ' bài tập' : item.duration}</span>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          ${data.chapterReviews.map(item => `
-            <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4 hover:border-blue-400 transition">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <span class="px-2.5 py-0.5 rounded-full ${item.badgeColor} text-white text-[10px] font-black uppercase">Khối ${item.grade}</span>
-                  ${item.sourceBadge ? `<span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px] font-bold border border-blue-100">${item.sourceBadge}</span>` : ''}
-                </div>
-                <span class="text-xs text-slate-400 font-medium">${item.sectionsCount || 'Đề chuẩn'} • ${item.questionsCount ? item.questionsCount + ' bài tập' : item.duration}</span>
-              </div>
-              <h4 class="font-bold text-slate-900 text-base leading-snug">${item.title}</h4>
-              <p class="text-xs text-slate-600">${item.summary}</p>
-              
-              <div class="p-3 bg-slate-50 rounded-xl space-y-1.5 text-xs text-slate-700">
-                <strong class="text-blue-700 block">Sơ đồ chuyên đề ôn tập:</strong>
-                ${item.topics.map(t => `<div class="math-content">• ${t}</div>`).join('')}
-              </div>
-
-              <div class="pt-2 flex justify-end">
-                <button onclick="openExamViewerModal('${item.id}', 'chapter')" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-sm">
-                  <i data-lucide="play" class="w-4 h-4"></i> Bắt Đầu Làm Đề Cuối Chương
-                </button>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    `;
-  } else if (currentReviewSubTab === 'midterm') {
-    container.innerHTML = `
-      <div class="space-y-6">
-        <div class="flex items-center justify-between pb-2 border-b border-slate-200">
-          <div>
-            <h3 class="text-lg font-black text-slate-900">2. Ôn Tập Giữa Học Kỳ (Chuẩn Ma Trận & 4 Dạng Mới)</h3>
-            <p class="text-xs text-slate-500">Bộ đề hỗ trợ 4 phần: Trắc nghiệm, Đúng/Sai, Trả lời ngắn & Tự luận</p>
+        <h4 class="font-bold text-slate-900 text-base leading-snug">${item.title}</h4>
+        <p class="text-xs text-slate-600 leading-relaxed">${item.summary}</p>
+        
+        ${Array.isArray(item.topics) && item.topics.length ? `
+          <div class="p-3 bg-slate-50 rounded-xl space-y-1.5 text-xs text-slate-700">
+            <strong class="text-indigo-800 block">Ma trận & cấu trúc đề thi:</strong>
+            ${item.topics.map(t => `<div class="math-content">• ${t}</div>`).join('')}
           </div>
-          <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full">
-            Đề Giữa Kỳ 2 Mới Nhất
-          </span>
-        </div>
+        ` : ''}
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          ${data.midtermReviews.map(item => `
-            <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4 hover:border-emerald-400 transition">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <span class="px-2.5 py-0.5 rounded-full ${item.badgeColor} text-white text-[10px] font-black uppercase">Khối ${item.grade}</span>
-                  ${item.sourceBadge ? `<span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-[10px] font-bold border border-emerald-200">${item.sourceBadge}</span>` : ''}
-                </div>
-                <span class="text-xs text-slate-400 font-mono font-bold">${item.duration} • ${item.examCount || '1 Đề'}</span>
-              </div>
-              <h4 class="font-bold text-slate-900 text-base leading-snug">${item.title}</h4>
-              <p class="text-xs text-slate-600">${item.summary}</p>
-              
-              <div class="p-3 bg-emerald-50/60 rounded-xl space-y-1.5 text-xs text-slate-700">
-                <strong class="text-emerald-800 block">Ma trận cấu trúc bài thi:</strong>
-                ${item.topics.map(t => `<div class="math-content">• ${t}</div>`).join('')}
-              </div>
-
-              <div class="pt-2 flex justify-end">
-                <button onclick="openExamViewerModal('${item.id}', 'midterm')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-sm">
-                  <i data-lucide="timer" class="w-4 h-4"></i> Bấm Giờ Thi Thử Giữa Kỳ
-                </button>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    `;
-  } else if (currentReviewSubTab === 'finalterm') {
-    container.innerHTML = `
-      <div class="space-y-6">
-        <div class="flex items-center justify-between pb-2 border-b border-slate-200">
-          <div>
-            <h3 class="text-lg font-black text-slate-900">3. Chiến Dịch Tổng Ôn Cuối Kỳ & Thi Tuyển Sinh</h3>
-            <p class="text-xs text-slate-500">Tổng ôn toàn bộ kiến thức cả năm, kỹ thuật giải bài điểm 10</p>
-          </div>
-          <span class="px-3 py-1 bg-rose-100 text-rose-800 text-xs font-bold rounded-full">
-            Mục Tiêu 9+ và 10
-          </span>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          ${data.finaltermReviews.map(item => `
-            <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4 hover:border-rose-400 transition">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <span class="px-2.5 py-0.5 rounded-full ${item.badgeColor} text-white text-[10px] font-black uppercase">Khối ${item.grade}</span>
-                  ${item.sourceBadge ? `<span class="px-2 py-0.5 rounded-md bg-rose-50 text-rose-800 text-[10px] font-bold border border-rose-200">${item.sourceBadge}</span>` : ''}
-                </div>
-                <span class="text-xs text-slate-400 font-mono font-bold">${item.duration} • ${item.examCount || '1 Đề'}</span>
-              </div>
-              <h4 class="font-bold text-slate-900 text-base leading-snug">${item.title}</h4>
-              <p class="text-xs text-slate-600">${item.summary}</p>
-              
-              <div class="p-3 bg-rose-50/60 rounded-xl space-y-1.5 text-xs text-slate-700">
-                <strong class="text-rose-800 block">Nội dung chiến dịch:</strong>
-                ${item.topics.map(t => `<div class="math-content">• ${t}</div>`).join('')}
-              </div>
-
-              <div class="pt-2 flex justify-end">
-                <button onclick="openExamViewerModal('${item.id}', 'finalterm')" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-sm">
-                  <i data-lucide="flame" class="w-4 h-4"></i> Tham Gia Tổng Ôn Cuối Kỳ
-                </button>
-              </div>
-            </div>
-          `).join('')}
+        <div class="pt-2 flex items-center justify-between gap-2 border-t border-slate-100">
+          <span class="text-[11px] text-slate-500 font-medium">${item.duration || '90 phút'} • ${item.examCount || '1 Đề'}</span>
+          <button onclick="openExamViewerModal('${item.id}', '${subType}')" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-sm">
+            <i data-lucide="play" class="w-4 h-4 text-amber-300"></i> Bắt Đầu Làm Bài
+          </button>
         </div>
       </div>
     `;
   }
+
+  // 1. TAB ÔN TẬP CUỐI KỲ (PHÂN THÀNH KỲ 1 VÀ KỲ 2 VỚI CÁC CHƯƠNG QUY ĐỊNH)
+  if (currentReviewSubTab === 'finalterm') {
+    const allFinal = data.finaltermReviews || [];
+    const gradeExams = allFinal.filter(item => item.grade === g);
+    const fin1Exams = gradeExams.filter(item => item.scope === 'fin1' || (item.title && item.title.includes('Kỳ 1')));
+    const fin2Exams = gradeExams.filter(item => item.scope === 'fin2' || (item.title && (item.title.includes('Kỳ 2') || item.title.includes('Kỳ II'))));
+    const otherExams = gradeExams.filter(item => !fin1Exams.includes(item) && !fin2Exams.includes(item));
+
+    const fin1Cfg = cfg.finalterm?.[0] || { name: "Ôn tập Cuối kỳ 1", scopeText: "Học kỳ 1" };
+    const fin2Cfg = cfg.finalterm?.[1] || { name: "Ôn tập Cuối kỳ 2", scopeText: "Học kỳ 2" };
+
+    container.innerHTML = `
+      <div class="space-y-8">
+        
+        <!-- HEADER PHÂN CẤP -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-200">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-3 py-1 bg-indigo-100 text-indigo-900 text-xs font-black rounded-full uppercase">
+                ${cfg.gradeName}
+              </span>
+              <h3 class="text-xl font-black text-slate-900">Chiến Dịch Ôn Tập Cuối Học Kỳ</h3>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5">Phân định rõ phạm vi chương ôn tập Cuối Kỳ 1 và Cuối Kỳ 2 chuẩn sách giáo khoa</p>
+          </div>
+          
+          <button onclick="openMatrixGeneratorModal(${g}, 'finalterm', 'fin1')" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-sm">
+            <i data-lucide="cpu" class="w-4 h-4 text-amber-300"></i> Tự Sinh Đề Cuối Kỳ Mới
+          </button>
+        </div>
+
+        <!-- PHẦN 1: ÔN TẬP CUỐI KỲ 1 -->
+        <div class="space-y-4">
+          <div class="p-4 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 rounded-2xl border border-blue-200 flex flex-wrap items-center justify-between gap-3">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 bg-blue-600 text-white text-xs font-bold rounded-md">Học kỳ 1</span>
+                <h4 class="font-black text-slate-900 text-base">${fin1Cfg.name} - ${cfg.gradeName}</h4>
+              </div>
+              <p class="text-xs text-blue-900 font-semibold">✨ Phạm vi kiến thức: <span class="text-indigo-700">${fin1Cfg.scopeText}</span></p>
+            </div>
+            <button onclick="openMatrixGeneratorModal(${g}, 'finalterm', 'fin1')" class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-xs">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i> Tự Sinh Đề Cuối Kỳ 1
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            ${fin1Exams.length ? fin1Exams.map(ex => renderExamCard(ex, 'finalterm')).join('') : `
+              <div class="col-span-full p-6 bg-slate-50 border border-dashed border-slate-300 rounded-2xl text-center space-y-2">
+                <i data-lucide="file-question" class="w-8 h-8 text-slate-400 mx-auto"></i>
+                <p class="text-xs text-slate-600 font-medium">Chưa có đề Cuối kỳ 1 nào được tạo cho ${cfg.gradeName}.</p>
+                <button onclick="openMatrixGeneratorModal(${g}, 'finalterm', 'fin1')" class="px-3.5 py-1.5 bg-indigo-600 text-white font-bold text-xs rounded-xl shadow-xs inline-flex items-center gap-1.5">
+                  <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Bấm để tự sinh đề Cuối kỳ 1 ngay
+                </button>
+              </div>
+            `}
+          </div>
+        </div>
+
+        <!-- PHẦN 2: ÔN TẬP CUỐI KỲ 2 -->
+        <div class="space-y-4 pt-2">
+          <div class="p-4 bg-gradient-to-r from-rose-50 via-purple-50 to-indigo-50 rounded-2xl border border-rose-200 flex flex-wrap items-center justify-between gap-3">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 bg-rose-600 text-white text-xs font-bold rounded-md">Học kỳ 2</span>
+                <h4 class="font-black text-slate-900 text-base">${fin2Cfg.name} - ${cfg.gradeName}</h4>
+              </div>
+              <p class="text-xs text-rose-950 font-semibold">✨ Phạm vi kiến thức: <span class="text-rose-700">${fin2Cfg.scopeText}</span></p>
+            </div>
+            <button onclick="openMatrixGeneratorModal(${g}, 'finalterm', 'fin2')" class="px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-xs">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i> Tự Sinh Đề Cuối Kỳ 2
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            ${fin2Exams.length ? fin2Exams.map(ex => renderExamCard(ex, 'finalterm')).join('') : (otherExams.length ? otherExams.map(ex => renderExamCard(ex, 'finalterm')).join('') : `
+              <div class="col-span-full p-6 bg-slate-50 border border-dashed border-slate-300 rounded-2xl text-center space-y-2">
+                <i data-lucide="file-question" class="w-8 h-8 text-slate-400 mx-auto"></i>
+                <p class="text-xs text-slate-600 font-medium">Chưa có đề Cuối kỳ 2 nào được tạo cho ${cfg.gradeName}.</p>
+                <button onclick="openMatrixGeneratorModal(${g}, 'finalterm', 'fin2')" class="px-3.5 py-1.5 bg-rose-600 text-white font-bold text-xs rounded-xl shadow-xs inline-flex items-center gap-1.5">
+                  <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Bấm để tự sinh đề Cuối kỳ 2 ngay
+                </button>
+              </div>
+            `)}
+          </div>
+        </div>
+
+      </div>
+    `;
+
+  // 2. TAB ÔN TẬP GIỮA KỲ (PHÂN THÀNH GIỮA KỲ 1 VÀ GIỮA KỲ 2)
+  } else if (currentReviewSubTab === 'midterm') {
+    const allMid = data.midtermReviews || [];
+    const gradeExams = allMid.filter(item => item.grade === g);
+    const mid1Exams = gradeExams.filter(item => item.scope === 'mid1' || (item.title && item.title.includes('Kỳ 1')));
+    const mid2Exams = gradeExams.filter(item => item.scope === 'mid2' || (item.title && (item.title.includes('Kỳ 2') || item.title.includes('Kỳ II'))));
+    const otherMidExams = gradeExams.filter(item => !mid1Exams.includes(item) && !mid2Exams.includes(item));
+
+    const mid1Cfg = cfg.midterm?.[0] || { name: "Ôn tập Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1" };
+    const mid2Cfg = cfg.midterm?.[1] || { name: "Ôn tập Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2" };
+
+    container.innerHTML = `
+      <div class="space-y-8">
+        
+        <!-- HEADER PHÂN CẤP -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-200">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-3 py-1 bg-emerald-100 text-emerald-900 text-xs font-black rounded-full uppercase">
+                ${cfg.gradeName}
+              </span>
+              <h3 class="text-xl font-black text-slate-900">Bộ Đề Ôn Tập Giữa Học Kỳ</h3>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5">Hệ thống đề ôn tập chuẩn 4 dạng mới của Bộ GD&ĐT cho Giữa kỳ 1 và Giữa kỳ 2</p>
+          </div>
+          
+          <button onclick="openMatrixGeneratorModal(${g}, 'midterm', 'mid1')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-sm">
+            <i data-lucide="cpu" class="w-4 h-4 text-amber-300"></i> Tự Sinh Đề Giữa Kỳ Mới
+          </button>
+        </div>
+
+        <!-- PHẦN 1: ÔN TẬP GIỮA KỲ 1 -->
+        <div class="space-y-4">
+          <div class="p-4 bg-gradient-to-r from-emerald-50 via-teal-50 to-green-50 rounded-2xl border border-emerald-200 flex flex-wrap items-center justify-between gap-3">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 bg-emerald-600 text-white text-xs font-bold rounded-md">Giữa kỳ 1</span>
+                <h4 class="font-black text-slate-900 text-base">${mid1Cfg.name} - ${cfg.gradeName}</h4>
+              </div>
+              <p class="text-xs text-emerald-950 font-semibold">✨ Phạm vi kiến thức: <span class="text-emerald-700">${mid1Cfg.scopeText}</span></p>
+            </div>
+            <button onclick="openMatrixGeneratorModal(${g}, 'midterm', 'mid1')" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-xs">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i> Tự Sinh Đề Giữa Kỳ 1
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            ${mid1Exams.length ? mid1Exams.map(ex => renderExamCard(ex, 'midterm')).join('') : `
+              <div class="col-span-full p-6 bg-slate-50 border border-dashed border-slate-300 rounded-2xl text-center space-y-2">
+                <i data-lucide="file-question" class="w-8 h-8 text-slate-400 mx-auto"></i>
+                <p class="text-xs text-slate-600 font-medium">Chưa có đề Giữa kỳ 1 nào cho ${cfg.gradeName}.</p>
+                <button onclick="openMatrixGeneratorModal(${g}, 'midterm', 'mid1')" class="px-3.5 py-1.5 bg-emerald-600 text-white font-bold text-xs rounded-xl shadow-xs inline-flex items-center gap-1.5">
+                  <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Bấm để tự sinh đề Giữa kỳ 1 ngay
+                </button>
+              </div>
+            `}
+          </div>
+        </div>
+
+        <!-- PHẦN 2: ÔN TẬP GIỮA KỲ 2 -->
+        <div class="space-y-4 pt-2">
+          <div class="p-4 bg-gradient-to-r from-amber-50 via-teal-50 to-emerald-50 rounded-2xl border border-amber-200 flex flex-wrap items-center justify-between gap-3">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 bg-amber-600 text-white text-xs font-bold rounded-md">Giữa kỳ 2</span>
+                <h4 class="font-black text-slate-900 text-base">${mid2Cfg.name} - ${cfg.gradeName}</h4>
+              </div>
+              <p class="text-xs text-amber-950 font-semibold">✨ Phạm vi kiến thức: <span class="text-amber-700">${mid2Cfg.scopeText}</span></p>
+            </div>
+            <button onclick="openMatrixGeneratorModal(${g}, 'midterm', 'mid2')" class="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-xs">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i> Tự Sinh Đề Giữa Kỳ 2
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            ${mid2Exams.length ? mid2Exams.map(ex => renderExamCard(ex, 'midterm')).join('') : (otherMidExams.length ? otherMidExams.map(ex => renderExamCard(ex, 'midterm')).join('') : `
+              <div class="col-span-full p-6 bg-slate-50 border border-dashed border-slate-300 rounded-2xl text-center space-y-2">
+                <i data-lucide="file-question" class="w-8 h-8 text-slate-400 mx-auto"></i>
+                <p class="text-xs text-slate-600 font-medium">Chưa có đề Giữa kỳ 2 nào cho ${cfg.gradeName}.</p>
+                <button onclick="openMatrixGeneratorModal(${g}, 'midterm', 'mid2')" class="px-3.5 py-1.5 bg-amber-600 text-white font-bold text-xs rounded-xl shadow-xs inline-flex items-center gap-1.5">
+                  <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Bấm để tự sinh đề Giữa kỳ 2 ngay
+                </button>
+              </div>
+            `)}
+          </div>
+        </div>
+
+      </div>
+    `;
+
+  // 3. TAB ÔN TẬP CUỐI CHƯƠNG (TẤT CẢ CÁC CHƯƠNG THEO SÁCH CỦA KHỐI LỚP ĐÓ)
+  } else if (currentReviewSubTab === 'chapter') {
+    const allCh = data.chapterReviews || [];
+    const gradeChExams = allCh.filter(item => item.grade === g);
+    const chaptersList = cfg.chapters || [];
+
+    container.innerHTML = `
+      <div class="space-y-6">
+        
+        <!-- HEADER PHÂN CẤP -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-200">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-3 py-1 bg-purple-100 text-purple-900 text-xs font-black rounded-full uppercase">
+                ${cfg.gradeName}
+              </span>
+              <h3 class="text-xl font-black text-slate-900">Ôn Tập Cuối Chương</h3>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5">Đầy đủ tất cả ${chaptersList.length} chương theo sách giáo khoa của ${cfg.gradeName}</p>
+          </div>
+
+          <button onclick="openMatrixGeneratorModal(${g}, 'chapter', 'ch_1')" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-sm">
+            <i data-lucide="cpu" class="w-4 h-4 text-amber-300"></i> Tự Sinh Đề Cuối Chương Mới
+          </button>
+        </div>
+
+        <!-- DANH SÁCH TẤT CẢ CÁC CHƯƠNG CỦA KHỐI LỚP THEO SÁCH -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          ${chaptersList.map(ch => {
+            const matchedExams = gradeChExams.filter(item => item.scope === `ch_${ch.id}` || (item.title && item.title.includes(ch.number)));
+            return `
+              <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-3 hover:border-purple-400 hover:shadow-sm transition flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="px-2.5 py-0.5 bg-purple-100 text-purple-900 text-xs font-extrabold rounded-lg">${ch.number}</span>
+                    <span class="text-[11px] text-slate-400 font-medium">${matchedExams.length} đề thi sẵn</span>
+                  </div>
+                  <h4 class="font-bold text-slate-900 text-sm leading-snug line-clamp-2">${ch.title}</h4>
+                </div>
+
+                <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
+                  ${matchedExams.length ? `
+                    <button onclick="openExamViewerModal('${matchedExams[0].id}', 'chapter')" class="px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-800 text-xs font-bold rounded-xl transition flex items-center gap-1">
+                      <i data-lucide="play" class="w-3.5 h-3.5"></i> Làm Đề
+                    </button>
+                  ` : `
+                    <span class="text-[11px] text-slate-400 italic">Chưa có đề mẫu</span>
+                  `}
+                  <button onclick="openMatrixGeneratorModal(${g}, 'chapter', 'ch_${ch.id}')" class="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-xs ml-auto">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i> Tự Sinh Đề
+                  </button>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+
+        <!-- CÁC ĐỀ ĐÃ TẠO THEO CHƯƠNG -->
+        ${gradeChExams.length ? `
+          <div class="pt-4 space-y-4">
+            <h4 class="font-extrabold text-slate-800 text-sm flex items-center gap-2">
+              <i data-lucide="folder-check" class="w-4 h-4 text-purple-600"></i> Các đề ôn tập cuối chương đã tạo cho ${cfg.gradeName}:
+            </h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              ${gradeChExams.map(ex => renderExamCard(ex, 'chapter')).join('')}
+            </div>
+          </div>
+        ` : ''}
+
+      </div>
+    `;
+  }
+
+  refreshIconsAndMath();
+}
 
   refreshIconsAndMath();
 }
@@ -3988,8 +4186,308 @@ function assignRemedialHomework(questionId) {
 // (TỰ SINH THEO MA TRẬN & TỰ ĐƯA ĐỀ LÊN)
 // ==========================================
 
-function openMatrixGeneratorModal() {
-  document.getElementById('modal-matrix-generator').classList.remove('hidden');
+// Cấu hình phân cấp môn Toán các khối lớp chuẩn theo yêu cầu của Thầy
+const REVIEW_CURRICULUM_CONFIG = {
+  12: {
+    gradeName: "Toán Lớp 12",
+    midterm: [
+      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1 (Chương 1 & Chương 2)" },
+      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2 (Chương 4 & Chương 5)" }
+    ],
+    finalterm: [
+      { 
+        id: "fin1", 
+        name: "Ôn tập Cuối kỳ 1", 
+        shortName: "Cuối kỳ 1", 
+        chapters: [1, 2, 3],
+        chaptersText: "Chương 1, Chương 2, Chương 3", 
+        scopeText: "Gồm các Chương 1, Chương 2, Chương 3" 
+      },
+      { 
+        id: "fin2", 
+        name: "Ôn tập Cuối kỳ 2", 
+        shortName: "Cuối kỳ 2", 
+        chapters: [4, 5, 6],
+        chaptersText: "Chương 4, Chương 5, Chương 6", 
+        scopeText: "Gồm các Chương 4, Chương 5, Chương 6" 
+      }
+    ],
+    chapters: [
+      { id: 1, number: "Chương 1", title: "Ứng dụng đạo hàm để khảo sát và vẽ đồ thị của hàm số" },
+      { id: 2, number: "Chương 2", title: "Toạ độ của vectơ trong không gian" },
+      { id: 3, number: "Chương 3", title: "Các số đặc trưng đo mức độ phân tán cho mẫu số liệu ghép nhóm" },
+      { id: 4, number: "Chương 4", title: "Nguyên hàm và tích phân" },
+      { id: 5, number: "Chương 5", title: "Phương pháp toạ độ trong không gian (Oxyz)" },
+      { id: 6, number: "Chương 6", title: "Xác suất có điều kiện" }
+    ]
+  },
+  11: {
+    gradeName: "Toán Lớp 11",
+    midterm: [
+      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1 (Chương 1 & Chương 2)" },
+      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2 (Chương 6 & Chương 7)" }
+    ],
+    finalterm: [
+      { 
+        id: "fin1", 
+        name: "Ôn tập Cuối kỳ 1", 
+        shortName: "Cuối kỳ 1", 
+        chapters: [1, 2, 5, 4, 3],
+        chaptersText: "Chương 1, Chương 2, Chương 5, Chương 4, Chương 3", 
+        scopeText: "Gồm các Chương 1, Chương 2, Chương 5, Chương 4, Chương 3" 
+      },
+      { 
+        id: "fin2", 
+        name: "Ôn tập Cuối kỳ 2", 
+        shortName: "Cuối kỳ 2", 
+        chapters: [8, 6, 7, 9],
+        chaptersText: "Chương 8, Chương 6, Chương 7, Chương 9", 
+        scopeText: "Gồm các Chương 8, Chương 6, Chương 7, Chương 9" 
+      }
+    ],
+    chapters: [
+      { id: 1, number: "Chương 1", title: "Hàm số lượng giác và phương trình lượng giác" },
+      { id: 2, number: "Chương 2", title: "Dãy số. Cấp số cộng và cấp số nhân" },
+      { id: 3, number: "Chương 3", title: "Các số đặc trưng đo xu thế trung tâm của mẫu số liệu ghép nhóm" },
+      { id: 4, number: "Chương 4", title: "Quan hệ song song trong không gian" },
+      { id: 5, number: "Chương 5", title: "Giới hạn. Hàm số liên tục" },
+      { id: 6, number: "Chương 6", title: "Hàm số mũ và hàm số lôgarit" },
+      { id: 7, number: "Chương 7", title: "Quan hệ vuông góc trong không gian. Thể tích" },
+      { id: 8, number: "Chương 8", title: "Các quy tắc tính xác suất" },
+      { id: 9, number: "Chương 9", title: "Đạo hàm" }
+    ]
+  },
+  10: {
+    gradeName: "Toán Lớp 10",
+    midterm: [
+      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1 (Chương 1 & Chương 2)" },
+      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2 (Chương 6 & Chương 7)" }
+    ],
+    finalterm: [
+      { 
+        id: "fin1", 
+        name: "Ôn tập Cuối kỳ 1", 
+        shortName: "Cuối kỳ 1", 
+        chapters: [1, 2, 3, 4, 6],
+        chaptersText: "Chương 1, Chương 2, Chương 3, Chương 4, Chương 6", 
+        scopeText: "Gồm các Chương 1, Chương 2, Chương 3, Chương 4, Chương 6" 
+      },
+      { 
+        id: "fin2", 
+        name: "Ôn tập Cuối kỳ 2", 
+        shortName: "Cuối kỳ 2", 
+        chapters: [8, 5, 9, 7],
+        chaptersText: "Chương 8, Chương 5, Chương 9, Chương 7", 
+        scopeText: "Gồm các Chương 8, Chương 5, Chương 9, Chương 7" 
+      }
+    ],
+    chapters: [
+      { id: 1, number: "Chương 1", title: "Mệnh đề và tập hợp" },
+      { id: 2, number: "Chương 2", title: "Bất phương trình và hệ bất phương trình bậc nhất hai ẩn" },
+      { id: 3, number: "Chương 3", title: "Hệ thức lượng trong tam giác" },
+      { id: 4, number: "Chương 4", title: "Vectơ" },
+      { id: 5, number: "Chương 5", title: "Các số đặc trưng của mẫu số liệu không ghép nhóm" },
+      { id: 6, number: "Chương 6", title: "Hàm số, đồ thị và ứng dụng" },
+      { id: 7, number: "Chương 7", title: "Phương pháp toạ độ trong mặt phẳng (Oxy)" },
+      { id: 8, number: "Chương 8", title: "Đại số tổ hợp" },
+      { id: 9, number: "Chương 9", title: "Tính xác suất của biến cố" }
+    ]
+  },
+  9: {
+    gradeName: "Toán Lớp 9",
+    midterm: [
+      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1 (Chương 1 & Chương 2)" },
+      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2 (Chương 6 & Chương 7)" }
+    ],
+    finalterm: [
+      { id: "fin1", name: "Ôn tập Cuối kỳ 1", shortName: "Cuối kỳ 1", chapters: [1, 2, 3, 4, 5], chaptersText: "Chương 1 đến Chương 5", scopeText: "Gồm các chương Học kỳ 1 (Chương 1, 2, 3, 4, 5)" },
+      { id: "fin2", name: "Ôn tập Cuối kỳ 2", shortName: "Cuối kỳ 2", chapters: [6, 7, 8, 9, 10], chaptersText: "Chương 6 đến Chương 10", scopeText: "Gồm các chương Học kỳ 2 & Luyện thi tuyển sinh vào 10" }
+    ],
+    chapters: [
+      { id: 1, number: "Chương 1", title: "Phương trình và hệ hai phương trình bậc nhất hai ẩn" },
+      { id: 2, number: "Chương 2", title: "Phương trình và bất phương trình bậc nhất một ẩn" },
+      { id: 3, number: "Chương 3", title: "Căn bậc hai và căn bậc ba" },
+      { id: 4, number: "Chương 4", title: "Hệ thức lượng trong tam giác vuông" },
+      { id: 5, number: "Chương 5", title: "Đường tròn" },
+      { id: 6, number: "Chương 6", title: "Hàm số y = ax² (a ≠ 0). Phương trình bậc hai một ẩn" },
+      { id: 7, number: "Chương 7", title: "Một số yếu tố thống kê và xác suất" },
+      { id: 8, number: "Chương 8", title: "Đường tròn ngoại tiếp và đường tròn nội tiếp" },
+      { id: 9, number: "Chương 9", title: "Đa giác đều" },
+      { id: 10, number: "Chương 10", title: "Một số hình khối trong thực tiễn" }
+    ]
+  },
+  8: {
+    gradeName: "Toán Lớp 8",
+    midterm: [
+      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1" },
+      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2" }
+    ],
+    finalterm: [
+      { id: "fin1", name: "Ôn tập Cuối kỳ 1", shortName: "Cuối kỳ 1", scopeText: "Gồm các chương Học kỳ 1" },
+      { id: "fin2", name: "Ôn tập Cuối kỳ 2", shortName: "Cuối kỳ 2", scopeText: "Gồm các chương Học kỳ 2" }
+    ],
+    chapters: [
+      { id: 1, number: "Chương 1", title: "Đa thức" },
+      { id: 2, number: "Chương 2", title: "Hằng đẳng thức đáng nhớ và ứng dụng" },
+      { id: 3, number: "Chương 3", title: "Tứ giác" },
+      { id: 4, number: "Chương 4", title: "Định lí Thalès trong tam giác" },
+      { id: 5, number: "Chương 5", title: "Dữ liệu và biểu đồ" },
+      { id: 6, number: "Chương 6", title: "Phân thức đại số" },
+      { id: 7, number: "Chương 7", title: "Phương trình bậc nhất và hàm số bậc nhất" },
+      { id: 8, number: "Chương 8", title: "Mở đầu về tính xác suất của biến cố" },
+      { id: 9, number: "Chương 9", title: "Tam giác đồng dạng" },
+      { id: 10, number: "Chương 10", title: "Một số hình khối trong thực tiễn" }
+    ]
+  },
+  7: {
+    gradeName: "Toán Lớp 7",
+    midterm: [
+      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1" },
+      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2" }
+    ],
+    finalterm: [
+      { id: "fin1", name: "Ôn tập Cuối kỳ 1", shortName: "Cuối kỳ 1", scopeText: "Gồm các chương Học kỳ 1" },
+      { id: "fin2", name: "Ôn tập Cuối kỳ 2", shortName: "Cuối kỳ 2", scopeText: "Gồm các chương Học kỳ 2" }
+    ],
+    chapters: [
+      { id: 1, number: "Chương 1", title: "Số hữu tỉ" },
+      { id: 2, number: "Chương 2", title: "Số thực" },
+      { id: 3, number: "Chương 3", title: "Góc và đường thẳng song song" },
+      { id: 4, number: "Chương 4", title: "Tam giác bằng nhau" },
+      { id: 5, number: "Chương 5", title: "Thu thập và biểu diễn dữ liệu" },
+      { id: 6, number: "Chương 6", title: "Tỉ lệ thức và đại lượng tỉ lệ" },
+      { id: 7, number: "Chương 7", title: "Biểu thức đại số và đa thức một biến" },
+      { id: 8, number: "Chương 8", title: "Làm quen với biến cố và xác suất của biến cố" },
+      { id: 9, number: "Chương 9", title: "Quan hệ giữa các yếu tố trong một tam giác" },
+      { id: 10, number: "Chương 10", title: "Một số hình khối trong thực tiễn" }
+    ]
+  },
+  6: {
+    gradeName: "Toán Lớp 6",
+    midterm: [
+      { id: "mid1", name: "Ôn tập Giữa kỳ 1", shortName: "Giữa kỳ 1", scopeText: "Kiến thức nửa đầu Học kỳ 1" },
+      { id: "mid2", name: "Ôn tập Giữa kỳ 2", shortName: "Giữa kỳ 2", scopeText: "Kiến thức nửa đầu Học kỳ 2" }
+    ],
+    finalterm: [
+      { id: "fin1", name: "Ôn tập Cuối kỳ 1", shortName: "Cuối kỳ 1", scopeText: "Gồm các chương Học kỳ 1" },
+      { id: "fin2", name: "Ôn tập Cuối kỳ 2", shortName: "Cuối kỳ 2", scopeText: "Gồm các chương Học kỳ 2" }
+    ],
+    chapters: [
+      { id: 1, number: "Chương 1", title: "Tập hợp các số tự nhiên" },
+      { id: 2, number: "Chương 2", title: "Tính chia hết trong tập hợp các số tự nhiên" },
+      { id: 3, number: "Chương 3", title: "Số nguyên" },
+      { id: 4, number: "Chương 4", title: "Một số hình phẳng trong thực tiễn" },
+      { id: 5, number: "Chương 5", title: "Tính đối xứng của hình phẳng trong tự nhiên" },
+      { id: 6, number: "Chương 6", title: "Phân số" },
+      { id: 7, number: "Chương 7", title: "Số thập phân" },
+      { id: 8, number: "Chương 8", title: "Những hình hình học cơ bản" },
+      { id: 9, number: "Chương 9", title: "Dữ liệu và xác suất thực nghiệm" }
+    ]
+  }
+};
+
+// Cập nhật các lựa chọn phạm vi khi thay đổi Khối lớp hoặc Hình thức ôn tập
+function onMatrixGradeOrTypeChange(targetScope) {
+  const gradeEl = document.getElementById('matrix-grade');
+  const typeEl = document.getElementById('matrix-exam-type');
+  const scopeSelect = document.getElementById('matrix-scope-select');
+  const scopeLabelText = document.getElementById('matrix-scope-label-text');
+  if (!gradeEl || !typeEl || !scopeSelect) return;
+
+  const grade = parseInt(gradeEl.value) || 12;
+  const type = typeEl.value; // 'midterm' | 'finalterm' | 'chapter'
+  const cfg = REVIEW_CURRICULUM_CONFIG[grade] || REVIEW_CURRICULUM_CONFIG[12];
+
+  scopeSelect.innerHTML = '';
+
+  if (type === 'midterm') {
+    if (scopeLabelText) scopeLabelText.innerText = "Kỳ thi giữa kỳ:";
+    cfg.midterm.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m.id;
+      opt.textContent = `${m.name}`;
+      if (targetScope && targetScope === m.id) opt.selected = true;
+      scopeSelect.appendChild(opt);
+    });
+  } else if (type === 'finalterm') {
+    if (scopeLabelText) scopeLabelText.innerText = "Kỳ thi cuối kỳ:";
+    cfg.finalterm.forEach(f => {
+      const opt = document.createElement('option');
+      opt.value = f.id;
+      const chNote = f.chaptersText ? ` (${f.chaptersText})` : '';
+      opt.textContent = `${f.name}${chNote}`;
+      if (targetScope && targetScope === f.id) opt.selected = true;
+      scopeSelect.appendChild(opt);
+    });
+  } else if (type === 'chapter') {
+    if (scopeLabelText) scopeLabelText.innerText = "Chọn chương ôn tập:";
+    cfg.chapters.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = `ch_${c.id}`;
+      opt.textContent = `${c.number}: ${c.title}`;
+      if (targetScope && (targetScope === `ch_${c.id}` || targetScope === c.id)) opt.selected = true;
+      scopeSelect.appendChild(opt);
+    });
+  }
+
+  onMatrixScopeChange();
+}
+
+// Cập nhật banner mô tả trực quan phạm vi
+function onMatrixScopeChange() {
+  const gradeEl = document.getElementById('matrix-grade');
+  const typeEl = document.getElementById('matrix-exam-type');
+  const scopeSelect = document.getElementById('matrix-scope-select');
+  const bannerTitle = document.getElementById('scope-banner-title');
+  const bannerTag = document.getElementById('scope-banner-tag');
+  const bannerDesc = document.getElementById('scope-banner-desc');
+  if (!gradeEl || !typeEl || !scopeSelect || !bannerTitle) return;
+
+  const grade = parseInt(gradeEl.value) || 12;
+  const type = typeEl.value;
+  const scopeVal = scopeSelect.value;
+  const cfg = REVIEW_CURRICULUM_CONFIG[grade] || REVIEW_CURRICULUM_CONFIG[12];
+
+  if (type === 'midterm') {
+    const item = cfg.midterm.find(m => m.id === scopeVal) || cfg.midterm[0];
+    bannerTitle.textContent = `${item.name} - ${cfg.gradeName}`;
+    if (bannerTag) bannerTag.textContent = "Giữa kỳ";
+    if (bannerDesc) bannerDesc.textContent = `✨ Phạm vi ôn tập: ${item.scopeText} chuẩn cấu trúc Bộ GD&ĐT`;
+  } else if (type === 'finalterm') {
+    const item = cfg.finalterm.find(f => f.id === scopeVal) || cfg.finalterm[0];
+    bannerTitle.textContent = `${item.name} - ${cfg.gradeName}`;
+    if (bannerTag) bannerTag.textContent = item.chapters ? `${item.chapters.length} Chương` : "Cuối kỳ";
+    if (bannerDesc) bannerDesc.textContent = `✨ Phạm vi ôn tập: ${item.scopeText}`;
+  } else if (type === 'chapter') {
+    const chId = parseInt(scopeVal.replace('ch_', '')) || 1;
+    const item = cfg.chapters.find(c => c.id === chId) || cfg.chapters[0];
+    bannerTitle.textContent = `Ôn Tập ${item.number} - ${cfg.gradeName}`;
+    if (bannerTag) bannerTag.textContent = "Theo chương";
+    if (bannerDesc) bannerDesc.textContent = `✨ Nội dung chương: ${item.title}`;
+  }
+
+  refreshIconsAndMath();
+}
+
+function openMatrixGeneratorModal(defaultGrade, defaultType, defaultScope) {
+  const modal = document.getElementById('modal-matrix-generator');
+  if (!modal) return;
+  modal.classList.remove('hidden');
+
+  const gradeEl = document.getElementById('matrix-grade');
+  const typeEl = document.getElementById('matrix-exam-type');
+
+  if (defaultGrade && gradeEl) {
+    gradeEl.value = defaultGrade;
+  } else if (gradeEl && currentReviewGrade) {
+    gradeEl.value = currentReviewGrade;
+  }
+
+  if (defaultType && typeEl) {
+    typeEl.value = defaultType;
+  }
+
+  onMatrixGradeOrTypeChange(defaultScope);
   updateMatrixLiveSummary();
 }
 
@@ -4105,11 +4603,17 @@ function updateMatrixLiveSummary() {
   refreshIconsAndMath();
 }
 
-// Xử lý tự sinh đề theo 4 phần & nguồn đề đã chọn
+// Xử lý tự sinh đề theo phân cấp mới: Khối lớp -> Loại hình -> Phân nhánh chi tiết -> 4 Phần
 function executeGenerateFromMatrix() {
-  const type = document.getElementById('matrix-exam-type').value; // 'midterm' | 'finalterm' | 'chapter'
-  const grade = parseInt(document.getElementById('matrix-grade').value);
-  const duration = parseInt(document.getElementById('matrix-custom-duration').value) || 90;
+  const gradeEl = document.getElementById('matrix-grade');
+  const typeEl = document.getElementById('matrix-exam-type');
+  const scopeSelect = document.getElementById('matrix-scope-select');
+  const durationEl = document.getElementById('matrix-custom-duration');
+
+  const grade = parseInt(gradeEl ? gradeEl.value : 12) || 12;
+  const type = typeEl ? typeEl.value : 'finalterm'; // 'midterm' | 'finalterm' | 'chapter'
+  const scopeVal = scopeSelect ? scopeSelect.value : '';
+  const duration = parseInt(durationEl ? durationEl.value : 90) || 90;
   
   // Nguồn câu hỏi
   const sourceRadio = document.querySelector('input[name="matrix_source"]:checked');
@@ -4146,19 +4650,64 @@ function executeGenerateFromMatrix() {
     sourceBadge = "⚡ Nguồn: Kết hợp Thầy + Mạng";
   }
 
-  const typeName = type === 'midterm' ? 'Giữa Học Kỳ' : type === 'finalterm' ? 'Cuối Học Kỳ' : 'Cuối Chương';
-  const newExamId = 'gen_' + Date.now();
-  const newTitle = `Đề Ôn Thi ${typeName} Toán ${grade} - Cấu Trúc 4 Dạng (Mã Đề 101)`;
+  const cfg = REVIEW_CURRICULUM_CONFIG[grade] || REVIEW_CURRICULUM_CONFIG[12];
+  let newTitle = "";
+  let scopeSummary = "";
+  let topicsList = [];
+  let scopeKey = scopeVal;
 
+  if (type === 'midterm') {
+    const item = cfg.midterm.find(m => m.id === scopeVal) || cfg.midterm[0];
+    scopeKey = item.id;
+    newTitle = `Đề ${item.name} - ${cfg.gradeName} (Chuẩn 4 Phần)`;
+    scopeSummary = item.scopeText;
+    topicsList = [
+      `Phạm vi đề thi: ${item.name} (${item.scopeText})`,
+      `Phần I (Trắc nghiệm): ${q1} câu (${p1}đ) - Chọn 1 trong 4 phương án`,
+      `Phần II (Đúng / Sai): ${q2} câu (${p2}đ) - Mỗi câu 4 ý a,b,c,d`,
+      `Phần III (Trả lời ngắn): ${q3} câu (${p3}đ) - Điền đáp số chuẩn`,
+      `Phần IV (Tự luận): ${q4} bài (${p4}đ) - Trình bày bài giải chi tiết`
+    ];
+  } else if (type === 'finalterm') {
+    const item = cfg.finalterm.find(f => f.id === scopeVal) || cfg.finalterm[0];
+    scopeKey = item.id;
+    const chNote = item.chaptersText ? ` (${item.chaptersText})` : '';
+    newTitle = `Đề ${item.name} - ${cfg.gradeName}${chNote}`;
+    scopeSummary = item.scopeText;
+    topicsList = [
+      `Phạm vi đề thi: ${item.name} - ${item.scopeText}`,
+      `Phần I (Trắc nghiệm): ${q1} câu (${p1}đ) - Khảo sát lý thuyết trọng tâm`,
+      `Phần II (Đúng / Sai): ${q2} câu (${p2}đ) - Phân hóa mức độ Thông hiểu & Vận dụng`,
+      `Phần III (Trả lời ngắn): ${q3} câu (${p3}đ) - Rèn luyện tính toán chính xác`,
+      `Phần IV (Tự luận): ${q4} bài (${p4}đ) - Câu phân loại điểm 9+ và 10`
+    ];
+  } else if (type === 'chapter') {
+    const chId = parseInt(scopeVal.replace('ch_', '')) || 1;
+    const item = cfg.chapters.find(c => c.id === chId) || cfg.chapters[0];
+    scopeKey = `ch_${item.id}`;
+    newTitle = `Đề Ôn Tập ${item.number}: ${item.title} - ${cfg.gradeName}`;
+    scopeSummary = `Trọng tâm kiến thức ${item.number}: ${item.title}`;
+    topicsList = [
+      `Chuyên đề ôn tập: ${item.number} - ${item.title}`,
+      `Phần I (Trắc nghiệm): ${q1} câu (${p1}đ) - Nhận biết và thông hiểu`,
+      `Phần II (Đúng / Sai): ${q2} câu (${p2}đ) - Kiểm tra toàn diện 4 ý`,
+      `Phần III (Trả lời ngắn): ${q3} câu (${p3}đ) - Điền kết quả giải toán`,
+      `Phần IV (Tự luận): ${q4} bài (${p4}đ) - Bài toán thực tế và vận dụng cao`
+    ];
+  }
+
+  const newExamId = 'gen_' + Date.now();
   const newExam = {
     id: newExamId,
     grade: grade,
+    scope: scopeKey,
+    scopeText: scopeSummary,
     title: newTitle,
     badge: `Chuẩn 4 Dạng (${totalQuestions} câu - ${totalPoints}đ)`,
-    badgeColor: "bg-indigo-600",
+    badgeColor: type === 'midterm' ? "bg-emerald-600" : type === 'finalterm' ? "bg-indigo-600" : "bg-purple-600",
     authorType: "matrix",
     sourceBadge: sourceBadge,
-    summary: `Đề được tự sinh ngẫu nhiên theo yêu cầu của Thầy. ${sourceLabel}. Thời gian làm bài: ${duration} phút.`,
+    summary: `Đề được tự sinh ngẫu nhiên theo ma trận của Thầy. ${scopeSummary}. ${sourceLabel}. Thời gian làm bài: ${duration} phút.`,
     duration: `${duration} phút`,
     examCount: `${totalQuestions} câu (${totalPoints}đ)`,
     format4Part: true,
@@ -4168,12 +4717,7 @@ function executeGenerateFromMatrix() {
       part3: { name: "Phần III: Trả lời ngắn", count: q3, points: p3 },
       part4: { name: "Phần IV: Tự luận", count: q4, points: p4 }
     },
-    topics: [
-      `Phần I (Trắc nghiệm): ${q1} câu (${p1}đ) - Chọn 1 trong 4 phương án`,
-      `Phần II (Đúng / Sai): ${q2} câu (${p2}đ) - Mỗi câu 4 ý a,b,c,d`,
-      `Phần III (Trả lời ngắn): ${q3} câu (${p3}đ) - Điền đáp số chuẩn`,
-      `Phần IV (Tự luận): ${q4} bài (${p4}đ) - Trình bày bài giải chi tiết`
-    ]
+    topics: topicsList
   };
 
   // Đưa vào danh sách tương ứng
@@ -4184,10 +4728,11 @@ function executeGenerateFromMatrix() {
   MATH_DATA.reviewSections[listKey].unshift(newExam);
 
   closeMatrixGeneratorModal();
+  setReviewGrade(grade);
   switchReviewSubTab(type);
 
   // Thông báo xác nhận và gợi ý xem đề
-  if (confirm(`🎉 TỰ SINH ĐỀ THÀNH CÔNG!\n\nĐã tạo thành công: "${newTitle}"\n- Thời gian: ${duration} phút\n- Nguồn: ${sourceBadge}\n- Cấu trúc: ${q1} TN (${p1}đ) + ${q2} ĐS (${p2}đ) + ${q3} TLN (${p3}đ) + ${q4} TL (${p4}đ) = ${totalPoints} điểm.\n\nThầy có muốn MỞ XEM VÀ THI THỬ ĐỀ NÀY NGAY KHÔNG?`)) {
+  if (confirm(`🎉 TỰ SINH ĐỀ THÀNH CÔNG!\n\nĐã tạo thành công: "${newTitle}"\n- Phạm vi: ${scopeSummary}\n- Thời gian: ${duration} phút\n- Nguồn: ${sourceBadge}\n- Cấu trúc: ${q1} TN (${p1}đ) + ${q2} ĐS (${p2}đ) + ${q3} TLN (${p3}đ) + ${q4} TL (${p4}đ) = ${totalPoints} điểm.\n\nThầy có muốn MỞ XEM VÀ THI THỬ ĐỀ NÀY NGAY KHÔNG?`)) {
     openExamViewerModal(newExamId, type);
   }
 }
